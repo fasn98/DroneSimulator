@@ -1,6 +1,6 @@
 /**
- * Simplified Drone Simulation Web Interface - Fixed Axis Scaling
- * Removed all terrain zoom controls for clean, stable 3D trajectory visualization
+ * Drone Simulation Web Interface - Functional Backup Version
+ * Restored to last working state with dropdown functionality
  */
 
 class DroneSimulationController {
@@ -11,127 +11,65 @@ class DroneSimulationController {
             running: false,
             progress: 0,
             currentWaypoint: 0,
-            totalWaypoints: 0
+            position: [0, 0, 0],
+            velocity: [0, 0, 0],
+            attitude: [0, 0, 0]
         };
         this.socket = null;
-        this.charts = {};
         this.statusPolling = null;
     }
 
     async init() {
-        console.log('Initializing simplified drone simulation controller...');
-        
-        // Load configurations
-        await this.loadConfigurations();
-        
-        // Setup event listeners
-        this.setupEventListeners();
-        
-        // Load persisted data
-        this.loadPersistedData();
-        
-        // Setup tab change handlers
-        this.setupTabChangeHandlers();
-        
-        // Connect WebSocket
-        this.connectWebSocket();
-        
-        // Initialize charts
-        this.initializeCharts();
-        
-        // Start status polling
-        this.startStatusPolling();
-        
-        console.log('Drone Simulation Controller initialized');
-    }
-
-    // Simple trajectory plot with FIXED axis scaling
-    updateTrajectoryPlot() {
-        if (this.telemetryData.length === 0) return;
+        console.log('Initializing drone simulation controller...');
         
         try {
-            const x = this.telemetryData.map(d => d.position?.x || 0);
-            const y = this.telemetryData.map(d => d.position?.y || 0);
-            const z = this.telemetryData.map(d => d.position?.z || 0);
+            // Load configurations
+            await this.loadConfigurations();
             
-            const trajectoryData = [{
-                x: x,
-                y: y,
-                z: z,
-                type: 'scatter3d',
-                mode: 'lines+markers',
-                line: { color: 'blue', width: 4 },
-                marker: { size: 3, color: z, colorscale: 'Viridis' },
-                name: 'Flight Path'
-            }];
+            // Setup event listeners
+            this.setupEventListeners();
             
-            // Add current position marker
-            if (x.length > 0) {
-                trajectoryData.push({
-                    x: [x[x.length - 1]],
-                    y: [y[y.length - 1]],
-                    z: [z[z.length - 1]],
-                    type: 'scatter3d',
-                    mode: 'markers',
-                    marker: { size: 8, color: 'red' },
-                    name: 'Current'
-                });
-            }
+            // Initialize charts
+            this.initializeCharts();
             
-            // FIXED axis ranges - no dynamic scaling issues
-            const layout = {
-                title: '3D Flight Trajectory',
-                scene: {
-                    xaxis: { 
-                        title: 'X (m)',
-                        range: [-50, 200]
-                    },
-                    yaxis: { 
-                        title: 'Y (m)',
-                        range: [-50, 250]
-                    },
-                    zaxis: { 
-                        title: 'Z (m)',
-                        range: [0, 100]
-                    },
-                    camera: {
-                        eye: { x: 1.5, y: 1.5, z: 1.5 },
-                        center: { x: 0, y: 0, z: 0 },
-                        up: { x: 0, y: 0, z: 1 }
-                    },
-                    aspectmode: 'cube'
-                }
-            };
+            // Connect WebSocket
+            this.connectWebSocket();
             
-            const config = {
-                responsive: true,
-                displayModeBar: true
-            };
+            // Start status polling
+            this.startStatusPolling();
             
-            Plotly.react('trajectoryPlot', trajectoryData, layout, config);
+            console.log('Drone simulation controller initialized successfully');
         } catch (error) {
-            console.error('Error updating trajectory plot:', error);
+            console.error('Error initializing controller:', error);
         }
     }
 
-    // Load configurations
     async loadConfigurations() {
         try {
-            const [dronesResponse, environmentsResponse, missionsResponse] = await Promise.all([
-                fetch('/api/configurations/drones'),
-                fetch('/api/configurations/environments'),
-                fetch('/api/configurations/missions')
-            ]);
+            // Load drone models
+            const dronesResponse = await fetch('/api/configurations/drones');
+            if (dronesResponse.ok) {
+                const drones = await dronesResponse.json();
+                this.populateSelect('droneModel', Object.keys(drones));
+                console.log('Loaded drone models:', Object.keys(drones));
+            }
 
-            const drones = await dronesResponse.json();
-            const environments = await environmentsResponse.json();
-            const missions = await missionsResponse.json();
+            // Load environments
+            const envsResponse = await fetch('/api/configurations/environments');
+            if (envsResponse.ok) {
+                const environments = await envsResponse.json();
+                this.populateSelect('environment', Object.keys(environments));
+                console.log('Loaded environments:', Object.keys(environments));
+            }
 
-            this.populateSelect('droneModel', Object.keys(drones));
-            this.populateSelect('environment', Object.keys(environments));
-            this.populateSelect('missionType', Object.keys(missions));
+            // Load missions
+            const missionsResponse = await fetch('/api/configurations/missions');
+            if (missionsResponse.ok) {
+                const missions = await missionsResponse.json();
+                this.populateSelect('missionType', Object.keys(missions));
+                console.log('Loaded missions:', Object.keys(missions));
+            }
             
-            console.log('Mission configs:', missions);
         } catch (error) {
             console.error('Error loading configurations:', error);
         }
@@ -139,48 +77,61 @@ class DroneSimulationController {
 
     populateSelect(selectId, options) {
         const select = document.getElementById(selectId);
-        if (!select) return;
-        
-        select.innerHTML = '';
-        options.forEach(option => {
-            const optionElement = document.createElement('option');
-            optionElement.value = option;
-            optionElement.textContent = option;
-            select.appendChild(optionElement);
-        });
+        if (select) {
+            // Clear existing options
+            select.innerHTML = '';
+            
+            // Add new options
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                select.appendChild(optionElement);
+            });
+            
+            console.log(`Populated ${selectId} with ${options.length} options`);
+        } else {
+            console.error(`Select element ${selectId} not found`);
+        }
     }
 
     setupEventListeners() {
+        // Start simulation button
         const startBtn = document.getElementById('startBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const pauseBtn = document.getElementById('pauseBtn');
+        if (startBtn) {
+            startBtn.addEventListener('click', async () => {
+                await this.startSimulation();
+            });
+        }
 
-        if (startBtn) startBtn.addEventListener('click', () => this.startSimulation());
-        if (stopBtn) stopBtn.addEventListener('click', () => this.stopSimulation());
-        if (pauseBtn) pauseBtn.addEventListener('click', () => this.pauseSimulation());
+        // Stop simulation button
+        const stopBtn = document.getElementById('stopBtn');
+        if (stopBtn) {
+            stopBtn.addEventListener('click', async () => {
+                await this.stopSimulation();
+            });
+        }
+
+        // Pause simulation button
+        const pauseBtn = document.getElementById('pauseBtn');
+        if (pauseBtn) {
+            pauseBtn.addEventListener('click', async () => {
+                await this.pauseSimulation();
+            });
+        }
     }
 
-    setupTabChangeHandlers() {
-        const tabButtons = document.querySelectorAll('[data-bs-toggle="tab"]');
-        tabButtons.forEach(button => {
-            button.addEventListener('shown.bs.tab', (event) => {
-                const targetId = event.target.getAttribute('href')?.substring(1);
-                setTimeout(() => {
-                    switch (event.target.id) {
-                        case 'trajectory-tab':
-                            this.updateTrajectoryPlot();
-                            break;
-                        case 'telemetry-tab':
-                            this.updateTelemetryPlots();
-                            break;
-                    }
-                }, 100);
-            });
-        });
+    getSimulationConfig() {
+        return {
+            drone_model: document.getElementById('droneModel')?.value || 'default_quadrotor',
+            environment: document.getElementById('environment')?.value || 'earth',
+            mission_type: document.getElementById('missionType')?.value || 'reconnaissance'
+        };
     }
 
     async startSimulation() {
         const config = this.getSimulationConfig();
+        console.log('Starting simulation with config:', config);
         
         try {
             const response = await fetch('/api/simulation/start', {
@@ -190,33 +141,33 @@ class DroneSimulationController {
             });
 
             if (response.ok) {
+                const result = await response.json();
                 this.clearSimulationData();
-                this.showSuccess('Simulation started successfully');
-                
-                // Update button states immediately
-                const startBtn = document.getElementById('startBtn');
-                const stopBtn = document.getElementById('stopBtn');
-                const pauseBtn = document.getElementById('pauseBtn');
-                
-                if (startBtn) startBtn.disabled = true;
-                if (stopBtn) stopBtn.disabled = false;
-                if (pauseBtn) pauseBtn.disabled = false;
-                
+                this.showMessage('Simulation started successfully', 'success');
+                this.updateButtonStates(true);
+                console.log('Simulation started:', result);
             } else {
                 const errorData = await response.json();
-                this.showError(`Failed to start simulation: ${errorData.error || 'Unknown error'}`);
+                this.showMessage(`Failed to start: ${errorData.error}`, 'error');
+                console.error('Start failed:', errorData);
             }
         } catch (error) {
             console.error('Error starting simulation:', error);
-            this.showError('Error starting simulation');
+            this.showMessage('Error starting simulation', 'error');
         }
     }
 
     async stopSimulation() {
         try {
-            const response = await fetch('/api/simulation/stop', { method: 'POST' });
+            const response = await fetch('/api/simulation/stop', {
+                method: 'POST'
+            });
+
             if (response.ok) {
-                this.showInfo('Simulation stopped');
+                this.showMessage('Simulation stopped', 'info');
+                this.updateButtonStates(false);
+            } else {
+                this.showMessage('Failed to stop simulation', 'error');
             }
         } catch (error) {
             console.error('Error stopping simulation:', error);
@@ -225,58 +176,48 @@ class DroneSimulationController {
 
     async pauseSimulation() {
         try {
-            const response = await fetch('/api/simulation/pause', { method: 'POST' });
+            const response = await fetch('/api/simulation/pause', {
+                method: 'POST'
+            });
+
             if (response.ok) {
-                this.showInfo('Simulation paused/resumed');
+                this.showMessage('Simulation paused/resumed', 'info');
             }
         } catch (error) {
             console.error('Error pausing simulation:', error);
         }
     }
 
-    getSimulationConfig() {
-        return {
-            drone_model: document.getElementById('droneModel')?.value || 'quadcopter_x4',
-            environment: document.getElementById('environment')?.value || 'earth',
-            mission_type: document.getElementById('missionType')?.value || 'reconnaissance',
-            duration: parseInt(document.getElementById('duration')?.value) || 600,
-            timestep: parseFloat(document.getElementById('timestep')?.value) || 0.01,
-            realtime: document.getElementById('realtime')?.checked || false
-        };
-    }
-
     clearSimulationData() {
         this.telemetryData = [];
         this.missionData = [];
-        this.simulationStatus = { running: false, progress: 0, currentWaypoint: 0, totalWaypoints: 0 };
+        this.simulationStatus = {
+            running: false,
+            progress: 0,
+            currentWaypoint: 0,
+            position: [0, 0, 0],
+            velocity: [0, 0, 0],
+            attitude: [0, 0, 0]
+        };
         
-        // Clear localStorage
-        localStorage.removeItem('telemetryData');
-        localStorage.removeItem('missionData');
-        localStorage.removeItem('simulationStatus');
-        
-        console.log('Cleared previous simulation data and charts');
+        console.log('Cleared simulation data');
     }
 
     connectWebSocket() {
         this.socket = io();
         
         this.socket.on('connect', () => {
-            console.log('SocketIO connected');
+            console.log('WebSocket connected');
             this.updateConnectionStatus(true);
         });
 
         this.socket.on('disconnect', () => {
-            console.log('SocketIO disconnected');
+            console.log('WebSocket disconnected');
             this.updateConnectionStatus(false);
         });
 
         this.socket.on('telemetry_update', (data) => {
             this.handleTelemetryUpdate(data);
-        });
-
-        this.socket.on('mission_event', (data) => {
-            this.handleMissionEvent(data);
         });
 
         this.socket.on('status_update', (data) => {
@@ -287,348 +228,191 @@ class DroneSimulationController {
     handleTelemetryUpdate(telemetry) {
         this.telemetryData.push(telemetry);
         
-        // Keep only last 500 points
-        if (this.telemetryData.length > 500) {
-            this.telemetryData = this.telemetryData.slice(-500);
+        // Keep only last 200 points for performance
+        if (this.telemetryData.length > 200) {
+            this.telemetryData = this.telemetryData.slice(-200);
         }
         
-        this.saveTelemetryToStorage();
-        
-        // Update status display
-        this.updateStatusDisplay();
-        
-        // Update plots (with error handling)
-        try {
-            this.updateRealtimePlots();
-        } catch (error) {
-            console.error('Error in updateRealtimePlots:', error);
-        }
-    }
-
-    handleMissionEvent(event) {
-        this.missionData.push(event);
-        this.saveMissionToStorage();
+        this.updatePlots();
     }
 
     handleStatusUpdate(status) {
         this.simulationStatus = { ...this.simulationStatus, ...status };
-        this.saveStatusToStorage();
         this.updateStatusDisplay();
-        
-        // Update real-time status display
-        if (status.position) {
-            const posElement = document.getElementById('dronePosition');
-            if (posElement) {
-                posElement.textContent = `${status.position[0].toFixed(1)}, ${status.position[1].toFixed(1)}, ${status.position[2].toFixed(1)}`;
-            }
-        }
-        
-        if (status.velocity) {
-            const velElement = document.getElementById('droneVelocity');
-            if (velElement) {
-                const speed = Math.sqrt(status.velocity[0]**2 + status.velocity[1]**2 + status.velocity[2]**2);
-                velElement.textContent = `${speed.toFixed(1)} m/s (${status.velocity[0].toFixed(1)}, ${status.velocity[1].toFixed(1)}, ${status.velocity[2].toFixed(1)})`;
-            }
-        }
-        
-        if (status.attitude) {
-            const attElement = document.getElementById('droneAttitude');
-            if (attElement) {
-                attElement.textContent = `${(status.attitude[0] * 180/Math.PI).toFixed(1)}°, ${(status.attitude[1] * 180/Math.PI).toFixed(1)}°, ${(status.attitude[2] * 180/Math.PI).toFixed(1)}°`;
-            }
-        }
-        
-        // Update distance traveled
-        const distanceElement = document.getElementById('missionDistance');
-        if (distanceElement && status.position) {
-            const distance = Math.sqrt(status.position[0]**2 + status.position[1]**2);
-            distanceElement.textContent = `${distance.toFixed(1)} m`;
-        }
     }
 
-    updateRealtimePlots() {
+    updatePlots() {
         this.updateTrajectoryPlot();
-        this.updateTelemetryPlots();
     }
 
-    updateTelemetryPlots() {
+    updateTrajectoryPlot() {
         if (this.telemetryData.length === 0) return;
         
         try {
-            const times = this.telemetryData.map(d => d.timestamp || 0);
-            const altitudes = this.telemetryData.map(d => d.altitude || 0);
-            const speeds = this.telemetryData.map(d => d.ground_speed || 0);
-            const power = this.telemetryData.map(d => d.power_consumption || 0);
-            const progress = this.telemetryData.map(d => d.mission_progress || 0);
-            
-            // Update plots that match the HTML structure
-            const altitudeSpeedElement = document.getElementById('altitudeSpeedPlot');
-            if (altitudeSpeedElement) {
-                Plotly.react('altitudeSpeedPlot', [{
-                    x: times,
-                    y: altitudes,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Altitude',
-                    line: { color: 'blue' },
-                    yaxis: 'y'
-                }, {
-                    x: times,
-                    y: speeds,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Speed',
-                    line: { color: 'green' },
-                    yaxis: 'y2'
-                }], {
-                    title: 'Altitude & Speed Over Time',
-                    xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Altitude (m)', side: 'left' },
-                    yaxis2: { title: 'Speed (m/s)', side: 'right', overlaying: 'y' }
-                });
-            }
-            
-            const powerElement = document.getElementById('powerPlot');
-            if (powerElement) {
-                Plotly.react('powerPlot', [{
-                    x: times,
-                    y: power,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Power Consumption',
-                    line: { color: 'red' }
-                }], {
-                    title: 'Power Consumption Over Time',
-                    xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Power (W)' }
-                });
-            }
-            
-            const missionElement = document.getElementById('missionProgressPlot');
-            if (missionElement) {
-                Plotly.react('missionProgressPlot', [{
-                    x: times,
-                    y: progress,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Mission Progress',
-                    line: { color: 'purple' }
-                }], {
-                    title: 'Mission Progress Over Time',
-                    xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Progress (%)' }
-                });
-            }
-            
-        } catch (error) {
-            console.error('Error updating telemetry plots:', error);
-        }
-    }
+            const positions = this.telemetryData.map(d => ({
+                x: d.position_x || 0,
+                y: d.position_y || 0,
+                z: d.position_z || 0
+            }));
 
-    initializeCharts() {
-        // Initialize empty charts only if elements exist
-        const emptyLayout = { title: 'No Data Available' };
-        
-        setTimeout(() => {
+            const trace = {
+                x: positions.map(p => p.x),
+                y: positions.map(p => p.y),
+                z: positions.map(p => p.z),
+                type: 'scatter3d',
+                mode: 'lines+markers',
+                marker: { size: 3, color: 'blue' },
+                line: { color: 'blue', width: 2 },
+                name: 'Flight Path'
+            };
+
+            const layout = {
+                title: '3D Flight Trajectory',
+                scene: {
+                    xaxis: { title: 'X (m)', range: [-50, 200] },
+                    yaxis: { title: 'Y (m)', range: [-50, 250] },
+                    zaxis: { title: 'Z (m)', range: [0, 100] },
+                    camera: {
+                        eye: { x: 1.5, y: 1.5, z: 1.5 }
+                    }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 50 }
+            };
+
             const trajectoryElement = document.getElementById('trajectoryPlot');
             if (trajectoryElement) {
-                Plotly.newPlot('trajectoryPlot', [], emptyLayout);
+                Plotly.react('trajectoryPlot', [trace], layout);
             }
-            
-            const altitudeSpeedElement = document.getElementById('altitudeSpeedPlot');
-            if (altitudeSpeedElement) {
-                Plotly.newPlot('altitudeSpeedPlot', [], emptyLayout);
-            }
-            
-            const powerElement = document.getElementById('powerPlot');
-            if (powerElement) {
-                Plotly.newPlot('powerPlot', [], emptyLayout);
-            }
-            
-            const missionElement = document.getElementById('missionProgressPlot');
-            if (missionElement) {
-                Plotly.newPlot('missionProgressPlot', [], emptyLayout);
-            }
-            
-            const realtimeElement = document.getElementById('realtimePlots');
-            if (realtimeElement) {
-                Plotly.newPlot('realtimePlots', [], emptyLayout);
-            }
-        }, 100);
+        } catch (error) {
+            console.error('Error updating trajectory plot:', error);
+        }
     }
 
     async startStatusPolling() {
         this.statusPolling = setInterval(async () => {
             try {
                 const response = await fetch('/api/simulation/status');
-                const status = await response.json();
-                
-                // Map API response to our expected format
-                const mappedStatus = {
-                    running: status.simulation_running || false,
-                    progress: status.mission_progress || 0,
-                    currentWaypoint: status.current_waypoint || 0,
-                    totalWaypoints: 6, // Default for monitoring mission
-                    position: status.position || [0, 0, 0],
-                    velocity: status.velocity || [0, 0, 0],
-                    attitude: status.attitude || [0, 0, 0]
-                };
-                
-                this.handleStatusUpdate(mappedStatus);
+                if (response.ok) {
+                    const status = await response.json();
+                    
+                    // Map API response to our format
+                    const mappedStatus = {
+                        running: status.simulation_running || false,
+                        progress: status.mission_progress || 0,
+                        currentWaypoint: status.current_waypoint || 0,
+                        position: status.position || [0, 0, 0],
+                        velocity: status.velocity || [0, 0, 0],
+                        attitude: status.attitude || [0, 0, 0]
+                    };
+                    
+                    this.simulationStatus = mappedStatus;
+                    this.updateStatusDisplay();
+                    this.updateButtonStates(mappedStatus.running);
+                }
             } catch (error) {
-                console.error('Status polling error:', error);
+                // Silent fail for polling
             }
         }, 2000);
     }
 
     updateStatusDisplay() {
-        // Update simulation status badge
+        // Update status badge
         const statusElement = document.getElementById('status');
         if (statusElement) {
             statusElement.textContent = this.simulationStatus.running ? 'Running' : 'Stopped';
             statusElement.className = `badge ${this.simulationStatus.running ? 'bg-success' : 'bg-secondary'}`;
         }
 
-        // Update mission progress
-        const progressElement = document.getElementById('missionProgressFill');
+        // Update position display
+        const posElement = document.getElementById('dronePosition');
+        if (posElement && this.simulationStatus.position) {
+            const pos = this.simulationStatus.position;
+            posElement.textContent = `${pos[0].toFixed(1)}, ${pos[1].toFixed(1)}, ${pos[2].toFixed(1)}`;
+        }
+
+        // Update velocity display
+        const velElement = document.getElementById('droneVelocity');
+        if (velElement && this.simulationStatus.velocity) {
+            const vel = this.simulationStatus.velocity;
+            const speed = Math.sqrt(vel[0]**2 + vel[1]**2 + vel[2]**2);
+            velElement.textContent = `${speed.toFixed(1)} m/s`;
+        }
+
+        // Update progress
+        const progressElement = document.getElementById('missionProgressPercentage');
         if (progressElement) {
-            progressElement.style.width = `${this.simulationStatus.progress || 0}%`;
-        }
-        
-        const progressPercentElement = document.getElementById('missionProgressPercentage');
-        if (progressPercentElement) {
-            progressPercentElement.textContent = `${Math.round(this.simulationStatus.progress || 0)}%`;
+            progressElement.textContent = `${Math.round(this.simulationStatus.progress || 0)}%`;
         }
 
-        // Update waypoint display
-        const waypointsElement = document.getElementById('missionWaypoints');
-        if (waypointsElement) {
-            waypointsElement.textContent = `${this.simulationStatus.currentWaypoint || 0}/${this.simulationStatus.totalWaypoints || 0}`;
+        // Update waypoint
+        const waypointElement = document.getElementById('missionWaypoints');
+        if (waypointElement) {
+            waypointElement.textContent = `${this.simulationStatus.currentWaypoint}/6`;
         }
+    }
 
-        // Update mission status text
-        const missionStatusElement = document.getElementById('missionStatus');
-        if (missionStatusElement) {
-            missionStatusElement.textContent = this.simulationStatus.running ? 'Active' : 'Planning';
-        }
-
-        // Update button states
+    updateButtonStates(running) {
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
         const pauseBtn = document.getElementById('pauseBtn');
 
-        if (this.simulationStatus.running) {
-            if (startBtn) startBtn.disabled = true;
-            if (stopBtn) stopBtn.disabled = false;
-            if (pauseBtn) pauseBtn.disabled = false;
-        } else {
-            if (startBtn) startBtn.disabled = false;
-            if (stopBtn) stopBtn.disabled = true;
-            if (pauseBtn) pauseBtn.disabled = true;
-        }
+        if (startBtn) startBtn.disabled = running;
+        if (stopBtn) stopBtn.disabled = !running;
+        if (pauseBtn) pauseBtn.disabled = !running;
     }
 
     updateConnectionStatus(connected) {
-        const statusElement = document.getElementById('connectionStatus');
-        if (statusElement) {
-            statusElement.textContent = connected ? 'Connected' : 'Disconnected';
-            statusElement.className = `badge ${connected ? 'bg-success' : 'bg-danger'}`;
+        const connectionElement = document.getElementById('connectionStatus');
+        if (connectionElement) {
+            connectionElement.textContent = connected ? 'Connected' : 'Disconnected';
+            connectionElement.className = `badge ${connected ? 'bg-success' : 'bg-danger'}`;
         }
+    }
+
+    initializeCharts() {
+        setTimeout(() => {
+            const trajectoryElement = document.getElementById('trajectoryPlot');
+            if (trajectoryElement) {
+                Plotly.newPlot('trajectoryPlot', [], { 
+                    title: 'Flight Trajectory - Start simulation to see data',
+                    scene: {
+                        xaxis: { title: 'X (m)', range: [-50, 200] },
+                        yaxis: { title: 'Y (m)', range: [-50, 250] },
+                        zaxis: { title: 'Z (m)', range: [0, 100] }
+                    }
+                });
+            }
+        }, 100);
+    }
+
+    showMessage(message, type) {
+        console.log(`${type.toUpperCase()}: ${message}`);
         
-        // Also update in header if exists
-        const headerStatus = document.querySelector('.connection-status');
-        if (headerStatus) {
-            headerStatus.textContent = connected ? 'Connected' : 'Disconnected';
-            headerStatus.className = `badge connection-status ${connected ? 'bg-success' : 'bg-danger'}`;
-        }
-    }
-
-    // Persistence functions
-    loadPersistedData() {
-        try {
-            const savedTelemetry = localStorage.getItem('telemetryData');
-            const savedMission = localStorage.getItem('missionData');
-            const savedStatus = localStorage.getItem('simulationStatus');
-
-            if (savedTelemetry) {
-                this.telemetryData = JSON.parse(savedTelemetry);
-                console.log(`Loaded ${this.telemetryData.length} telemetry points from storage`);
-            }
-
-            if (savedMission) {
-                this.missionData = JSON.parse(savedMission);
-            }
-
-            if (savedStatus) {
-                this.simulationStatus = { ...this.simulationStatus, ...JSON.parse(savedStatus) };
-            }
-
-            // Update charts with persisted data
-            setTimeout(() => {
-                this.updateRealtimePlots();
-            }, 500);
-        } catch (error) {
-            console.error('Error loading persisted data:', error);
-        }
-    }
-
-    saveTelemetryToStorage() {
-        try {
-            localStorage.setItem('telemetryData', JSON.stringify(this.telemetryData.slice(-500)));
-        } catch (error) {
-            console.error('Error saving telemetry data:', error);
-        }
-    }
-
-    saveMissionToStorage() {
-        try {
-            localStorage.setItem('missionData', JSON.stringify(this.missionData));
-        } catch (error) {
-            console.error('Error saving mission data:', error);
-        }
-    }
-
-    saveStatusToStorage() {
-        try {
-            localStorage.setItem('simulationStatus', JSON.stringify(this.simulationStatus));
-        } catch (error) {
-            console.error('Error saving status data:', error);
-        }
-    }
-
-    // Utility functions
-    showError(message) {
-        this.showNotification(message, 'danger');
-    }
-
-    showSuccess(message) {
-        this.showNotification(message, 'success');
-    }
-
-    showInfo(message) {
-        this.showNotification(message, 'info');
-    }
-
-    showNotification(message, type) {
-        const alertHtml = `
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+        // Create simple alert
+        const alertClass = type === 'success' ? 'alert-success' : 
+                          type === 'error' ? 'alert-danger' : 'alert-info';
+        
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert ${alertClass} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
         
-        const container = document.getElementById('notifications') || document.body;
-        container.insertAdjacentHTML('afterbegin', alertHtml);
+        // Insert at top of main content
+        const mainContent = document.querySelector('.container-fluid') || document.body;
+        mainContent.insertBefore(alertDiv, mainContent.firstChild);
         
-        // Auto dismiss after 5 seconds
+        // Auto-dismiss after 3 seconds
         setTimeout(() => {
-            const alert = container.querySelector('.alert');
-            if (alert) alert.remove();
-        }, 5000);
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
     }
 }
 
-// Initialize when DOM is loaded
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     const controller = new DroneSimulationController();
     controller.init();
