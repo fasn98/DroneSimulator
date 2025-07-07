@@ -388,6 +388,10 @@ class DroneSimulationServer:
             """Get recent simulation sessions."""
             try:
                 with self.app.app_context():
+                    # Initialize database service if needed
+                    if not self.db_service:
+                        self._init_database_service()
+                    
                     limit = request.args.get('limit', 20, type=int)
                     sessions = self.db_service.get_session_history(limit=limit)
                     return jsonify({
@@ -403,6 +407,10 @@ class DroneSimulationServer:
             """Get telemetry data for a specific session."""
             try:
                 with self.app.app_context():
+                    # Initialize database service if needed
+                    if not self.db_service:
+                        self._init_database_service()
+                    
                     limit = request.args.get('limit', 1000, type=int)
                     telemetry = self.db_service.get_session_telemetry(session_id, limit=limit)
                     return jsonify({

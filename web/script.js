@@ -2242,6 +2242,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize video list on page load
     refreshVideoList();
     
+    // Initialize past sessions
+    loadPastSessions();
+    
     // Setup video export tab event listener
     const videoExportTab = document.getElementById('video-export-tab');
     if (videoExportTab) {
