@@ -471,11 +471,9 @@ class DroneSimulationServer:
                 return jsonify({'error': str(e)}), 500
         
         @self.app.route('/api/maps/terrain/<float:latitude>/<float:longitude>')
-        def get_terrain_data():
+        def get_terrain_data(latitude, longitude):
             """Get 3D terrain data for a location."""
             try:
-                latitude = float(request.view_args['latitude'])
-                longitude = float(request.view_args['longitude'])
                 grid_size = int(request.args.get('grid_size', 20))
                 
                 terrain_model = self.google_maps.create_3d_terrain_model(
@@ -489,6 +487,28 @@ class DroneSimulationServer:
                     
             except Exception as e:
                 logger.error(f"Error getting terrain data: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/maps/terrain/generate', methods=['POST'])
+        def generate_terrain_data():
+            """Generate 3D terrain data for a location via POST request."""
+            try:
+                data = request.get_json() or {}
+                latitude = float(data.get('latitude', 0))
+                longitude = float(data.get('longitude', 0))
+                grid_size = int(data.get('size', 20))
+                
+                terrain_model = self.google_maps.create_3d_terrain_model(
+                    latitude, longitude, grid_size
+                )
+                
+                if terrain_model:
+                    return jsonify(terrain_model)
+                else:
+                    return jsonify({'error': 'Failed to generate terrain model'}), 500
+                    
+            except Exception as e:
+                logger.error(f"Error generating terrain data: {e}")
                 return jsonify({'error': str(e)}), 500
         
         @self.app.route('/api/environments/ai/lunar')

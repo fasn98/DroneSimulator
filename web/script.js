@@ -1492,7 +1492,21 @@ class DroneSimulationController {
         if (!this.selectedLocation) return;
         
         try {
-            const response = await fetch(`/api/maps/terrain/${this.selectedLocation.latitude}/${this.selectedLocation.longitude}`);
+            document.getElementById('loadTerrainBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            document.getElementById('loadTerrainBtn').disabled = true;
+            
+            const response = await fetch('/api/maps/terrain/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    latitude: this.selectedLocation.latitude,
+                    longitude: this.selectedLocation.longitude,
+                    size: 20
+                })
+            });
+            
             const data = await response.json();
             
             if (data.error) {
@@ -1506,16 +1520,25 @@ class DroneSimulationController {
                 <hr>
                 <h6>3D Terrain Model Generated</h6>
                 <p>Grid Size: ${data.grid_size}x${data.grid_size}</p>
-                <p>Elevation Range: ${data.elevation_range.min}m - ${data.elevation_range.max}m</p>
+                <p>Elevation Range: ${data.bounds.min_elevation.toFixed(1)}m - ${data.bounds.max_elevation.toFixed(1)}m</p>
+                <p>Source: ${data.source === 'google_maps' ? 'Google Maps API' : 'Synthetic Model'}</p>
+                ${data.description ? `<p><small>${data.description}</small></p>` : ''}
                 <button class="btn btn-success btn-sm" onclick="window.droneController.applyTerrainEnvironment()">
                     Apply to Simulation
                 </button>
             `;
             
             this.terrainModel = data;
+            
+            document.getElementById('loadTerrainBtn').innerHTML = '<i class="fas fa-check"></i> Terrain Loaded';
+            document.getElementById('loadTerrainBtn').classList.remove('btn-primary');
+            document.getElementById('loadTerrainBtn').classList.add('btn-success');
+            
         } catch (error) {
             console.error('Error loading terrain:', error);
             alert('Error loading terrain model.');
+        } finally {
+            document.getElementById('loadTerrainBtn').disabled = false;
         }
     }
     
