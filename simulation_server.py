@@ -760,29 +760,37 @@ class DroneSimulationServer:
                 # Convert telemetry history to required format
                 telemetry_data = []
                 for point in self.state.telemetry_history:
+                    # Handle position data - it could be dict or array
+                    pos = point.get('position', {'x': 0, 'y': 0, 'z': 0})
+                    if isinstance(pos, (list, tuple)):
+                        position = {'x': pos[0], 'y': pos[1], 'z': pos[2]}
+                    else:
+                        position = {'x': pos.get('x', 0), 'y': pos.get('y', 0), 'z': pos.get('z', 0)}
+                    
+                    # Handle velocity data - it could be dict or array  
+                    vel = point.get('velocity', {'x': 0, 'y': 0, 'z': 0})
+                    if isinstance(vel, (list, tuple)):
+                        velocity = {'x': vel[0], 'y': vel[1], 'z': vel[2]}
+                    else:
+                        velocity = {'x': vel.get('x', 0), 'y': vel.get('y', 0), 'z': vel.get('z', 0)}
+                    
                     telemetry_data.append({
                         'timestamp': point.get('timestamp', 0),
-                        'position': {
-                            'x': point.get('position', [0, 0, 0])[0],
-                            'y': point.get('position', [0, 0, 0])[1], 
-                            'z': point.get('position', [0, 0, 0])[2]
-                        },
-                        'velocity': {
-                            'x': point.get('velocity', [0, 0, 0])[0],
-                            'y': point.get('velocity', [0, 0, 0])[1],
-                            'z': point.get('velocity', [0, 0, 0])[2]
-                        },
+                        'position': position,
+                        'velocity': velocity,
                         'mission_progress': point.get('mission_progress', 0),
                         'current_waypoint': point.get('current_waypoint', 0)
                     })
                 
                 # Create video
+                logger.info(f"Creating video with {len(telemetry_data)} telemetry points")
+                
                 result = self.post_video_creator.create_video_from_telemetry(
                     telemetry_data=telemetry_data,
                     template=template,
-                    drone_config={'model': self.state.current_drone_model},
-                    environment_config={'name': self.state.current_environment},
-                    mission_config={'type': self.state.current_mission_type, 'waypoints': self.state.current_mission.get('waypoints', []) if self.state.current_mission else []},
+                    drone_config={'model': getattr(self.state, 'current_drone_model', 'Unknown')},
+                    environment_config={'name': getattr(self.state, 'current_environment', 'Unknown')},
+                    mission_config={'type': getattr(self.state, 'current_mission_type', 'Unknown')},
                     include_audio=include_audio
                 )
                 
