@@ -1,0 +1,42 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+packages = ["cairo", "ffmpeg-full", "freetype", "ghostscript", "glibcLocales", "gobject-introspection", "gtk3", "libxcrypt", "pkg-config", "qhull", "tcl", "tk", "xsimd"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Install Dependencies"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Simple Web Server"
+
+[[workflows.workflow]]
+name = "Install Dependencies"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip install numpy scipy matplotlib pandas seaborn plotly flask flask-socketio psutil"
+
+[[workflows.workflow]]
+name = "Simple Web Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python simple_web_server.py"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80

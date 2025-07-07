@@ -1,0 +1,258 @@
+{
+  "test_flight": {
+    "description": "Simple test flight mission",
+    "type": "test",
+    "waypoints": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 10,
+        "action": "takeoff",
+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 50,
+        "y": 0,
+        "z": 10,
+        "action": "navigate",
+        "duration": 20.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 50,
+        "y": 50,
+        "z": 10,
+        "action": "navigate",
+        "duration": 20.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 0,
+        "y": 50,
+        "z": 10,
+        "action": "navigate",
+        "duration": 20.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "action": "land",
+        "duration": 10.0,
+        "tolerance": 2.0
+      }
+    ],
+    "success_criteria": {
+      "flight_time_max": 300.0,
+      "waypoint_tolerance": 5.0,
+      "fuel_reserve_min": 0.1
+    },
+    "constraints": {
+      "max_altitude": 100.0,
+      "max_speed": 15.0,
+      "geofence_radius": 500.0
+    }
+  },
+  "reconnaissance": {
+    "description": "Aerial reconnaissance mission",
+    "type": "reconnaissance",
+    "waypoints": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 20,
+        "action": "takeoff",
+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 100,
+        "y": 0,
+        "z": 50,
+        "action": "navigate",
+        "duration": 30.0,
+        "tolerance": 10.0
+      },
+      {
+        "x": 100,
+        "y": 100,
+        "z": 50,
+        "action": "photo",
+        "duration": 10.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 0,
+        "y": 100,
+        "z": 50,
+        "action": "photo",
+        "duration": 10.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 0,
+        "y": 200,
+        "z": 50,
+        "action": "monitor",
+        "duration": 30.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "action": "land",
+        "duration": 15.0,
+        "tolerance": 3.0
+      }
+    ],
+    "success_criteria": {
+      "flight_time_max": 600.0,
+      "photos_required": 5,
+      "coverage_area_min": 10000.0
+    },
+    "constraints": {
+      "max_altitude": 200.0,
+      "max_speed": 25.0,
+      "no_fly_zones": []
+    }
+  },
+  "sample_transport": {
+    "description": "Sample collection and transport mission",
+    "type": "sample_transport",
+    "waypoints": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 15,
+        "action": "takeoff",
+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 200,
+        "y": 150,
+        "z": 30,
+        "action": "navigate",
+        "duration": 60.0,
+        "tolerance": 10.0
+      },
+      {
+        "x": 200,
+        "y": 150,
+        "z": 5,
+        "action": "pickup",
+        "duration": 20.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 200,
+        "y": 150,
+        "z": 30,
+        "action": "navigate",
+        "duration": 10.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": -100,
+        "y": -50,
+        "z": 30,
+        "action": "navigate",
+        "duration": 80.0,
+        "tolerance": 10.0
+      },
+      {
+        "x": -100,
+        "y": -50,
+        "z": 5,
+        "action": "delivery",
+        "duration": 15.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "action": "land",
+        "duration": 20.0,
+        "tolerance": 3.0
+      }
+    ],
+    "success_criteria": {
+      "flight_time_max": 900.0,
+      "payload_delivered": true,
+      "delivery_accuracy": 5.0
+    },
+    "constraints": {
+      "max_altitude": 100.0,
+      "max_speed": 20.0,
+      "payload_mass_max": 10.0
+    }
+  },
+  "monitoring": {
+    "description": "Long-duration monitoring mission",
+    "type": "monitoring",
+    "waypoints": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 25,
+        "action": "takeoff",
+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 0,
+        "y": 100,
+        "z": 75,
+        "action": "navigate",
+        "duration": 30.0,
+        "tolerance": 10.0
+      },
+      {
+        "x": 0,
+        "y": 100,
+        "z": 75,
+        "action": "monitor",
+        "duration": 300.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 50,
+        "y": 100,
+        "z": 75,
+        "action": "monitor",
+        "duration": 300.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 100,
+        "y": 100,
+        "z": 75,
+        "action": "monitor",
+        "duration": 300.0,
+        "tolerance": 5.0
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "action": "land",
+        "duration": 20.0,
+        "tolerance": 3.0
+      }
+    ],
+    "success_criteria": {
+      "flight_time_max": 1800.0,
+      "monitoring_duration_min": 600.0,
+      "data_quality_min": 0.8
+    },
+    "constraints": {
+      "max_altitude": 150.0,
+      "max_speed": 15.0,
+      "loiter_accuracy": 10.0
+    }
+  }
+}
