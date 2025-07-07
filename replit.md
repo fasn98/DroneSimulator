@@ -247,6 +247,16 @@ This is a comprehensive Python-based simulation application for exploration dron
   - **User Control**: Added toggle option in web interface for including/excluding sci-fi audio in video exports
   - **Complete Enhancement**: Videos now feature immersive sci-fi discovery audio randomly selected from themed soundtracks
 
+**Graph Persistence & Video API Fixes - Version 2.4:**
+- July 07, 2025. Resolved critical web interface graph persistence and video export issues:
+  - **Video Export System Repair**: Fixed missing video API endpoints (/api/video/status, /api/video/files) preventing export functionality
+  - **Graph Data Persistence**: Implemented localStorage system to preserve telemetry data across page refreshes (last 500 points)
+  - **Simulation Data Clearing**: Added automatic data clearing when starting new simulations to prevent overlapping graph data
+  - **Chart Management**: Enhanced chart destruction and recreation to ensure clean separation between simulation sessions
+  - **Mission Data Storage**: Extended persistence system to include mission events and simulation status
+  - **User Experience**: Graphs now maintain data during page refreshes but start fresh for each new simulation
+  - **Performance Optimization**: Limited stored data to prevent browser storage bloat while maintaining functionality
+
 **Quick Video Creation - Version 2.2:**
 - July 07, 2025. Implemented simplified one-click video creation system:
   - **Quick Video Buttons**: Added "Create Real World Video" and "Create AI World Video" buttons in Video Export tab
