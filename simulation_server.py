@@ -255,14 +255,18 @@ class DroneSimulationServer:
                 self.state.telemetry_history = []
                 
                 # Start simulation thread
+                logger.info("Starting simulation thread...")
                 self.simulation_thread = threading.Thread(target=self._run_simulation)
                 self.simulation_thread.daemon = True
                 self.simulation_thread.start()
                 
-                # Start telemetry broadcast thread
+                # Start telemetry broadcast thread  
+                logger.info("Starting telemetry broadcast thread...")
                 self.telemetry_thread = threading.Thread(target=self._broadcast_telemetry)
                 self.telemetry_thread.daemon = True
                 self.telemetry_thread.start()
+                
+                logger.info(f"Simulation threads started. State running: {self.state.running}")
                 
                 return jsonify({
                     'success': True,
@@ -714,9 +718,14 @@ class DroneSimulationServer:
     
     def _run_simulation(self):
         """Run the simulation loop."""
+        logger.info("Simulation loop started")
         dt = 0.1  # 100ms timestep
+        loop_count = 0
         
         while self.state.running:
+            loop_count += 1
+            if loop_count % 50 == 0:  # Log every 5 seconds
+                logger.info(f"Simulation loop running - iteration {loop_count}, time: {self.state.current_time:.1f}s")
             if not self.state.paused:
                 # Update simulation time
                 self.state.current_time = time.time() - self.state.start_time
@@ -730,25 +739,39 @@ class DroneSimulationServer:
                     # Simple physics simulation
                     self._update_drone_physics(target_pos, dt)
                     
-                    # Check if reached waypoint
+                    # Check if reached waypoint with realistic timing
                     distance = np.linalg.norm(self.state.position - target_pos)
-                    if distance < target_waypoint.get('tolerance', 5.0):
-                        self.state.current_waypoint += 1
-                        if self.state.current_waypoint >= len(waypoints):
-                            # Mission complete
-                            self.state.mission_progress = 100.0
-                            self.state.running = False
+                    tolerance = target_waypoint.get('tolerance', 5.0)
+                    
+                    if distance < tolerance:
+                        # Add minimum time at waypoint for realistic mission timing
+                        if not hasattr(self.state, 'waypoint_arrival_time'):
+                            self.state.waypoint_arrival_time = self.state.current_time
+                        
+                        # Stay at waypoint for the specified duration
+                        waypoint_duration = target_waypoint.get('duration', 10.0)
+                        time_at_waypoint = self.state.current_time - self.state.waypoint_arrival_time
+                        
+                        if time_at_waypoint >= waypoint_duration:
+                            # Move to next waypoint
+                            self.state.current_waypoint += 1
+                            delattr(self.state, 'waypoint_arrival_time')  # Reset for next waypoint
                             
-                            # End the session in database with completed status
-                            self._complete_simulation('completed')
-                            
-                            self.socketio.emit('mission_complete', {
-                                'message': 'Mission completed successfully',
-                                'total_time': self.state.current_time
-                            })
-                        else:
-                            # Update mission progress
-                            self.state.mission_progress = (self.state.current_waypoint / len(waypoints)) * 100.0
+                            if self.state.current_waypoint >= len(waypoints):
+                                # Mission complete
+                                self.state.mission_progress = 100.0
+                                self.state.running = False
+                                
+                                # End the session in database with completed status
+                                self._complete_simulation('completed')
+                                
+                                self.socketio.emit('mission_complete', {
+                                    'message': 'Mission completed successfully',
+                                    'total_time': self.state.current_time
+                                })
+                            else:
+                                # Update mission progress
+                                self.state.mission_progress = (self.state.current_waypoint / len(waypoints)) * 100.0
                 
                 # Log telemetry
                 self._log_telemetry()
@@ -780,19 +803,31 @@ class DroneSimulationServer:
                 traceback.print_exc()
     
     def _update_drone_physics(self, target_pos: np.ndarray, dt: float):
-        """Update drone physics with simple navigation."""
-        # Simple proportional controller
+        """Update drone physics with realistic navigation timing."""
+        # Calculate position error
         position_error = target_pos - self.state.position
-        velocity_command = position_error * 0.5  # P controller
+        distance_to_target = np.linalg.norm(position_error)
         
-        # Limit velocity
-        max_velocity = 10.0  # m/s
+        # Realistic drone speeds and acceleration
+        max_velocity = 5.0  # m/s (realistic drone speed)
+        max_acceleration = 2.0  # m/s^2 (realistic acceleration)
+        
+        # Proportional controller with realistic gains
+        velocity_command = position_error * 0.2  # Lower gain for smoother movement
+        
+        # Limit velocity more realistically
         velocity_magnitude = np.linalg.norm(velocity_command)
         if velocity_magnitude > max_velocity:
             velocity_command = velocity_command / velocity_magnitude * max_velocity
         
-        # Update velocity and position
-        self.state.velocity = velocity_command
+        # Apply acceleration limits for realistic movement
+        velocity_diff = velocity_command - self.state.velocity
+        accel_magnitude = np.linalg.norm(velocity_diff) / dt
+        if accel_magnitude > max_acceleration:
+            velocity_diff = velocity_diff / accel_magnitude * max_acceleration * dt
+        
+        # Update velocity and position with realistic physics
+        self.state.velocity += velocity_diff
         self.state.position += self.state.velocity * dt
         
         # Update attitude (simple heading control)
@@ -851,8 +886,6 @@ class DroneSimulationServer:
                 self.video_export.add_frame(telemetry, view_type="chase")
             except Exception as e:
                 logger.error(f"Error adding video frame: {e}")
-            except Exception as e:
-                logger.error(f"Error logging telemetry to database: {e}")
         
         # Keep only last 1000 entries in memory
         if len(self.state.telemetry_history) > 1000:
