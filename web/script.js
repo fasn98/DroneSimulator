@@ -29,11 +29,21 @@ class DroneSimulationController {
         // Load configurations
         await this.loadConfigurations();
         
+        // Load any persisted simulation data
+        this.loadPersistedData();
+        
         // Setup event listeners
         this.setupEventListeners();
         
         // Initialize charts
         this.initializeCharts();
+        
+        // Update charts with persisted data if available
+        if (this.telemetryData.length > 0) {
+            setTimeout(() => {
+                this.updateChartsWithPersistedData();
+            }, 500); // Small delay to ensure charts are fully initialized
+        }
         
         // Connect WebSocket
         this.connectWebSocket();
@@ -42,6 +52,93 @@ class DroneSimulationController {
         this.startStatusPolling();
         
         console.log('Drone Simulation Controller initialized');
+    }
+    
+    loadPersistedData() {
+        // Load persisted telemetry data
+        const storedTelemetry = localStorage.getItem('simulationTelemetry');
+        if (storedTelemetry) {
+            try {
+                this.telemetryData = JSON.parse(storedTelemetry);
+                console.log(`Loaded ${this.telemetryData.length} telemetry points from storage`);
+            } catch (e) {
+                console.error('Failed to load telemetry data:', e);
+                this.telemetryData = [];
+            }
+        }
+        
+        // Load persisted mission data
+        const storedMission = localStorage.getItem('simulationMission');
+        if (storedMission) {
+            try {
+                this.missionData = JSON.parse(storedMission);
+                console.log(`Loaded ${this.missionData.length} mission events from storage`);
+            } catch (e) {
+                console.error('Failed to load mission data:', e);
+                this.missionData = [];
+            }
+        }
+        
+        // Load persisted status
+        const storedStatus = localStorage.getItem('simulationStatus');
+        if (storedStatus) {
+            try {
+                this.currentStatus = JSON.parse(storedStatus);
+                console.log('Loaded simulation status from storage');
+            } catch (e) {
+                console.error('Failed to load simulation status:', e);
+                this.currentStatus = {};
+            }
+        }
+    }
+    
+    saveTelemetryToStorage() {
+        // Save telemetry data to localStorage (keep last 500 points to avoid storage limits)
+        const dataToSave = this.telemetryData.slice(-500);
+        try {
+            localStorage.setItem('simulationTelemetry', JSON.stringify(dataToSave));
+        } catch (e) {
+            console.error('Failed to save telemetry data:', e);
+        }
+    }
+    
+    saveMissionToStorage() {
+        // Save mission data to localStorage
+        try {
+            localStorage.setItem('simulationMission', JSON.stringify(this.missionData));
+        } catch (e) {
+            console.error('Failed to save mission data:', e);
+        }
+    }
+    
+    saveStatusToStorage() {
+        // Save current status to localStorage
+        try {
+            localStorage.setItem('simulationStatus', JSON.stringify(this.currentStatus));
+        } catch (e) {
+            console.error('Failed to save status data:', e);
+        }
+    }
+    
+    updateChartsWithPersistedData() {
+        // Update charts with loaded telemetry data
+        if (this.telemetryData.length > 0) {
+            console.log('Updating charts with persisted telemetry data');
+            
+            // Update real-time plots with all persisted data
+            this.updateRealtimePlots();
+            
+            // Update the latest status displays
+            const latestTelemetry = this.telemetryData[this.telemetryData.length - 1];
+            if (latestTelemetry) {
+                this.updateDroneStatus(latestTelemetry);
+                this.updateEnvironmentStatus(latestTelemetry);
+                this.updateSimulationProgress(latestTelemetry.timestamp);
+            }
+            
+            // Update mission display
+            this.updateMissionDisplay();
+        }
     }
     
     async loadConfigurations() {
@@ -125,6 +222,9 @@ class DroneSimulationController {
         try {
             this.setLoadingState(true);
             
+            // Clear previous simulation data before starting new one
+            this.clearSimulationData();
+            
             const response = await fetch('/api/simulation/start', {
                 method: 'POST',
                 headers: {
@@ -139,6 +239,9 @@ class DroneSimulationController {
                 this.updateControlButtons();
                 this.showSuccess('Simulation started successfully');
                 this.logMessage('info', 'Simulation started');
+                
+                // Initialize fresh charts
+                this.initializeCharts();
             } else {
                 const error = await response.json();
                 this.showError(error.message || 'Failed to start simulation');
@@ -149,6 +252,44 @@ class DroneSimulationController {
         } finally {
             this.setLoadingState(false);
         }
+    }
+    
+    clearSimulationData() {
+        // Clear telemetry data arrays
+        this.telemetryData = [];
+        this.missionData = [];
+        this.currentStatus = {};
+        
+        // Clear stored data in localStorage
+        localStorage.removeItem('simulationTelemetry');
+        localStorage.removeItem('simulationMission');
+        localStorage.removeItem('simulationStatus');
+        
+        // Clear existing charts
+        Object.keys(this.charts).forEach(key => {
+            if (this.charts[key]) {
+                try {
+                    this.charts[key].destroy();
+                } catch (e) {
+                    // Chart might not exist yet
+                }
+                this.charts[key] = null;
+            }
+        });
+        
+        // Clear chart containers
+        const chartContainers = [
+            'trajectoryChart', 'altitudeChart', 'attitudeChart', 
+            'powerChart', 'realTimeChart', 'performanceChart'
+        ];
+        chartContainers.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerHTML = '';
+            }
+        });
+        
+        console.log('Cleared previous simulation data and charts');
     }
     
     async pauseSimulation() {
@@ -290,6 +431,9 @@ class DroneSimulationController {
             this.telemetryData.shift();
         }
         
+        // Save to localStorage for persistence across page refreshes
+        this.saveTelemetryToStorage();
+        
         // Update real-time displays
         this.updateDroneStatus(telemetry);
         this.updateEnvironmentStatus(telemetry);
@@ -307,6 +451,15 @@ class DroneSimulationController {
     
     handleMissionEvent(event) {
         this.missionData.push(event);
+        
+        // Keep only last 100 events for performance
+        if (this.missionData.length > 100) {
+            this.missionData.shift();
+        }
+        
+        // Save to localStorage for persistence
+        this.saveMissionToStorage();
+        
         this.updateMissionDisplay();
         this.logMessage('info', `Mission event: ${event.description}`);
     }

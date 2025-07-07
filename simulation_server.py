@@ -565,6 +565,48 @@ class DroneSimulationServer:
                 logger.error(f"Error getting environment presets: {e}")
                 return jsonify({'error': str(e)}), 500
         
+        @self.app.route('/api/video/status')
+        def get_video_status():
+            """Get current video recording status."""
+            try:
+                return jsonify({
+                    'recording': self.video_export.recording if hasattr(self.video_export, 'recording') else False,
+                    'session_id': getattr(self.video_export, 'session_id', None),
+                    'frames_captured': len(self.video_export.frames) if hasattr(self.video_export, 'frames') else 0,
+                    'start_time': getattr(self.video_export, 'start_time', None),
+                    'duration': time.time() - getattr(self.video_export, 'start_time', time.time()) if hasattr(self.video_export, 'recording') and self.video_export.recording else 0
+                })
+            except Exception as e:
+                logger.error(f"Error getting video status: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/files')
+        def list_video_files():
+            """List available video files."""
+            try:
+                video_dir = Path('video_exports')
+                if not video_dir.exists():
+                    return jsonify({'files': []})
+                
+                files = []
+                for file_path in video_dir.glob('*.mp4'):
+                    stat = file_path.stat()
+                    files.append({
+                        'filename': file_path.name,
+                        'size_mb': stat.st_size / (1024 * 1024),
+                        'created_at': stat.st_mtime,
+                        'path': str(file_path)
+                    })
+                
+                # Sort by creation time, newest first
+                files.sort(key=lambda x: x['created_at'], reverse=True)
+                
+                return jsonify({'files': files})
+                
+            except Exception as e:
+                logger.error(f"Error listing video files: {e}")
+                return jsonify({'error': str(e)}), 500
+        
         @self.app.route('/api/video/export/start', methods=['POST'])
         def start_video_recording():
             """Start video recording for current simulation."""
