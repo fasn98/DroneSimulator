@@ -21,6 +21,16 @@ class DroneSimulationController {
             power: null
         };
         
+        // Terrain zoom state
+        this.terrainZoom = {
+            level: 1.0,
+            center: { x: 0, y: 0, z: 0 },
+            minZoom: 0.1,
+            maxZoom: 10.0,
+            animationDuration: 800,
+            isAnimating: false
+        };
+        
         // Initialize the interface
         this.init();
     }
@@ -44,6 +54,9 @@ class DroneSimulationController {
                 this.updateChartsWithPersistedData();
             }, 500); // Small delay to ensure charts are fully initialized
         }
+        
+        // Setup terrain zoom controls
+        this.setupTerrainZoomControls();
         
         // Connect WebSocket
         this.connectWebSocket();
@@ -980,11 +993,43 @@ class DroneSimulationController {
             scene: {
                 xaxis: { title: 'X (m)' },
                 yaxis: { title: 'Y (m)' },
-                zaxis: { title: 'Z (m)' }
+                zaxis: { title: 'Z (m)' },
+                camera: this.getOptimalCameraView(x, y, z)
             }
         };
         
-        Plotly.react('trajectoryPlot', trajectoryData, layout);
+        const config = {
+            responsive: true,
+            displayModeBar: true,
+            modeBarButtonsToAdd: [
+                {
+                    name: 'Zoom In',
+                    icon: Plotly.Icons.zoom_plus,
+                    direction: 'up',
+                    click: () => this.zoomTerrain('in')
+                },
+                {
+                    name: 'Zoom Out', 
+                    icon: Plotly.Icons.zoom_minus,
+                    direction: 'up',
+                    click: () => this.zoomTerrain('out')
+                },
+                {
+                    name: 'Reset View',
+                    icon: Plotly.Icons.home,
+                    direction: 'up',
+                    click: () => this.resetTerrainView()
+                },
+                {
+                    name: 'Follow Drone',
+                    icon: Plotly.Icons.camera,
+                    direction: 'up',
+                    click: () => this.followDrone()
+                }
+            ]
+        };
+        
+        Plotly.react('trajectoryPlot', trajectoryData, layout, config);
         } catch (error) {
             console.error('Error updating trajectory plot:', error);
         }
@@ -1255,6 +1300,283 @@ class DroneSimulationController {
         }, 5000);
     }
     
+    // Interactive Terrain Zoom functionality
+    setupTerrainZoomControls() {
+        // Add custom zoom controls to the trajectory tab
+        const trajectoryTab = document.getElementById('trajectory');
+        if (!trajectoryTab) return;
+        
+        // Create zoom control panel
+        const zoomControlsHtml = `
+            <div class="terrain-zoom-controls mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h6><i class="fas fa-search-plus"></i> Terrain View Controls</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Zoom Level</label>
+                                <input type="range" class="form-range" id="zoomSlider" 
+                                       min="0.1" max="10" step="0.1" value="1.0">
+                                <small class="text-muted">Current: <span id="zoomValue">1.0x</span></small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">View Preset</label>
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="topViewBtn">
+                                        <i class="fas fa-arrow-down"></i> Top
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="sideViewBtn">
+                                        <i class="fas fa-arrows-alt-h"></i> Side
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="followBtn">
+                                        <i class="fas fa-camera"></i> Follow
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button" class="btn btn-outline-success btn-sm" id="zoomInBtn">
+                                        <i class="fas fa-plus"></i> Zoom In
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning btn-sm" id="zoomOutBtn">
+                                        <i class="fas fa-minus"></i> Zoom Out
+                                    </button>
+                                    <button type="button" class="btn btn-outline-info btn-sm" id="resetViewBtn">
+                                        <i class="fas fa-home"></i> Reset View
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Insert before the trajectory plot
+        const trajectoryPlot = document.getElementById('trajectoryPlot');
+        if (trajectoryPlot) {
+            trajectoryPlot.insertAdjacentHTML('beforebegin', zoomControlsHtml);
+            this.bindTerrainZoomEvents();
+        }
+    }
+    
+    bindTerrainZoomEvents() {
+        // Zoom slider
+        const zoomSlider = document.getElementById('zoomSlider');
+        const zoomValue = document.getElementById('zoomValue');
+        
+        if (zoomSlider && zoomValue) {
+            zoomSlider.addEventListener('input', (e) => {
+                const level = parseFloat(e.target.value);
+                this.terrainZoom.level = level;
+                zoomValue.textContent = `${level.toFixed(1)}x`;
+                this.applyTerrainZoom(level);
+            });
+        }
+        
+        // Zoom buttons
+        document.getElementById('zoomInBtn')?.addEventListener('click', () => this.zoomTerrain('in'));
+        document.getElementById('zoomOutBtn')?.addEventListener('click', () => this.zoomTerrain('out'));
+        document.getElementById('resetViewBtn')?.addEventListener('click', () => this.resetTerrainView());
+        
+        // View presets
+        document.getElementById('topViewBtn')?.addEventListener('click', () => this.setViewPreset('top'));
+        document.getElementById('sideViewBtn')?.addEventListener('click', () => this.setViewPreset('side'));
+        document.getElementById('followBtn')?.addEventListener('click', () => this.followDrone());
+    }
+    
+    getOptimalCameraView(x = [], y = [], z = []) {
+        if (x.length === 0) {
+            return {
+                eye: { x: 1.5, y: 1.5, z: 1.5 },
+                center: { x: 0, y: 0, z: 0 },
+                up: { x: 0, y: 0, z: 1 }
+            };
+        }
+        
+        // Calculate trajectory bounds
+        const bounds = this.calculateTrajectoryBounds(x, y, z);
+        const scale = 1.0 / this.terrainZoom.level;
+        
+        // Position camera to show the full trajectory with current zoom
+        const distance = Math.max(bounds.range.x, bounds.range.y, bounds.range.z) * 2.0 * scale;
+        
+        return {
+            eye: { 
+                x: bounds.center.x + distance * 0.8, 
+                y: bounds.center.y + distance * 0.8, 
+                z: bounds.center.z + distance * 0.6 
+            },
+            center: { 
+                x: bounds.center.x + this.terrainZoom.center.x, 
+                y: bounds.center.y + this.terrainZoom.center.y, 
+                z: bounds.center.z + this.terrainZoom.center.z 
+            },
+            up: { x: 0, y: 0, z: 1 }
+        };
+    }
+    
+    calculateTrajectoryBounds(x, y, z) {
+        const minX = Math.min(...x);
+        const maxX = Math.max(...x);
+        const minY = Math.min(...y);
+        const maxY = Math.max(...y);
+        const minZ = Math.min(...z);
+        const maxZ = Math.max(...z);
+        
+        return {
+            min: { x: minX, y: minY, z: minZ },
+            max: { x: maxX, y: maxY, z: maxZ },
+            center: { 
+                x: (minX + maxX) / 2, 
+                y: (minY + maxY) / 2, 
+                z: (minZ + maxZ) / 2 
+            },
+            range: { 
+                x: maxX - minX, 
+                y: maxY - minY, 
+                z: maxZ - minZ 
+            }
+        };
+    }
+    
+    zoomTerrain(direction) {
+        if (this.terrainZoom.isAnimating) return;
+        
+        const factor = direction === 'in' ? 1.4 : 1/1.4;
+        const newLevel = Math.max(
+            this.terrainZoom.minZoom,
+            Math.min(this.terrainZoom.maxZoom, this.terrainZoom.level * factor)
+        );
+        
+        this.animateTerrainZoom(newLevel);
+    }
+    
+    applyTerrainZoom(level, animate = true) {
+        this.terrainZoom.level = level;
+        
+        if (animate) {
+            this.animateTerrainZoom(level);
+        } else {
+            this.updateTrajectoryPlot();
+        }
+    }
+    
+    animateTerrainZoom(targetLevel) {
+        if (this.terrainZoom.isAnimating) return;
+        
+        this.terrainZoom.isAnimating = true;
+        const startLevel = this.terrainZoom.level;
+        const startTime = Date.now();
+        
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / this.terrainZoom.animationDuration, 1);
+            
+            // Smooth easing function
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            
+            const currentLevel = startLevel + (targetLevel - startLevel) * easeProgress;
+            this.terrainZoom.level = currentLevel;
+            
+            // Update UI
+            const zoomSlider = document.getElementById('zoomSlider');
+            const zoomValue = document.getElementById('zoomValue');
+            if (zoomSlider) zoomSlider.value = currentLevel.toFixed(1);
+            if (zoomValue) zoomValue.textContent = `${currentLevel.toFixed(1)}x`;
+            
+            // Update plot
+            this.updateTrajectoryPlot();
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                this.terrainZoom.isAnimating = false;
+            }
+        };
+        
+        requestAnimationFrame(animate);
+    }
+    
+    resetTerrainView() {
+        this.terrainZoom.level = 1.0;
+        this.terrainZoom.center = { x: 0, y: 0, z: 0 };
+        this.animateTerrainZoom(1.0);
+    }
+    
+    setViewPreset(preset) {
+        if (this.telemetryData.length === 0) return;
+        
+        const positions = this.telemetryData.map(d => d.position || {x: 0, y: 0, z: 0});
+        const x = positions.map(p => p.x || 0);
+        const y = positions.map(p => p.y || 0);
+        const z = positions.map(p => p.z || 0);
+        const bounds = this.calculateTrajectoryBounds(x, y, z);
+        
+        let camera;
+        const distance = Math.max(bounds.range.x, bounds.range.y, bounds.range.z) * 2.0;
+        
+        switch (preset) {
+            case 'top':
+                camera = {
+                    eye: { x: bounds.center.x, y: bounds.center.y, z: bounds.center.z + distance * 1.5 },
+                    center: bounds.center,
+                    up: { x: 0, y: 1, z: 0 }
+                };
+                break;
+            case 'side':
+                camera = {
+                    eye: { x: bounds.center.x + distance * 1.5, y: bounds.center.y, z: bounds.center.z },
+                    center: bounds.center,
+                    up: { x: 0, y: 0, z: 1 }
+                };
+                break;
+            default:
+                return;
+        }
+        
+        this.animateCameraToPosition(camera);
+    }
+    
+    followDrone() {
+        if (this.telemetryData.length === 0) return;
+        
+        const lastPosition = this.telemetryData[this.telemetryData.length - 1].position || {x: 0, y: 0, z: 0};
+        const offset = 50; // Follow distance
+        
+        const camera = {
+            eye: { 
+                x: lastPosition.x - offset, 
+                y: lastPosition.y - offset, 
+                z: lastPosition.z + offset 
+            },
+            center: lastPosition,
+            up: { x: 0, y: 0, z: 1 }
+        };
+        
+        this.animateCameraToPosition(camera);
+    }
+    
+    animateCameraToPosition(targetCamera) {
+        const plot = document.getElementById('trajectoryPlot');
+        if (!plot) return;
+        
+        Plotly.animate(plot, {
+            layout: {
+                scene: {
+                    camera: targetCamera
+                }
+            }
+        }, {
+            duration: this.terrainZoom.animationDuration,
+            easing: 'cubic-out'
+        });
+    }
+
     // Analytics functionality
     async loadSessionHistory() {
         try {
