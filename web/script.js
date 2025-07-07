@@ -2192,6 +2192,43 @@ async function loadPastSessions() {
     }
 }
 
+// Global function for refreshing video list (called from HTML)
+async function refreshVideoList() {
+    try {
+        const response = await fetch('/api/video/files');
+        const data = await response.json();
+        
+        const container = document.getElementById('videoFilesList');
+        if (!container) return;
+        
+        if (data.files && data.files.length > 0) {
+            container.innerHTML = data.files.map(file => `
+                <div class="card mb-2">
+                    <div class="card-body p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>${file.filename}</strong><br>
+                                <small class="text-muted">${file.size_mb.toFixed(2)} MB</small>
+                            </div>
+                            <a href="/api/video/download/${file.filename}" class="btn btn-sm btn-primary" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = '<div class="text-muted text-center p-3">No video files available</div>';
+        }
+    } catch (error) {
+        console.error('Error refreshing video list:', error);
+        const container = document.getElementById('videoFilesList');
+        if (container) {
+            container.innerHTML = '<div class="text-danger text-center p-3">Error loading video files</div>';
+        }
+    }
+}
+
 // Initialize the application when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.droneController = new DroneSimulationController();
@@ -2201,4 +2238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Setup enhanced features event listeners
     window.droneController.setupEnhancedFeaturesEventListeners();
+    
+    // Initialize video list on page load
+    refreshVideoList();
 });
