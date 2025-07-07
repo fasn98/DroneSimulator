@@ -390,7 +390,7 @@ class DatabaseService:
                 
                 total_distance += np.sqrt(dx*dx + dy*dy + dz*dz)
             
-            session.total_distance = total_distance
+            session.total_distance = float(total_distance)
             
             # Update final energy
             if telemetry_points:
@@ -415,15 +415,15 @@ class DatabaseService:
                 session_id=session.id,
                 min_altitude=min(altitudes),
                 max_altitude=max(altitudes),
-                avg_altitude=np.mean(altitudes),
+                avg_altitude=float(np.mean(altitudes)),
                 min_speed=min(speeds),
                 max_speed=max(speeds),
-                avg_speed=np.mean(speeds),
+                avg_speed=float(np.mean(speeds)),
                 energy_efficiency=session.total_energy / max(session.total_distance, 1) * 1000,  # Wh/km
                 time_efficiency=100.0,  # TODO: Calculate based on planned vs actual time
                 path_efficiency=100.0,  # TODO: Calculate based on optimal vs actual path
-                attitude_variance=np.var([p.roll for p in telemetry_points]),
-                speed_variance=np.var(speeds),
+                attitude_variance=float(np.var([p.roll for p in telemetry_points])),
+                speed_variance=float(np.var(speeds)),
                 mission_success_score=session.mission_progress,
                 waypoint_accuracy=5.0  # TODO: Calculate actual waypoint accuracy
             )
