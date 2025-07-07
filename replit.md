@@ -247,6 +247,15 @@ This is a comprehensive Python-based simulation application for exploration dron
   - **User Control**: Added toggle option in web interface for including/excluding sci-fi audio in video exports
   - **Complete Enhancement**: Videos now feature immersive sci-fi discovery audio randomly selected from themed soundtracks
 
+**Critical Video System Fixes - Version 2.6:**
+- July 07, 2025. Resolved major video generation and session loading issues:
+  - **Fixed Video Duration Problem**: Removed telemetry data limits to ensure full 900-second simulations generate complete videos instead of 15-second clips
+  - **Fixed Session Loading Issue**: Added tab activation event listener to properly load past sessions when Video Export tab is clicked
+  - **Database Query Optimization**: Updated both current and past session video creation to retrieve all telemetry data (limit=None)
+  - **Enhanced Web Interface**: Fixed missing refreshVideoList function that was causing JavaScript errors
+  - **Complete Video Workflow**: Videos now properly represent full simulation duration with all recorded telemetry data
+  - **Session Selection Fixed**: Past sessions now properly populate dropdown instead of showing "Loading sessions..." indefinitely
+
 **Graph Persistence & Video API Fixes - Version 2.4:**
 - July 07, 2025. Resolved critical web interface graph persistence and video export issues:
   - **Video Export System Repair**: Fixed missing video API endpoints (/api/video/status, /api/video/files) preventing export functionality

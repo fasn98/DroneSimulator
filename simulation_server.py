@@ -720,7 +720,7 @@ class DroneSimulationServer:
                 if not self.db_service:
                     self._init_database_service()
                 
-                telemetry_data = self.db_service.get_session_telemetry(session_id)
+                telemetry_data = self.db_service.get_session_telemetry(session_id, limit=None)
                 
                 if not telemetry_data:
                     return jsonify({'error': 'No telemetry data found for session'}), 404
@@ -753,44 +753,33 @@ class DroneSimulationServer:
                 template = data.get('template', 'professional')
                 include_audio = data.get('include_audio', True)
                 
-                # Use current telemetry data from localStorage or state
-                if not hasattr(self.state, 'telemetry_history') or not self.state.telemetry_history:
-                    return jsonify({'error': 'No telemetry data available'}), 404
+                # Get telemetry data from the most recent session in database
+                if not self.db_service:
+                    self._init_database_service()
                 
-                # Convert telemetry history to required format
-                telemetry_data = []
-                for point in self.state.telemetry_history:
-                    # Handle position data - it could be dict or array
-                    pos = point.get('position', {'x': 0, 'y': 0, 'z': 0})
-                    if isinstance(pos, (list, tuple)):
-                        position = {'x': pos[0], 'y': pos[1], 'z': pos[2]}
-                    else:
-                        position = {'x': pos.get('x', 0), 'y': pos.get('y', 0), 'z': pos.get('z', 0)}
-                    
-                    # Handle velocity data - it could be dict or array  
-                    vel = point.get('velocity', {'x': 0, 'y': 0, 'z': 0})
-                    if isinstance(vel, (list, tuple)):
-                        velocity = {'x': vel[0], 'y': vel[1], 'z': vel[2]}
-                    else:
-                        velocity = {'x': vel.get('x', 0), 'y': vel.get('y', 0), 'z': vel.get('z', 0)}
-                    
-                    telemetry_data.append({
-                        'timestamp': point.get('timestamp', 0),
-                        'position': position,
-                        'velocity': velocity,
-                        'mission_progress': point.get('mission_progress', 0),
-                        'current_waypoint': point.get('current_waypoint', 0)
-                    })
+                # Get the most recent session
+                sessions = self.db_service.get_session_history(limit=1)
+                if not sessions:
+                    return jsonify({'error': 'No simulation sessions found'}), 404
+                
+                current_session = sessions[0]
+                session_id = current_session['id']
+                
+                # Get all telemetry data for this session (no limit)
+                telemetry_data = self.db_service.get_session_telemetry(session_id, limit=None)
+                
+                if not telemetry_data:
+                    return jsonify({'error': 'No telemetry data available for current session'}), 404
                 
                 # Create video
-                logger.info(f"Creating video with {len(telemetry_data)} telemetry points")
+                logger.info(f"Creating video with {len(telemetry_data)} telemetry points from session {session_id}")
                 
                 result = self.post_video_creator.create_video_from_telemetry(
                     telemetry_data=telemetry_data,
                     template=template,
-                    drone_config={'model': getattr(self.state, 'current_drone_model', 'Unknown')},
-                    environment_config={'name': getattr(self.state, 'current_environment', 'Unknown')},
-                    mission_config={'type': getattr(self.state, 'current_mission_type', 'Unknown')},
+                    drone_config={'model': current_session.get('drone_model')},
+                    environment_config={'name': current_session.get('environment')},
+                    mission_config={'type': current_session.get('mission_type')},
                     include_audio=include_audio
                 )
                 

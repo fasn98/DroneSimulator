@@ -2170,7 +2170,7 @@ async function createVideoFromPastSession() {
 
 async function loadPastSessions() {
     try {
-        const response = await fetch('/api/analytics/sessions');
+        const response = await fetch('/api/history/sessions');
         const data = await response.json();
         
         const sessionSelect = document.getElementById('pastSessionSelect');
@@ -2241,4 +2241,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize video list on page load
     refreshVideoList();
+    
+    // Setup video export tab event listener
+    const videoExportTab = document.getElementById('video-export-tab');
+    if (videoExportTab) {
+        videoExportTab.addEventListener('shown.bs.tab', function() {
+            loadPastSessions();
+        });
+    }
 });
