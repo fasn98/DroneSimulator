@@ -503,19 +503,20 @@ class DroneSimulationServer:
         """Complete the current simulation session with proper cleanup."""
         if hasattr(self, 'current_session_id') and self.current_session_id:
             try:
-                final_progress = getattr(self.state, 'mission_progress', 0.0)
-                success = self.db.end_simulation_session(
-                    self.current_session_id, 
-                    final_progress=final_progress,
-                    status=status
-                )
-                if success:
-                    logger.info(f"Session {self.current_session_id} ended with status: {status}")
-                else:
-                    logger.error(f"Failed to end session {self.current_session_id}")
-                    
-                # Clear the session ID
-                self.current_session_id = None
+                with self.app.app_context():
+                    final_progress = getattr(self.state, 'mission_progress', 0.0)
+                    success = self.db_service.end_simulation_session(
+                        self.current_session_id, 
+                        final_progress=final_progress,
+                        status=status
+                    )
+                    if success:
+                        logger.info(f"Session {self.current_session_id} ended with status: {status}")
+                    else:
+                        logger.error(f"Failed to end session {self.current_session_id}")
+                        
+                    # Clear the session ID
+                    self.current_session_id = None
                 
             except Exception as e:
                 logger.error(f"Error completing simulation: {e}")
@@ -579,11 +580,12 @@ class DroneSimulationServer:
         # Log to database if we have a session
         if hasattr(self, 'current_session_id') and self.current_session_id:
             try:
-                self.db.log_telemetry_data(
-                    self.current_session_id,
-                    self.state.current_time,
-                    telemetry
-                )
+                with self.app.app_context():
+                    self.db_service.log_telemetry_data(
+                        self.current_session_id,
+                        self.state.current_time,
+                        telemetry
+                    )
             except Exception as e:
                 logger.error(f"Error logging telemetry to database: {e}")
         
