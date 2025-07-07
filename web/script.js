@@ -996,27 +996,23 @@ class DroneSimulationController {
             });
         }
         
-        // Calculate proper axis ranges for consistent scaling
-        const bounds = this.calculateTrajectoryBounds(x, y, z);
-        const padding = 0.1; // 10% padding
-        
         const layout = {
             title: '3D Flight Trajectory',
             scene: {
                 xaxis: { 
                     title: 'X (m)',
-                    range: [bounds.min.x - bounds.range.x * padding, bounds.max.x + bounds.range.x * padding]
+                    autorange: true
                 },
                 yaxis: { 
                     title: 'Y (m)',
-                    range: [bounds.min.y - bounds.range.y * padding, bounds.max.y + bounds.range.y * padding]
+                    autorange: true
                 },
                 zaxis: { 
                     title: 'Z (m)',
-                    range: [Math.max(0, bounds.min.z - bounds.range.z * padding), bounds.max.z + bounds.range.z * padding]
+                    autorange: true
                 },
                 camera: this.getOptimalCameraView(x, y, z),
-                aspectmode: 'cube'
+                aspectmode: 'data'
             }
         };
         
@@ -1448,24 +1444,31 @@ class DroneSimulationController {
             };
         }
         
-        // Calculate trajectory bounds
-        const bounds = this.calculateTrajectoryBounds(x, y, z);
-        const scale = Math.max(0.1, 1.0 / Math.max(0.1, this.terrainZoom.level)); // Prevent division by zero
+        // Calculate trajectory center
+        const centerX = (Math.min(...x) + Math.max(...x)) / 2;
+        const centerY = (Math.min(...y) + Math.max(...y)) / 2;
+        const centerZ = (Math.min(...z) + Math.max(...z)) / 2;
         
-        // Position camera to show the full trajectory with current zoom
-        const baseDistance = Math.max(bounds.range.x, bounds.range.y, bounds.range.z, 50); // Minimum 50 units
-        const distance = baseDistance * 2.0 * scale;
+        // Calculate range for camera distance
+        const rangeX = Math.max(...x) - Math.min(...x);
+        const rangeY = Math.max(...y) - Math.min(...y);
+        const rangeZ = Math.max(...z) - Math.min(...z);
+        const maxRange = Math.max(rangeX, rangeY, rangeZ, 10);
+        
+        // Adjust distance based on zoom level
+        const zoomFactor = this.terrainZoom ? this.terrainZoom.level : 1;
+        const distance = maxRange * 2 / zoomFactor;
         
         return {
             eye: { 
-                x: bounds.center.x + distance * 0.8, 
-                y: bounds.center.y + distance * 0.8, 
-                z: bounds.center.z + distance * 0.6 
+                x: centerX + distance * 0.8, 
+                y: centerY + distance * 0.8, 
+                z: centerZ + distance * 0.6 
             },
             center: { 
-                x: bounds.center.x, 
-                y: bounds.center.y, 
-                z: bounds.center.z 
+                x: centerX, 
+                y: centerY, 
+                z: centerZ 
             },
             up: { x: 0, y: 0, z: 1 }
         };
@@ -1474,10 +1477,10 @@ class DroneSimulationController {
     calculateTrajectoryBounds(x, y, z) {
         if (x.length === 0 || y.length === 0 || z.length === 0) {
             return {
-                min: { x: -50, y: -50, z: 0 },
-                max: { x: 50, y: 50, z: 100 },
-                center: { x: 0, y: 0, z: 50 },
-                range: { x: 100, y: 100, z: 100 }
+                min: { x: -10, y: -10, z: 0 },
+                max: { x: 10, y: 10, z: 20 },
+                center: { x: 0, y: 0, z: 10 },
+                range: { x: 20, y: 20, z: 20 }
             };
         }
         
@@ -1488,11 +1491,6 @@ class DroneSimulationController {
         const minZ = Math.min(...z);
         const maxZ = Math.max(...z);
         
-        // Ensure minimum range for proper visualization
-        const rangeX = Math.max(maxX - minX, 20);
-        const rangeY = Math.max(maxY - minY, 20);
-        const rangeZ = Math.max(maxZ - minZ, 20);
-        
         return {
             min: { x: minX, y: minY, z: minZ },
             max: { x: maxX, y: maxY, z: maxZ },
@@ -1502,9 +1500,9 @@ class DroneSimulationController {
                 z: (minZ + maxZ) / 2 
             },
             range: { 
-                x: rangeX, 
-                y: rangeY, 
-                z: rangeZ 
+                x: maxX - minX, 
+                y: maxY - minY, 
+                z: maxZ - minZ 
             }
         };
     }
