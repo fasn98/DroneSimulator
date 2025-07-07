@@ -58,6 +58,14 @@ class DroneSimulationController {
         // Setup terrain zoom controls when tab becomes active
         this.setupTabChangeHandlers();
         
+        // Also setup zoom controls if we're starting on trajectory tab
+        setTimeout(() => {
+            const activeTab = document.querySelector('.nav-link.active');
+            if (activeTab && activeTab.id === 'trajectory-tab') {
+                this.setupTerrainZoomControls();
+            }
+        }, 500);
+        
         // Connect WebSocket
         this.connectWebSocket();
         
@@ -1203,7 +1211,8 @@ class DroneSimulationController {
             switch (tabId) {
                 case 'trajectory-tab':
                     this.updateTrajectoryPlot();
-                    this.setupTerrainZoomControls(); // Setup zoom controls when trajectory tab is shown
+                    // Add a small delay to ensure plot is rendered before adding controls
+                    setTimeout(() => this.setupTerrainZoomControls(), 200);
                     break;
                 case 'telemetry-tab':
                     this.updateTelemetryPlots();
@@ -1322,6 +1331,13 @@ class DroneSimulationController {
             return;
         }
         
+        // Check if controls already exist to avoid duplicates
+        const existingControls = trajectoryTab.querySelector('.terrain-zoom-controls');
+        if (existingControls) {
+            console.log('Terrain zoom controls already exist');
+            return;
+        }
+        
         // Create zoom control panel
         const zoomControlsHtml = `
             <div class="terrain-zoom-controls mb-3">
@@ -1375,12 +1391,11 @@ class DroneSimulationController {
         // Insert before the trajectory plot
         const trajectoryPlot = document.getElementById('trajectoryPlot');
         if (trajectoryPlot) {
-            // Check if controls already exist to avoid duplicates
-            const existingControls = trajectoryTab.querySelector('.terrain-zoom-controls');
-            if (!existingControls) {
-                trajectoryPlot.insertAdjacentHTML('beforebegin', zoomControlsHtml);
-                this.bindTerrainZoomEvents();
-            }
+            trajectoryPlot.insertAdjacentHTML('beforebegin', zoomControlsHtml);
+            this.bindTerrainZoomEvents();
+            console.log('Terrain zoom controls added to DOM');
+        } else {
+            console.warn('Trajectory plot element not found');
         }
     }
     
