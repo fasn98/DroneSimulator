@@ -1061,9 +1061,306 @@ class DroneSimulationController {
             }
         }, 5000);
     }
+    
+    // Analytics functionality
+    async loadSessionHistory() {
+        try {
+            const response = await fetch('/api/history/sessions');
+            const data = await response.json();
+            
+            this.displaySessionHistory(data.sessions);
+            document.getElementById('sessionCount').textContent = `${data.total} sessions found`;
+        } catch (error) {
+            console.error('Error loading session history:', error);
+            this.showError('Failed to load session history');
+        }
+    }
+    
+    displaySessionHistory(sessions) {
+        const container = document.getElementById('sessionHistory');
+        
+        if (sessions.length === 0) {
+            container.innerHTML = '<div class="text-muted text-center p-3">No simulation sessions found.<br>Run a simulation to see data here.</div>';
+            return;
+        }
+        
+        container.innerHTML = sessions.map(session => `
+            <div class="card mb-2 session-card" data-session-id="${session.id}">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="mb-1">${session.drone_model} - ${session.environment}</h6>
+                            <small class="text-muted">${session.mission_type}</small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="badge bg-${this.getStatusColor(session.status)}">${session.status}</div>
+                            <div class="text-muted small mt-1">
+                                ${new Date(session.start_time).toLocaleString()}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-3">
+                            <small class="text-muted">Progress:</small><br>
+                            <strong>${session.mission_progress?.toFixed(1) || 0}%</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Duration:</small><br>
+                            <strong>${session.duration ? (session.duration / 60).toFixed(1) + 'm' : 'N/A'}</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Distance:</small><br>
+                            <strong>${session.total_distance ? (session.total_distance / 1000).toFixed(1) + 'km' : 'N/A'}</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Energy:</small><br>
+                            <strong>${session.total_energy ? session.total_energy.toFixed(1) + 'Wh' : 'N/A'}</strong>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-outline-primary view-session-btn" data-session-id="${session.id}">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add event listeners for view session buttons
+        container.querySelectorAll('.view-session-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const sessionId = e.target.getAttribute('data-session-id');
+                this.viewSessionDetails(sessionId);
+            });
+        });
+    }
+    
+    getStatusColor(status) {
+        switch(status) {
+            case 'completed': return 'success';
+            case 'running': return 'primary';
+            case 'failed': return 'danger';
+            case 'stopped': return 'warning';
+            default: return 'secondary';
+        }
+    }
+    
+    async viewSessionDetails(sessionId) {
+        try {
+            const [telemetryResponse, eventsResponse] = await Promise.all([
+                fetch(`/api/history/sessions/${sessionId}/telemetry`),
+                fetch(`/api/history/sessions/${sessionId}/events`)
+            ]);
+            
+            const telemetryData = await telemetryResponse.json();
+            const eventsData = await eventsResponse.json();
+            
+            this.displaySessionDetails(sessionId, telemetryData, eventsData);
+        } catch (error) {
+            console.error('Error loading session details:', error);
+            this.showError('Failed to load session details');
+        }
+    }
+    
+    displaySessionDetails(sessionId, telemetryData, eventsData) {
+        const container = document.getElementById('sessionDetailsTable');
+        
+        container.innerHTML = `
+            <div class="mb-3">
+                <h6>Session ${sessionId} - Telemetry Overview</h6>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-primary">${telemetryData.telemetry.length}</h5>
+                                <small class="text-muted">Data Points</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-success">${eventsData.events.length}</h5>
+                                <small class="text-muted">Mission Events</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-info">${telemetryData.telemetry.length > 0 ? Math.max(...telemetryData.telemetry.map(t => t.altitude)).toFixed(1) : 0}m</h5>
+                                <small class="text-muted">Max Altitude</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="text-warning">${telemetryData.telemetry.length > 0 ? Math.max(...telemetryData.telemetry.map(t => t.ground_speed)).toFixed(1) : 0}m/s</h5>
+                                <small class="text-muted">Max Speed</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Event</th>
+                            <th>Waypoint</th>
+                            <th>Position</th>
+                            <th>Progress</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${eventsData.events.map(event => `
+                            <tr>
+                                <td>${event.timestamp.toFixed(1)}s</td>
+                                <td><span class="badge bg-info">${event.event_type}</span></td>
+                                <td>${event.waypoint_index || 'N/A'}</td>
+                                <td>${event.position_x.toFixed(1)}, ${event.position_y.toFixed(1)}, ${event.position_z.toFixed(1)}</td>
+                                <td>${event.mission_progress.toFixed(1)}%</td>
+                                <td>${event.description || event.action || 'N/A'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+    
+    async loadPerformanceAnalytics() {
+        try {
+            const response = await fetch('/api/analytics/performance');
+            const data = await response.json();
+            
+            this.displayPerformanceSummary(data);
+            this.displayPerformanceCharts(data);
+        } catch (error) {
+            console.error('Error loading performance analytics:', error);
+            this.showError('Failed to load performance analytics');
+        }
+    }
+    
+    displayPerformanceSummary(data) {
+        const container = document.getElementById('performanceSummary');
+        
+        if (!data.summary) {
+            container.innerHTML = '<div class="text-muted text-center p-3">No performance data available.<br>Run simulations to see analytics.</div>';
+            return;
+        }
+        
+        const summary = data.summary;
+        container.innerHTML = `
+            <div class="row">
+                <div class="col-6">
+                    <div class="text-center">
+                        <h4 class="text-primary">${summary.total_sessions}</h4>
+                        <small class="text-muted">Total Sessions</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-center">
+                        <h4 class="text-success">${summary.success_rate.toFixed(1)}%</h4>
+                        <small class="text-muted">Success Rate</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="text-center">
+                        <h5 class="text-info">${summary.avg_duration.toFixed(1)}m</h5>
+                        <small class="text-muted">Avg Duration</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-center">
+                        <h5 class="text-warning">${summary.avg_energy.toFixed(1)}Wh</h5>
+                        <small class="text-muted">Avg Energy</small>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    displayPerformanceCharts(data) {
+        if (!data.sessions || data.sessions.length === 0) {
+            document.getElementById('performanceChart').innerHTML = '<div class="text-muted text-center p-3">No data for charts</div>';
+            document.getElementById('trendsChart').innerHTML = '<div class="text-muted text-center p-3">No data for trends</div>';
+            return;
+        }
+        
+        // Performance comparison chart
+        const performanceData = [
+            {
+                x: data.sessions.map(s => s.drone_model),
+                y: data.sessions.map(s => s.mission_progress),
+                type: 'box',
+                name: 'Mission Progress (%)',
+                boxpoints: 'all',
+                jitter: 0.3
+            }
+        ];
+        
+        const performanceLayout = {
+            title: 'Mission Progress by Drone Model',
+            xaxis: { title: 'Drone Model' },
+            yaxis: { title: 'Progress (%)' }
+        };
+        
+        Plotly.react('performanceChart', performanceData, performanceLayout);
+        
+        // Trends chart
+        const trendsData = [
+            {
+                x: data.sessions.map(s => new Date(s.start_time)),
+                y: data.sessions.map(s => s.total_energy),
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Energy Consumption (Wh)',
+                line: { color: 'orange' }
+            }
+        ];
+        
+        const trendsLayout = {
+            title: 'Energy Consumption Trends',
+            xaxis: { title: 'Time' },
+            yaxis: { title: 'Energy (Wh)' }
+        };
+        
+        Plotly.react('trendsChart', trendsData, trendsLayout);
+    }
+    
+    setupAnalyticsEventListeners() {
+        // Refresh history button
+        document.getElementById('refreshHistoryBtn').addEventListener('click', () => {
+            this.loadSessionHistory();
+        });
+        
+        // Update analytics button
+        document.getElementById('updateAnalyticsBtn').addEventListener('click', () => {
+            this.loadPerformanceAnalytics();
+        });
+        
+        // Analytics tab activation
+        document.getElementById('analytics-tab').addEventListener('click', () => {
+            // Load analytics data when tab is activated
+            setTimeout(() => {
+                this.loadSessionHistory();
+                this.loadPerformanceAnalytics();
+            }, 100);
+        });
+    }
 }
 
 // Initialize the application when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.droneController = new DroneSimulationController();
+    
+    // Setup analytics event listeners
+    window.droneController.setupAnalyticsEventListeners();
 });
