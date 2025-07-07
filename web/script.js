@@ -988,13 +988,27 @@ class DroneSimulationController {
             });
         }
         
+        // Calculate proper axis ranges for consistent scaling
+        const bounds = this.calculateTrajectoryBounds(x, y, z);
+        const padding = 0.1; // 10% padding
+        
         const layout = {
             title: '3D Flight Trajectory',
             scene: {
-                xaxis: { title: 'X (m)' },
-                yaxis: { title: 'Y (m)' },
-                zaxis: { title: 'Z (m)' },
-                camera: this.getOptimalCameraView(x, y, z)
+                xaxis: { 
+                    title: 'X (m)',
+                    range: [bounds.min.x - bounds.range.x * padding, bounds.max.x + bounds.range.x * padding]
+                },
+                yaxis: { 
+                    title: 'Y (m)',
+                    range: [bounds.min.y - bounds.range.y * padding, bounds.max.y + bounds.range.y * padding]
+                },
+                zaxis: { 
+                    title: 'Z (m)',
+                    range: [Math.max(0, bounds.min.z - bounds.range.z * padding), bounds.max.z + bounds.range.z * padding]
+                },
+                camera: this.getOptimalCameraView(x, y, z),
+                aspectmode: 'cube'
             }
         };
         
@@ -1176,7 +1190,8 @@ class DroneSimulationController {
         const tabButtons = document.querySelectorAll('[data-bs-toggle="tab"]');
         tabButtons.forEach(button => {
             button.addEventListener('shown.bs.tab', (event) => {
-                const targetId = event.target.getAttribute('href').substring(1);
+                const href = event.target.getAttribute('href');
+                const targetId = href ? href.substring(1) : '';
                 this.onTabChange(event.target.id, targetId);
             });
         });
@@ -1420,10 +1435,11 @@ class DroneSimulationController {
         
         // Calculate trajectory bounds
         const bounds = this.calculateTrajectoryBounds(x, y, z);
-        const scale = 1.0 / this.terrainZoom.level;
+        const scale = Math.max(0.1, 1.0 / Math.max(0.1, this.terrainZoom.level)); // Prevent division by zero
         
         // Position camera to show the full trajectory with current zoom
-        const distance = Math.max(bounds.range.x, bounds.range.y, bounds.range.z) * 2.0 * scale;
+        const baseDistance = Math.max(bounds.range.x, bounds.range.y, bounds.range.z, 50); // Minimum 50 units
+        const distance = baseDistance * 2.0 * scale;
         
         return {
             eye: { 
@@ -1432,21 +1448,35 @@ class DroneSimulationController {
                 z: bounds.center.z + distance * 0.6 
             },
             center: { 
-                x: bounds.center.x + this.terrainZoom.center.x, 
-                y: bounds.center.y + this.terrainZoom.center.y, 
-                z: bounds.center.z + this.terrainZoom.center.z 
+                x: bounds.center.x, 
+                y: bounds.center.y, 
+                z: bounds.center.z 
             },
             up: { x: 0, y: 0, z: 1 }
         };
     }
     
     calculateTrajectoryBounds(x, y, z) {
+        if (x.length === 0 || y.length === 0 || z.length === 0) {
+            return {
+                min: { x: -50, y: -50, z: 0 },
+                max: { x: 50, y: 50, z: 100 },
+                center: { x: 0, y: 0, z: 50 },
+                range: { x: 100, y: 100, z: 100 }
+            };
+        }
+        
         const minX = Math.min(...x);
         const maxX = Math.max(...x);
         const minY = Math.min(...y);
         const maxY = Math.max(...y);
         const minZ = Math.min(...z);
         const maxZ = Math.max(...z);
+        
+        // Ensure minimum range for proper visualization
+        const rangeX = Math.max(maxX - minX, 20);
+        const rangeY = Math.max(maxY - minY, 20);
+        const rangeZ = Math.max(maxZ - minZ, 20);
         
         return {
             min: { x: minX, y: minY, z: minZ },
@@ -1457,9 +1487,9 @@ class DroneSimulationController {
                 z: (minZ + maxZ) / 2 
             },
             range: { 
-                x: maxX - minX, 
-                y: maxY - minY, 
-                z: maxZ - minZ 
+                x: rangeX, 
+                y: rangeY, 
+                z: rangeZ 
             }
         };
     }
