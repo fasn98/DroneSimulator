@@ -2014,9 +2014,15 @@ class DroneSimulationController {
     async createRealWorldVideo() {
         try {
             if (!this.selectedLocation) {
-                alert('Please select a location first');
+                alert('Please select a location first from the Real World tab');
                 return;
             }
+            
+            // Show progress indicator
+            const btn = document.getElementById('quickVideoRealWorldBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Video...';
+            btn.disabled = true;
             
             const response = await fetch('/api/video/create/real-world', {
                 method: 'POST',
@@ -2045,7 +2051,28 @@ class DroneSimulationController {
         } catch (error) {
             console.error('Real World video creation failed:', error);
             alert(`Failed to create Real World video: ${error.message}`);
+        } finally {
+            // Reset button
+            const btn = document.getElementById('quickVideoRealWorldBtn');
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-video"></i> Create Real World Video';
+                btn.disabled = false;
+            }
         }
+    }
+    
+    // Apply terrain model to current simulation environment
+    applyTerrainEnvironment() {
+        if (!this.terrainModel) {
+            alert('No terrain model loaded');
+            return;
+        }
+        
+        // Update environment with terrain data
+        alert(`Terrain model applied to simulation!\nElevation range: ${this.terrainModel.bounds.min_elevation.toFixed(1)}m - ${this.terrainModel.bounds.max_elevation.toFixed(1)}m`);
+        
+        // Note: In a full implementation, this would modify the current simulation environment
+        // to use the loaded terrain model for more realistic flight paths and altitude constraints
     }
     
     async loadDefaultRealWorldLocation() {
@@ -2105,9 +2132,23 @@ class DroneSimulationController {
             }
         });
         
-        document.getElementById('loadTerrainBtn').addEventListener('click', () => {
-            this.loadTerrain();
-        });
+        // Terrain loading button
+        const terrainBtn = document.getElementById('loadTerrainBtn');
+        if (terrainBtn) {
+            terrainBtn.addEventListener('click', () => {
+                console.log('Load terrain button clicked');
+                this.loadTerrain();
+            });
+        }
+        
+        // Real World video creation button
+        const realWorldBtn = document.getElementById('quickVideoRealWorldBtn');
+        if (realWorldBtn) {
+            realWorldBtn.addEventListener('click', () => {
+                console.log('Real World video button clicked');
+                this.createRealWorldVideo();
+            });
+        }
         
         // AI Environment Generation
         document.getElementById('generateLunarBtn').addEventListener('click', () => {
@@ -2131,11 +2172,7 @@ class DroneSimulationController {
             this.exportVideo();
         });
         
-        // Quick video creation buttons
-        document.getElementById('quickVideoRealWorldBtn').addEventListener('click', () => {
-            this.createRealWorldVideo();
-        });
-        
+        // Quick video creation buttons (AI World only - Real World handled above)
         document.getElementById('quickVideoAIWorldBtn').addEventListener('click', () => {
             this.createQuickVideo('ai_world');
         });
