@@ -61,6 +61,9 @@ class DroneSimulationController {
             const missions = await missionsResponse.json();
             this.populateSelect('missionType', missions);
             
+            // Store missions globally for waypoint list
+            window.missionConfigurations = missions;
+            
         } catch (error) {
             console.error('Error loading configurations:', error);
             this.showError('Failed to load configurations');
@@ -312,34 +315,38 @@ class DroneSimulationController {
     }
     
     updateDroneStatus(telemetry) {
-        // Position
-        const position = telemetry.position;
-        document.getElementById('dronePosition').textContent = 
-            `${position.x.toFixed(1)}, ${position.y.toFixed(1)}, ${position.z.toFixed(1)}`;
-        
-        // Velocity
-        const velocity = telemetry.velocity;
-        const speed = Math.sqrt(velocity.x**2 + velocity.y**2 + velocity.z**2);
-        document.getElementById('droneVelocity').textContent = 
-            `${speed.toFixed(1)} m/s`;
-        
-        // Attitude (convert to degrees)
-        const attitude = telemetry.attitude;
-        document.getElementById('droneAttitude').textContent = 
-            `${(attitude.roll * 180 / Math.PI).toFixed(1)}°, ${(attitude.pitch * 180 / Math.PI).toFixed(1)}°, ${(attitude.yaw * 180 / Math.PI).toFixed(1)}°`;
-        
-        // Battery (placeholder - will be 100% for now)
-        document.getElementById('droneBattery').textContent = `100%`;
-        
-        // Additional telemetry displays (if elements exist)
-        const altElement = document.getElementById('droneAltitude');
-        if (altElement) altElement.textContent = `${telemetry.altitude.toFixed(1)} m`;
-        
-        const speedElement = document.getElementById('droneSpeed');
-        if (speedElement) speedElement.textContent = `${telemetry.ground_speed.toFixed(1)} m/s`;
-        
-        const vSpeedElement = document.getElementById('droneVerticalSpeed');
-        if (vSpeedElement) vSpeedElement.textContent = `${telemetry.vertical_speed.toFixed(1)} m/s`;
+        try {
+            // Position
+            const position = telemetry.position || {};
+            document.getElementById('dronePosition').textContent = 
+                `${(position.x || 0).toFixed(1)}, ${(position.y || 0).toFixed(1)}, ${(position.z || 0).toFixed(1)}`;
+            
+            // Velocity
+            const velocity = telemetry.velocity || {};
+            const speed = Math.sqrt((velocity.x || 0)**2 + (velocity.y || 0)**2 + (velocity.z || 0)**2);
+            document.getElementById('droneVelocity').textContent = 
+                `${speed.toFixed(1)} m/s`;
+            
+            // Attitude (convert to degrees)
+            const attitude = telemetry.attitude || {};
+            document.getElementById('droneAttitude').textContent = 
+                `${((attitude.roll || 0) * 180 / Math.PI).toFixed(1)}°, ${((attitude.pitch || 0) * 180 / Math.PI).toFixed(1)}°, ${((attitude.yaw || 0) * 180 / Math.PI).toFixed(1)}°`;
+            
+            // Battery (placeholder - will be 100% for now)
+            document.getElementById('droneBattery').textContent = `100%`;
+            
+            // Additional telemetry displays (if elements exist)
+            const altElement = document.getElementById('droneAltitude');
+            if (altElement) altElement.textContent = `${(telemetry.altitude || 0).toFixed(1)} m`;
+            
+            const speedElement = document.getElementById('droneSpeed');
+            if (speedElement) speedElement.textContent = `${(telemetry.ground_speed || 0).toFixed(1)} m/s`;
+            
+            const vSpeedElement = document.getElementById('droneVerticalSpeed');
+            if (vSpeedElement) vSpeedElement.textContent = `${(telemetry.vertical_speed || 0).toFixed(1)} m/s`;
+        } catch (error) {
+            console.error('Error updating drone status:', error);
+        }
     }
     
     updateEnvironmentStatus(telemetry) {
@@ -393,53 +400,94 @@ class DroneSimulationController {
         document.getElementById('currentTime').textContent = currentTime.toFixed(2);
     }
     
-    updateMissionDisplay() {
-        if (this.currentStatus.mission_status) {
-            const mission = this.currentStatus.mission_status;
-            
-            document.getElementById('missionStatus').textContent = mission.status || 'Unknown';
-            document.getElementById('missionWaypoints').textContent = 
-                `${mission.current_waypoint || 0}/${mission.total_waypoints || 0}`;
-            document.getElementById('missionDistance').textContent = 
-                `${(mission.distance_traveled || 0).toFixed(1)} m`;
-            
-            const progress = mission.progress || 0;
-            document.getElementById('missionProgressBar').style.width = `${progress}%`;
-            
-            this.updateWaypointList();
+    async updateMissionDisplay() {
+        try {
+            // Get mission data from server
+            const response = await fetch('/api/simulation/mission');
+            if (response.ok) {
+                const missionData = await response.json();
+                
+                if (Object.keys(missionData).length > 0) {
+                    document.getElementById('missionStatus').textContent = 
+                        this.simulationRunning ? 'In Progress' : 'Ready';
+                    document.getElementById('missionWaypoints').textContent = 
+                        `${missionData.current_waypoint || 0}/${missionData.total_waypoints || 0}`;
+                    document.getElementById('missionDistance').textContent = 
+                        `${this.calculateMissionDistance().toFixed(1)} m`;
+                    
+                    const progress = missionData.progress || 0;
+                    const progressBar = document.getElementById('missionProgressBar');
+                    if (progressBar) {
+                        progressBar.style.width = `${progress}%`;
+                        progressBar.textContent = `${progress.toFixed(1)}%`;
+                    }
+                    
+                    this.updateWaypointList(missionData);
+                }
+            }
+        } catch (error) {
+            console.error('Error updating mission display:', error);
         }
     }
     
-    updateWaypointList() {
-        const waypointList = document.getElementById('waypointList');
-        const mission = this.currentStatus.mission_status;
+    calculateMissionDistance() {
+        if (this.telemetryData.length < 2) return 0;
         
-        if (!mission || !mission.waypoints) {
+        let totalDistance = 0;
+        for (let i = 1; i < this.telemetryData.length; i++) {
+            const prev = this.telemetryData[i-1].position || {};
+            const curr = this.telemetryData[i].position || {};
+            
+            const dx = (curr.x || 0) - (prev.x || 0);
+            const dy = (curr.y || 0) - (prev.y || 0);
+            const dz = (curr.z || 0) - (prev.z || 0);
+            
+            totalDistance += Math.sqrt(dx*dx + dy*dy + dz*dz);
+        }
+        
+        return totalDistance;
+    }
+    
+    updateWaypointList(missionData) {
+        const waypointList = document.getElementById('waypointList');
+        
+        if (!waypointList) return;
+        
+        // Get waypoints from loaded mission configuration
+        const missionConfigs = window.missionConfigurations || {};
+        const currentMissionType = document.getElementById('missionSelect')?.value;
+        const currentMission = missionConfigs[currentMissionType];
+        
+        if (!currentMission || !currentMission.waypoints) {
             waypointList.innerHTML = '<p class="text-muted">No waypoints available</p>';
             return;
         }
         
+        const currentWaypoint = missionData?.current_waypoint || 0;
+        
         let html = '';
-        mission.waypoints.forEach((waypoint, index) => {
-            const isActive = index === mission.current_waypoint;
-            const isCompleted = index < mission.current_waypoint;
+        currentMission.waypoints.forEach((waypoint, index) => {
+            const isActive = index === currentWaypoint;
+            const isCompleted = index < currentWaypoint;
             
-            let itemClass = 'waypoint-item';
-            if (isActive) itemClass += ' active';
-            if (isCompleted) itemClass += ' completed';
+            let itemClass = 'list-group-item d-flex align-items-center';
+            if (isActive) itemClass += ' list-group-item-primary';
+            if (isCompleted) itemClass += ' list-group-item-success';
             
             const icon = this.getWaypointIcon(waypoint.action);
             
             html += `
                 <div class="${itemClass}">
-                    <span class="waypoint-icon">${icon}</span>
+                    <span class="me-3">${icon}</span>
                     <div class="flex-grow-1">
-                        <strong>${waypoint.action}</strong><br>
+                        <strong>${waypoint.action.charAt(0).toUpperCase() + waypoint.action.slice(1)}</strong><br>
                         <small class="text-muted">
-                            ${waypoint.position[0].toFixed(1)}, 
-                            ${waypoint.position[1].toFixed(1)}, 
-                            ${waypoint.position[2].toFixed(1)}
+                            Position: ${waypoint.x}, ${waypoint.y}, ${waypoint.z} | 
+                            Duration: ${waypoint.duration}s
                         </small>
+                    </div>
+                    <div class="ms-2">
+                        ${isCompleted ? '✓' : isActive ? '⏵' : '○'}
                     </div>
                 </div>
             `;
@@ -578,36 +626,57 @@ class DroneSimulationController {
     updateRealtimePlots() {
         if (this.telemetryData.length === 0) return;
         
-        const times = this.telemetryData.map(d => d.simulation_time);
-        const altitudes = this.telemetryData.map(d => d.position[2]);
-        const speeds = this.telemetryData.map(d => d.airspeed);
-        const power = this.telemetryData.map(d => d.power_consumption);
-        
-        // Update real-time plot
-        const realtimeData = [
-            {
-                x: times,
-                y: altitudes,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Altitude',
-                line: { color: 'blue' }
-            },
-            {
-                x: times,
-                y: speeds,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Speed',
-                yaxis: 'y2',
-                line: { color: 'red' }
-            }
-        ];
-        
-        Plotly.react('realtimePlots', realtimeData);
-        
-        // Update other plots on visible tabs
-        this.updateVisiblePlots();
+        try {
+            const times = this.telemetryData.map(d => d.timestamp || 0);
+            const altitudes = this.telemetryData.map(d => d.altitude || 0);
+            const speeds = this.telemetryData.map(d => d.ground_speed || 0);
+            const verticalSpeeds = this.telemetryData.map(d => d.vertical_speed || 0);
+            
+            // Update real-time plot
+            const realtimeData = [
+                {
+                    x: times,
+                    y: altitudes,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Altitude (m)',
+                    line: { color: 'blue' }
+                },
+                {
+                    x: times,
+                    y: speeds,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Ground Speed (m/s)',
+                    yaxis: 'y2',
+                    line: { color: 'red' }
+                },
+                {
+                    x: times,
+                    y: verticalSpeeds,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Vertical Speed (m/s)',
+                    yaxis: 'y2',
+                    line: { color: 'green' }
+                }
+            ];
+            
+            const layout = {
+                title: 'Real-time Telemetry',
+                xaxis: { title: 'Time (s)' },
+                yaxis: { title: 'Altitude (m)', side: 'left' },
+                yaxis2: { title: 'Speed (m/s)', side: 'right', overlaying: 'y' },
+                showlegend: true
+            };
+            
+            Plotly.react('realtimePlots', realtimeData, layout);
+            
+            // Update other plots on visible tabs
+            this.updateVisiblePlots();
+        } catch (error) {
+            console.error('Error updating real-time plots:', error);
+        }
     }
     
     updateVisiblePlots() {
@@ -627,11 +696,12 @@ class DroneSimulationController {
     updateTrajectoryPlot() {
         if (this.telemetryData.length === 0) return;
         
-        const positions = this.telemetryData.map(d => d.position);
-        const x = positions.map(p => p[0]);
-        const y = positions.map(p => p[1]);
-        const z = positions.map(p => p[2]);
-        const times = this.telemetryData.map(d => d.simulation_time);
+        try {
+            const positions = this.telemetryData.map(d => d.position || {x: 0, y: 0, z: 0});
+            const x = positions.map(p => p.x || 0);
+            const y = positions.map(p => p.y || 0);
+            const z = positions.map(p => p.z || 0);
+            const times = this.telemetryData.map(d => d.timestamp || 0);
         
         const trajectoryData = [{
             x: x,
@@ -676,7 +746,19 @@ class DroneSimulationController {
             });
         }
         
-        Plotly.react('trajectoryPlot', trajectoryData);
+        const layout = {
+            title: '3D Flight Trajectory',
+            scene: {
+                xaxis: { title: 'X (m)' },
+                yaxis: { title: 'Y (m)' },
+                zaxis: { title: 'Z (m)' }
+            }
+        };
+        
+        Plotly.react('trajectoryPlot', trajectoryData, layout);
+        } catch (error) {
+            console.error('Error updating trajectory plot:', error);
+        }
     }
     
     updateTelemetryPlots() {
