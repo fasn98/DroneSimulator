@@ -347,30 +347,134 @@ class VideoExportSystem:
         return elements
     
     def _process_frame(self, frame_data: Dict, options: Dict) -> np.ndarray:
-        """Process frame data into final video frame."""
-        # Create base frame (solid color for now, would be 3D rendered scene)
+        """Process frame data into final video frame with enhanced terrain visualization."""
         height, width = self.export_settings['resolution'][1], self.export_settings['resolution'][0]
         frame = np.zeros((height, width, 3), dtype=np.uint8)
         
-        # Background gradient (sky simulation)
+        # Enhanced sky simulation with realistic gradient
         for y in range(height):
-            intensity = int(255 * (1 - y / height))
-            frame[y, :] = [intensity // 3, intensity // 2, intensity]  # Blue gradient
+            sky_intensity = 1 - (y / height) * 0.6
+            r = int(135 * sky_intensity)  # Light blue sky
+            g = int(206 * sky_intensity)
+            b = int(235 * sky_intensity)
+            frame[y, :] = [b, g, r]  # BGR format for OpenCV
         
-        # Add horizon line
-        horizon_y = height // 2
-        cv2.line(frame, (0, horizon_y), (width, horizon_y), (100, 100, 100), 2)
-        
-        # Add ground texture
-        ground_color = (50, 80, 50)  # Dark green
-        frame[horizon_y:, :] = ground_color
+        # Add realistic terrain visualization
+        frame = self._add_terrain_visualization(frame, frame_data)
         
         # Add telemetry overlay if enabled
         if options.get('telemetry_overlay', True):
-            frame = self._add_telemetry_overlay(frame, frame_data['telemetry'])
+            frame = self._add_telemetry_overlay(frame, frame_data)
         
-        # Add drone representation
+        # Add enhanced drone representation
         frame = self._add_drone_representation(frame, frame_data)
+        
+        # Add environmental effects
+        frame = self._add_environmental_effects(frame, frame_data)
+        
+        return frame
+    
+    def _add_terrain_visualization(self, frame: np.ndarray, frame_data: Dict) -> np.ndarray:
+        """Add realistic terrain visualization to the frame."""
+        height, width = frame.shape[:2]
+        horizon_y = height // 2
+        
+        # Get drone position for terrain context
+        drone_pos = frame_data['telemetry']['position']
+        altitude = frame_data['telemetry']['altitude']
+        
+        # Create terrain-based ground visualization
+        if altitude > 100:
+            # High altitude view - show terrain patches
+            self._draw_terrain_patches(frame, horizon_y, width, height, drone_pos)
+        else:
+            # Low altitude view - show detailed ground
+            self._draw_detailed_ground(frame, horizon_y, width, height, drone_pos)
+        
+        # Add horizon features (mountains, buildings, etc.)
+        self._draw_horizon_features(frame, horizon_y, width, drone_pos)
+        
+        return frame
+    
+    def _draw_terrain_patches(self, frame: np.ndarray, horizon_y: int, width: int, height: int, drone_pos: Dict):
+        """Draw terrain patches for high altitude view."""
+        # Create varied terrain patches
+        patch_size = 40
+        colors = [
+            (45, 85, 45),    # Dark green - forests
+            (60, 100, 60),   # Medium green - grassland  
+            (80, 120, 80),   # Light green - fields
+            (70, 70, 40),    # Brown - bare earth
+            (90, 90, 70),    # Tan - sandy areas
+        ]
+        
+        for y in range(horizon_y, height, patch_size):
+            for x in range(0, width, patch_size):
+                # Vary patch colors based on position
+                color_index = ((x // patch_size) + (y // patch_size)) % len(colors)
+                color = colors[color_index]
+                
+                # Add some randomness to patch size and color
+                patch_w = patch_size + (x % 10) - 5
+                patch_h = patch_size + (y % 8) - 4
+                
+                # Slightly vary the color
+                varied_color = (
+                    max(0, min(255, color[0] + (x % 20) - 10)),
+                    max(0, min(255, color[1] + (y % 20) - 10)),
+                    max(0, min(255, color[2] + (x % 15) - 7))
+                )
+                
+                cv2.rectangle(frame, (x, y), (x + patch_w, y + patch_h), varied_color, -1)
+    
+    def _draw_detailed_ground(self, frame: np.ndarray, horizon_y: int, width: int, height: int, drone_pos: Dict):
+        """Draw detailed ground texture for low altitude view."""
+        # Create more detailed ground with grass-like texture
+        base_color = (45, 85, 45)  # Base green
+        
+        # Fill ground area
+        frame[horizon_y:, :] = base_color
+        
+        # Add texture details
+        for i in range(0, width, 3):
+            for j in range(horizon_y, height, 3):
+                # Add small color variations for texture
+                if (i + j) % 7 == 0:
+                    variation = (
+                        max(0, min(255, base_color[0] + 15)),
+                        max(0, min(255, base_color[1] + 20)),
+                        max(0, min(255, base_color[2] + 10))
+                    )
+                    frame[j:j+2, i:i+2] = variation
+    
+    def _draw_horizon_features(self, frame: np.ndarray, horizon_y: int, width: int, drone_pos: Dict):
+        """Draw horizon features like mountains or buildings."""
+        # Add mountain silhouettes
+        mountain_points = []
+        for x in range(0, width, 20):
+            # Create mountain profile
+            mountain_height = 30 + (x % 40) + ((x * 7) % 25)
+            mountain_points.append([x, horizon_y - mountain_height])
+        
+        # Add final points to close the shape
+        mountain_points.append([width, horizon_y])
+        mountain_points.append([0, horizon_y])
+        
+        mountain_color = (60, 60, 80)  # Bluish mountains
+        cv2.fillPoly(frame, [np.array(mountain_points, np.int32)], mountain_color)
+    
+    def _add_environmental_effects(self, frame: np.ndarray, frame_data: Dict) -> np.ndarray:
+        """Add environmental effects like clouds, shadows, etc."""
+        height, width = frame.shape[:2]
+        
+        # Add simple cloud effects
+        for i in range(3):
+            cloud_x = (width // 4) * i + (frame_data['telemetry']['timestamp'] * 5) % (width // 4)
+            cloud_y = 50 + i * 30
+            
+            # Draw simple cloud shape
+            cv2.ellipse(frame, (int(cloud_x), cloud_y), (40, 15), 0, 0, 360, (255, 255, 255), -1)
+            cv2.ellipse(frame, (int(cloud_x + 20), cloud_y), (30, 12), 0, 0, 360, (255, 255, 255), -1)
         
         return frame
     
@@ -405,27 +509,69 @@ class VideoExportSystem:
         return frame
     
     def _add_drone_representation(self, frame: np.ndarray, frame_data: Dict) -> np.ndarray:
-        """Add visual representation of drone to frame."""
+        """Add enhanced visual representation of drone to frame."""
         height, width = frame.shape[:2]
         
-        # Simple drone icon in center (would be 3D model in full implementation)
-        center_x, center_y = width // 2, height // 2
+        # Position drone based on view type
+        view_type = frame_data.get('view_type', 'chase')
         
-        # Draw drone body
-        cv2.circle(frame, (center_x, center_y), 8, (255, 255, 255), -1)
-        cv2.circle(frame, (center_x, center_y), 8, (0, 0, 0), 2)
+        if view_type == 'chase':
+            # Drone visible in front center
+            drone_x, drone_y = width // 2, height // 2 + 20
+        elif view_type == 'overhead':
+            # Drone smaller, in center for top-down view
+            drone_x, drone_y = width // 2, height // 2
+        else:  # cockpit view
+            # No drone visible in first person view
+            return frame
         
-        # Draw rotors
+        # Draw enhanced drone body
+        drone_size = 12 if view_type == 'overhead' else 15
+        
+        # Main body
+        cv2.circle(frame, (drone_x, drone_y), drone_size, (80, 80, 80), -1)
+        cv2.circle(frame, (drone_x, drone_y), drone_size, (0, 0, 0), 2)
+        
+        # Center core
+        cv2.circle(frame, (drone_x, drone_y), drone_size // 2, (120, 120, 120), -1)
+        
+        # Draw rotors with motion blur effect
+        rotor_distance = drone_size + 8
         rotor_positions = [
-            (center_x - 15, center_y - 15),
-            (center_x + 15, center_y - 15),
-            (center_x - 15, center_y + 15),
-            (center_x + 15, center_y + 15)
+            (drone_x - rotor_distance, drone_y - rotor_distance),
+            (drone_x + rotor_distance, drone_y - rotor_distance),
+            (drone_x - rotor_distance, drone_y + rotor_distance),
+            (drone_x + rotor_distance, drone_y + rotor_distance)
         ]
         
         for pos in rotor_positions:
-            cv2.circle(frame, pos, 5, (200, 200, 200), -1)
-            cv2.circle(frame, pos, 5, (0, 0, 0), 1)
+            # Rotor disc (motion blur)
+            cv2.circle(frame, pos, 8, (200, 200, 200, 100), -1)
+            cv2.circle(frame, pos, 8, (0, 0, 0), 1)
+            # Rotor center
+            cv2.circle(frame, pos, 3, (60, 60, 60), -1)
+        
+        # Add LED lights
+        led_positions = [
+            (drone_x, drone_y - drone_size - 3),  # Front - white
+            (drone_x, drone_y + drone_size + 3),  # Back - red
+        ]
+        led_colors = [(255, 255, 255), (0, 0, 255)]  # White front, red back
+        
+        for i, pos in enumerate(led_positions):
+            cv2.circle(frame, pos, 2, led_colors[i], -1)
+        
+        # Add drone shadow on ground (if visible)
+        if view_type != 'overhead':
+            altitude = frame_data['telemetry']['altitude']
+            if altitude < 50:  # Only show shadow when low
+                shadow_offset = int(altitude / 2)
+                shadow_y = height - 100 + shadow_offset
+                shadow_size = max(5, drone_size - shadow_offset // 2)
+                
+                # Shadow ellipse
+                cv2.ellipse(frame, (drone_x + shadow_offset, shadow_y), 
+                           (shadow_size * 2, shadow_size), 0, 0, 360, (0, 0, 0, 50), -1)
         
         return frame
     
