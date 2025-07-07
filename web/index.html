@@ -559,95 +559,115 @@
                         
                         <!-- Video Export Tab -->
                         <div class="tab-pane fade" id="video-export" role="tabpanel">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6><i class="fas fa-video"></i> Flight Video Export</h6>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i> 
+                                        <strong>Post-Simulation Video Creation:</strong> Complete a simulation first, then create professional videos using the recorded telemetry data.
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <h6>Quick Video Creation</h6>
-                                            <p class="text-muted">Create a complete video with one click using predefined templates</p>
-                                            <div class="d-flex gap-2 mb-3">
-                                                <button id="quickVideoRealWorldBtn" class="btn btn-success flex-fill">
-                                                    <i class="fas fa-globe"></i> Create Real World Video
-                                                </button>
-                                                <button id="quickVideoAIWorldBtn" class="btn btn-primary flex-fill">
-                                                    <i class="fas fa-robot"></i> Create AI World Video
-                                                </button>
-                                            </div>
-                                            <div id="quickVideoStatus" class="alert alert-info" style="display: none;">
-                                                <i class="fas fa-spinner fa-spin"></i> <span id="quickVideoStatusText">Creating video...</span>
-                                            </div>
-                                            <div id="quickVideoResult" class="alert alert-success" style="display: none;">
-                                                <i class="fas fa-check-circle"></i> <span id="quickVideoResultText">Video created successfully!</span>
-                                                <br><a id="quickVideoDownloadLink" href="#" class="btn btn-sm btn-outline-success mt-2">Download Video</a>
-                                            </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6><i class="fas fa-video"></i> Create Video from Current Session</h6>
                                         </div>
-                                        <div class="col-md-6">
-                                            <h6>Manual Recording Controls</h6>
+                                        <div class="card-body">
+                                            <p class="text-muted">Create a video using telemetry data from your current or most recent simulation:</p>
+                                            
                                             <div class="mb-3">
-                                                <button class="btn btn-success" id="startRecordingBtn">
-                                                    <i class="fas fa-record-vinyl"></i> Start Recording
-                                                </button>
-                                                <button class="btn btn-danger" id="stopRecordingBtn" disabled>
-                                                    <i class="fas fa-stop"></i> Stop Recording
-                                                </button>
-                                            </div>
-                                            <div id="recordingStatus" class="alert alert-info" style="display: none;">
-                                                <i class="fas fa-spinner fa-spin"></i> Recording in progress...
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h6>Export Settings</h6>
-                                            <div class="mb-3">
-                                                <label class="form-label">Quality Preset</label>
-                                                <select class="form-select" id="videoQualityPreset">
-                                                    <option value="high_quality">High Quality (1080p, 60fps)</option>
-                                                    <option value="standard" selected>Standard (1080p, 30fps)</option>
-                                                    <option value="mobile">Mobile (720p, 30fps)</option>
-                                                    <option value="web_share">Web Share (720p, 24fps)</option>
+                                                <label class="form-label">Video Template</label>
+                                                <select class="form-control" id="currentVideoTemplate">
+                                                    <option value="professional">Professional View - Technical overlays and data</option>
+                                                    <option value="cinematic">Cinematic View - Dramatic angles and effects</option>
+                                                    <option value="technical">Technical Analysis - Detailed metrics and graphs</option>
                                                 </select>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="includeTitleScreen" checked>
-                                                <label class="form-check-label" for="includeTitleScreen">
-                                                    Include Title Screen
+                                            
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="currentIncludeAudio" checked>
+                                                <label class="form-check-label" for="currentIncludeAudio">
+                                                    Include Sci-Fi Discovery Audio
                                                 </label>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="includeTelemetryOverlay" checked>
-                                                <label class="form-check-label" for="includeTelemetryOverlay">
-                                                    Include Telemetry Overlay
+                                            
+                                            <div class="d-grid">
+                                                <button type="button" class="btn btn-primary" onclick="createVideoFromCurrentSession()" id="createCurrentVideoBtn">
+                                                    <i class="fas fa-video"></i> Create Video from Current Session
+                                                </button>
+                                            </div>
+                                            
+                                            <div id="currentVideoStatus" class="mt-3" style="display: none;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6><i class="fas fa-history"></i> Create Video from Past Session</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="text-muted">Create videos from previously completed simulation sessions:</p>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label">Select Session</label>
+                                                <select class="form-control" id="pastSessionSelect">
+                                                    <option value="">Loading sessions...</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label">Video Template</label>
+                                                <select class="form-control" id="pastVideoTemplate">
+                                                    <option value="professional">Professional View</option>
+                                                    <option value="cinematic">Cinematic View</option>
+                                                    <option value="technical">Technical Analysis</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="pastIncludeAudio" checked>
+                                                <label class="form-check-label" for="pastIncludeAudio">
+                                                    Include Sci-Fi Discovery Audio
                                                 </label>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="includeSciFiAudio" checked>
-                                                <label class="form-check-label" for="includeSciFiAudio">
-                                                    <i class="fas fa-music"></i> Include Sci-Fi Discovery Audio
-                                                </label>
+                                            
+                                            <div class="d-grid">
+                                                <button type="button" class="btn btn-success" onclick="createVideoFromPastSession()" id="createPastVideoBtn">
+                                                    <i class="fas fa-video"></i> Create Video from Selected Session
+                                                </button>
+                                            </div>
+                                            
+                                            <div id="pastVideoStatus" class="mt-3" style="display: none;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h6><i class="fas fa-folder"></i> Created Videos</h6>
+                                            <button class="btn btn-sm btn-secondary" onclick="refreshVideoList()">
+                                                <i class="fas fa-refresh"></i> Refresh
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="videoFilesList">
+                                                <div class="text-center text-muted">
+                                                    <i class="fas fa-video fa-2x mb-2"></i>
+                                                    <p>Loading video files...</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
-                                        <div class="col-12">
-                                            <h6>Export</h6>
-                                            <button class="btn btn-primary" id="exportVideoBtn" disabled>
-                                                <i class="fas fa-download"></i> Export Video
-                                            </button>
-                                            <div id="exportProgress" class="mt-3" style="display: none;">
-                                                <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                                </div>
-                                                <small class="text-muted">Exporting video...</small>
-                                            </div>
-                                            <div id="exportComplete" class="alert alert-success mt-3" style="display: none;">
-                                                <i class="fas fa-check"></i> Export complete!
-                                                <a href="#" id="downloadVideoLink" class="btn btn-success btn-sm ms-2">
-                                                    <i class="fas fa-download"></i> Download
-                                                </a>
-                                            </div>
-                                        </div>
+                                </div>
+                            </div>
+                        </div>
                                     </div>
                                 </div>
                             </div>

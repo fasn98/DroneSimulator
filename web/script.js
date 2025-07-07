@@ -2070,6 +2070,128 @@ class DroneSimulationController {
     }
 }
 
+// Post-simulation video creation functions
+async function createVideoFromCurrentSession() {
+    const template = document.getElementById('currentVideoTemplate').value;
+    const includeAudio = document.getElementById('currentIncludeAudio').checked;
+    const statusDiv = document.getElementById('currentVideoStatus');
+    const button = document.getElementById('createCurrentVideoBtn');
+    
+    button.disabled = true;
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin"></i> Creating video from current session...</div>';
+    
+    try {
+        const response = await fetch('/api/video/create/current', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                template: template,
+                include_audio: includeAudio
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            statusDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Video created successfully!
+                    <br><strong>File:</strong> ${data.filename}
+                    <br><strong>Duration:</strong> ${data.duration_seconds}s
+                    <br><a href="/api/video/download/${data.filename}" class="btn btn-sm btn-success mt-2">
+                        <i class="fas fa-download"></i> Download Video
+                    </a>
+                </div>
+            `;
+            refreshVideoList();
+        } else {
+            statusDiv.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> Error: ${data.error}</div>`;
+        }
+    } catch (error) {
+        console.error('Error creating video:', error);
+        statusDiv.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> Error creating video: ${error.message}</div>`;
+    } finally {
+        button.disabled = false;
+    }
+}
+
+async function createVideoFromPastSession() {
+    const sessionId = document.getElementById('pastSessionSelect').value;
+    const template = document.getElementById('pastVideoTemplate').value;
+    const includeAudio = document.getElementById('pastIncludeAudio').checked;
+    const statusDiv = document.getElementById('pastVideoStatus');
+    const button = document.getElementById('createPastVideoBtn');
+    
+    if (!sessionId) {
+        alert('Please select a session first');
+        return;
+    }
+    
+    button.disabled = true;
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin"></i> Creating video from selected session...</div>';
+    
+    try {
+        const response = await fetch('/api/video/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                session_id: sessionId,
+                template: template,
+                include_audio: includeAudio
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            statusDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Video created successfully!
+                    <br><strong>File:</strong> ${data.filename}
+                    <br><strong>Duration:</strong> ${data.duration_seconds}s
+                    <br><a href="/api/video/download/${data.filename}" class="btn btn-sm btn-success mt-2">
+                        <i class="fas fa-download"></i> Download Video
+                    </a>
+                </div>
+            `;
+            refreshVideoList();
+        } else {
+            statusDiv.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> Error: ${data.error}</div>`;
+        }
+    } catch (error) {
+        console.error('Error creating video:', error);
+        statusDiv.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> Error creating video: ${error.message}</div>`;
+    } finally {
+        button.disabled = false;
+    }
+}
+
+async function loadPastSessions() {
+    try {
+        const response = await fetch('/api/analytics/sessions');
+        const data = await response.json();
+        
+        const sessionSelect = document.getElementById('pastSessionSelect');
+        sessionSelect.innerHTML = '<option value="">Select a session...</option>';
+        
+        if (data.sessions && data.sessions.length > 0) {
+            data.sessions.forEach(session => {
+                const option = document.createElement('option');
+                option.value = session.id;
+                option.textContent = `${session.drone_model} - ${session.environment} - ${session.mission_type} (${new Date(session.start_time).toLocaleString()})`;
+                sessionSelect.appendChild(option);
+            });
+        } else {
+            sessionSelect.innerHTML = '<option value="">No completed sessions available</option>';
+        }
+    } catch (error) {
+        console.error('Error loading past sessions:', error);
+        document.getElementById('pastSessionSelect').innerHTML = '<option value="">Error loading sessions</option>';
+    }
+}
+
 // Initialize the application when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.droneController = new DroneSimulationController();

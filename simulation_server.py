@@ -23,6 +23,7 @@ from database_service import DatabaseService
 from src.google_maps_integration import GoogleMapsIntegration
 from src.ai_environment_generator import AIEnvironmentGenerator
 from src.video_export_system import VideoExportSystem
+from src.post_simulation_video_creator import PostSimulationVideoCreator
 import logging
 
 # Setup logging
@@ -89,6 +90,7 @@ class DroneSimulationServer:
         self.google_maps = GoogleMapsIntegration()
         self.ai_env_generator = AIEnvironmentGenerator()
         self.video_export = VideoExportSystem()
+        self.post_video_creator = PostSimulationVideoCreator()
         
         # Set API keys for enhanced features
         google_maps_key = os.environ.get('GOOGLE_MAPS_API_KEY')
@@ -689,6 +691,105 @@ class DroneSimulationServer:
                 
             except Exception as e:
                 logger.error(f"Error downloading video: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        # Post-simulation video creation endpoints
+        @self.app.route('/api/video/templates')
+        def get_video_templates():
+            """Get available video templates."""
+            try:
+                templates = self.post_video_creator.get_available_templates()
+                return jsonify({'templates': templates})
+            except Exception as e:
+                logger.error(f"Error getting templates: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/create', methods=['POST'])
+        def create_video_from_session():
+            """Create video from completed session using stored telemetry."""
+            try:
+                data = request.get_json() or {}
+                session_id = data.get('session_id')
+                template = data.get('template', 'professional')
+                include_audio = data.get('include_audio', True)
+                
+                if not session_id:
+                    return jsonify({'error': 'Session ID required'}), 400
+                
+                # Get telemetry data from database
+                if not self.db_service:
+                    self._init_database_service()
+                
+                telemetry_data = self.db_service.get_session_telemetry(session_id)
+                
+                if not telemetry_data:
+                    return jsonify({'error': 'No telemetry data found for session'}), 404
+                
+                # Get session info for context
+                sessions = self.db_service.get_session_history(limit=100)
+                session_info = next((s for s in sessions if s['id'] == session_id), None)
+                
+                # Create video
+                result = self.post_video_creator.create_video_from_telemetry(
+                    telemetry_data=telemetry_data,
+                    template=template,
+                    drone_config={'model': session_info.get('drone_model') if session_info else None},
+                    environment_config={'name': session_info.get('environment') if session_info else None},
+                    mission_config={'type': session_info.get('mission_type') if session_info else None},
+                    include_audio=include_audio
+                )
+                
+                return jsonify(result)
+                
+            except Exception as e:
+                logger.error(f"Error creating video from session: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/create/current', methods=['POST']) 
+        def create_video_from_current_session():
+            """Create video from currently stored telemetry data."""
+            try:
+                data = request.get_json() or {}
+                template = data.get('template', 'professional')
+                include_audio = data.get('include_audio', True)
+                
+                # Use current telemetry data from localStorage or state
+                if not hasattr(self.state, 'telemetry_history') or not self.state.telemetry_history:
+                    return jsonify({'error': 'No telemetry data available'}), 404
+                
+                # Convert telemetry history to required format
+                telemetry_data = []
+                for point in self.state.telemetry_history:
+                    telemetry_data.append({
+                        'timestamp': point.get('timestamp', 0),
+                        'position': {
+                            'x': point.get('position', [0, 0, 0])[0],
+                            'y': point.get('position', [0, 0, 0])[1], 
+                            'z': point.get('position', [0, 0, 0])[2]
+                        },
+                        'velocity': {
+                            'x': point.get('velocity', [0, 0, 0])[0],
+                            'y': point.get('velocity', [0, 0, 0])[1],
+                            'z': point.get('velocity', [0, 0, 0])[2]
+                        },
+                        'mission_progress': point.get('mission_progress', 0),
+                        'current_waypoint': point.get('current_waypoint', 0)
+                    })
+                
+                # Create video
+                result = self.post_video_creator.create_video_from_telemetry(
+                    telemetry_data=telemetry_data,
+                    template=template,
+                    drone_config={'model': self.state.current_drone_model},
+                    environment_config={'name': self.state.current_environment},
+                    mission_config={'type': self.state.current_mission_type, 'waypoints': self.state.current_mission.get('waypoints', []) if self.state.current_mission else []},
+                    include_audio=include_audio
+                )
+                
+                return jsonify(result)
+                
+            except Exception as e:
+                logger.error(f"Error creating video from current session: {e}")
                 return jsonify({'error': str(e)}), 500
     
     def _register_socketio_events(self):
