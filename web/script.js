@@ -308,32 +308,67 @@ class DroneSimulationController {
             const times = this.telemetryData.map(d => d.timestamp || 0);
             const altitudes = this.telemetryData.map(d => d.altitude || 0);
             const speeds = this.telemetryData.map(d => d.ground_speed || 0);
+            const power = this.telemetryData.map(d => d.power_consumption || 0);
+            const progress = this.telemetryData.map(d => d.mission_progress || 0);
             
-            // Altitude plot
-            Plotly.react('altitudePlot', [{
-                x: times,
-                y: altitudes,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Altitude'
-            }], {
-                title: 'Altitude Over Time',
-                xaxis: { title: 'Time (s)' },
-                yaxis: { title: 'Altitude (m)' }
-            });
+            // Update plots that match the HTML structure
+            const altitudeSpeedElement = document.getElementById('altitudeSpeedPlot');
+            if (altitudeSpeedElement) {
+                Plotly.react('altitudeSpeedPlot', [{
+                    x: times,
+                    y: altitudes,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Altitude',
+                    line: { color: 'blue' },
+                    yaxis: 'y'
+                }, {
+                    x: times,
+                    y: speeds,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Speed',
+                    line: { color: 'green' },
+                    yaxis: 'y2'
+                }], {
+                    title: 'Altitude & Speed Over Time',
+                    xaxis: { title: 'Time (s)' },
+                    yaxis: { title: 'Altitude (m)', side: 'left' },
+                    yaxis2: { title: 'Speed (m/s)', side: 'right', overlaying: 'y' }
+                });
+            }
             
-            // Speed plot
-            Plotly.react('speedPlot', [{
-                x: times,
-                y: speeds,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Ground Speed'
-            }], {
-                title: 'Speed Over Time',
-                xaxis: { title: 'Time (s)' },
-                yaxis: { title: 'Speed (m/s)' }
-            });
+            const powerElement = document.getElementById('powerPlot');
+            if (powerElement) {
+                Plotly.react('powerPlot', [{
+                    x: times,
+                    y: power,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Power Consumption',
+                    line: { color: 'red' }
+                }], {
+                    title: 'Power Consumption Over Time',
+                    xaxis: { title: 'Time (s)' },
+                    yaxis: { title: 'Power (W)' }
+                });
+            }
+            
+            const missionElement = document.getElementById('missionProgressPlot');
+            if (missionElement) {
+                Plotly.react('missionProgressPlot', [{
+                    x: times,
+                    y: progress,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Mission Progress',
+                    line: { color: 'purple' }
+                }], {
+                    title: 'Mission Progress Over Time',
+                    xaxis: { title: 'Time (s)' },
+                    yaxis: { title: 'Progress (%)' }
+                });
+            }
             
         } catch (error) {
             console.error('Error updating telemetry plots:', error);
@@ -341,12 +376,35 @@ class DroneSimulationController {
     }
 
     initializeCharts() {
-        // Initialize empty charts
+        // Initialize empty charts only if elements exist
         const emptyLayout = { title: 'No Data Available' };
         
-        Plotly.newPlot('trajectoryPlot', [], emptyLayout);
-        Plotly.newPlot('altitudePlot', [], emptyLayout);
-        Plotly.newPlot('speedPlot', [], emptyLayout);
+        setTimeout(() => {
+            const trajectoryElement = document.getElementById('trajectoryPlot');
+            if (trajectoryElement) {
+                Plotly.newPlot('trajectoryPlot', [], emptyLayout);
+            }
+            
+            const altitudeSpeedElement = document.getElementById('altitudeSpeedPlot');
+            if (altitudeSpeedElement) {
+                Plotly.newPlot('altitudeSpeedPlot', [], emptyLayout);
+            }
+            
+            const powerElement = document.getElementById('powerPlot');
+            if (powerElement) {
+                Plotly.newPlot('powerPlot', [], emptyLayout);
+            }
+            
+            const missionElement = document.getElementById('missionProgressPlot');
+            if (missionElement) {
+                Plotly.newPlot('missionProgressPlot', [], emptyLayout);
+            }
+            
+            const realtimeElement = document.getElementById('realtimePlots');
+            if (realtimeElement) {
+                Plotly.newPlot('realtimePlots', [], emptyLayout);
+            }
+        }, 100);
     }
 
     async startStatusPolling() {
