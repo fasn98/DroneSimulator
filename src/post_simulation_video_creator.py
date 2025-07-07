@@ -548,11 +548,15 @@ class PostSimulationVideoCreator:
             environment_name = environment_config.get("name", "") if environment_config else ""
             location_name = environment_config.get("location", "") if environment_config else ""
             
+            # Debug logging (location-specific background detection)
+            logger.info(f"Background detection - Mission: '{mission_type}', Env: '{environment_name}', Location: '{location_name}'")
+            
             # Real World locations or specific environments get custom backgrounds
             if ("grand canyon" in environment_name.lower() or 
                 "grand canyon" in location_name.lower() or 
                 "real" in mission_type.lower() or
                 "canyon" in location_name.lower()):
+                logger.info("Creating Grand Canyon background")
                 return self._create_canyon_background(height, width)
             elif "mars" in environment_name.lower() or "martian" in environment_name.lower():
                 return self._create_mars_background(height, width)
