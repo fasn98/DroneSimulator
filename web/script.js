@@ -55,8 +55,8 @@ class DroneSimulationController {
             }, 500); // Small delay to ensure charts are fully initialized
         }
         
-        // Setup terrain zoom controls
-        this.setupTerrainZoomControls();
+        // Setup terrain zoom controls when tab becomes active
+        this.setupTabChangeHandlers();
         
         // Connect WebSocket
         this.connectWebSocket();
@@ -1000,33 +1000,7 @@ class DroneSimulationController {
         
         const config = {
             responsive: true,
-            displayModeBar: true,
-            modeBarButtonsToAdd: [
-                {
-                    name: 'Zoom In',
-                    icon: Plotly.Icons.zoom_plus,
-                    direction: 'up',
-                    click: () => this.zoomTerrain('in')
-                },
-                {
-                    name: 'Zoom Out', 
-                    icon: Plotly.Icons.zoom_minus,
-                    direction: 'up',
-                    click: () => this.zoomTerrain('out')
-                },
-                {
-                    name: 'Reset View',
-                    icon: Plotly.Icons.home,
-                    direction: 'up',
-                    click: () => this.resetTerrainView()
-                },
-                {
-                    name: 'Follow Drone',
-                    icon: Plotly.Icons.camera,
-                    direction: 'up',
-                    click: () => this.followDrone()
-                }
-            ]
+            displayModeBar: true
         };
         
         Plotly.react('trajectoryPlot', trajectoryData, layout, config);
@@ -1197,18 +1171,41 @@ class DroneSimulationController {
         }
     }
     
-    onTabChange(tabId) {
+    setupTabChangeHandlers() {
+        // Listen for tab changes to setup terrain zoom when trajectory tab is shown
+        const tabButtons = document.querySelectorAll('[data-bs-toggle="tab"]');
+        tabButtons.forEach(button => {
+            button.addEventListener('shown.bs.tab', (event) => {
+                const targetId = event.target.getAttribute('href').substring(1);
+                this.onTabChange(event.target.id, targetId);
+            });
+        });
+    }
+
+    onTabChange(tabId, targetId) {
         // Update plots when tabs are switched
         setTimeout(() => {
             switch (tabId) {
                 case 'trajectory-tab':
                     this.updateTrajectoryPlot();
+                    this.setupTerrainZoomControls(); // Setup zoom controls when trajectory tab is shown
                     break;
                 case 'telemetry-tab':
                     this.updateTelemetryPlots();
                     break;
                 case 'mission-tab':
                     this.updateMissionDisplay();
+                    break;
+                case 'analytics-tab':
+                    this.loadSessionHistory();
+                    this.loadPerformanceAnalytics();
+                    break;
+                case 'real-world-tab':
+                    this.loadPopularLocations();
+                    break;
+                case 'video-export-tab':
+                    this.loadPastSessions();
+                    this.refreshVideoList();
                     break;
             }
         }, 100);
@@ -1304,7 +1301,11 @@ class DroneSimulationController {
     setupTerrainZoomControls() {
         // Add custom zoom controls to the trajectory tab
         const trajectoryTab = document.getElementById('trajectory');
-        if (!trajectoryTab) return;
+        if (!trajectoryTab) {
+            console.log('Trajectory tab not found, retrying in 1 second...');
+            setTimeout(() => this.setupTerrainZoomControls(), 1000);
+            return;
+        }
         
         // Create zoom control panel
         const zoomControlsHtml = `
@@ -1359,34 +1360,53 @@ class DroneSimulationController {
         // Insert before the trajectory plot
         const trajectoryPlot = document.getElementById('trajectoryPlot');
         if (trajectoryPlot) {
-            trajectoryPlot.insertAdjacentHTML('beforebegin', zoomControlsHtml);
-            this.bindTerrainZoomEvents();
+            // Check if controls already exist to avoid duplicates
+            const existingControls = trajectoryTab.querySelector('.terrain-zoom-controls');
+            if (!existingControls) {
+                trajectoryPlot.insertAdjacentHTML('beforebegin', zoomControlsHtml);
+                this.bindTerrainZoomEvents();
+            }
         }
     }
     
     bindTerrainZoomEvents() {
-        // Zoom slider
-        const zoomSlider = document.getElementById('zoomSlider');
-        const zoomValue = document.getElementById('zoomValue');
-        
-        if (zoomSlider && zoomValue) {
-            zoomSlider.addEventListener('input', (e) => {
-                const level = parseFloat(e.target.value);
-                this.terrainZoom.level = level;
-                zoomValue.textContent = `${level.toFixed(1)}x`;
-                this.applyTerrainZoom(level);
-            });
-        }
-        
-        // Zoom buttons
-        document.getElementById('zoomInBtn')?.addEventListener('click', () => this.zoomTerrain('in'));
-        document.getElementById('zoomOutBtn')?.addEventListener('click', () => this.zoomTerrain('out'));
-        document.getElementById('resetViewBtn')?.addEventListener('click', () => this.resetTerrainView());
-        
-        // View presets
-        document.getElementById('topViewBtn')?.addEventListener('click', () => this.setViewPreset('top'));
-        document.getElementById('sideViewBtn')?.addEventListener('click', () => this.setViewPreset('side'));
-        document.getElementById('followBtn')?.addEventListener('click', () => this.followDrone());
+        // Use setTimeout to ensure DOM elements are ready
+        setTimeout(() => {
+            // Zoom slider
+            const zoomSlider = document.getElementById('zoomSlider');
+            const zoomValue = document.getElementById('zoomValue');
+            
+            if (zoomSlider && zoomValue) {
+                zoomSlider.addEventListener('input', (e) => {
+                    const level = parseFloat(e.target.value);
+                    this.terrainZoom.level = level;
+                    zoomValue.textContent = `${level.toFixed(1)}x`;
+                    this.applyTerrainZoom(level, false); // No animation for slider
+                });
+            } else {
+                console.warn('Zoom slider elements not found');
+            }
+            
+            // Zoom buttons
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const resetViewBtn = document.getElementById('resetViewBtn');
+            
+            if (zoomInBtn) zoomInBtn.addEventListener('click', () => this.zoomTerrain('in'));
+            if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => this.zoomTerrain('out'));
+            if (resetViewBtn) resetViewBtn.addEventListener('click', () => this.resetTerrainView());
+            
+            // View presets
+            const topViewBtn = document.getElementById('topViewBtn');
+            const sideViewBtn = document.getElementById('sideViewBtn');
+            const followBtn = document.getElementById('followBtn');
+            
+            if (topViewBtn) topViewBtn.addEventListener('click', () => this.setViewPreset('top'));
+            if (sideViewBtn) sideViewBtn.addEventListener('click', () => this.setViewPreset('side'));
+            if (followBtn) followBtn.addEventListener('click', () => this.followDrone());
+            
+            console.log('Terrain zoom controls bound successfully');
+        }, 100);
     }
     
     getOptimalCameraView(x = [], y = [], z = []) {
@@ -1462,7 +1482,8 @@ class DroneSimulationController {
         if (animate) {
             this.animateTerrainZoom(level);
         } else {
-            this.updateTrajectoryPlot();
+            // Update the plot immediately without animation
+            setTimeout(() => this.updateTrajectoryPlot(), 50);
         }
     }
     
@@ -1489,8 +1510,8 @@ class DroneSimulationController {
             if (zoomSlider) zoomSlider.value = currentLevel.toFixed(1);
             if (zoomValue) zoomValue.textContent = `${currentLevel.toFixed(1)}x`;
             
-            // Update plot
-            this.updateTrajectoryPlot();
+            // Update plot immediately without animation
+            setTimeout(() => this.updateTrajectoryPlot(), 50);
             
             if (progress < 1) {
                 requestAnimationFrame(animate);
@@ -1565,16 +1586,15 @@ class DroneSimulationController {
         const plot = document.getElementById('trajectoryPlot');
         if (!plot) return;
         
-        Plotly.animate(plot, {
-            layout: {
-                scene: {
-                    camera: targetCamera
-                }
-            }
-        }, {
-            duration: this.terrainZoom.animationDuration,
-            easing: 'cubic-out'
-        });
+        try {
+            Plotly.relayout(plot, {
+                'scene.camera': targetCamera
+            });
+        } catch (error) {
+            console.warn('Camera animation failed:', error);
+            // Fallback to updating the plot
+            this.updateTrajectoryPlot();
+        }
     }
 
     // Analytics functionality
