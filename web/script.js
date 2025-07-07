@@ -127,9 +127,9 @@ class DroneSimulationController {
             const environments = await environmentsResponse.json();
             const missions = await missionsResponse.json();
 
-            this.populateSelect('droneSelect', Object.keys(drones));
-            this.populateSelect('environmentSelect', Object.keys(environments));
-            this.populateSelect('missionSelect', Object.keys(missions));
+            this.populateSelect('droneModel', Object.keys(drones));
+            this.populateSelect('environment', Object.keys(environments));
+            this.populateSelect('missionType', Object.keys(missions));
             
             console.log('Mission configs:', missions);
         } catch (error) {
@@ -151,9 +151,9 @@ class DroneSimulationController {
     }
 
     setupEventListeners() {
-        const startBtn = document.getElementById('startSimulation');
-        const stopBtn = document.getElementById('stopSimulation');
-        const pauseBtn = document.getElementById('pauseSimulation');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
 
         if (startBtn) startBtn.addEventListener('click', () => this.startSimulation());
         if (stopBtn) stopBtn.addEventListener('click', () => this.stopSimulation());
@@ -225,9 +225,12 @@ class DroneSimulationController {
 
     getSimulationConfig() {
         return {
-            drone_model: document.getElementById('droneSelect')?.value || 'quadcopter_x4',
-            environment: document.getElementById('environmentSelect')?.value || 'earth',
-            mission_type: document.getElementById('missionSelect')?.value || 'reconnaissance'
+            drone_model: document.getElementById('droneModel')?.value || 'quadcopter_x4',
+            environment: document.getElementById('environment')?.value || 'earth',
+            mission_type: document.getElementById('missionType')?.value || 'reconnaissance',
+            duration: parseInt(document.getElementById('duration')?.value) || 600,
+            timestep: parseFloat(document.getElementById('timestep')?.value) || 0.01,
+            realtime: document.getElementById('realtime')?.checked || false
         };
     }
 
@@ -359,15 +362,33 @@ class DroneSimulationController {
     }
 
     updateStatusDisplay() {
-        const statusElement = document.getElementById('simulationStatus');
+        // Update simulation status
+        const statusElement = document.getElementById('status');
         if (statusElement) {
             statusElement.textContent = this.simulationStatus.running ? 'Running' : 'Stopped';
             statusElement.className = `badge ${this.simulationStatus.running ? 'bg-success' : 'bg-secondary'}`;
         }
 
+        // Update progress bar
         const progressElement = document.getElementById('progressBar');
         if (progressElement) {
             progressElement.style.width = `${this.simulationStatus.progress || 0}%`;
+            progressElement.setAttribute('aria-valuenow', this.simulationStatus.progress || 0);
+        }
+
+        // Update button states
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+
+        if (this.simulationStatus.running) {
+            if (startBtn) startBtn.disabled = true;
+            if (stopBtn) stopBtn.disabled = false;
+            if (pauseBtn) pauseBtn.disabled = false;
+        } else {
+            if (startBtn) startBtn.disabled = false;
+            if (stopBtn) stopBtn.disabled = true;
+            if (pauseBtn) pauseBtn.disabled = true;
         }
     }
 
@@ -376,6 +397,13 @@ class DroneSimulationController {
         if (statusElement) {
             statusElement.textContent = connected ? 'Connected' : 'Disconnected';
             statusElement.className = `badge ${connected ? 'bg-success' : 'bg-danger'}`;
+        }
+        
+        // Also update in header if exists
+        const headerStatus = document.querySelector('.connection-status');
+        if (headerStatus) {
+            headerStatus.textContent = connected ? 'Connected' : 'Disconnected';
+            headerStatus.className = `badge connection-status ${connected ? 'bg-success' : 'bg-danger'}`;
         }
     }
 
