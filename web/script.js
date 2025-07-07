@@ -238,6 +238,10 @@ class DroneSimulationController {
             this.handleWebSocketMessage(data);
         });
         
+        this.websocket.on('mission_complete', (data) => {
+            this.handleMissionComplete(data);
+        });
+        
         this.websocket.on('log', (data) => {
             this.handleWebSocketMessage(data);
         });
@@ -299,26 +303,43 @@ class DroneSimulationController {
         this.logMessage(logData.level, logData.message);
     }
     
+    handleMissionComplete(data) {
+        this.simulationRunning = false;
+        this.simulationPaused = false;
+        this.updateControlButtons();
+        this.showInfo(`Mission completed! Total time: ${data.total_time.toFixed(1)}s`);
+        this.logMessage('success', `Mission completed in ${data.total_time.toFixed(1)} seconds`);
+    }
+    
     updateDroneStatus(telemetry) {
         // Position
         const position = telemetry.position;
         document.getElementById('dronePosition').textContent = 
-            `${position[0].toFixed(1)}, ${position[1].toFixed(1)}, ${position[2].toFixed(1)}`;
+            `${position.x.toFixed(1)}, ${position.y.toFixed(1)}, ${position.z.toFixed(1)}`;
         
         // Velocity
         const velocity = telemetry.velocity;
-        const speed = Math.sqrt(velocity[0]**2 + velocity[1]**2 + velocity[2]**2);
+        const speed = Math.sqrt(velocity.x**2 + velocity.y**2 + velocity.z**2);
         document.getElementById('droneVelocity').textContent = 
             `${speed.toFixed(1)} m/s`;
         
         // Attitude (convert to degrees)
-        const attitude = telemetry.attitude.map(a => (a * 180 / Math.PI).toFixed(1));
+        const attitude = telemetry.attitude;
         document.getElementById('droneAttitude').textContent = 
-            `${attitude[0]}°, ${attitude[1]}°, ${attitude[2]}°`;
+            `${(attitude.roll * 180 / Math.PI).toFixed(1)}°, ${(attitude.pitch * 180 / Math.PI).toFixed(1)}°, ${(attitude.yaw * 180 / Math.PI).toFixed(1)}°`;
         
-        // Battery
-        const batteryLevel = (telemetry.battery_level * 100).toFixed(0);
-        document.getElementById('droneBattery').textContent = `${batteryLevel}%`;
+        // Battery (placeholder - will be 100% for now)
+        document.getElementById('droneBattery').textContent = `100%`;
+        
+        // Additional telemetry displays (if elements exist)
+        const altElement = document.getElementById('droneAltitude');
+        if (altElement) altElement.textContent = `${telemetry.altitude.toFixed(1)} m`;
+        
+        const speedElement = document.getElementById('droneSpeed');
+        if (speedElement) speedElement.textContent = `${telemetry.ground_speed.toFixed(1)} m/s`;
+        
+        const vSpeedElement = document.getElementById('droneVerticalSpeed');
+        if (vSpeedElement) vSpeedElement.textContent = `${telemetry.vertical_speed.toFixed(1)} m/s`;
     }
     
     updateEnvironmentStatus(telemetry) {
@@ -326,13 +347,13 @@ class DroneSimulationController {
             `${this.currentStatus.environment?.gravity || 9.81} m/s²`;
         
         document.getElementById('envDensity').textContent = 
-            `${telemetry.air_density.toFixed(3)} kg/m³`;
+            `${telemetry.air_density || 1.225} kg/m³`;
         
         document.getElementById('envTemperature').textContent = 
-            `${(telemetry.temperature - 273.15).toFixed(1)}°C`;
+            `${telemetry.temperature || 15}°C`;
         
         document.getElementById('envWind').textContent = 
-            `${telemetry.wind_speed.toFixed(1)} m/s`;
+            `${telemetry.wind_speed || 0} m/s`;
     }
     
     updateStatusDisplay() {
