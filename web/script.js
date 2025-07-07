@@ -459,14 +459,16 @@ class DroneSimulationController {
                 });
             }
 
-            // Initialize real-time plots
+            // Initialize real-time plots with proper layouts
             const altElement = document.getElementById('altitudePlot');
             if (altElement) {
                 Plotly.newPlot('altitudePlot', [], { 
                     title: 'Altitude vs Time',
                     xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Altitude (m)' }
+                    yaxis: { title: 'Altitude (m)' },
+                    margin: { l: 50, r: 20, t: 40, b: 50 }
                 });
+                console.log('Initialized altitude plot');
             }
 
             const speedElement = document.getElementById('speedPlot');
@@ -474,8 +476,10 @@ class DroneSimulationController {
                 Plotly.newPlot('speedPlot', [], { 
                     title: 'Speed vs Time',
                     xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Speed (m/s)' }
+                    yaxis: { title: 'Speed (m/s)' },
+                    margin: { l: 50, r: 20, t: 40, b: 50 }
                 });
+                console.log('Initialized speed plot');
             }
 
             const attElement = document.getElementById('attitudePlot');
@@ -483,8 +487,10 @@ class DroneSimulationController {
                 Plotly.newPlot('attitudePlot', [], { 
                     title: 'Attitude vs Time',
                     xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Angle (degrees)' }
+                    yaxis: { title: 'Angle (degrees)' },
+                    margin: { l: 50, r: 20, t: 40, b: 50 }
                 });
+                console.log('Initialized attitude plot');
             }
         }, 100);
     }
@@ -510,12 +516,17 @@ class DroneSimulationController {
     }
 
     updateRealtimePlots() {
-        if (this.telemetryData.length < 2) return;
+        if (this.telemetryData.length < 2) {
+            console.log('Not enough telemetry data for real-time plots');
+            return;
+        }
 
         try {
             // Get last 50 points for real-time plotting
             const recentData = this.telemetryData.slice(-50);
             const times = recentData.map(d => d.timestamp);
+            
+            console.log('Updating real-time plots with', recentData.length, 'points');
             
             // Altitude vs Time plot
             this.updateAltitudePlot(times, recentData.map(d => d.altitude));
@@ -533,7 +544,10 @@ class DroneSimulationController {
 
     updateAltitudePlot(times, altitudes) {
         const element = document.getElementById('altitudePlot');
-        if (!element) return;
+        if (!element) {
+            console.log('altitudePlot element not found');
+            return;
+        }
 
         const trace = {
             x: times,
@@ -541,22 +555,27 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Altitude',
-            line: { color: 'green' }
+            line: { color: 'green', width: 2 }
         };
 
         const layout = {
             title: 'Altitude vs Time',
             xaxis: { title: 'Time (s)' },
             yaxis: { title: 'Altitude (m)' },
-            margin: { l: 50, r: 10, t: 50, b: 50 }
+            margin: { l: 50, r: 20, t: 40, b: 50 },
+            showlegend: false
         };
 
         Plotly.react('altitudePlot', [trace], layout);
+        console.log('Updated altitude plot with', altitudes.length, 'points');
     }
 
     updateSpeedPlot(times, speeds) {
         const element = document.getElementById('speedPlot');
-        if (!element) return;
+        if (!element) {
+            console.log('speedPlot element not found');
+            return;
+        }
 
         const trace = {
             x: times,
@@ -564,22 +583,27 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Ground Speed',
-            line: { color: 'orange' }
+            line: { color: 'orange', width: 2 }
         };
 
         const layout = {
             title: 'Speed vs Time',
             xaxis: { title: 'Time (s)' },
             yaxis: { title: 'Speed (m/s)' },
-            margin: { l: 50, r: 10, t: 50, b: 50 }
+            margin: { l: 50, r: 20, t: 40, b: 50 },
+            showlegend: false
         };
 
         Plotly.react('speedPlot', [trace], layout);
+        console.log('Updated speed plot with', speeds.length, 'points');
     }
 
     updateAttitudePlots(times, data) {
         const element = document.getElementById('attitudePlot');
-        if (!element) return;
+        if (!element) {
+            console.log('attitudePlot element not found');
+            return;
+        }
 
         const rollTrace = {
             x: times,
@@ -587,7 +611,7 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Roll',
-            line: { color: 'red' }
+            line: { color: 'red', width: 2 }
         };
 
         const pitchTrace = {
@@ -596,7 +620,7 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Pitch',
-            line: { color: 'blue' }
+            line: { color: 'blue', width: 2 }
         };
 
         const yawTrace = {
@@ -605,17 +629,19 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Yaw',
-            line: { color: 'purple' }
+            line: { color: 'purple', width: 2 }
         };
 
         const layout = {
             title: 'Attitude vs Time',
             xaxis: { title: 'Time (s)' },
             yaxis: { title: 'Angle (degrees)' },
-            margin: { l: 50, r: 10, t: 50, b: 50 }
+            margin: { l: 50, r: 20, t: 40, b: 50 },
+            legend: { x: 0, y: 1 }
         };
 
         Plotly.react('attitudePlot', [rollTrace, pitchTrace, yawTrace], layout);
+        console.log('Updated attitude plot with', data.length, 'points');
     }
 
     showMessage(message, type) {
