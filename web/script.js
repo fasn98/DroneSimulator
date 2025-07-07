@@ -461,11 +461,17 @@ class DroneSimulationController {
         
         // Get waypoints from loaded mission configuration
         const missionConfigs = window.missionConfigurations || {};
-        const currentMissionType = document.getElementById('missionSelect')?.value;
+        const currentMissionType = document.getElementById('missionType')?.value;
         const currentMission = missionConfigs[currentMissionType];
+        
+        console.log('Mission configs:', missionConfigs);
+        console.log('Current mission type:', currentMissionType);
+        console.log('Current mission:', currentMission);
         
         if (!currentMission || !currentMission.waypoints) {
             waypointList.innerHTML = '<p class="text-muted">No waypoints available</p>';
+            console.log('No mission found for:', currentMissionType);
+            console.log('Available missions:', Object.keys(missionConfigs));
             return;
         }
         
