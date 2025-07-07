@@ -996,23 +996,42 @@ class DroneSimulationController {
             });
         }
         
+        // Calculate bounds for proper scaling
+        const minX = Math.min(...x);
+        const maxX = Math.max(...x);
+        const minY = Math.min(...y);
+        const maxY = Math.max(...y);
+        const minZ = Math.min(...z);
+        const maxZ = Math.max(...z);
+        
+        // Ensure minimum visible range (at least 10 units)
+        const rangeX = Math.max(maxX - minX, 10);
+        const rangeY = Math.max(maxY - minY, 10);
+        const rangeZ = Math.max(maxZ - minZ, 10);
+        
+        // Add padding (20% of range)
+        const paddingX = rangeX * 0.2;
+        const paddingY = rangeY * 0.2;
+        const paddingZ = rangeZ * 0.2;
+        
         const layout = {
             title: '3D Flight Trajectory',
             scene: {
                 xaxis: { 
                     title: 'X (m)',
-                    autorange: true
+                    range: [minX - paddingX, maxX + paddingX]
                 },
                 yaxis: { 
                     title: 'Y (m)',
-                    autorange: true
+                    range: [minY - paddingY, maxY + paddingY]
                 },
                 zaxis: { 
                     title: 'Z (m)',
-                    autorange: true
+                    range: [Math.max(0, minZ - paddingZ), maxZ + paddingZ]
                 },
                 camera: this.getOptimalCameraView(x, y, z),
-                aspectmode: 'data'
+                aspectmode: 'manual',
+                aspectratio: { x: 1, y: 1, z: 0.8 }
             }
         };
         
@@ -1449,21 +1468,21 @@ class DroneSimulationController {
         const centerY = (Math.min(...y) + Math.max(...y)) / 2;
         const centerZ = (Math.min(...z) + Math.max(...z)) / 2;
         
-        // Calculate range for camera distance
-        const rangeX = Math.max(...x) - Math.min(...x);
-        const rangeY = Math.max(...y) - Math.min(...y);
-        const rangeZ = Math.max(...z) - Math.min(...z);
-        const maxRange = Math.max(rangeX, rangeY, rangeZ, 10);
+        // Calculate range for camera distance with minimum values
+        const rangeX = Math.max(Math.max(...x) - Math.min(...x), 10);
+        const rangeY = Math.max(Math.max(...y) - Math.min(...y), 10);
+        const rangeZ = Math.max(Math.max(...z) - Math.min(...z), 10);
+        const maxRange = Math.max(rangeX, rangeY, rangeZ);
         
         // Adjust distance based on zoom level
         const zoomFactor = this.terrainZoom ? this.terrainZoom.level : 1;
-        const distance = maxRange * 2 / zoomFactor;
+        const distance = (maxRange * 1.5) / Math.max(zoomFactor, 0.1);
         
         return {
             eye: { 
-                x: centerX + distance * 0.8, 
-                y: centerY + distance * 0.8, 
-                z: centerZ + distance * 0.6 
+                x: centerX + distance * 0.7, 
+                y: centerY + distance * 0.7, 
+                z: centerZ + distance * 0.5 
             },
             center: { 
                 x: centerX, 
