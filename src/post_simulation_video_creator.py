@@ -241,8 +241,9 @@ class PostSimulationVideoCreator:
             frame_size = template_config["frame_size"]
             width, height = frame_size
             
-            # Create blank frame
-            frame = np.full((height, width, 3), template_config["background_color"], dtype=np.uint8)
+            # Create background frame with terrain/location-specific visuals
+            frame = self._create_background_frame(height, width, template_config, 
+                                                 environment_config, mission_config)
             
             # Get current position
             position = telemetry_point.get("position", {})
@@ -537,6 +538,168 @@ class PostSimulationVideoCreator:
         except Exception as e:
             logger.error(f"Error adding audio: {e}")
             return False
+    
+    def _create_background_frame(self, height: int, width: int, template_config: Dict,
+                               environment_config: Dict = None, mission_config: Dict = None) -> np.ndarray:
+        """Create a background frame with location-specific terrain visuals."""
+        try:
+            # Check if this is a Real World location-based video
+            mission_type = mission_config.get("type", "") if mission_config else ""
+            environment_name = environment_config.get("name", "") if environment_config else ""
+            location_name = environment_config.get("location", "") if environment_config else ""
+            
+            # Real World locations or specific environments get custom backgrounds
+            if ("grand canyon" in environment_name.lower() or 
+                "grand canyon" in location_name.lower() or 
+                "real" in mission_type.lower() or
+                "canyon" in location_name.lower()):
+                return self._create_canyon_background(height, width)
+            elif "mars" in environment_name.lower() or "martian" in environment_name.lower():
+                return self._create_mars_background(height, width)
+            elif "moon" in environment_name.lower() or "lunar" in environment_name.lower():
+                return self._create_lunar_background(height, width)
+            else:
+                # Default Earth background with terrain
+                return self._create_earth_terrain_background(height, width)
+                
+        except Exception as e:
+            logger.warning(f"Error creating background frame: {e}")
+            # Fallback to basic background
+            return np.full((height, width, 3), template_config["background_color"], dtype=np.uint8)
+    
+    def _create_canyon_background(self, height: int, width: int) -> np.ndarray:
+        """Create Grand Canyon-style background."""
+        frame = np.zeros((height, width, 3), dtype=np.uint8)
+        
+        # Canyon color palette - reds, oranges, browns
+        colors = [
+            (139, 69, 19),   # Saddle brown
+            (160, 82, 45),   # Saddle brown lighter
+            (205, 92, 92),   # Indian red
+            (222, 184, 135), # Burlywood
+            (210, 180, 140), # Tan
+            (188, 143, 143)  # Rosy brown
+        ]
+        
+        # Create layered canyon walls
+        for layer in range(6):
+            # Calculate layer positions
+            layer_height = height // 6
+            start_y = layer * layer_height
+            end_y = min((layer + 1) * layer_height, height)
+            
+            # Create irregular canyon wall shape
+            wall_points = []
+            for x in range(0, width, width // 20):
+                # Create jagged canyon wall profile
+                base_y = start_y + layer_height // 2
+                variation = random.randint(-layer_height//3, layer_height//3)
+                wall_y = max(start_y, min(end_y, base_y + variation))
+                wall_points.extend([(x, wall_y), (x + width//20, wall_y)])
+            
+            # Fill the layer with canyon color
+            color = colors[layer % len(colors)]
+            cv2.fillPoly(frame, [np.array(wall_points + [(width, end_y), (0, end_y)])], color)
+        
+        # Add sky gradient at top
+        sky_height = height // 4
+        for y in range(sky_height):
+            # Blue sky gradient
+            blue_intensity = int(135 + (120 * y / sky_height))
+            sky_color = (blue_intensity, 206, 250)  # Light sky blue to deeper blue
+            cv2.line(frame, (0, y), (width, y), sky_color, 1)
+        
+        # Add some random canyon details
+        for _ in range(30):
+            x = random.randint(0, width)
+            y = random.randint(sky_height, height)
+            size = random.randint(2, 8)
+            shadow_color = (100, 50, 25)  # Dark brown shadows
+            cv2.circle(frame, (x, y), size, shadow_color, -1)
+        
+        return frame
+    
+    def _create_earth_terrain_background(self, height: int, width: int) -> np.ndarray:
+        """Create Earth terrain background with mountains and sky."""
+        frame = np.zeros((height, width, 3), dtype=np.uint8)
+        
+        # Sky gradient
+        for y in range(height // 2):
+            blue_intensity = int(135 + (120 * y / (height // 2)))
+            sky_color = (blue_intensity, 206, 250)
+            cv2.line(frame, (0, y), (width, y), sky_color, 1)
+        
+        # Mountain silhouettes
+        mountain_color = (34, 139, 34)  # Forest green
+        for mountain in range(3):
+            peak_x = width // 4 + mountain * width // 3
+            peak_y = height // 3 + random.randint(-50, 50)
+            base_y = height - 100
+            
+            # Create mountain triangle
+            mountain_points = [
+                (peak_x - 150, base_y),
+                (peak_x, peak_y),
+                (peak_x + 150, base_y)
+            ]
+            cv2.fillPoly(frame, [np.array(mountain_points)], mountain_color)
+        
+        # Ground
+        ground_color = (101, 67, 33)  # Brown earth
+        cv2.rectangle(frame, (0, height - 100), (width, height), ground_color, -1)
+        
+        return frame
+    
+    def _create_mars_background(self, height: int, width: int) -> np.ndarray:
+        """Create Mars terrain background."""
+        frame = np.zeros((height, width, 3), dtype=np.uint8)
+        
+        # Mars sky (butterscotch/orange)
+        for y in range(height // 2):
+            orange_intensity = int(100 + (100 * y / (height // 2)))
+            mars_sky = (30, orange_intensity, 200)  # Orange-ish sky
+            cv2.line(frame, (0, y), (width, y), mars_sky, 1)
+        
+        # Martian terrain (reddish)
+        terrain_color = (42, 42, 165)  # Mars red
+        cv2.rectangle(frame, (0, height // 2), (width, height), terrain_color, -1)
+        
+        # Add some craters
+        for _ in range(8):
+            x = random.randint(50, width - 50)
+            y = random.randint(height // 2, height - 50)
+            radius = random.randint(15, 40)
+            crater_color = (30, 30, 120)  # Darker red
+            cv2.circle(frame, (x, y), radius, crater_color, -1)
+        
+        return frame
+    
+    def _create_lunar_background(self, height: int, width: int) -> np.ndarray:
+        """Create lunar terrain background."""
+        frame = np.zeros((height, width, 3), dtype=np.uint8)
+        
+        # Black space
+        frame.fill(0)
+        
+        # Lunar surface (gray)
+        surface_color = (169, 169, 169)  # Dark gray
+        cv2.rectangle(frame, (0, height // 2), (width, height), surface_color, -1)
+        
+        # Add craters
+        for _ in range(12):
+            x = random.randint(30, width - 30)
+            y = random.randint(height // 2, height - 30)
+            radius = random.randint(10, 35)
+            crater_color = (105, 105, 105)  # Darker gray
+            cv2.circle(frame, (x, y), radius, crater_color, -1)
+        
+        # Add some stars
+        for _ in range(100):
+            x = random.randint(0, width)
+            y = random.randint(0, height // 2)
+            cv2.circle(frame, (x, y), 1, (255, 255, 255), -1)
+        
+        return frame
     
     def _generate_discovery_audio(self) -> Optional[str]:
         """Generate sci-fi discovery audio."""
