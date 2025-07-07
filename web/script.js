@@ -192,8 +192,19 @@ class DroneSimulationController {
             if (response.ok) {
                 this.clearSimulationData();
                 this.showSuccess('Simulation started successfully');
+                
+                // Update button states immediately
+                const startBtn = document.getElementById('startBtn');
+                const stopBtn = document.getElementById('stopBtn');
+                const pauseBtn = document.getElementById('pauseBtn');
+                
+                if (startBtn) startBtn.disabled = true;
+                if (stopBtn) stopBtn.disabled = false;
+                if (pauseBtn) pauseBtn.disabled = false;
+                
             } else {
-                this.showError('Failed to start simulation');
+                const errorData = await response.json();
+                this.showError(`Failed to start simulation: ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error starting simulation:', error);
@@ -282,7 +293,16 @@ class DroneSimulationController {
         }
         
         this.saveTelemetryToStorage();
-        this.updateRealtimePlots();
+        
+        // Update status display
+        this.updateStatusDisplay();
+        
+        // Update plots (with error handling)
+        try {
+            this.updateRealtimePlots();
+        } catch (error) {
+            console.error('Error in updateRealtimePlots:', error);
+        }
     }
 
     handleMissionEvent(event) {
@@ -294,6 +314,28 @@ class DroneSimulationController {
         this.simulationStatus = { ...this.simulationStatus, ...status };
         this.saveStatusToStorage();
         this.updateStatusDisplay();
+        
+        // Update real-time status display
+        if (status.position) {
+            const posElement = document.getElementById('dronePosition');
+            if (posElement) {
+                posElement.textContent = `${status.position[0].toFixed(1)}, ${status.position[1].toFixed(1)}, ${status.position[2].toFixed(1)}`;
+            }
+        }
+        
+        if (status.velocity) {
+            const velElement = document.getElementById('droneVelocity');
+            if (velElement) {
+                velElement.textContent = `${status.velocity[0].toFixed(1)}, ${status.velocity[1].toFixed(1)}, ${status.velocity[2].toFixed(1)}`;
+            }
+        }
+        
+        if (status.attitude) {
+            const attElement = document.getElementById('droneAttitude');
+            if (attElement) {
+                attElement.textContent = `${(status.attitude[0] * 180/Math.PI).toFixed(1)}°, ${(status.attitude[1] * 180/Math.PI).toFixed(1)}°, ${(status.attitude[2] * 180/Math.PI).toFixed(1)}°`;
+            }
+        }
     }
 
     updateRealtimePlots() {
