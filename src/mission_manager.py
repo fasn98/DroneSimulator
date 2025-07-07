@@ -43,7 +43,10 @@ class Waypoint:
     action: WaypointAction
     parameters: Dict[str, Any]
     tolerance: float = 1.0
+    duration: float = 0.0  # Duration in seconds for time-based actions
     completed: bool = False
+    start_time: Optional[float] = None  # When the waypoint action was started
+    arrived_at_position: bool = False  # Whether we've reached the waypoint position
 
 
 @dataclass
@@ -132,12 +135,14 @@ class MissionManager:
             action = WaypointAction(wp_config['action'])
             parameters = wp_config.get('parameters', {})
             tolerance = wp_config.get('tolerance', 1.0)
+            duration = wp_config.get('duration', 0.0)  # Add duration from config
             
             waypoint = Waypoint(
                 position=position,
                 action=action,
                 parameters=parameters,
-                tolerance=tolerance
+                tolerance=tolerance,
+                duration=duration
             )
             
             self.waypoints.append(waypoint)
@@ -247,20 +252,39 @@ class MissionManager:
         if current_waypoint and not current_waypoint.completed:
             distance_to_waypoint = np.linalg.norm(drone_position - current_waypoint.position)
             
-            if distance_to_waypoint <= current_waypoint.tolerance:
-                # Waypoint reached, execute action
+            # Check if we've reached the waypoint position
+            if distance_to_waypoint <= current_waypoint.tolerance and not current_waypoint.arrived_at_position:
+                current_waypoint.arrived_at_position = True
+                current_waypoint.start_time = current_time
+                
+                # Execute action immediately for instant actions
                 action_result = self._execute_waypoint_action(current_waypoint, current_time, drone_position)
-                current_waypoint.completed = True
                 
-                # Move to next waypoint
-                self.current_waypoint_index += 1
-                
-                return {
-                    "status": self.status.value,
-                    "action": current_waypoint.action.value,
-                    "waypoint_completed": True,
-                    "action_result": action_result
-                }
+                # For actions without duration, complete immediately
+                if current_waypoint.duration <= 0:
+                    current_waypoint.completed = True
+                    self.current_waypoint_index += 1
+                    
+                    return {
+                        "status": self.status.value,
+                        "action": current_waypoint.action.value,
+                        "waypoint_completed": True,
+                        "action_result": action_result
+                    }
+            
+            # Check if duration-based waypoint is complete
+            elif current_waypoint.arrived_at_position and current_waypoint.duration > 0:
+                elapsed_time = current_time - current_waypoint.start_time
+                if elapsed_time >= current_waypoint.duration:
+                    current_waypoint.completed = True
+                    self.current_waypoint_index += 1
+                    
+                    return {
+                        "status": self.status.value,
+                        "action": current_waypoint.action.value,
+                        "waypoint_completed": True,
+                        "action_result": {"success": True, "message": f"Duration-based action completed after {elapsed_time:.1f}s"}
+                    }
         
         # Update objectives
         self._update_objectives(current_time, drone_position)
