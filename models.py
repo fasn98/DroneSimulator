@@ -291,12 +291,19 @@ def create_app():
     # Initialize database
     db.init_app(app)
     
-    with app.app_context():
-        try:
-            db.create_all()
-            print("Database tables created successfully!")
-        except Exception as e:
-            print(f"Error creating database tables: {e}")
+    # Lazy database initialization - only create tables when needed
+    def init_db():
+        with app.app_context():
+            try:
+                db.create_all()
+                print("Database tables created successfully!")
+                return True
+            except Exception as e:
+                print(f"Error creating database tables: {e}")
+                return False
+    
+    # Store init function for later use
+    app.init_db = init_db
     
     return app, db
 

@@ -78,8 +78,9 @@ class DroneSimulationServer:
         self.app.static_url_path = ''
         self.app.config['SECRET_KEY'] = 'drone-sim-secret-key'
         
-        # Initialize database service
-        self.db_service = DatabaseService(self.app)
+        # Initialize database service (lazy initialization)
+        self.db_service = None
+        self.db_initialized = False
         
         # Initialize SocketIO
         self.socketio = SocketIO(self.app, cors_allowed_origins="*", async_mode='threading')
@@ -95,6 +96,22 @@ class DroneSimulationServer:
         
         logger.info(f"Starting drone simulation server with database on {host}:{port}")
     
+    def _init_database_service(self):
+        """Initialize database service if not already initialized."""
+        if not self.db_initialized:
+            try:
+                # Initialize database tables
+                if hasattr(self.app, 'init_db'):
+                    self.app.init_db()
+                
+                # Initialize database service
+                self.db_service = DatabaseService(self.app)
+                self.db_initialized = True
+                logger.info("Database service initialized successfully")
+            except Exception as e:
+                logger.error(f"Failed to initialize database service: {e}")
+                # Continue without database service for basic functionality
+    
     def _register_routes(self):
         """Register Flask routes."""
         
@@ -102,6 +119,15 @@ class DroneSimulationServer:
         def index():
             """Serve main interface."""
             return send_from_directory('web', 'index.html')
+        
+        @self.app.route('/health')
+        def health_check():
+            """Simple health check endpoint for deployment."""
+            return jsonify({
+                'status': 'healthy',
+                'service': 'drone-simulation-server',
+                'timestamp': time.time()
+            }), 200
         
         @self.app.route('/script.js')
         def script():
@@ -173,18 +199,24 @@ class DroneSimulationServer:
                 self.state.environment_config = self._load_environment_config(config.get('environment', 'earth'))
                 self.state.mission_config = self._load_mission_config(config.get('mission_type', 'test_flight'))
                 
-                # Start database session
-                with self.app.app_context():
-                    session = self.db_service.start_simulation_session(
-                        drone_model=config.get('drone_model', 'default_quadrotor'),
-                        environment=config.get('environment', 'earth'),
-                        mission_type=config.get('mission_type', 'test_flight'),
-                        total_waypoints=len(self.state.mission_config.get('waypoints', []))
-                    )
-                    
-                    if session:
-                        self.current_session_id = session.id
-                        logger.info(f"Created database session: {session.id}")
+                # Initialize database service if needed
+                self._init_database_service()
+                
+                # Start database session if database service is available
+                if self.db_service:
+                    with self.app.app_context():
+                        session = self.db_service.start_simulation_session(
+                            drone_model=config.get('drone_model', 'default_quadrotor'),
+                            environment=config.get('environment', 'earth'),
+                            mission_type=config.get('mission_type', 'test_flight'),
+                            total_waypoints=len(self.state.mission_config.get('waypoints', []))
+                        )
+                        
+                        if session:
+                            self.current_session_id = session.id
+                            logger.info(f"Created database session: {session.id}")
+                else:
+                    logger.warning("Database service not available, simulation will run without database logging")
                 
                 # Initialize simulation state
                 self.state.running = True
@@ -577,8 +609,8 @@ class DroneSimulationServer:
         
         self.state.telemetry_history.append(telemetry)
         
-        # Log to database if we have a session
-        if hasattr(self, 'current_session_id') and self.current_session_id:
+        # Log to database if we have a session and database service
+        if hasattr(self, 'current_session_id') and self.current_session_id and self.db_service:
             try:
                 with self.app.app_context():
                     self.db_service.log_telemetry_data(

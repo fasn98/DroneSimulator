@@ -18,7 +18,7 @@ args = "Install Dependencies"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Simulation Server"
+args = "Drone Simulation Server"
 
 [[workflows.workflow]]
 name = "Install Dependencies"
@@ -29,12 +29,12 @@ task = "shell.exec"
 args = "pip install numpy scipy matplotlib pandas seaborn plotly flask flask-socketio psutil"
 
 [[workflows.workflow]]
-name = "Simulation Server"
+name = "Drone Simulation Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python simulation_server.py"
+args = "python run.py"
 waitForPort = 5000
 
 [[ports]]
