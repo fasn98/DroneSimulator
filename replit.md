@@ -120,6 +120,12 @@ This is a comprehensive Python-based simulation application for exploration dron
 
 ## Changelog
 - July 07, 2025. Initial setup
+- July 07, 2025. Fixed telemetry graph layout and waypoint display issues:
+  - Resolved telemetry graph overlapping by restructuring Power & Energy and Mission Progress plots
+  - Added realistic power consumption calculations based on speed and altitude
+  - Fixed waypoint list display to show all mission waypoints regardless of simulation state
+  - Added fallback logic for mission selection and improved debug logging
+  - Enhanced real-time data visualization with proper graph spacing
 
 ## User Preferences
 
