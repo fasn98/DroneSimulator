@@ -1711,6 +1711,149 @@ class DroneSimulationController {
         }
     }
     
+    // Quick Video Creation
+    async createQuickVideo(templateType) {
+        try {
+            document.getElementById('quickVideoStatus').style.display = 'block';
+            document.getElementById('quickVideoResult').style.display = 'none';
+            document.getElementById('quickVideoStatusText').textContent = 'Setting up simulation...';
+            
+            // Stop any existing simulation first
+            await fetch('/api/simulation/stop', { method: 'POST' });
+            
+            let config;
+            if (templateType === 'real_world') {
+                // Use real world template
+                config = {
+                    drone_model: 'quadcopter_x4',
+                    environment: 'earth',
+                    mission_type: 'reconnaissance',
+                    template: 'real_world_default'
+                };
+                document.getElementById('quickVideoStatusText').textContent = 'Loading real world terrain...';
+                
+                // Load a default real world location (Grand Canyon)
+                await this.loadDefaultRealWorldLocation();
+            } else {
+                // Use AI world template
+                config = {
+                    drone_model: 'exploration_drone',
+                    environment: 'mars',
+                    mission_type: 'sample_transport',
+                    template: 'ai_world_default'
+                };
+                document.getElementById('quickVideoStatusText').textContent = 'Generating AI environment...';
+                
+                // Generate a default AI environment
+                await this.loadDefaultAIEnvironment();
+            }
+            
+            // Start simulation
+            document.getElementById('quickVideoStatusText').textContent = 'Starting simulation...';
+            const startResponse = await fetch('/api/simulation/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(config)
+            });
+            
+            if (!startResponse.ok) {
+                throw new Error('Failed to start simulation');
+            }
+            
+            // Start video recording
+            document.getElementById('quickVideoStatusText').textContent = 'Starting video recording...';
+            await fetch('/api/video/export/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    export_settings: { fps: 30, resolution: [1920, 1080] }
+                })
+            });
+            
+            // Let simulation run for 10 seconds
+            document.getElementById('quickVideoStatusText').textContent = 'Recording flight (10 seconds)...';
+            await new Promise(resolve => setTimeout(resolve, 10000));
+            
+            // Stop recording
+            document.getElementById('quickVideoStatusText').textContent = 'Stopping recording...';
+            await fetch('/api/video/export/stop', { method: 'POST' });
+            
+            // Export video with sci-fi audio
+            document.getElementById('quickVideoStatusText').textContent = 'Creating enhanced video with sci-fi audio...';
+            const exportResponse = await fetch('/api/video/export/render', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    export_options: {
+                        preset: 'high',
+                        title_screen: true,
+                        telemetry_overlay: true,
+                        background_music: true
+                    }
+                })
+            });
+            
+            const exportData = await exportResponse.json();
+            
+            if (exportData.success) {
+                document.getElementById('quickVideoStatus').style.display = 'none';
+                document.getElementById('quickVideoResult').style.display = 'block';
+                document.getElementById('quickVideoResultText').innerHTML = 
+                    `${templateType === 'real_world' ? 'Real World' : 'AI World'} video created successfully!<br>
+                     Duration: ${exportData.duration_seconds?.toFixed(1)}s | Size: ${exportData.file_size_mb?.toFixed(1)}MB`;
+                document.getElementById('quickVideoDownloadLink').href = `/api/video/download/${exportData.output_path.split('/').pop()}`;
+            } else {
+                throw new Error(exportData.error || 'Video export failed');
+            }
+            
+            // Stop simulation
+            await fetch('/api/simulation/stop', { method: 'POST' });
+            
+        } catch (error) {
+            console.error('Quick video creation failed:', error);
+            document.getElementById('quickVideoStatus').style.display = 'none';
+            alert(`Failed to create quick video: ${error.message}`);
+        }
+    }
+    
+    async loadDefaultRealWorldLocation() {
+        // Load Grand Canyon as default real world location
+        try {
+            const response = await fetch('/api/maps/load-terrain', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    location: 'Grand Canyon National Park, Arizona, USA',
+                    bounds: {
+                        north: 36.2,
+                        south: 36.0,
+                        east: -112.0,
+                        west: -112.2
+                    }
+                })
+            });
+        } catch (error) {
+            console.log('Using default terrain for real world simulation');
+        }
+    }
+    
+    async loadDefaultAIEnvironment() {
+        // Generate a default Martian environment
+        try {
+            const response = await fetch('/api/ai/generate-environment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    environment_type: 'martian',
+                    region_type: 'canyon',
+                    season: 'spring'
+                })
+            });
+        } catch (error) {
+            console.log('Using default AI environment for simulation');
+        }
+    }
+    
     // Setup Enhanced Features Event Listeners
     setupEnhancedFeaturesEventListeners() {
         // Google Maps Integration
@@ -1754,6 +1897,15 @@ class DroneSimulationController {
         
         document.getElementById('exportVideoBtn').addEventListener('click', () => {
             this.exportVideo();
+        });
+        
+        // Quick video creation buttons
+        document.getElementById('quickVideoRealWorldBtn').addEventListener('click', () => {
+            this.createQuickVideo('real_world');
+        });
+        
+        document.getElementById('quickVideoAIWorldBtn').addEventListener('click', () => {
+            this.createQuickVideo('ai_world');
         });
         
         // Tab activation events
