@@ -233,8 +233,28 @@ class DroneSimulationController {
     }
 
     handleTelemetryUpdate(telemetry) {
-        console.log('Received telemetry:', telemetry);
-        this.telemetryData.push(telemetry);
+        // Extract payload if wrapped
+        const data = telemetry.payload || telemetry;
+        
+        // Normalize the telemetry data format
+        const normalizedData = {
+            timestamp: data.timestamp || Date.now() / 1000,
+            position_x: data.position?.x || data.position_x || 0,
+            position_y: data.position?.y || data.position_y || 0,
+            position_z: data.position?.z || data.position_z || 0,
+            velocity_x: data.velocity?.x || data.velocity_x || 0,
+            velocity_y: data.velocity?.y || data.velocity_y || 0,
+            velocity_z: data.velocity?.z || data.velocity_z || 0,
+            ground_speed: data.ground_speed || Math.sqrt((data.velocity?.x || 0)**2 + (data.velocity?.y || 0)**2),
+            altitude: data.altitude || data.position?.z || data.position_z || 0,
+            roll: data.attitude?.roll || data.roll || 0,
+            pitch: data.attitude?.pitch || data.pitch || 0,
+            yaw: data.attitude?.yaw || data.yaw || 0,
+            mission_progress: data.mission_progress || 0,
+            current_waypoint: data.current_waypoint || 0
+        };
+        
+        this.telemetryData.push(normalizedData);
         
         // Keep only last 200 points for performance
         if (this.telemetryData.length > 200) {
@@ -242,6 +262,7 @@ class DroneSimulationController {
         }
         
         this.updatePlots();
+        this.updateRealtimeDisplay(normalizedData);
     }
 
     handleStatusUpdate(status) {
@@ -251,6 +272,7 @@ class DroneSimulationController {
 
     updatePlots() {
         this.updateTrajectoryPlot();
+        this.updateRealtimePlots();
     }
 
     updateTrajectoryPlot() {
@@ -262,14 +284,15 @@ class DroneSimulationController {
         }
         
         try {
-            // Extract position data - try different field names
+            // Extract position data - already normalized
             const positions = this.telemetryData.map(d => ({
-                x: d.position_x || d.position?.[0] || 0,
-                y: d.position_y || d.position?.[1] || 0,
-                z: d.position_z || d.position?.[2] || 0
+                x: d.position_x,
+                y: d.position_y,
+                z: d.position_z,
+                time: d.timestamp
             }));
 
-            console.log('Sample positions:', positions.slice(0, 3));
+            console.log('Sample positions:', positions.slice(-3));
 
             const trace = {
                 x: positions.map(p => p.x),
@@ -282,8 +305,13 @@ class DroneSimulationController {
                 name: 'Flight Path'
             };
 
+            // Add time information to hover text
+            const hoverText = positions.map(p => 
+                `Time: ${p.time.toFixed(1)}s<br>Position: (${p.x.toFixed(1)}, ${p.y.toFixed(1)}, ${p.z.toFixed(1)})`
+            );
+
             const layout = {
-                title: `3D Flight Trajectory (${this.telemetryData.length} points)`,
+                title: `3D Flight Trajectory (${this.telemetryData.length} points) - Time: ${positions[positions.length-1]?.time.toFixed(1)}s`,
                 scene: {
                     xaxis: { title: 'X (m)', range: [-50, 200] },
                     yaxis: { title: 'Y (m)', range: [-50, 250] },
@@ -294,6 +322,10 @@ class DroneSimulationController {
                 },
                 margin: { l: 0, r: 0, b: 0, t: 50 }
             };
+
+            // Add hover text to trace
+            trace.hovertext = hoverText;
+            trace.hoverinfo = 'text';
 
             const trajectoryElement = document.getElementById('trajectoryPlot');
             if (trajectoryElement) {
@@ -385,6 +417,13 @@ class DroneSimulationController {
         if (waypointElement) {
             waypointElement.textContent = `${this.simulationStatus.currentWaypoint}/6`;
         }
+
+        // Update attitude display
+        const attElement = document.getElementById('droneAttitude');
+        if (attElement && this.simulationStatus.attitude) {
+            const att = this.simulationStatus.attitude;
+            attElement.textContent = `R:${(att[0] * 180/Math.PI).toFixed(1)}° P:${(att[1] * 180/Math.PI).toFixed(1)}° Y:${(att[2] * 180/Math.PI).toFixed(1)}°`;
+        }
     }
 
     updateButtonStates(running) {
@@ -407,6 +446,7 @@ class DroneSimulationController {
 
     initializeCharts() {
         setTimeout(() => {
+            // Initialize 3D trajectory plot
             const trajectoryElement = document.getElementById('trajectoryPlot');
             if (trajectoryElement) {
                 Plotly.newPlot('trajectoryPlot', [], { 
@@ -418,7 +458,164 @@ class DroneSimulationController {
                     }
                 });
             }
+
+            // Initialize real-time plots
+            const altElement = document.getElementById('altitudePlot');
+            if (altElement) {
+                Plotly.newPlot('altitudePlot', [], { 
+                    title: 'Altitude vs Time',
+                    xaxis: { title: 'Time (s)' },
+                    yaxis: { title: 'Altitude (m)' }
+                });
+            }
+
+            const speedElement = document.getElementById('speedPlot');
+            if (speedElement) {
+                Plotly.newPlot('speedPlot', [], { 
+                    title: 'Speed vs Time',
+                    xaxis: { title: 'Time (s)' },
+                    yaxis: { title: 'Speed (m/s)' }
+                });
+            }
+
+            const attElement = document.getElementById('attitudePlot');
+            if (attElement) {
+                Plotly.newPlot('attitudePlot', [], { 
+                    title: 'Attitude vs Time',
+                    xaxis: { title: 'Time (s)' },
+                    yaxis: { title: 'Angle (degrees)' }
+                });
+            }
         }, 100);
+    }
+
+    updateRealtimeDisplay(data) {
+        // Update real-time attitude information
+        const attElement = document.getElementById('droneAttitude');
+        if (attElement) {
+            attElement.textContent = `R:${(data.roll * 180/Math.PI).toFixed(1)}° P:${(data.pitch * 180/Math.PI).toFixed(1)}° Y:${(data.yaw * 180/Math.PI).toFixed(1)}°`;
+        }
+
+        // Update current velocity
+        const velElement = document.getElementById('droneVelocity');
+        if (velElement) {
+            velElement.textContent = `${data.ground_speed.toFixed(1)} m/s`;
+        }
+
+        // Update current altitude
+        const altElement = document.getElementById('droneAltitude');
+        if (altElement) {
+            altElement.textContent = `${data.altitude.toFixed(1)} m`;
+        }
+    }
+
+    updateRealtimePlots() {
+        if (this.telemetryData.length < 2) return;
+
+        try {
+            // Get last 50 points for real-time plotting
+            const recentData = this.telemetryData.slice(-50);
+            const times = recentData.map(d => d.timestamp);
+            
+            // Altitude vs Time plot
+            this.updateAltitudePlot(times, recentData.map(d => d.altitude));
+            
+            // Speed vs Time plot  
+            this.updateSpeedPlot(times, recentData.map(d => d.ground_speed));
+            
+            // Attitude plots
+            this.updateAttitudePlots(times, recentData);
+            
+        } catch (error) {
+            console.error('Error updating real-time plots:', error);
+        }
+    }
+
+    updateAltitudePlot(times, altitudes) {
+        const element = document.getElementById('altitudePlot');
+        if (!element) return;
+
+        const trace = {
+            x: times,
+            y: altitudes,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Altitude',
+            line: { color: 'green' }
+        };
+
+        const layout = {
+            title: 'Altitude vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Altitude (m)' },
+            margin: { l: 50, r: 10, t: 50, b: 50 }
+        };
+
+        Plotly.react('altitudePlot', [trace], layout);
+    }
+
+    updateSpeedPlot(times, speeds) {
+        const element = document.getElementById('speedPlot');
+        if (!element) return;
+
+        const trace = {
+            x: times,
+            y: speeds,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Ground Speed',
+            line: { color: 'orange' }
+        };
+
+        const layout = {
+            title: 'Speed vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Speed (m/s)' },
+            margin: { l: 50, r: 10, t: 50, b: 50 }
+        };
+
+        Plotly.react('speedPlot', [trace], layout);
+    }
+
+    updateAttitudePlots(times, data) {
+        const element = document.getElementById('attitudePlot');
+        if (!element) return;
+
+        const rollTrace = {
+            x: times,
+            y: data.map(d => d.roll * 180/Math.PI),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Roll',
+            line: { color: 'red' }
+        };
+
+        const pitchTrace = {
+            x: times,
+            y: data.map(d => d.pitch * 180/Math.PI),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Pitch',
+            line: { color: 'blue' }
+        };
+
+        const yawTrace = {
+            x: times,
+            y: data.map(d => d.yaw * 180/Math.PI),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Yaw',
+            line: { color: 'purple' }
+        };
+
+        const layout = {
+            title: 'Attitude vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Angle (degrees)' },
+            margin: { l: 50, r: 10, t: 50, b: 50 }
+        };
+
+        Plotly.react('attitudePlot', [rollTrace, pitchTrace, yawTrace], layout);
     }
 
     showMessage(message, type) {
