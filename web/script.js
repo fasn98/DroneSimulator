@@ -527,6 +527,9 @@ class DroneSimulationController {
             const times = recentData.map(d => d.timestamp);
             
             console.log('Updating real-time plots with', recentData.length, 'points');
+            console.log('Sample times:', times.slice(0, 3));
+            console.log('Sample altitudes:', recentData.slice(0, 3).map(d => d.altitude));
+            console.log('Sample speeds:', recentData.slice(0, 3).map(d => d.ground_speed));
             
             // Altitude vs Time plot
             this.updateAltitudePlot(times, recentData.map(d => d.altitude));
@@ -549,25 +552,44 @@ class DroneSimulationController {
             return;
         }
 
+        // Filter out invalid data
+        const validData = times.map((time, i) => ({
+            time: time,
+            altitude: altitudes[i]
+        })).filter(d => !isNaN(d.time) && !isNaN(d.altitude));
+
+        if (validData.length === 0) {
+            console.log('No valid altitude data to plot');
+            return;
+        }
+
         const trace = {
-            x: times,
-            y: altitudes,
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.altitude),
             type: 'scatter',
-            mode: 'lines',
+            mode: 'lines+markers',
             name: 'Altitude',
-            line: { color: 'green', width: 2 }
+            line: { color: 'green', width: 2 },
+            marker: { size: 4 }
         };
 
         const layout = {
             title: 'Altitude vs Time',
-            xaxis: { title: 'Time (s)' },
-            yaxis: { title: 'Altitude (m)' },
+            xaxis: { 
+                title: 'Time (s)',
+                range: [Math.min(...validData.map(d => d.time)), Math.max(...validData.map(d => d.time))]
+            },
+            yaxis: { 
+                title: 'Altitude (m)',
+                range: [Math.min(...validData.map(d => d.altitude)) - 5, Math.max(...validData.map(d => d.altitude)) + 5]
+            },
             margin: { l: 50, r: 20, t: 40, b: 50 },
-            showlegend: false
+            showlegend: false,
+            autosize: true
         };
 
         Plotly.react('altitudePlot', [trace], layout);
-        console.log('Updated altitude plot with', altitudes.length, 'points');
+        console.log('Updated altitude plot with', validData.length, 'valid points');
     }
 
     updateSpeedPlot(times, speeds) {
@@ -577,25 +599,44 @@ class DroneSimulationController {
             return;
         }
 
+        // Filter out invalid data
+        const validData = times.map((time, i) => ({
+            time: time,
+            speed: speeds[i]
+        })).filter(d => !isNaN(d.time) && !isNaN(d.speed));
+
+        if (validData.length === 0) {
+            console.log('No valid speed data to plot');
+            return;
+        }
+
         const trace = {
-            x: times,
-            y: speeds,
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.speed),
             type: 'scatter',
-            mode: 'lines',
+            mode: 'lines+markers',
             name: 'Ground Speed',
-            line: { color: 'orange', width: 2 }
+            line: { color: 'orange', width: 2 },
+            marker: { size: 4 }
         };
 
         const layout = {
             title: 'Speed vs Time',
-            xaxis: { title: 'Time (s)' },
-            yaxis: { title: 'Speed (m/s)' },
+            xaxis: { 
+                title: 'Time (s)',
+                range: [Math.min(...validData.map(d => d.time)), Math.max(...validData.map(d => d.time))]
+            },
+            yaxis: { 
+                title: 'Speed (m/s)',
+                range: [0, Math.max(...validData.map(d => d.speed)) * 1.1]
+            },
             margin: { l: 50, r: 20, t: 40, b: 50 },
-            showlegend: false
+            showlegend: false,
+            autosize: true
         };
 
         Plotly.react('speedPlot', [trace], layout);
-        console.log('Updated speed plot with', speeds.length, 'points');
+        console.log('Updated speed plot with', validData.length, 'valid points');
     }
 
     updateAttitudePlots(times, data) {
@@ -605,9 +646,22 @@ class DroneSimulationController {
             return;
         }
 
+        // Filter out invalid data and convert to degrees
+        const validData = times.map((time, i) => ({
+            time: time,
+            roll: data[i].roll * 180/Math.PI,
+            pitch: data[i].pitch * 180/Math.PI,
+            yaw: data[i].yaw * 180/Math.PI
+        })).filter(d => !isNaN(d.time) && !isNaN(d.roll) && !isNaN(d.pitch) && !isNaN(d.yaw));
+
+        if (validData.length === 0) {
+            console.log('No valid attitude data to plot');
+            return;
+        }
+
         const rollTrace = {
-            x: times,
-            y: data.map(d => d.roll * 180/Math.PI),
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.roll),
             type: 'scatter',
             mode: 'lines',
             name: 'Roll',
@@ -615,8 +669,8 @@ class DroneSimulationController {
         };
 
         const pitchTrace = {
-            x: times,
-            y: data.map(d => d.pitch * 180/Math.PI),
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.pitch),
             type: 'scatter',
             mode: 'lines',
             name: 'Pitch',
@@ -624,8 +678,8 @@ class DroneSimulationController {
         };
 
         const yawTrace = {
-            x: times,
-            y: data.map(d => d.yaw * 180/Math.PI),
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.yaw),
             type: 'scatter',
             mode: 'lines',
             name: 'Yaw',
@@ -634,14 +688,21 @@ class DroneSimulationController {
 
         const layout = {
             title: 'Attitude vs Time',
-            xaxis: { title: 'Time (s)' },
-            yaxis: { title: 'Angle (degrees)' },
+            xaxis: { 
+                title: 'Time (s)',
+                range: [Math.min(...validData.map(d => d.time)), Math.max(...validData.map(d => d.time))]
+            },
+            yaxis: { 
+                title: 'Angle (degrees)',
+                range: [-180, 180]
+            },
             margin: { l: 50, r: 20, t: 40, b: 50 },
-            legend: { x: 0, y: 1 }
+            legend: { x: 0, y: 1 },
+            autosize: true
         };
 
         Plotly.react('attitudePlot', [rollTrace, pitchTrace, yawTrace], layout);
-        console.log('Updated attitude plot with', data.length, 'points');
+        console.log('Updated attitude plot with', validData.length, 'valid points');
     }
 
     showMessage(message, type) {
