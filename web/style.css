@@ -45,6 +45,99 @@ body {
     color: var(--dark-color);
 }
 
+/* Animated Mission Progress Bar */
+.animated-progress-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.progress-track {
+    position: relative;
+    height: 30px;
+    background: linear-gradient(45deg, #e9ecef, #f8f9fa);
+    border-radius: 15px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border-radius: 15px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: 15px;
+    animation: progressShine 2s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.drone-icon-container {
+    position: absolute;
+    top: -5px;
+    transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.drone-icon {
+    font-size: 20px;
+    color: #007bff;
+    background: white;
+    padding: 8px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+    animation: droneFloat 2s ease-in-out infinite;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+@keyframes droneFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(2deg); }
+}
+
+.drone-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+    color: #0056b3;
+}
+
+.drone-icon.mission-complete {
+    animation: missionCompleteAnimation 1s ease-in-out;
+}
+
+@keyframes missionCompleteAnimation {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.3) rotate(10deg); }
+    50% { transform: scale(1.1) rotate(-5deg); }
+    75% { transform: scale(1.2) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.progress-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 14px;
+    color: #495057;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    z-index: 5;
+}
+
 /* Button styles */
 .btn {
     border-radius: 6px;

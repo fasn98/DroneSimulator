@@ -326,7 +326,18 @@
                                             <div id="missionProgress">
                                                 <div class="mb-3">
                                                     <label class="form-label">Overall Progress</label>
-                                                    <div class="progress">
+                                                    <!-- Animated Mission Progress Bar -->
+                                                    <div class="animated-progress-container">
+                                                        <div class="progress-track">
+                                                            <div class="progress-fill" id="missionProgressFill" style="width: 0%"></div>
+                                                            <div class="drone-icon-container" id="droneIconContainer" style="left: 0%">
+                                                                <i class="fas fa-helicopter drone-icon"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="progress-percentage" id="missionProgressPercentage">0%</div>
+                                                    </div>
+                                                    <!-- Legacy progress bar (hidden) -->
+                                                    <div class="progress" style="display: none;">
                                                         <div class="progress-bar bg-success" id="missionProgressBar" role="progressbar" style="width: 0%"></div>
                                                     </div>
                                                 </div>

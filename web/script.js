@@ -583,6 +583,11 @@ class DroneSimulationController {
                         `${this.calculateMissionDistance().toFixed(1)} m`;
                     
                     const progress = missionData.progress || 0;
+                    
+                    // Update animated progress bar
+                    this.updateAnimatedProgressBar(progress);
+                    
+                    // Update legacy progress bar (hidden but kept for compatibility)
                     const progressBar = document.getElementById('missionProgressBar');
                     if (progressBar) {
                         progressBar.style.width = `${progress}%`;
@@ -594,6 +599,41 @@ class DroneSimulationController {
             }
         } catch (error) {
             console.error('Error updating mission display:', error);
+        }
+    }
+    
+    updateAnimatedProgressBar(progress) {
+        try {
+            const progressFill = document.getElementById('missionProgressFill');
+            const droneIconContainer = document.getElementById('droneIconContainer');
+            const progressPercentage = document.getElementById('missionProgressPercentage');
+            
+            if (progressFill && droneIconContainer && progressPercentage) {
+                // Update progress fill width with smooth animation
+                progressFill.style.width = `${progress}%`;
+                
+                // Move drone icon to match progress
+                // Adjust position to account for icon width (drone should be at the end of the progress bar)
+                const dronePosition = Math.max(0, progress - 2); // Small offset to keep drone visible
+                droneIconContainer.style.left = `${dronePosition}%`;
+                
+                // Update percentage text
+                progressPercentage.textContent = `${progress.toFixed(1)}%`;
+                
+                // Add visual feedback based on progress
+                const droneIcon = droneIconContainer.querySelector('.drone-icon');
+                if (droneIcon) {
+                    if (progress >= 100) {
+                        droneIcon.style.color = '#28a745'; // Green when complete
+                        droneIcon.classList.add('mission-complete');
+                    } else if (progress > 0) {
+                        droneIcon.style.color = '#007bff'; // Blue when active
+                        droneIcon.classList.remove('mission-complete');
+                    }
+                }
+            }
+        } catch (error) {
+            console.warn('Error updating animated progress bar:', error);
         }
     }
     
