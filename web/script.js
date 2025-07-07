@@ -55,16 +55,8 @@ class DroneSimulationController {
             }, 500); // Small delay to ensure charts are fully initialized
         }
         
-        // Setup terrain zoom controls when tab becomes active
+        // Setup tab change handlers
         this.setupTabChangeHandlers();
-        
-        // Also setup zoom controls if we're starting on trajectory tab
-        setTimeout(() => {
-            const activeTab = document.querySelector('.nav-link.active');
-            if (activeTab && activeTab.id === 'trajectory-tab') {
-                this.setupTerrainZoomControls();
-            }
-        }, 500);
         
         // Connect WebSocket
         this.connectWebSocket();
@@ -996,42 +988,27 @@ class DroneSimulationController {
             });
         }
         
-        // Calculate bounds for proper scaling
-        const minX = Math.min(...x);
-        const maxX = Math.max(...x);
-        const minY = Math.min(...y);
-        const maxY = Math.max(...y);
-        const minZ = Math.min(...z);
-        const maxZ = Math.max(...z);
-        
-        // Ensure minimum visible range (at least 10 units)
-        const rangeX = Math.max(maxX - minX, 10);
-        const rangeY = Math.max(maxY - minY, 10);
-        const rangeZ = Math.max(maxZ - minZ, 10);
-        
-        // Add padding (20% of range)
-        const paddingX = rangeX * 0.2;
-        const paddingY = rangeY * 0.2;
-        const paddingZ = rangeZ * 0.2;
-        
         const layout = {
             title: '3D Flight Trajectory',
             scene: {
                 xaxis: { 
                     title: 'X (m)',
-                    range: [minX - paddingX, maxX + paddingX]
+                    range: [-50, 200]
                 },
                 yaxis: { 
                     title: 'Y (m)',
-                    range: [minY - paddingY, maxY + paddingY]
+                    range: [-50, 250]
                 },
                 zaxis: { 
                     title: 'Z (m)',
-                    range: [Math.max(0, minZ - paddingZ), maxZ + paddingZ]
+                    range: [0, 100]
                 },
-                camera: this.getOptimalCameraView(x, y, z),
-                aspectmode: 'manual',
-                aspectratio: { x: 1, y: 1, z: 0.8 }
+                camera: {
+                    eye: { x: 1.5, y: 1.5, z: 1.5 },
+                    center: { x: 0, y: 0, z: 0 },
+                    up: { x: 0, y: 0, z: 1 }
+                },
+                aspectmode: 'cube'
             }
         };
         
@@ -1226,8 +1203,6 @@ class DroneSimulationController {
             switch (tabId) {
                 case 'trajectory-tab':
                     this.updateTrajectoryPlot();
-                    // Add a small delay to ensure plot is rendered before adding controls
-                    setTimeout(() => this.setupTerrainZoomControls(), 200);
                     break;
                 case 'telemetry-tab':
                     this.updateTelemetryPlots();
@@ -1336,8 +1311,7 @@ class DroneSimulationController {
         }, 5000);
     }
     
-    // Interactive Terrain Zoom functionality
-    setupTerrainZoomControls() {
+    // Removed terrain zoom controls - using fixed axis scaling instead
         // Add custom zoom controls to the trajectory tab
         const trajectoryTab = document.getElementById('trajectory');
         if (!trajectoryTab) {
