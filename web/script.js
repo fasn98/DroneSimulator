@@ -1165,6 +1165,15 @@ class DroneSimulationController {
     displaySessionDetails(sessionId, telemetryData, eventsData) {
         const container = document.getElementById('sessionDetailsTable');
         
+        // Safe data extraction with defaults
+        const telemetry = telemetryData.telemetry || [];
+        const events = eventsData.events || [];
+        
+        const maxAltitude = telemetry.length > 0 ? 
+            Math.max(...telemetry.map(t => t.altitude || 0)).toFixed(1) : '0';
+        const maxSpeed = telemetry.length > 0 ? 
+            Math.max(...telemetry.map(t => t.ground_speed || 0)).toFixed(1) : '0';
+        
         container.innerHTML = `
             <div class="mb-3">
                 <h6>Session ${sessionId} - Telemetry Overview</h6>
@@ -1172,7 +1181,7 @@ class DroneSimulationController {
                     <div class="col-md-3">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="text-primary">${telemetryData.telemetry.length}</h5>
+                                <h5 class="text-primary">${telemetry.length}</h5>
                                 <small class="text-muted">Data Points</small>
                             </div>
                         </div>
@@ -1180,7 +1189,7 @@ class DroneSimulationController {
                     <div class="col-md-3">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="text-success">${eventsData.events.length}</h5>
+                                <h5 class="text-success">${events.length}</h5>
                                 <small class="text-muted">Mission Events</small>
                             </div>
                         </div>
@@ -1188,7 +1197,7 @@ class DroneSimulationController {
                     <div class="col-md-3">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="text-info">${telemetryData.telemetry.length > 0 ? Math.max(...telemetryData.telemetry.map(t => t.altitude)).toFixed(1) : 0}m</h5>
+                                <h5 class="text-info">${maxAltitude}m</h5>
                                 <small class="text-muted">Max Altitude</small>
                             </div>
                         </div>
@@ -1196,7 +1205,7 @@ class DroneSimulationController {
                     <div class="col-md-3">
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="text-warning">${telemetryData.telemetry.length > 0 ? Math.max(...telemetryData.telemetry.map(t => t.ground_speed)).toFixed(1) : 0}m/s</h5>
+                                <h5 class="text-warning">${maxSpeed}m/s</h5>
                                 <small class="text-muted">Max Speed</small>
                             </div>
                         </div>
@@ -1210,26 +1219,58 @@ class DroneSimulationController {
                         <tr>
                             <th>Time</th>
                             <th>Event</th>
-                            <th>Waypoint</th>
                             <th>Position</th>
                             <th>Progress</th>
                             <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${eventsData.events.map(event => `
+                        ${events.map(event => `
                             <tr>
-                                <td>${event.timestamp.toFixed(1)}s</td>
-                                <td><span class="badge bg-info">${event.event_type}</span></td>
-                                <td>${event.waypoint_index || 'N/A'}</td>
-                                <td>${event.position_x.toFixed(1)}, ${event.position_y.toFixed(1)}, ${event.position_z.toFixed(1)}</td>
-                                <td>${event.mission_progress.toFixed(1)}%</td>
+                                <td>${(event.timestamp || 0).toFixed(1)}s</td>
+                                <td><span class="badge bg-info">${event.event_type || 'Unknown'}</span></td>
+                                <td>${(event.position && event.position.x !== undefined) ? 
+                                    `${event.position.x.toFixed(1)}, ${event.position.y.toFixed(1)}, ${event.position.z.toFixed(1)}` : 
+                                    'N/A'}</td>
+                                <td>${(event.mission_progress || 0).toFixed(1)}%</td>
                                 <td>${event.description || event.action || 'N/A'}</td>
                             </tr>
                         `).join('')}
                     </tbody>
                 </table>
             </div>
+            
+            ${telemetry.length > 0 ? `
+                <div class="mt-3">
+                    <h6>Sample Telemetry Data (First 5 points)</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Position</th>
+                                    <th>Altitude</th>
+                                    <th>Speed</th>
+                                    <th>Energy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${telemetry.slice(0, 5).map(point => `
+                                    <tr>
+                                        <td>${(point.timestamp || 0).toFixed(1)}s</td>
+                                        <td>${(point.position && point.position.x !== undefined) ? 
+                                            `${point.position.x.toFixed(1)}, ${point.position.y.toFixed(1)}, ${point.position.z.toFixed(1)}` : 
+                                            'N/A'}</td>
+                                        <td>${(point.altitude || 0).toFixed(1)}m</td>
+                                        <td>${(point.ground_speed || 0).toFixed(1)}m/s</td>
+                                        <td>${(point.energy_consumed || 0).toFixed(3)}Wh</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ` : '<div class="alert alert-info">No telemetry data available for this session.</div>'}
         `;
     }
     
@@ -1249,23 +1290,22 @@ class DroneSimulationController {
     displayPerformanceSummary(data) {
         const container = document.getElementById('performanceSummary');
         
-        if (!data.summary) {
+        if (!data || data.total_sessions === 0) {
             container.innerHTML = '<div class="text-muted text-center p-3">No performance data available.<br>Run simulations to see analytics.</div>';
             return;
         }
         
-        const summary = data.summary;
         container.innerHTML = `
             <div class="row">
                 <div class="col-6">
                     <div class="text-center">
-                        <h4 class="text-primary">${summary.total_sessions}</h4>
+                        <h4 class="text-primary">${data.total_sessions || 0}</h4>
                         <small class="text-muted">Total Sessions</small>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="text-center">
-                        <h4 class="text-success">${summary.success_rate.toFixed(1)}%</h4>
+                        <h4 class="text-success">${(data.success_rate || 0).toFixed(1)}%</h4>
                         <small class="text-muted">Success Rate</small>
                     </div>
                 </div>
@@ -1273,13 +1313,13 @@ class DroneSimulationController {
             <div class="row mt-3">
                 <div class="col-6">
                     <div class="text-center">
-                        <h5 class="text-info">${summary.avg_duration.toFixed(1)}m</h5>
+                        <h5 class="text-info">${((data.average_metrics && data.average_metrics.duration) || 0).toFixed(1)}m</h5>
                         <small class="text-muted">Avg Duration</small>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="text-center">
-                        <h5 class="text-warning">${summary.avg_energy.toFixed(1)}Wh</h5>
+                        <h5 class="text-warning">${((data.average_metrics && data.average_metrics.energy) || 0).toFixed(1)}Wh</h5>
                         <small class="text-muted">Avg Energy</small>
                     </div>
                 </div>
@@ -1288,7 +1328,9 @@ class DroneSimulationController {
     }
     
     displayPerformanceCharts(data) {
-        if (!data.sessions || data.sessions.length === 0) {
+        const sessions = data.recent_sessions || [];
+        
+        if (sessions.length === 0) {
             document.getElementById('performanceChart').innerHTML = '<div class="text-muted text-center p-3">No data for charts</div>';
             document.getElementById('trendsChart').innerHTML = '<div class="text-muted text-center p-3">No data for trends</div>';
             return;
@@ -1297,19 +1339,19 @@ class DroneSimulationController {
         // Performance comparison chart
         const performanceData = [
             {
-                x: data.sessions.map(s => s.drone_model),
-                y: data.sessions.map(s => s.mission_progress),
-                type: 'box',
+                x: sessions.map(s => s.drone_model),
+                y: sessions.map(s => s.mission_progress || 0),
+                type: 'bar',
                 name: 'Mission Progress (%)',
-                boxpoints: 'all',
-                jitter: 0.3
+                marker: { color: 'rgba(54, 162, 235, 0.8)' }
             }
         ];
         
         const performanceLayout = {
-            title: 'Mission Progress by Drone Model',
-            xaxis: { title: 'Drone Model' },
-            yaxis: { title: 'Progress (%)' }
+            title: 'Mission Progress by Session',
+            xaxis: { title: 'Sessions (Drone Model)' },
+            yaxis: { title: 'Progress (%)' },
+            height: 300
         };
         
         Plotly.react('performanceChart', performanceData, performanceLayout);
@@ -1317,19 +1359,21 @@ class DroneSimulationController {
         // Trends chart
         const trendsData = [
             {
-                x: data.sessions.map(s => new Date(s.start_time)),
-                y: data.sessions.map(s => s.total_energy),
+                x: sessions.map((s, i) => `Session ${s.id}`),
+                y: sessions.map(s => s.total_energy || 0),
                 type: 'scatter',
                 mode: 'lines+markers',
                 name: 'Energy Consumption (Wh)',
-                line: { color: 'orange' }
+                line: { color: 'orange', width: 3 },
+                marker: { size: 8 }
             }
         ];
         
         const trendsLayout = {
-            title: 'Energy Consumption Trends',
-            xaxis: { title: 'Time' },
-            yaxis: { title: 'Energy (Wh)' }
+            title: 'Energy Consumption by Session',
+            xaxis: { title: 'Sessions' },
+            yaxis: { title: 'Energy (Wh)' },
+            height: 300
         };
         
         Plotly.react('trendsChart', trendsData, trendsLayout);
