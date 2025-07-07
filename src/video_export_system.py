@@ -498,13 +498,22 @@ class VideoExportSystem:
     
     def _generate_frame(self, telemetry_data: Dict, view_type: str) -> Dict[str, Any]:
         """Generate a single video frame from telemetry data."""
-        # Create frame data structure
+        # Create frame data structure with safe defaults
+        safe_telemetry = {
+            'timestamp': telemetry_data.get('timestamp', 0.0),
+            'position': telemetry_data.get('position', {'x': 0, 'y': 0, 'z': 50}),
+            'attitude': telemetry_data.get('attitude', {'pitch': 0, 'yaw': 0, 'roll': 0}),
+            'altitude': telemetry_data.get('altitude', 50.0),
+            'ground_speed': telemetry_data.get('ground_speed', 5.0),
+            'mission_progress': telemetry_data.get('mission_progress', 0.0)
+        }
+        
         frame_data = {
-            'timestamp': telemetry_data['timestamp'],
+            'timestamp': safe_telemetry['timestamp'],
             'view_type': view_type,
-            'telemetry': telemetry_data,
-            'camera_position': self._calculate_camera_position(telemetry_data, view_type),
-            'scene_elements': self._generate_scene_elements(telemetry_data)
+            'telemetry': safe_telemetry,
+            'camera_position': self._calculate_camera_position(safe_telemetry, view_type),
+            'scene_elements': self._generate_scene_elements(safe_telemetry)
         }
         
         return frame_data
@@ -623,8 +632,9 @@ class VideoExportSystem:
         horizon_y = height // 2
         
         # Get drone position for terrain context
-        drone_pos = frame_data['telemetry']['position']
-        altitude = frame_data['telemetry']['altitude']
+        telemetry = frame_data.get('telemetry', {})
+        drone_pos = telemetry.get('position', {'x': 0, 'y': 0, 'z': 0})
+        altitude = telemetry.get('altitude', 50.0)
         
         # Create terrain-based ground visualization
         if altitude > 100:
@@ -725,12 +735,12 @@ class VideoExportSystem:
         """Add telemetry data overlay to frame."""
         height, width = frame.shape[:2]
         
-        # Create overlay text
+        # Create overlay text with safe defaults
         overlay_data = [
-            f"Time: {telemetry['timestamp']:.1f}s",
-            f"Altitude: {telemetry['altitude']:.1f}m",
-            f"Speed: {telemetry['ground_speed']:.1f}m/s",
-            f"Progress: {telemetry['mission_progress']:.1f}%"
+            f"Time: {telemetry.get('timestamp', 0.0):.1f}s",
+            f"Altitude: {telemetry.get('altitude', 0.0):.1f}m",
+            f"Speed: {telemetry.get('ground_speed', 0.0):.1f}m/s",
+            f"Progress: {telemetry.get('mission_progress', 0.0):.1f}%"
         ]
         
         # Draw semi-transparent background
@@ -806,7 +816,7 @@ class VideoExportSystem:
         
         # Add drone shadow on ground (if visible)
         if view_type != 'overhead':
-            altitude = frame_data['telemetry']['altitude']
+            altitude = frame_data.get('telemetry', {}).get('altitude', 50.0)
             if altitude < 50:  # Only show shadow when low
                 shadow_offset = int(altitude / 2)
                 shadow_y = height - 100 + shadow_offset
@@ -814,7 +824,7 @@ class VideoExportSystem:
                 
                 # Shadow ellipse
                 cv2.ellipse(frame, (drone_x + shadow_offset, shadow_y), 
-                           (shadow_size * 2, shadow_size), 0, 0, 360, (0, 0, 0, 50), -1)
+                           (shadow_size * 2, shadow_size), 0, 0, 360, (0, 0, 0), -1)
         
         return frame
     
