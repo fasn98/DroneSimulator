@@ -634,10 +634,9 @@ class DroneSimulationServer:
                 return jsonify({'error': str(e)}), 500
         
         @self.app.route('/api/video/download/<filename>')
-        def download_video():
+        def download_video(filename):
             """Download exported video file."""
             try:
-                filename = request.view_args['filename']
                 output_dir = 'video_exports'
                 
                 return send_from_directory(output_dir, filename, as_attachment=True)
