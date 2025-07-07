@@ -17,6 +17,9 @@ import logging
 from datetime import datetime
 import threading
 import time
+import requests
+from PIL import Image
+import io
 
 logger = logging.getLogger(__name__)
 
@@ -600,10 +603,22 @@ class PostSimulationVideoCreator:
             # Debug logging (location-specific background detection)
             logger.info(f"Background detection - Mission: '{mission_type}', Env: '{environment_name}', Location: '{location_name}'")
             
-            # Real World locations or specific environments get custom backgrounds
+            # Try to get real satellite imagery for any Real World location
+            # Real World videos have location_name set and environment_name is "earth"
+            if (location_name and 
+                environment_name.lower() == "earth" and 
+                not any(keyword in location_name.lower() for keyword in ["mars", "moon", "canyon"])):
+                logger.info(f"Attempting to get satellite imagery for Real World location: {location_name}")
+                satellite_background = self._create_satellite_background(location_name, height, width)
+                if satellite_background is not None:
+                    logger.info(f"✅ Using real Google Maps satellite imagery for {location_name}")
+                    return satellite_background
+                else:
+                    logger.warning(f"⚠️ Failed to get satellite imagery for {location_name}, using synthetic background")
+            
+            # Fallback to specific synthetic backgrounds
             if ("grand canyon" in environment_name.lower() or 
                 "grand canyon" in location_name.lower() or 
-                "real" in mission_type.lower() or
                 "canyon" in location_name.lower()):
                 logger.info("Creating Grand Canyon background")
                 return self._create_canyon_background(height, width)
@@ -613,6 +628,7 @@ class PostSimulationVideoCreator:
                 return self._create_lunar_background(height, width)
             else:
                 # Default Earth background with terrain
+                logger.info("Using default Earth terrain background")
                 return self._create_earth_terrain_background(height, width)
                 
         except Exception as e:
@@ -762,6 +778,66 @@ class PostSimulationVideoCreator:
             cv2.circle(frame, (x, y), 1, (255, 255, 255), -1)
         
         return frame
+    
+    def _create_satellite_background(self, location_name: str, height: int, width: int) -> Optional[np.ndarray]:
+        """Create background using real Google Maps satellite imagery."""
+        try:
+            # Get Google Maps API key
+            api_key = os.environ.get('GOOGLE_MAPS_API_KEY')
+            if not api_key:
+                logger.warning("Google Maps API key not available")
+                return None
+            
+            # First, geocode the location to get coordinates
+            geocode_url = "https://maps.googleapis.com/maps/api/geocode/json"
+            geocode_params = {
+                'address': location_name,
+                'key': api_key
+            }
+            
+            geocode_response = requests.get(geocode_url, params=geocode_params, timeout=10)
+            geocode_data = geocode_response.json()
+            
+            if geocode_data.get('status') != 'OK' or not geocode_data.get('results'):
+                logger.warning(f"Could not geocode location: {location_name}")
+                return None
+            
+            # Get coordinates
+            location = geocode_data['results'][0]['geometry']['location']
+            lat, lng = location['lat'], location['lng']
+            
+            # Get satellite imagery
+            static_map_url = "https://maps.googleapis.com/maps/api/staticmap"
+            static_map_params = {
+                'center': f"{lat},{lng}",
+                'zoom': 16,  # Good detail level for drone footage
+                'size': "640x640",  # Max free tier size
+                'maptype': 'satellite',
+                'key': api_key
+            }
+            
+            image_response = requests.get(static_map_url, params=static_map_params, timeout=15)
+            image_response.raise_for_status()
+            
+            # Convert to OpenCV format
+            pil_image = Image.open(io.BytesIO(image_response.content))
+            
+            # Resize to fill the video frame
+            pil_image = pil_image.resize((width, height), Image.Resampling.LANCZOS)
+            
+            # Convert to BGR (OpenCV format)
+            rgb_array = np.array(pil_image)
+            bgr_array = cv2.cvtColor(rgb_array, cv2.COLOR_RGB2BGR)
+            
+            logger.info(f"Successfully created satellite background for {location_name} at {lat:.4f}, {lng:.4f}")
+            return bgr_array
+            
+        except requests.RequestException as e:
+            logger.warning(f"Network error getting satellite imagery for {location_name}: {e}")
+            return None
+        except Exception as e:
+            logger.warning(f"Error creating satellite background for {location_name}: {e}")
+            return None
     
     def _generate_discovery_audio(self) -> Optional[str]:
         """Generate sci-fi discovery audio."""
