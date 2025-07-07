@@ -285,15 +285,15 @@ This is a comprehensive Python-based simulation application for exploration dron
   - **Universal Coverage**: System works for any worldwide location accessible through Google Maps Static API
   - **Complete Integration**: Real-world videos now feature authentic satellite imagery instead of synthetic terrain backgrounds
 
-**Interactive Terrain Zoom with Smooth Transitions - Version 2.9:**
-- July 07, 2025. Implemented comprehensive interactive terrain zoom system for enhanced 3D trajectory exploration:
-  - **Terrain View Controls**: Added dedicated control panel with zoom slider (0.1x to 10x range) and preset view buttons
-  - **Smooth Zoom Animation**: Implemented 800ms smooth transitions using cubic-bezier easing for fluid user experience
-  - **View Presets**: Added top-down, side view, and "Follow Drone" camera modes for different exploration perspectives
-  - **Dynamic Camera Positioning**: Automatic optimal camera positioning based on trajectory bounds and current zoom level
-  - **Enhanced 3D Plot Integration**: Improved Plotly.js configuration for better responsiveness and stability
-  - **Tab-Aware Initialization**: Smart setup that activates zoom controls only when trajectory tab is viewed
-  - **Responsive Design**: Gradient-styled controls with hover effects and mobile-friendly button layouts
+**Simplified Fixed Axis Scaling - Version 3.0:**
+- July 07, 2025. Completely redesigned 3D trajectory visualization for reliable, consistent flight path display:
+  - **Removed Complex Terrain Zoom**: Eliminated hundreds of lines of problematic zoom control code that caused axis scaling issues
+  - **Fixed Axis Ranges**: Implemented stable ranges X(-50 to 200), Y(-50 to 250), Z(0 to 100) for consistent trajectory visibility
+  - **Simplified JavaScript**: Created clean, minimal script.js without complex camera manipulation or dynamic scaling
+  - **Cube Aspect Mode**: Fixed camera position provides reliable 3D perspective without scaling problems
+  - **Enhanced Reliability**: Trajectory plots now always display flight paths clearly without disappearing or scaling incorrectly
+  - **Maintained Core Features**: Preserved real-time telemetry updates, mission tracking, and essential simulation functionality
+  - **User-Requested Simplification**: Responded to user feedback about axis scaling problems by removing all dynamic scaling features
 
 **Quick Video Creation - Version 2.2:**
 - July 07, 2025. Implemented simplified one-click video creation system:
