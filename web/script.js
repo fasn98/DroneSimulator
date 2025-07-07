@@ -217,15 +217,23 @@ class DroneSimulationController {
         });
 
         this.socket.on('telemetry_update', (data) => {
+            console.log('WebSocket telemetry received:', data);
             this.handleTelemetryUpdate(data);
         });
 
         this.socket.on('status_update', (data) => {
+            console.log('WebSocket status received:', data);
             this.handleStatusUpdate(data);
+        });
+        
+        this.socket.on('mission_event', (data) => {
+            console.log('WebSocket mission event received:', data);
+            this.missionData.push(data);
         });
     }
 
     handleTelemetryUpdate(telemetry) {
+        console.log('Received telemetry:', telemetry);
         this.telemetryData.push(telemetry);
         
         // Keep only last 200 points for performance
@@ -246,14 +254,22 @@ class DroneSimulationController {
     }
 
     updateTrajectoryPlot() {
-        if (this.telemetryData.length === 0) return;
+        console.log('Updating trajectory plot with', this.telemetryData.length, 'points');
+        
+        if (this.telemetryData.length === 0) {
+            console.log('No telemetry data available for plotting');
+            return;
+        }
         
         try {
+            // Extract position data - try different field names
             const positions = this.telemetryData.map(d => ({
-                x: d.position_x || 0,
-                y: d.position_y || 0,
-                z: d.position_z || 0
+                x: d.position_x || d.position?.[0] || 0,
+                y: d.position_y || d.position?.[1] || 0,
+                z: d.position_z || d.position?.[2] || 0
             }));
+
+            console.log('Sample positions:', positions.slice(0, 3));
 
             const trace = {
                 x: positions.map(p => p.x),
@@ -261,13 +277,13 @@ class DroneSimulationController {
                 z: positions.map(p => p.z),
                 type: 'scatter3d',
                 mode: 'lines+markers',
-                marker: { size: 3, color: 'blue' },
-                line: { color: 'blue', width: 2 },
+                marker: { size: 4, color: 'blue' },
+                line: { color: 'blue', width: 3 },
                 name: 'Flight Path'
             };
 
             const layout = {
-                title: '3D Flight Trajectory',
+                title: `3D Flight Trajectory (${this.telemetryData.length} points)`,
                 scene: {
                     xaxis: { title: 'X (m)', range: [-50, 200] },
                     yaxis: { title: 'Y (m)', range: [-50, 250] },
@@ -282,6 +298,9 @@ class DroneSimulationController {
             const trajectoryElement = document.getElementById('trajectoryPlot');
             if (trajectoryElement) {
                 Plotly.react('trajectoryPlot', [trace], layout);
+                console.log('Trajectory plot updated successfully');
+            } else {
+                console.error('trajectoryPlot element not found');
             }
         } catch (error) {
             console.error('Error updating trajectory plot:', error);
@@ -308,6 +327,23 @@ class DroneSimulationController {
                     this.simulationStatus = mappedStatus;
                     this.updateStatusDisplay();
                     this.updateButtonStates(mappedStatus.running);
+                    
+                    // Also create fake telemetry from status for trajectory plotting
+                    if (mappedStatus.running && status.position) {
+                        const fakeTelemetry = {
+                            position_x: status.position[0],
+                            position_y: status.position[1], 
+                            position_z: status.position[2],
+                            timestamp: Date.now() / 1000
+                        };
+                        
+                        // Add to telemetry data for plotting
+                        this.telemetryData.push(fakeTelemetry);
+                        if (this.telemetryData.length > 200) {
+                            this.telemetryData = this.telemetryData.slice(-200);
+                        }
+                        this.updatePlots();
+                    }
                 }
             } catch (error) {
                 // Silent fail for polling
