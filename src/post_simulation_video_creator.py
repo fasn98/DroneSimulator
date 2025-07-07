@@ -573,55 +573,64 @@ class PostSimulationVideoCreator:
     
     def _create_canyon_background(self, height: int, width: int) -> np.ndarray:
         """Create Grand Canyon-style background."""
-        frame = np.zeros((height, width, 3), dtype=np.uint8)
-        
-        # Canyon color palette - reds, oranges, browns
-        colors = [
-            (139, 69, 19),   # Saddle brown
-            (160, 82, 45),   # Saddle brown lighter
-            (205, 92, 92),   # Indian red
-            (222, 184, 135), # Burlywood
-            (210, 180, 140), # Tan
-            (188, 143, 143)  # Rosy brown
-        ]
-        
-        # Create layered canyon walls
-        for layer in range(6):
-            # Calculate layer positions
-            layer_height = height // 6
-            start_y = layer * layer_height
-            end_y = min((layer + 1) * layer_height, height)
+        try:
+            frame = np.zeros((height, width, 3), dtype=np.uint8)
             
-            # Create irregular canyon wall shape
-            wall_points = []
-            for x in range(0, width, width // 20):
-                # Create jagged canyon wall profile
-                base_y = start_y + layer_height // 2
-                variation = random.randint(-layer_height//3, layer_height//3)
-                wall_y = max(start_y, min(end_y, base_y + variation))
-                wall_points.extend([(x, wall_y), (x + width//20, wall_y)])
+            # Start with blue sky at top
+            sky_height = height // 3
+            for y in range(sky_height):
+                # Blue sky gradient from light to darker blue
+                blue_intensity = int(180 + (75 * y / sky_height))
+                sky_color = (blue_intensity, 220, 255)  # Light blue to deeper blue
+                cv2.line(frame, (0, y), (width, y), sky_color, 1)
             
-            # Fill the layer with canyon color
-            color = colors[layer % len(colors)]
-            cv2.fillPoly(frame, [np.array(wall_points + [(width, end_y), (0, end_y)])], color)
-        
-        # Add sky gradient at top
-        sky_height = height // 4
-        for y in range(sky_height):
-            # Blue sky gradient
-            blue_intensity = int(135 + (120 * y / sky_height))
-            sky_color = (blue_intensity, 206, 250)  # Light sky blue to deeper blue
-            cv2.line(frame, (0, y), (width, y), sky_color, 1)
-        
-        # Add some random canyon details
-        for _ in range(30):
-            x = random.randint(0, width)
-            y = random.randint(sky_height, height)
-            size = random.randint(2, 8)
-            shadow_color = (100, 50, 25)  # Dark brown shadows
-            cv2.circle(frame, (x, y), size, shadow_color, -1)
-        
-        return frame
+            # Canyon terrain layers - create distinct red/orange rock layers
+            canyon_colors = [
+                (45, 45, 139),   # Dark red-brown (BGR format)
+                (52, 82, 160),   # Saddle brown lighter  
+                (92, 92, 205),   # Indian red
+                (135, 184, 222), # Burlywood
+                (140, 180, 210), # Tan
+                (143, 143, 188)  # Rosy brown
+            ]
+            
+            # Create horizontal canyon layers
+            layer_count = 8
+            canyon_start = sky_height
+            canyon_height = height - canyon_start
+            
+            for i in range(layer_count):
+                layer_height = canyon_height // layer_count
+                start_y = canyon_start + (i * layer_height)
+                end_y = min(start_y + layer_height, height)
+                
+                # Select color for this layer
+                color = canyon_colors[i % len(canyon_colors)]
+                
+                # Create the layer with some variation
+                for y in range(start_y, end_y):
+                    # Add some horizontal variation to make it look more natural
+                    for x in range(0, width, 10):
+                        variation = random.randint(-5, 5)
+                        end_x = min(x + 10 + variation, width)
+                        cv2.line(frame, (x, y), (end_x, y), color, 1)
+            
+            # Add some darker shadows for depth
+            for _ in range(20):
+                x = random.randint(0, width)
+                y = random.randint(canyon_start, height)
+                size = random.randint(5, 15)
+                shadow_color = (25, 25, 80)  # Dark red-brown
+                cv2.circle(frame, (x, y), size, shadow_color, -1)
+            
+            logger.info(f"Created Grand Canyon background: {width}x{height}, colors used")
+            return frame
+            
+        except Exception as e:
+            logger.error(f"Error creating canyon background: {e}")
+            # Fallback to simple red-orange background
+            frame = np.full((height, width, 3), (45, 82, 160), dtype=np.uint8)  # Reddish color
+            return frame
     
     def _create_earth_terrain_background(self, height: int, width: int) -> np.ndarray:
         """Create Earth terrain background with mountains and sky."""
