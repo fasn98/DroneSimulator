@@ -288,7 +288,13 @@ class DroneSimulationController {
         this.updateRealtimePlots();
         
         // Update progress
-        this.updateSimulationProgress(telemetry.simulation_time);
+        this.updateSimulationProgress(telemetry.timestamp);
+        
+        // Update mission display if we're on the mission tab
+        const activeTab = document.querySelector('.nav-link.active')?.id;
+        if (activeTab === 'mission-tab') {
+            this.updateMissionDisplay();
+        }
     }
     
     handleMissionEvent(event) {
@@ -764,12 +770,15 @@ class DroneSimulationController {
     updateTelemetryPlots() {
         if (this.telemetryData.length === 0) return;
         
-        const times = this.telemetryData.map(d => d.simulation_time);
-        const altitudes = this.telemetryData.map(d => d.position[2]);
-        const speeds = this.telemetryData.map(d => d.airspeed);
-        const attitudes = this.telemetryData.map(d => d.attitude.map(a => a * 180 / Math.PI));
-        const power = this.telemetryData.map(d => d.power_consumption);
-        const battery = this.telemetryData.map(d => d.battery_level * 100);
+        try {
+            const times = this.telemetryData.map(d => d.timestamp || 0);
+            const altitudes = this.telemetryData.map(d => d.altitude || 0);
+            const groundSpeeds = this.telemetryData.map(d => d.ground_speed || 0);
+            const verticalSpeeds = this.telemetryData.map(d => d.vertical_speed || 0);
+            const rolls = this.telemetryData.map(d => (d.attitude?.roll || 0) * 180 / Math.PI);
+            const pitches = this.telemetryData.map(d => (d.attitude?.pitch || 0) * 180 / Math.PI);
+            const yaws = this.telemetryData.map(d => (d.attitude?.yaw || 0) * 180 / Math.PI);
+            const progress = this.telemetryData.map(d => d.mission_progress || 0);
         
         // Altitude & Speed plot
         const altSpeedData = [
@@ -778,74 +787,97 @@ class DroneSimulationController {
                 y: altitudes,
                 type: 'scatter',
                 mode: 'lines',
-                name: 'Altitude',
+                name: 'Altitude (m)',
                 line: { color: 'blue' }
             },
             {
                 x: times,
-                y: speeds,
+                y: groundSpeeds,
                 type: 'scatter',
                 mode: 'lines',
-                name: 'Speed',
+                name: 'Ground Speed (m/s)',
                 yaxis: 'y2',
                 line: { color: 'red' }
+            },
+            {
+                x: times,
+                y: verticalSpeeds,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Vertical Speed (m/s)',
+                yaxis: 'y2',
+                line: { color: 'orange' }
             }
         ];
         
-        Plotly.react('altitudeSpeedPlot', altSpeedData);
+        const altSpeedLayout = {
+            title: 'Altitude and Speed vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Altitude (m)', side: 'left' },
+            yaxis2: { title: 'Speed (m/s)', side: 'right', overlaying: 'y' }
+        };
+        
+        Plotly.react('altitudeSpeedPlot', altSpeedData, altSpeedLayout);
         
         // Attitude plot
         const attitudeData = [
             {
                 x: times,
-                y: attitudes.map(a => a[0]),
+                y: rolls,
                 type: 'scatter',
                 mode: 'lines',
-                name: 'Roll',
+                name: 'Roll (deg)',
                 line: { color: 'red' }
             },
             {
                 x: times,
-                y: attitudes.map(a => a[1]),
+                y: pitches,
                 type: 'scatter',
                 mode: 'lines',
-                name: 'Pitch',
+                name: 'Pitch (deg)',
                 line: { color: 'green' }
             },
             {
                 x: times,
-                y: attitudes.map(a => a[2]),
+                y: yaws,
                 type: 'scatter',
                 mode: 'lines',
-                name: 'Yaw',
+                name: 'Yaw (deg)',
                 line: { color: 'blue' }
             }
         ];
         
-        Plotly.react('attitudePlot', attitudeData);
+        const attitudeLayout = {
+            title: 'Attitude vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Angle (degrees)' }
+        };
         
-        // Power plot
-        const powerData = [
+        Plotly.react('attitudePlot', attitudeData, attitudeLayout);
+        
+        // Mission Progress plot
+        const progressData = [
             {
                 x: times,
-                y: power,
+                y: progress,
                 type: 'scatter',
                 mode: 'lines',
-                name: 'Power',
-                line: { color: 'orange' }
-            },
-            {
-                x: times,
-                y: battery,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Battery',
-                yaxis: 'y2',
+                name: 'Mission Progress (%)',
                 line: { color: 'green' }
             }
         ];
         
-        Plotly.react('powerPlot', powerData);
+        const progressLayout = {
+            title: 'Mission Progress vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Progress (%)' }
+        };
+        
+        Plotly.react('powerPlot', progressData, progressLayout);
+        
+        } catch (error) {
+            console.error('Error updating telemetry plots:', error);
+        }
     }
     
     onTabChange(tabId) {
@@ -857,6 +889,9 @@ class DroneSimulationController {
                     break;
                 case 'telemetry-tab':
                     this.updateTelemetryPlots();
+                    break;
+                case 'mission-tab':
+                    this.updateMissionDisplay();
                     break;
             }
         }, 100);
