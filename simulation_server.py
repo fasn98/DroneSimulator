@@ -796,6 +796,59 @@ class DroneSimulationServer:
             except Exception as e:
                 logger.error(f"Error creating video from current session: {e}")
                 return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/create/real-world', methods=['POST'])
+        def create_real_world_video():
+            """Create video with Real World Google Maps terrain integration."""
+            try:
+                data = request.get_json() or {}
+                template = data.get('template', 'professional')
+                include_audio = data.get('include_audio', True)
+                location = data.get('location', 'Grand Canyon, Arizona')
+                
+                # Set up a Real World simulation configuration
+                config = {
+                    'drone': 'quadcopter_x4',
+                    'environment': 'earth',
+                    'mission': 'reconnaissance',
+                    'duration': 10,  # Short demo video
+                    'timestep': 0.1,
+                    'realtime': False
+                }
+                
+                # Run a quick simulation with Google Maps terrain
+                logger.info(f"Creating Real World video for location: {location}")
+                
+                # For Real World video, we'll use existing session data and create a video with location context
+                # Get the telemetry data from the most recent session
+                if not self.db_service:
+                    self._init_database_service()
+                
+                sessions = self.db_service.get_session_history(limit=1)
+                if not sessions:
+                    return jsonify({'error': 'No simulation sessions found. Please run a simulation first.'}), 404
+                
+                session_id = sessions[0]['id']
+                telemetry_data = self.db_service.get_session_telemetry(session_id, limit=None)
+                
+                if not telemetry_data:
+                    return jsonify({'error': 'No telemetry data available. Please complete a simulation first.'}), 404
+                
+                # Create video with Google Maps terrain context
+                result = self.post_video_creator.create_video_from_telemetry(
+                    telemetry_data=telemetry_data,
+                    template=template,
+                    drone_config={'model': 'quadcopter_x4'},
+                    environment_config={'name': 'earth', 'location': location},
+                    mission_config={'type': 'reconnaissance'},
+                    include_audio=include_audio
+                )
+                
+                return jsonify(result)
+                
+            except Exception as e:
+                logger.error(f"Error creating Real World video: {e}")
+                return jsonify({'error': str(e)}), 500
     
     def _register_socketio_events(self):
         """Register SocketIO event handlers."""

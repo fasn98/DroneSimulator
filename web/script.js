@@ -1679,6 +1679,7 @@ class DroneSimulationController {
         `;
         infoElement.style.display = 'block';
         document.getElementById('loadTerrainBtn').style.display = 'inline-block';
+        document.getElementById('quickVideoRealWorldBtn').style.display = 'inline-block';
     }
     
     async loadTerrain() {
@@ -2009,6 +2010,44 @@ class DroneSimulationController {
         }
     }
     
+    // Real World video creation
+    async createRealWorldVideo() {
+        try {
+            if (!this.selectedLocation) {
+                alert('Please select a location first');
+                return;
+            }
+            
+            const response = await fetch('/api/video/create/real-world', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    template: 'professional',
+                    include_audio: true,
+                    location: this.selectedLocation.name
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                alert(`Real World video created successfully!\nLocation: ${this.selectedLocation.name}\nDuration: ${result.duration}s | Size: ${result.size_mb}MB`);
+                // Refresh video list if we're on the video export tab
+                if (typeof refreshVideoList === 'function') {
+                    refreshVideoList();
+                }
+            } else {
+                throw new Error(result.error || 'Video creation failed');
+            }
+            
+        } catch (error) {
+            console.error('Real World video creation failed:', error);
+            alert(`Failed to create Real World video: ${error.message}`);
+        }
+    }
+    
     async loadDefaultRealWorldLocation() {
         // Load Grand Canyon as default real world location
         try {
@@ -2094,7 +2133,7 @@ class DroneSimulationController {
         
         // Quick video creation buttons
         document.getElementById('quickVideoRealWorldBtn').addEventListener('click', () => {
-            this.createQuickVideo('real_world');
+            this.createRealWorldVideo();
         });
         
         document.getElementById('quickVideoAIWorldBtn').addEventListener('click', () => {
