@@ -228,14 +228,7 @@ class DroneSimulationServer:
                     return jsonify({'error': 'No simulation running'}), 400
                 
                 # End database session
-                if hasattr(self, 'current_session_id'):
-                    final_progress = getattr(self.state, 'mission_progress', 0.0)
-                    self.db.end_simulation_session(
-                        self.current_session_id, 
-                        final_progress=final_progress,
-                        status='stopped'
-                    )
-                    logger.info(f"Ended database session: {self.current_session_id}")
+                self._complete_simulation('stopped')
                 
                 self.state.running = False
                 self.state.paused = False
@@ -491,13 +484,7 @@ class DroneSimulationServer:
                             self.state.running = False
                             
                             # End the session in database with completed status
-                            if hasattr(self, 'current_session_id'):
-                                self.db.end_simulation_session(
-                                    self.current_session_id, 
-                                    final_progress=100.0, 
-                                    status='completed'
-                                )
-                                logger.info(f"Session {self.current_session_id} completed successfully")
+                            self._complete_simulation('completed')
                             
                             self.socketio.emit('mission_complete', {
                                 'message': 'Mission completed successfully',
@@ -511,6 +498,29 @@ class DroneSimulationServer:
                 self._log_telemetry()
             
             time.sleep(dt)
+    
+    def _complete_simulation(self, status='completed'):
+        """Complete the current simulation session with proper cleanup."""
+        if hasattr(self, 'current_session_id') and self.current_session_id:
+            try:
+                final_progress = getattr(self.state, 'mission_progress', 0.0)
+                success = self.db.end_simulation_session(
+                    self.current_session_id, 
+                    final_progress=final_progress,
+                    status=status
+                )
+                if success:
+                    logger.info(f"Session {self.current_session_id} ended with status: {status}")
+                else:
+                    logger.error(f"Failed to end session {self.current_session_id}")
+                    
+                # Clear the session ID
+                self.current_session_id = None
+                
+            except Exception as e:
+                logger.error(f"Error completing simulation: {e}")
+                import traceback
+                traceback.print_exc()
     
     def _update_drone_physics(self, target_pos: np.ndarray, dt: float):
         """Update drone physics with simple navigation."""
@@ -567,14 +577,13 @@ class DroneSimulationServer:
         self.state.telemetry_history.append(telemetry)
         
         # Log to database if we have a session
-        if hasattr(self.state, 'db_session_id') and self.state.db_session_id:
+        if hasattr(self, 'current_session_id') and self.current_session_id:
             try:
-                with self.app.app_context():
-                    self.db_service.log_telemetry_data(
-                        self.state.db_session_id,
-                        self.state.current_time,
-                        telemetry
-                    )
+                self.db.log_telemetry_data(
+                    self.current_session_id,
+                    self.state.current_time,
+                    telemetry
+                )
             except Exception as e:
                 logger.error(f"Error logging telemetry to database: {e}")
         

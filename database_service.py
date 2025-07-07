@@ -376,6 +376,7 @@ class DatabaseService:
             telemetry_points = TelemetryData.query.filter_by(session_id=session.id).all()
             
             if not telemetry_points:
+                print(f"No telemetry data found for session {session.id}")
                 return
             
             # Calculate total distance
