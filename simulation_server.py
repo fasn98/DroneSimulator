@@ -90,6 +90,21 @@ class DroneSimulationServer:
         self.ai_env_generator = AIEnvironmentGenerator()
         self.video_export = VideoExportSystem()
         
+        # Set API keys for enhanced features
+        google_maps_key = os.environ.get('GOOGLE_MAPS_API_KEY')
+        if google_maps_key:
+            self.google_maps.set_api_key(google_maps_key)
+            logger.info("Google Maps API key configured")
+        else:
+            logger.warning("Google Maps API key not found in environment")
+            
+        openai_key = os.environ.get('OPENAI_API_KEY')
+        if openai_key:
+            self.ai_env_generator.set_api_key(openai_key)
+            logger.info("OpenAI API key configured")
+        else:
+            logger.warning("OpenAI API key not found in environment")
+        
         # Initialize SocketIO
         self.socketio = SocketIO(self.app, cors_allowed_origins="*", async_mode='threading')
         

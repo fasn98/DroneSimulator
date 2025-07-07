@@ -24,8 +24,8 @@ class GoogleMapsIntegration:
     
     def __init__(self):
         """Initialize Google Maps integration."""
-        # API key will be requested when needed
-        self.api_key = None
+        # Get API key from environment variable
+        self.api_key = os.environ.get('GOOGLE_MAPS_API_KEY')
         self.base_url = "https://maps.googleapis.com/maps/api"
         
     def set_api_key(self, api_key: str):
