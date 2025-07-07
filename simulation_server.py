@@ -103,6 +103,16 @@ class DroneSimulationServer:
             """Serve main interface."""
             return send_from_directory('web', 'index.html')
         
+        @self.app.route('/script.js')
+        def script():
+            """Serve JavaScript file."""
+            return send_from_directory('web', 'script.js')
+            
+        @self.app.route('/style.css')
+        def style():
+            """Serve CSS file."""
+            return send_from_directory('web', 'style.css')
+        
         @self.app.route('/api/configurations/drones')
         def get_drone_configurations():
             """Get available drone configurations."""
