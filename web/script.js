@@ -326,7 +326,8 @@ class DroneSimulationController {
         if (status.velocity) {
             const velElement = document.getElementById('droneVelocity');
             if (velElement) {
-                velElement.textContent = `${status.velocity[0].toFixed(1)}, ${status.velocity[1].toFixed(1)}, ${status.velocity[2].toFixed(1)}`;
+                const speed = Math.sqrt(status.velocity[0]**2 + status.velocity[1]**2 + status.velocity[2]**2);
+                velElement.textContent = `${speed.toFixed(1)} m/s (${status.velocity[0].toFixed(1)}, ${status.velocity[1].toFixed(1)}, ${status.velocity[2].toFixed(1)})`;
             }
         }
         
@@ -335,6 +336,13 @@ class DroneSimulationController {
             if (attElement) {
                 attElement.textContent = `${(status.attitude[0] * 180/Math.PI).toFixed(1)}°, ${(status.attitude[1] * 180/Math.PI).toFixed(1)}°, ${(status.attitude[2] * 180/Math.PI).toFixed(1)}°`;
             }
+        }
+        
+        // Update distance traveled
+        const distanceElement = document.getElementById('missionDistance');
+        if (distanceElement && status.position) {
+            const distance = Math.sqrt(status.position[0]**2 + status.position[1]**2);
+            distanceElement.textContent = `${distance.toFixed(1)} m`;
         }
     }
 
@@ -454,26 +462,54 @@ class DroneSimulationController {
             try {
                 const response = await fetch('/api/simulation/status');
                 const status = await response.json();
-                this.handleStatusUpdate(status);
+                
+                // Map API response to our expected format
+                const mappedStatus = {
+                    running: status.simulation_running || false,
+                    progress: status.mission_progress || 0,
+                    currentWaypoint: status.current_waypoint || 0,
+                    totalWaypoints: 6, // Default for monitoring mission
+                    position: status.position || [0, 0, 0],
+                    velocity: status.velocity || [0, 0, 0],
+                    attitude: status.attitude || [0, 0, 0]
+                };
+                
+                this.handleStatusUpdate(mappedStatus);
             } catch (error) {
-                // Silent fail for polling
+                console.error('Status polling error:', error);
             }
         }, 2000);
     }
 
     updateStatusDisplay() {
-        // Update simulation status
+        // Update simulation status badge
         const statusElement = document.getElementById('status');
         if (statusElement) {
             statusElement.textContent = this.simulationStatus.running ? 'Running' : 'Stopped';
             statusElement.className = `badge ${this.simulationStatus.running ? 'bg-success' : 'bg-secondary'}`;
         }
 
-        // Update progress bar
-        const progressElement = document.getElementById('progressBar');
+        // Update mission progress
+        const progressElement = document.getElementById('missionProgressFill');
         if (progressElement) {
             progressElement.style.width = `${this.simulationStatus.progress || 0}%`;
-            progressElement.setAttribute('aria-valuenow', this.simulationStatus.progress || 0);
+        }
+        
+        const progressPercentElement = document.getElementById('missionProgressPercentage');
+        if (progressPercentElement) {
+            progressPercentElement.textContent = `${Math.round(this.simulationStatus.progress || 0)}%`;
+        }
+
+        // Update waypoint display
+        const waypointsElement = document.getElementById('missionWaypoints');
+        if (waypointsElement) {
+            waypointsElement.textContent = `${this.simulationStatus.currentWaypoint || 0}/${this.simulationStatus.totalWaypoints || 0}`;
+        }
+
+        // Update mission status text
+        const missionStatusElement = document.getElementById('missionStatus');
+        if (missionStatusElement) {
+            missionStatusElement.textContent = this.simulationStatus.running ? 'Active' : 'Planning';
         }
 
         // Update button states
