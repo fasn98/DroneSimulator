@@ -272,8 +272,9 @@ class PostSimulationVideoCreator:
             else:
                 screen_y = flight_area_y + flight_area_height // 2
             
-            # Draw environment background
-            self._draw_environment_background(frame, template_config, environment_config)
+            # Draw environment background - use smart background detection
+            background = self._create_background_frame(frame.shape[0], frame.shape[1], template_config, environment_config)
+            frame[:] = background
             
             # Draw trajectory history
             if template_config.get("show_trajectory", False) and len(trajectory_history) > 1:
