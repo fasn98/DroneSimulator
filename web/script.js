@@ -1129,7 +1129,9 @@ class DroneSimulationController {
         // Add event listeners for view session buttons
         container.querySelectorAll('.view-session-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const sessionId = e.target.getAttribute('data-session-id');
+                e.preventDefault();
+                const sessionId = e.target.closest('.view-session-btn').getAttribute('data-session-id');
+                console.log('Viewing session details for ID:', sessionId);
                 this.viewSessionDetails(sessionId);
             });
         });
@@ -1163,7 +1165,15 @@ class DroneSimulationController {
     }
     
     displaySessionDetails(sessionId, telemetryData, eventsData) {
+        console.log('Displaying session details for:', sessionId);
+        console.log('Telemetry data:', telemetryData);
+        console.log('Events data:', eventsData);
+        
         const container = document.getElementById('sessionDetailsTable');
+        if (!container) {
+            console.error('sessionDetailsTable element not found');
+            return;
+        }
         
         // Safe data extraction with defaults
         const telemetry = telemetryData.telemetry || [];
@@ -1272,6 +1282,11 @@ class DroneSimulationController {
                 </div>
             ` : '<div class="alert alert-info">No telemetry data available for this session.</div>'}
         `;
+        
+        console.log('Session details displayed successfully');
+        
+        // Scroll to the session details section
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
     async loadPerformanceAnalytics() {
