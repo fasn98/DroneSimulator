@@ -64,6 +64,9 @@ class DroneSimulationController {
             // Store missions globally for waypoint list
             window.missionConfigurations = missions;
             
+            // Update waypoint list after missions are loaded
+            this.updateWaypointList();
+            
         } catch (error) {
             console.error('Error loading configurations:', error);
             this.showError('Failed to load configurations');
@@ -103,6 +106,11 @@ class DroneSimulationController {
             tab.addEventListener('shown.bs.tab', (event) => {
                 this.onTabChange(event.target.id);
             });
+        });
+        
+        // Mission selection change event
+        document.getElementById('missionType').addEventListener('change', () => {
+            this.updateWaypointList();
         });
     }
     
@@ -461,8 +469,24 @@ class DroneSimulationController {
         
         // Get waypoints from loaded mission configuration
         const missionConfigs = window.missionConfigurations || {};
-        const currentMissionType = document.getElementById('missionType')?.value;
-        const currentMission = missionConfigs[currentMissionType];
+        let currentMissionType = document.getElementById('missionType')?.value;
+        let currentMission = missionConfigs[currentMissionType];
+        
+        // If no mission selected or mission not found, try to get from simulation state or use first available
+        if (!currentMission || !currentMission.waypoints) {
+            // Try to get from simulation state if available
+            if (this.currentStatus && this.currentStatus.mission_config) {
+                currentMission = this.currentStatus.mission_config;
+                currentMissionType = currentMission.type;
+            } else {
+                // Use first available mission as fallback
+                const availableMissions = Object.keys(missionConfigs);
+                if (availableMissions.length > 0) {
+                    currentMissionType = availableMissions[0];
+                    currentMission = missionConfigs[currentMissionType];
+                }
+            }
+        }
         
         console.log('Mission configs:', missionConfigs);
         console.log('Current mission type:', currentMissionType);
@@ -861,7 +885,54 @@ class DroneSimulationController {
         
         Plotly.react('attitudePlot', attitudeData, attitudeLayout);
         
-        // Mission Progress plot
+        // Power & Energy plot (simulate realistic power consumption)
+        const powerConsumption = this.telemetryData.map(d => {
+            const speed = d.ground_speed || 0;
+            const altitude = d.altitude || 0;
+            // Simple power model: base power + speed factor + altitude factor
+            return 50 + (speed * 2) + (altitude * 0.1); // Watts
+        });
+        
+        const energy = [];
+        let totalEnergy = 0;
+        powerConsumption.forEach((power, i) => {
+            if (i > 0) {
+                const dt = (times[i] - times[i-1]) / 3600; // hours
+                totalEnergy += power * dt; // Wh
+            }
+            energy.push(totalEnergy);
+        });
+        
+        const powerData = [
+            {
+                x: times,
+                y: powerConsumption,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Power (W)',
+                line: { color: 'purple' }
+            },
+            {
+                x: times,
+                y: energy,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Energy (Wh)',
+                yaxis: 'y2',
+                line: { color: 'orange' }
+            }
+        ];
+        
+        const powerLayout = {
+            title: 'Power & Energy vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Power (W)', side: 'left' },
+            yaxis2: { title: 'Energy (Wh)', side: 'right', overlaying: 'y' }
+        };
+        
+        Plotly.react('powerPlot', powerData, powerLayout);
+        
+        // Mission Progress plot (separate plot)
         const progressData = [
             {
                 x: times,
@@ -869,17 +940,19 @@ class DroneSimulationController {
                 type: 'scatter',
                 mode: 'lines',
                 name: 'Mission Progress (%)',
-                line: { color: 'green' }
+                line: { color: 'green', width: 3 },
+                fill: 'tozeroy',
+                fillcolor: 'rgba(0,128,0,0.1)'
             }
         ];
         
         const progressLayout = {
             title: 'Mission Progress vs Time',
             xaxis: { title: 'Time (s)' },
-            yaxis: { title: 'Progress (%)' }
+            yaxis: { title: 'Progress (%)', range: [0, 100] }
         };
         
-        Plotly.react('powerPlot', progressData, progressLayout);
+        Plotly.react('missionProgressPlot', progressData, progressLayout);
         
         } catch (error) {
             console.error('Error updating telemetry plots:', error);
