@@ -183,7 +183,7 @@ class DroneSimulationServer:
                     )
                     
                     if session:
-                        self.state.db_session_id = session.id
+                        self.current_session_id = session.id
                         logger.info(f"Created database session: {session.id}")
                 
                 # Initialize simulation state
@@ -228,15 +228,14 @@ class DroneSimulationServer:
                     return jsonify({'error': 'No simulation running'}), 400
                 
                 # End database session
-                if hasattr(self.state, 'db_session_id') and self.state.db_session_id:
-                    with self.app.app_context():
-                        final_progress = getattr(self.state, 'mission_progress', 0.0)
-                        self.db_service.end_simulation_session(
-                            self.state.db_session_id, 
-                            final_progress=final_progress,
-                            status='stopped'
-                        )
-                        logger.info(f"Ended database session: {self.state.db_session_id}")
+                if hasattr(self, 'current_session_id'):
+                    final_progress = getattr(self.state, 'mission_progress', 0.0)
+                    self.db.end_simulation_session(
+                        self.current_session_id, 
+                        final_progress=final_progress,
+                        status='stopped'
+                    )
+                    logger.info(f"Ended database session: {self.current_session_id}")
                 
                 self.state.running = False
                 self.state.paused = False
@@ -490,6 +489,16 @@ class DroneSimulationServer:
                             # Mission complete
                             self.state.mission_progress = 100.0
                             self.state.running = False
+                            
+                            # End the session in database with completed status
+                            if hasattr(self, 'current_session_id'):
+                                self.db.end_simulation_session(
+                                    self.current_session_id, 
+                                    final_progress=100.0, 
+                                    status='completed'
+                                )
+                                logger.info(f"Session {self.current_session_id} completed successfully")
+                            
                             self.socketio.emit('mission_complete', {
                                 'message': 'Mission completed successfully',
                                 'total_time': self.state.current_time
