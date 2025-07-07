@@ -157,11 +157,14 @@ class PostSimulationVideoCreator:
         """
         try:
             # Initialize video writer
-            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            # Use XVID codec for initial creation, then convert to H.264
+            fourcc = cv2.VideoWriter_fourcc(*'XVID')
             frame_size = template_config["frame_size"]
             fps = template_config["fps"]
             
-            out = cv2.VideoWriter(video_path, fourcc, fps, frame_size)
+            # Create with .avi extension first to avoid MP4 corruption
+            temp_video_path = video_path.replace('.mp4', '_raw.avi')
+            out = cv2.VideoWriter(temp_video_path, fourcc, fps, frame_size)
             
             if not out.isOpened():
                 logger.error("Failed to open video writer")
@@ -206,8 +209,8 @@ class PostSimulationVideoCreator:
             
             out.release()
             
-            # Convert to H.264 for compatibility
-            self._convert_to_h264(video_path)
+            # Convert from AVI to MP4 H.264 for compatibility
+            self._convert_avi_to_h264(temp_video_path, video_path)
             
             logger.info(f"Successfully created video: {video_path}")
             return True
@@ -482,8 +485,44 @@ class PostSimulationVideoCreator:
             cv2.putText(frame, f"Action: {current_action}", 
                        (panel_x + 10, y_offset), font, font_scale, color, 1)
     
+    def _convert_avi_to_h264(self, input_avi_path: str, output_mp4_path: str):
+        """Convert AVI video to H.264 MP4 format for better compatibility."""
+        try:
+            cmd = [
+                'ffmpeg', '-y',
+                '-i', input_avi_path,
+                '-c:v', 'libx264',
+                '-preset', 'medium',
+                '-crf', '23',
+                '-pix_fmt', 'yuv420p',
+                '-movflags', '+faststart',
+                output_mp4_path
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                # Verify output file was created and is valid
+                if os.path.exists(output_mp4_path) and os.path.getsize(output_mp4_path) > 0:
+                    # Remove the temporary AVI file
+                    if os.path.exists(input_avi_path):
+                        os.remove(input_avi_path)
+                    logger.info("Successfully converted AVI to H.264 MP4")
+                else:
+                    logger.error("H.264 conversion produced empty file")
+                    return False
+            else:
+                logger.error(f"FFmpeg conversion failed: {result.stderr}")
+                return False
+                
+            return True
+                    
+        except Exception as e:
+            logger.error(f"Error converting AVI to H.264: {e}")
+            return False
+    
     def _convert_to_h264(self, video_path: str):
-        """Convert video to H.264 format for better compatibility."""
+        """Convert video to H.264 format for better compatibility (legacy method)."""
         try:
             temp_path = video_path.replace(".mp4", "_temp.mp4")
             
@@ -493,6 +532,7 @@ class PostSimulationVideoCreator:
                 '-c:v', 'libx264',
                 '-preset', 'medium',
                 '-crf', '23',
+                '-pix_fmt', 'yuv420p',
                 '-movflags', '+faststart',
                 temp_path
             ]
@@ -500,8 +540,12 @@ class PostSimulationVideoCreator:
             result = subprocess.run(cmd, capture_output=True, text=True)
             
             if result.returncode == 0:
-                os.replace(temp_path, video_path)
-                logger.info("Successfully converted to H.264")
+                # Verify temp file was created and is valid
+                if os.path.exists(temp_path) and os.path.getsize(temp_path) > 0:
+                    os.replace(temp_path, video_path)
+                    logger.info("Successfully converted to H.264")
+                else:
+                    logger.warning("H.264 conversion produced empty file, keeping original")
             else:
                 logger.warning(f"H.264 conversion failed: {result.stderr}")
                 # Remove temp file if it exists
@@ -510,6 +554,10 @@ class PostSimulationVideoCreator:
                     
         except Exception as e:
             logger.warning(f"Error converting to H.264: {e}")
+            # Clean up temp file if it exists
+            temp_path = video_path.replace(".mp4", "_temp.mp4")
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
     
     def _add_scifi_audio(self, video_path: str, output_path: str) -> bool:
         """Add sci-fi audio to video."""
