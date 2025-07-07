@@ -1675,6 +1675,7 @@ class DroneSimulationController {
         const preset = document.getElementById('videoQualityPreset').value;
         const titleScreen = document.getElementById('includeTitleScreen').checked;
         const telemetryOverlay = document.getElementById('includeTelemetryOverlay').checked;
+        const sciFiAudio = document.getElementById('includeSciFiAudio').checked;
         
         try {
             document.getElementById('exportProgress').style.display = 'block';
@@ -1687,7 +1688,8 @@ class DroneSimulationController {
                     export_options: {
                         preset: preset,
                         title_screen: titleScreen,
-                        telemetry_overlay: telemetryOverlay
+                        telemetry_overlay: telemetryOverlay,
+                        background_music: sciFiAudio
                     }
                 })
             });

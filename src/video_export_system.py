@@ -10,6 +10,8 @@ import cv2
 import numpy as np
 import json
 import math
+import random
+import subprocess
 from typing import Dict, List, Tuple, Optional, Any
 import logging
 from PIL import Image, ImageDraw, ImageFont
@@ -20,6 +22,233 @@ import threading
 import time
 
 logger = logging.getLogger(__name__)
+
+class SciFiAudioSystem:
+    """
+    System for generating and adding sci-fi discovery audio to drone videos.
+    """
+    
+    def __init__(self):
+        """Initialize the sci-fi audio system."""
+        self.audio_themes = [
+            "discovery_ambient",
+            "space_exploration", 
+            "technological_wonder",
+            "planetary_survey",
+            "future_expedition"
+        ]
+        self.audio_directory = "audio_assets"
+        self._ensure_audio_directory()
+        
+    def _ensure_audio_directory(self):
+        """Ensure audio assets directory exists."""
+        if not os.path.exists(self.audio_directory):
+            os.makedirs(self.audio_directory)
+    
+    def add_scifi_audio(self, video_path: str, output_path: str) -> bool:
+        """
+        Add randomly selected sci-fi discovery audio to video.
+        
+        Args:
+            video_path: Path to input video file
+            output_path: Path for output video with audio
+            
+        Returns:
+            Boolean indicating success
+        """
+        try:
+            # Generate or select audio track
+            audio_file = self._generate_discovery_audio()
+            
+            if not audio_file:
+                logger.warning("No audio file available for video enhancement")
+                return False
+            
+            # Use FFmpeg to combine video with audio
+            cmd = [
+                'ffmpeg', '-y',  # -y to overwrite output file
+                '-i', video_path,  # Input video
+                '-i', audio_file,  # Input audio
+                '-c:v', 'copy',    # Copy video stream
+                '-c:a', 'aac',     # Audio codec
+                '-map', '0:v',     # Map video from first input
+                '-map', '1:a',     # Map audio from second input
+                '-shortest',       # End when shortest stream ends
+                output_path
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                logger.info(f"Successfully added sci-fi audio to video: {output_path}")
+                return True
+            else:
+                logger.error(f"FFmpeg error: {result.stderr}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Error adding sci-fi audio: {e}")
+            return False
+    
+    def _generate_discovery_audio(self) -> str:
+        """
+        Generate or select sci-fi discovery audio track.
+        
+        Returns:
+            Path to audio file or None if unavailable
+        """
+        try:
+            # Randomly select a theme
+            theme = random.choice(self.audio_themes)
+            
+            # Generate procedural sci-fi audio using tone synthesis
+            audio_file = os.path.join(self.audio_directory, f"{theme}_{int(time.time())}.wav")
+            
+            # Create synthetic sci-fi audio with varying tones
+            self._create_synthetic_scifi_audio(audio_file, theme)
+            
+            return audio_file
+            
+        except Exception as e:
+            logger.error(f"Error generating discovery audio: {e}")
+            return None
+    
+    def _create_synthetic_scifi_audio(self, output_file: str, theme: str):
+        """
+        Create synthetic sci-fi audio using procedural generation.
+        
+        Args:
+            output_file: Path for output audio file
+            theme: Audio theme to generate
+        """
+        try:
+            # Audio parameters
+            sample_rate = 44100
+            duration = 30  # 30 seconds base duration
+            
+            # Generate time array
+            t = np.linspace(0, duration, int(sample_rate * duration))
+            
+            # Create base audio based on theme
+            if theme == "discovery_ambient":
+                audio = self._generate_ambient_discovery(t)
+            elif theme == "space_exploration":
+                audio = self._generate_space_exploration(t)
+            elif theme == "technological_wonder":
+                audio = self._generate_tech_wonder(t)
+            elif theme == "planetary_survey":
+                audio = self._generate_planetary_survey(t)
+            else:  # future_expedition
+                audio = self._generate_future_expedition(t)
+            
+            # Normalize audio
+            audio = audio / np.max(np.abs(audio))
+            
+            # Convert to 16-bit PCM
+            audio_int = (audio * 32767).astype(np.int16)
+            
+            # Save as WAV file using basic format
+            self._save_wav_file(output_file, audio_int, sample_rate)
+            
+            logger.info(f"Created synthetic sci-fi audio: {output_file}")
+            
+        except Exception as e:
+            logger.error(f"Error creating synthetic audio: {e}")
+            raise
+    
+    def _generate_ambient_discovery(self, t: np.ndarray) -> np.ndarray:
+        """Generate ambient discovery audio."""
+        # Low-frequency ambient base
+        base = 0.3 * np.sin(2 * np.pi * 40 * t)
+        
+        # Add ethereal high tones
+        ethereal = 0.2 * np.sin(2 * np.pi * 220 * t) * np.exp(-t/10)
+        
+        # Add mysterious warbling
+        warble = 0.15 * np.sin(2 * np.pi * 110 * t * (1 + 0.1 * np.sin(2 * np.pi * 0.5 * t)))
+        
+        return base + ethereal + warble
+    
+    def _generate_space_exploration(self, t: np.ndarray) -> np.ndarray:
+        """Generate space exploration audio."""
+        # Deep space resonance
+        resonance = 0.4 * np.sin(2 * np.pi * 55 * t)
+        
+        # Cosmic wind simulation
+        wind = 0.1 * np.random.normal(0, 1, len(t))
+        
+        # Pulsing beacon effect
+        beacon = 0.25 * np.sin(2 * np.pi * 880 * t) * (np.sin(2 * np.pi * 1.2 * t) > 0.8)
+        
+        return resonance + wind + beacon
+    
+    def _generate_tech_wonder(self, t: np.ndarray) -> np.ndarray:
+        """Generate technological wonder audio."""
+        # Digital harmony
+        harmony = 0.3 * (np.sin(2 * np.pi * 165 * t) + 0.5 * np.sin(2 * np.pi * 330 * t))
+        
+        # Synthetic arpeggios
+        arpeggio = 0.2 * np.sin(2 * np.pi * 440 * t * (1 + 0.05 * np.sin(2 * np.pi * 4 * t)))
+        
+        # Processing sounds
+        processing = 0.1 * np.sin(2 * np.pi * 1760 * t) * np.exp(-5 * (t % 2))
+        
+        return harmony + arpeggio + processing
+    
+    def _generate_planetary_survey(self, t: np.ndarray) -> np.ndarray:
+        """Generate planetary survey audio."""
+        # Scanning tones
+        scan = 0.3 * np.sin(2 * np.pi * 220 * t * (1 + 0.5 * np.sin(2 * np.pi * 0.3 * t)))
+        
+        # Data transmission beeps
+        beeps = 0.2 * np.sin(2 * np.pi * 1100 * t) * (np.sin(2 * np.pi * 2 * t) > 0.9)
+        
+        # Atmospheric hum
+        hum = 0.15 * np.sin(2 * np.pi * 80 * t) * (1 + 0.1 * np.sin(2 * np.pi * 0.1 * t))
+        
+        return scan + beeps + hum
+    
+    def _generate_future_expedition(self, t: np.ndarray) -> np.ndarray:
+        """Generate future expedition audio."""
+        # Exploration melody
+        melody = 0.3 * np.sin(2 * np.pi * 330 * t * (1 + 0.1 * np.sin(2 * np.pi * 0.7 * t)))
+        
+        # Discovery chimes
+        chimes = 0.2 * np.sin(2 * np.pi * 660 * t) * np.exp(-2 * (t % 5))
+        
+        # Adventure bass
+        bass = 0.25 * np.sin(2 * np.pi * 110 * t)
+        
+        return melody + chimes + bass
+    
+    def _save_wav_file(self, filename: str, audio_data: np.ndarray, sample_rate: int):
+        """
+        Save audio data as WAV file.
+        
+        Args:
+            filename: Output filename
+            audio_data: Audio data as numpy array
+            sample_rate: Sample rate in Hz
+        """
+        # Basic WAV file format implementation
+        with open(filename, 'wb') as f:
+            # WAV header
+            f.write(b'RIFF')
+            f.write((36 + len(audio_data) * 2).to_bytes(4, 'little'))
+            f.write(b'WAVE')
+            f.write(b'fmt ')
+            f.write((16).to_bytes(4, 'little'))
+            f.write((1).to_bytes(2, 'little'))  # PCM
+            f.write((1).to_bytes(2, 'little'))  # Mono
+            f.write(sample_rate.to_bytes(4, 'little'))
+            f.write((sample_rate * 2).to_bytes(4, 'little'))
+            f.write((2).to_bytes(2, 'little'))
+            f.write((16).to_bytes(2, 'little'))
+            f.write(b'data')
+            f.write((len(audio_data) * 2).to_bytes(4, 'little'))
+            
+            # Audio data
+            f.write(audio_data.tobytes())
 
 class VideoExportSystem:
     """
@@ -37,6 +266,8 @@ class VideoExportSystem:
             'bitrate': '5M',
             'codec': 'mp4v'
         }
+        # Initialize sci-fi audio system
+        self.audio_system = SciFiAudioSystem()
     
     def start_recording(self, session_id: str, export_settings: Dict = None) -> bool:
         """
@@ -128,7 +359,7 @@ class VideoExportSystem:
                 'title_screen': True,
                 'telemetry_overlay': True,
                 'view_transitions': True,
-                'background_music': False,
+                'background_music': True,
                 'quality': 'high'
             }
             if export_options:
@@ -175,6 +406,17 @@ class VideoExportSystem:
             
             video_writer.release()
             
+            # Add sci-fi discovery audio if enabled
+            if options.get('background_music', True):
+                enhanced_output_path = output_path.replace('.mp4', '_with_audio.mp4')
+                success = self.audio_system.add_scifi_audio(output_path, enhanced_output_path)
+                if success:
+                    # Replace original with enhanced version
+                    os.rename(enhanced_output_path, output_path)
+                    logger.info(f"Added sci-fi discovery audio to video: {output_path}")
+                else:
+                    logger.warning("Failed to add audio, keeping video without audio")
+            
             # Get video file size
             file_size = os.path.getsize(output_path)
             duration = frame_count / self.export_settings['fps']
@@ -188,7 +430,8 @@ class VideoExportSystem:
                 'frame_count': frame_count,
                 'file_size_mb': file_size / (1024 * 1024),
                 'resolution': self.export_settings['resolution'],
-                'fps': self.export_settings['fps']
+                'fps': self.export_settings['fps'],
+                'audio_enhanced': options.get('background_music', True)
             }
             
         except Exception as e:
