@@ -20,6 +20,9 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_socketio import SocketIO, emit
 from models import create_app, db
 from database_service import DatabaseService
+from src.google_maps_integration import GoogleMapsIntegration
+from src.ai_environment_generator import AIEnvironmentGenerator
+from src.video_export_system import VideoExportSystem
 import logging
 
 # Setup logging
@@ -81,6 +84,11 @@ class DroneSimulationServer:
         # Initialize database service (lazy initialization)
         self.db_service = None
         self.db_initialized = False
+        
+        # Initialize enhanced features
+        self.google_maps = GoogleMapsIntegration()
+        self.ai_env_generator = AIEnvironmentGenerator()
+        self.video_export = VideoExportSystem()
         
         # Initialize SocketIO
         self.socketio = SocketIO(self.app, cors_allowed_origins="*", async_mode='threading')
@@ -420,6 +428,188 @@ class DroneSimulationServer:
             except Exception as e:
                 logger.error(f"Error getting performance analytics: {e}")
                 return jsonify({'error': str(e)}), 500
+        
+        # Enhanced Features API Endpoints
+        
+        @self.app.route('/api/maps/locations/popular')
+        def get_popular_locations():
+            """Get popular real-world locations for simulation."""
+            try:
+                locations = self.google_maps.get_popular_locations()
+                return jsonify({'locations': locations})
+            except Exception as e:
+                logger.error(f"Error getting popular locations: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/maps/locations/search')
+        def search_locations():
+            """Search for real-world locations."""
+            try:
+                query = request.args.get('query')
+                if not query:
+                    return jsonify({'error': 'Query parameter required'}), 400
+                
+                results = self.google_maps.search_locations(query)
+                return jsonify({'results': results or []})
+            except Exception as e:
+                logger.error(f"Error searching locations: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/maps/terrain/<float:latitude>/<float:longitude>')
+        def get_terrain_data():
+            """Get 3D terrain data for a location."""
+            try:
+                latitude = float(request.view_args['latitude'])
+                longitude = float(request.view_args['longitude'])
+                grid_size = int(request.args.get('grid_size', 20))
+                
+                terrain_model = self.google_maps.create_3d_terrain_model(
+                    latitude, longitude, grid_size
+                )
+                
+                if terrain_model:
+                    return jsonify(terrain_model)
+                else:
+                    return jsonify({'error': 'Failed to generate terrain model'}), 500
+                    
+            except Exception as e:
+                logger.error(f"Error getting terrain data: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/environments/ai/lunar')
+        def generate_lunar_environment():
+            """Generate AI-powered lunar environment."""
+            try:
+                region_type = request.args.get('region_type', 'highland')
+                size_km = float(request.args.get('size_km', 10.0))
+                
+                environment = self.ai_env_generator.generate_lunar_environment(
+                    region_type, size_km
+                )
+                
+                if environment:
+                    return jsonify(environment)
+                else:
+                    return jsonify({'error': 'Failed to generate lunar environment'}), 500
+                    
+            except Exception as e:
+                logger.error(f"Error generating lunar environment: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/environments/ai/martian')
+        def generate_martian_environment():
+            """Generate AI-powered Martian environment."""
+            try:
+                region_type = request.args.get('region_type', 'plains')
+                season = request.args.get('season', 'spring')
+                
+                environment = self.ai_env_generator.generate_martian_environment(
+                    region_type, season
+                )
+                
+                if environment:
+                    return jsonify(environment)
+                else:
+                    return jsonify({'error': 'Failed to generate Martian environment'}), 500
+                    
+            except Exception as e:
+                logger.error(f"Error generating Martian environment: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/environments/ai/presets')
+        def get_environment_presets():
+            """Get AI environment presets."""
+            try:
+                presets = self.ai_env_generator.get_environment_presets()
+                return jsonify(presets)
+            except Exception as e:
+                logger.error(f"Error getting environment presets: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/export/start', methods=['POST'])
+        def start_video_recording():
+            """Start video recording for current simulation."""
+            try:
+                data = request.get_json() or {}
+                session_id = getattr(self, 'current_session_id', 'unknown')
+                export_settings = data.get('export_settings', {})
+                
+                success = self.video_export.start_recording(session_id, export_settings)
+                
+                return jsonify({
+                    'success': success,
+                    'session_id': session_id,
+                    'message': 'Video recording started' if success else 'Failed to start recording'
+                })
+                
+            except Exception as e:
+                logger.error(f"Error starting video recording: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/export/stop', methods=['POST'])
+        def stop_video_recording():
+            """Stop video recording."""
+            try:
+                success = self.video_export.stop_recording()
+                
+                return jsonify({
+                    'success': success,
+                    'message': 'Video recording stopped' if success else 'Failed to stop recording'
+                })
+                
+            except Exception as e:
+                logger.error(f"Error stopping video recording: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/export/render', methods=['POST'])
+        def export_video():
+            """Export recorded video as MP4."""
+            try:
+                data = request.get_json() or {}
+                session_id = getattr(self, 'current_session_id', 'unknown')
+                
+                # Create output directory if it doesn't exist
+                output_dir = 'video_exports'
+                os.makedirs(output_dir, exist_ok=True)
+                
+                # Generate filename
+                timestamp = time.strftime('%Y%m%d_%H%M%S')
+                filename = f"drone_flight_{session_id}_{timestamp}.mp4"
+                output_path = os.path.join(output_dir, filename)
+                
+                export_options = data.get('export_options', {})
+                
+                # Export video
+                result = self.video_export.export_video(output_path, export_options)
+                
+                return jsonify(result)
+                
+            except Exception as e:
+                logger.error(f"Error exporting video: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/presets')
+        def get_video_presets():
+            """Get video export presets."""
+            try:
+                presets = self.video_export.get_export_presets()
+                return jsonify(presets)
+            except Exception as e:
+                logger.error(f"Error getting video presets: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/video/download/<filename>')
+        def download_video():
+            """Download exported video file."""
+            try:
+                filename = request.view_args['filename']
+                output_dir = 'video_exports'
+                
+                return send_from_directory(output_dir, filename, as_attachment=True)
+                
+            except Exception as e:
+                logger.error(f"Error downloading video: {e}")
+                return jsonify({'error': str(e)}), 500
     
     def _register_socketio_events(self):
         """Register SocketIO event handlers."""
@@ -618,6 +808,15 @@ class DroneSimulationServer:
                         self.state.current_time,
                         telemetry
                     )
+            except Exception as e:
+                logger.error(f"Error logging telemetry to database: {e}")
+        
+        # Add frame to video recording if active
+        if self.video_export.recording:
+            try:
+                self.video_export.add_frame(telemetry, view_type="chase")
+            except Exception as e:
+                logger.error(f"Error adding video frame: {e}")
             except Exception as e:
                 logger.error(f"Error logging telemetry to database: {e}")
         

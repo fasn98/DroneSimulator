@@ -15,4 +15,12 @@ dependencies = [
     "seaborn>=0.13.2",
     "psycopg2-binary>=2.9.10",
     "flask-migrate>=4.1.0",
+    "sqlalchemy>=2.0.41",
+    "openai>=1.93.0",
+    "pillow>=11.3.0",
+    "requests>=2.32.4",
+    "googlemaps>=4.10.0",
+    "opencv-python>=4.11.0.86",
+    "imageio>=2.37.0",
+    "imageio-ffmpeg>=0.6.0",
 ]

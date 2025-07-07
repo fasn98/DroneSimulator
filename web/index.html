@@ -146,6 +146,21 @@
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="maps-tab" data-bs-toggle="tab" data-bs-target="#maps" type="button" role="tab">
+                                <i class="fas fa-globe"></i> Real World
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="ai-environments-tab" data-bs-toggle="tab" data-bs-target="#ai-environments" type="button" role="tab">
+                                <i class="fas fa-rocket"></i> AI Worlds
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="video-export-tab" data-bs-toggle="tab" data-bs-target="#video-export" type="button" role="tab">
+                                <i class="fas fa-video"></i> Video Export
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
                             <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab">
                                 <i class="fas fa-file-alt"></i> Logs
                             </button>
@@ -427,6 +442,185 @@
                                         <div class="card-body">
                                             <div id="sessionDetailsTable">
                                                 <!-- Detailed session table will be populated here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Real World Maps Tab -->
+                        <div class="tab-pane fade" id="maps" role="tabpanel">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-globe"></i> Real World 3D Environments</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Popular Locations</h6>
+                                            <div id="popularLocations">
+                                                <div class="list-group" id="popularLocationsList">
+                                                    <!-- Popular locations will be loaded here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Search Locations</h6>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" id="locationSearch" placeholder="Search for mountains, deserts, cities...">
+                                                <button class="btn btn-outline-primary" type="button" id="searchLocationBtn">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                            <div id="locationResults">
+                                                <!-- Search results will appear here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <h6>Selected Location</h6>
+                                            <div id="selectedLocationInfo" class="alert alert-info" style="display: none;">
+                                                <!-- Selected location info will appear here -->
+                                            </div>
+                                            <button class="btn btn-success" id="loadTerrainBtn" style="display: none;">
+                                                <i class="fas fa-mountain"></i> Load 3D Terrain
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Environments Tab -->
+                        <div class="tab-pane fade" id="ai-environments" role="tabpanel">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-rocket"></i> AI-Generated Planetary Environments</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Lunar Environments</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">Region Type</label>
+                                                <select class="form-select" id="lunarRegionType">
+                                                    <option value="highland">Highland</option>
+                                                    <option value="mare">Mare (Sea)</option>
+                                                    <option value="crater">Crater</option>
+                                                    <option value="polar">Polar</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Size (km)</label>
+                                                <input type="number" class="form-control" id="lunarSize" value="10" min="1" max="100">
+                                            </div>
+                                            <button class="btn btn-primary" id="generateLunarBtn">
+                                                <i class="fas fa-moon"></i> Generate Lunar Environment
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Martian Environments</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">Region Type</label>
+                                                <select class="form-select" id="martianRegionType">
+                                                    <option value="plains">Plains</option>
+                                                    <option value="canyon">Canyon</option>
+                                                    <option value="polar">Polar</option>
+                                                    <option value="highland">Highland</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Season</label>
+                                                <select class="form-select" id="martianSeason">
+                                                    <option value="spring">Spring</option>
+                                                    <option value="summer">Summer</option>
+                                                    <option value="autumn">Autumn</option>
+                                                    <option value="winter">Winter</option>
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-danger" id="generateMartianBtn">
+                                                <i class="fas fa-globe-mars"></i> Generate Martian Environment
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <h6>Generated Environment</h6>
+                                            <div id="generatedEnvironment" class="alert alert-light" style="display: none;">
+                                                <!-- Generated environment info will appear here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Video Export Tab -->
+                        <div class="tab-pane fade" id="video-export" role="tabpanel">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-video"></i> Flight Video Export</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Recording Controls</h6>
+                                            <div class="mb-3">
+                                                <button class="btn btn-success" id="startRecordingBtn">
+                                                    <i class="fas fa-record-vinyl"></i> Start Recording
+                                                </button>
+                                                <button class="btn btn-danger" id="stopRecordingBtn" disabled>
+                                                    <i class="fas fa-stop"></i> Stop Recording
+                                                </button>
+                                            </div>
+                                            <div id="recordingStatus" class="alert alert-info" style="display: none;">
+                                                <i class="fas fa-spinner fa-spin"></i> Recording in progress...
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Export Settings</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">Quality Preset</label>
+                                                <select class="form-select" id="videoQualityPreset">
+                                                    <option value="high_quality">High Quality (1080p, 60fps)</option>
+                                                    <option value="standard" selected>Standard (1080p, 30fps)</option>
+                                                    <option value="mobile">Mobile (720p, 30fps)</option>
+                                                    <option value="web_share">Web Share (720p, 24fps)</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="includeTitleScreen" checked>
+                                                <label class="form-check-label" for="includeTitleScreen">
+                                                    Include Title Screen
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="includeTelemetryOverlay" checked>
+                                                <label class="form-check-label" for="includeTelemetryOverlay">
+                                                    Include Telemetry Overlay
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <h6>Export</h6>
+                                            <button class="btn btn-primary" id="exportVideoBtn" disabled>
+                                                <i class="fas fa-download"></i> Export Video
+                                            </button>
+                                            <div id="exportProgress" class="mt-3" style="display: none;">
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                                </div>
+                                                <small class="text-muted">Exporting video...</small>
+                                            </div>
+                                            <div id="exportComplete" class="alert alert-success mt-3" style="display: none;">
+                                                <i class="fas fa-check"></i> Export complete!
+                                                <a href="#" id="downloadVideoLink" class="btn btn-success btn-sm ms-2">
+                                                    <i class="fas fa-download"></i> Download
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

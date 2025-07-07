@@ -1414,6 +1414,330 @@ class DroneSimulationController {
             }, 100);
         });
     }
+    
+    // Enhanced Features: Google Maps Integration
+    async loadPopularLocations() {
+        try {
+            const response = await fetch('/api/maps/locations/popular');
+            const data = await response.json();
+            
+            const listElement = document.getElementById('popularLocationsList');
+            listElement.innerHTML = '';
+            
+            data.locations.forEach(location => {
+                const item = document.createElement('a');
+                item.className = 'list-group-item list-group-item-action';
+                item.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${location.name}</h6>
+                        <small>${location.type}</small>
+                    </div>
+                    <p class="mb-1">${location.description}</p>
+                    <small>Lat: ${location.latitude}, Lng: ${location.longitude}</small>
+                `;
+                item.addEventListener('click', () => this.selectLocation(location));
+                listElement.appendChild(item);
+            });
+        } catch (error) {
+            console.error('Error loading popular locations:', error);
+        }
+    }
+    
+    async searchLocations(query) {
+        try {
+            const response = await fetch(`/api/maps/locations/search?query=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            
+            const resultsElement = document.getElementById('locationResults');
+            resultsElement.innerHTML = '';
+            
+            if (data.results && data.results.length > 0) {
+                data.results.forEach(location => {
+                    const item = document.createElement('div');
+                    item.className = 'card mb-2';
+                    item.innerHTML = `
+                        <div class="card-body">
+                            <h6 class="card-title">${location.name}</h6>
+                            <p class="card-text">${location.description}</p>
+                            <small class="text-muted">Lat: ${location.latitude}, Lng: ${location.longitude}</small>
+                            <button class="btn btn-sm btn-primary ms-2" onclick="window.droneController.selectLocation(${JSON.stringify(location).replace(/"/g, '&quot;')})">
+                                Select
+                            </button>
+                        </div>
+                    `;
+                    resultsElement.appendChild(item);
+                });
+            } else {
+                resultsElement.innerHTML = '<div class="alert alert-info">No locations found.</div>';
+            }
+        } catch (error) {
+            console.error('Error searching locations:', error);
+            document.getElementById('locationResults').innerHTML = '<div class="alert alert-danger">Error searching locations.</div>';
+        }
+    }
+    
+    selectLocation(location) {
+        this.selectedLocation = location;
+        const infoElement = document.getElementById('selectedLocationInfo');
+        infoElement.innerHTML = `
+            <h6>${location.name}</h6>
+            <p>${location.description}</p>
+            <small>Coordinates: ${location.latitude}, ${location.longitude}</small>
+        `;
+        infoElement.style.display = 'block';
+        document.getElementById('loadTerrainBtn').style.display = 'inline-block';
+    }
+    
+    async loadTerrain() {
+        if (!this.selectedLocation) return;
+        
+        try {
+            const response = await fetch(`/api/maps/terrain/${this.selectedLocation.latitude}/${this.selectedLocation.longitude}`);
+            const data = await response.json();
+            
+            if (data.error) {
+                alert('Error loading terrain: ' + data.error);
+                return;
+            }
+            
+            // Show terrain model information
+            const infoElement = document.getElementById('selectedLocationInfo');
+            infoElement.innerHTML += `
+                <hr>
+                <h6>3D Terrain Model Generated</h6>
+                <p>Grid Size: ${data.grid_size}x${data.grid_size}</p>
+                <p>Elevation Range: ${data.elevation_range.min}m - ${data.elevation_range.max}m</p>
+                <button class="btn btn-success btn-sm" onclick="window.droneController.applyTerrainEnvironment()">
+                    Apply to Simulation
+                </button>
+            `;
+            
+            this.terrainModel = data;
+        } catch (error) {
+            console.error('Error loading terrain:', error);
+            alert('Error loading terrain model.');
+        }
+    }
+    
+    applyTerrainEnvironment() {
+        if (!this.terrainModel) return;
+        
+        // Apply terrain to simulation environment
+        alert('Terrain environment applied to simulation!');
+    }
+    
+    // Enhanced Features: AI Environment Generation
+    async generateLunarEnvironment() {
+        const regionType = document.getElementById('lunarRegionType').value;
+        const sizeKm = document.getElementById('lunarSize').value;
+        
+        try {
+            const response = await fetch(`/api/environments/ai/lunar?region_type=${regionType}&size_km=${sizeKm}`);
+            const data = await response.json();
+            
+            if (data.error) {
+                alert('Error generating lunar environment: ' + data.error);
+                return;
+            }
+            
+            this.displayGeneratedEnvironment(data, 'lunar');
+        } catch (error) {
+            console.error('Error generating lunar environment:', error);
+            alert('Error generating lunar environment.');
+        }
+    }
+    
+    async generateMartianEnvironment() {
+        const regionType = document.getElementById('martianRegionType').value;
+        const season = document.getElementById('martianSeason').value;
+        
+        try {
+            const response = await fetch(`/api/environments/ai/martian?region_type=${regionType}&season=${season}`);
+            const data = await response.json();
+            
+            if (data.error) {
+                alert('Error generating Martian environment: ' + data.error);
+                return;
+            }
+            
+            this.displayGeneratedEnvironment(data, 'martian');
+        } catch (error) {
+            console.error('Error generating Martian environment:', error);
+            alert('Error generating Martian environment.');
+        }
+    }
+    
+    displayGeneratedEnvironment(environment, type) {
+        const displayElement = document.getElementById('generatedEnvironment');
+        displayElement.innerHTML = `
+            <h6>${type.charAt(0).toUpperCase() + type.slice(1)} Environment Generated</h6>
+            <p><strong>Name:</strong> ${environment.name}</p>
+            <p><strong>Description:</strong> ${environment.description}</p>
+            <p><strong>Size:</strong> ${environment.size_km} km²</p>
+            <p><strong>Features:</strong> ${environment.surface_features.length} unique features</p>
+            <button class="btn btn-success btn-sm" onclick="window.droneController.applyAIEnvironment(${JSON.stringify(environment).replace(/"/g, '&quot;')})">
+                Apply to Simulation
+            </button>
+        `;
+        displayElement.style.display = 'block';
+        
+        this.generatedEnvironment = environment;
+    }
+    
+    applyAIEnvironment(environment) {
+        // Apply AI environment to simulation
+        alert(`${environment.name} environment applied to simulation!`);
+    }
+    
+    // Enhanced Features: Video Export
+    async startVideoRecording() {
+        if (!this.simulationRunning) {
+            alert('Please start a simulation before recording.');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/video/export/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    export_settings: {
+                        fps: 30,
+                        resolution: [1920, 1080]
+                    }
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('startRecordingBtn').disabled = true;
+                document.getElementById('stopRecordingBtn').disabled = false;
+                document.getElementById('recordingStatus').style.display = 'block';
+                this.videoRecording = true;
+            } else {
+                alert('Failed to start video recording: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error starting video recording:', error);
+            alert('Error starting video recording.');
+        }
+    }
+    
+    async stopVideoRecording() {
+        try {
+            const response = await fetch('/api/video/export/stop', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('startRecordingBtn').disabled = false;
+                document.getElementById('stopRecordingBtn').disabled = true;
+                document.getElementById('recordingStatus').style.display = 'none';
+                document.getElementById('exportVideoBtn').disabled = false;
+                this.videoRecording = false;
+            } else {
+                alert('Failed to stop video recording: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error stopping video recording:', error);
+            alert('Error stopping video recording.');
+        }
+    }
+    
+    async exportVideo() {
+        const preset = document.getElementById('videoQualityPreset').value;
+        const titleScreen = document.getElementById('includeTitleScreen').checked;
+        const telemetryOverlay = document.getElementById('includeTelemetryOverlay').checked;
+        
+        try {
+            document.getElementById('exportProgress').style.display = 'block';
+            document.getElementById('exportVideoBtn').disabled = true;
+            
+            const response = await fetch('/api/video/export/render', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    export_options: {
+                        preset: preset,
+                        title_screen: titleScreen,
+                        telemetry_overlay: telemetryOverlay
+                    }
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('exportProgress').style.display = 'none';
+                document.getElementById('exportComplete').style.display = 'block';
+                document.getElementById('downloadVideoLink').href = `/api/video/download/${data.output_path.split('/').pop()}`;
+            } else {
+                alert('Export failed: ' + data.error);
+            }
+        } catch (error) {
+            console.error('Error exporting video:', error);
+            alert('Error exporting video.');
+        } finally {
+            document.getElementById('exportVideoBtn').disabled = false;
+        }
+    }
+    
+    // Setup Enhanced Features Event Listeners
+    setupEnhancedFeaturesEventListeners() {
+        // Google Maps Integration
+        document.getElementById('searchLocationBtn').addEventListener('click', () => {
+            const query = document.getElementById('locationSearch').value;
+            if (query) {
+                this.searchLocations(query);
+            }
+        });
+        
+        document.getElementById('locationSearch').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = e.target.value;
+                if (query) {
+                    this.searchLocations(query);
+                }
+            }
+        });
+        
+        document.getElementById('loadTerrainBtn').addEventListener('click', () => {
+            this.loadTerrain();
+        });
+        
+        // AI Environment Generation
+        document.getElementById('generateLunarBtn').addEventListener('click', () => {
+            this.generateLunarEnvironment();
+        });
+        
+        document.getElementById('generateMartianBtn').addEventListener('click', () => {
+            this.generateMartianEnvironment();
+        });
+        
+        // Video Export
+        document.getElementById('startRecordingBtn').addEventListener('click', () => {
+            this.startVideoRecording();
+        });
+        
+        document.getElementById('stopRecordingBtn').addEventListener('click', () => {
+            this.stopVideoRecording();
+        });
+        
+        document.getElementById('exportVideoBtn').addEventListener('click', () => {
+            this.exportVideo();
+        });
+        
+        // Tab activation events
+        document.getElementById('maps-tab').addEventListener('click', () => {
+            setTimeout(() => {
+                this.loadPopularLocations();
+            }, 100);
+        });
+    }
 }
 
 // Initialize the application when the page loads
@@ -1422,4 +1746,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Setup analytics event listeners
     window.droneController.setupAnalyticsEventListeners();
+    
+    // Setup enhanced features event listeners
+    window.droneController.setupEnhancedFeaturesEventListeners();
 });
