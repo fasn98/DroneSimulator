@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Drone Simulation Server with Real Telemetry
+Drone Simulation Server with Real Telemetry and Database Integration
 
 A comprehensive Flask-based web server that provides real simulation data
-with physics-based telemetry generation.
+with physics-based telemetry generation and smart database storage.
 """
 
 import os
@@ -18,6 +18,8 @@ from dataclasses import dataclass
 
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_socketio import SocketIO, emit
+from models import create_app, db
+from database_service import DatabaseService
 import logging
 
 # Setup logging
@@ -64,17 +66,20 @@ class DroneSimulationServer:
     """Drone simulation server with real telemetry generation."""
     
     def __init__(self, host='0.0.0.0', port=5000, debug=False):
-        """Initialize web server."""
+        """Initialize web server with database integration."""
         self.host = host
         self.port = port
         self.debug = debug
         
-        # Initialize Flask app
-        self.app = Flask(__name__, 
-                        template_folder='web',
-                        static_folder='web',
-                        static_url_path='')
+        # Initialize Flask app with database
+        self.app, self.db = create_app()
+        self.app.template_folder = 'web'
+        self.app.static_folder = 'web'
+        self.app.static_url_path = ''
         self.app.config['SECRET_KEY'] = 'drone-sim-secret-key'
+        
+        # Initialize database service
+        self.db_service = DatabaseService(self.app)
         
         # Initialize SocketIO
         self.socketio = SocketIO(self.app, cors_allowed_origins="*", async_mode='threading')
@@ -88,7 +93,7 @@ class DroneSimulationServer:
         self._register_routes()
         self._register_socketio_events()
         
-        logger.info(f"Starting drone simulation server on {host}:{port}")
+        logger.info(f"Starting drone simulation server with database on {host}:{port}")
     
     def _register_routes(self):
         """Register Flask routes."""
@@ -158,6 +163,19 @@ class DroneSimulationServer:
                 self.state.environment_config = self._load_environment_config(config.get('environment', 'earth'))
                 self.state.mission_config = self._load_mission_config(config.get('mission_type', 'test_flight'))
                 
+                # Start database session
+                with self.app.app_context():
+                    session = self.db_service.start_simulation_session(
+                        drone_model=config.get('drone_model', 'default_quadrotor'),
+                        environment=config.get('environment', 'earth'),
+                        mission_type=config.get('mission_type', 'test_flight'),
+                        total_waypoints=len(self.state.mission_config.get('waypoints', []))
+                    )
+                    
+                    if session:
+                        self.state.db_session_id = session.id
+                        logger.info(f"Created database session: {session.id}")
+                
                 # Initialize simulation state
                 self.state.running = True
                 self.state.paused = False
@@ -184,7 +202,8 @@ class DroneSimulationServer:
                 return jsonify({
                     'success': True,
                     'message': 'Simulation started',
-                    'config': config
+                    'config': config,
+                    'session_id': getattr(self.state, 'db_session_id', None)
                 })
                 
             except Exception as e:
@@ -197,6 +216,17 @@ class DroneSimulationServer:
             try:
                 if not self.state.running:
                     return jsonify({'error': 'No simulation running'}), 400
+                
+                # End database session
+                if hasattr(self.state, 'db_session_id') and self.state.db_session_id:
+                    with self.app.app_context():
+                        final_progress = getattr(self.state, 'mission_progress', 0.0)
+                        self.db_service.end_simulation_session(
+                            self.state.db_session_id, 
+                            final_progress=final_progress,
+                            status='stopped'
+                        )
+                        logger.info(f"Ended database session: {self.state.db_session_id}")
                 
                 self.state.running = False
                 self.state.paused = False
@@ -287,6 +317,74 @@ class DroneSimulationServer:
                 
             except Exception as e:
                 logger.error(f"Error getting mission data: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        # New database-enabled endpoints
+        @self.app.route('/api/history/sessions')
+        def get_session_history():
+            """Get recent simulation sessions."""
+            try:
+                with self.app.app_context():
+                    limit = request.args.get('limit', 20, type=int)
+                    sessions = self.db_service.get_session_history(limit=limit)
+                    return jsonify({
+                        'sessions': sessions,
+                        'total': len(sessions)
+                    })
+            except Exception as e:
+                logger.error(f"Error getting session history: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/history/sessions/<int:session_id>/telemetry')
+        def get_session_telemetry(session_id):
+            """Get telemetry data for a specific session."""
+            try:
+                with self.app.app_context():
+                    limit = request.args.get('limit', 1000, type=int)
+                    telemetry = self.db_service.get_session_telemetry(session_id, limit=limit)
+                    return jsonify({
+                        'session_id': session_id,
+                        'telemetry': telemetry,
+                        'count': len(telemetry)
+                    })
+            except Exception as e:
+                logger.error(f"Error getting session telemetry: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/history/sessions/<int:session_id>/events')
+        def get_session_events(session_id):
+            """Get mission events for a specific session."""
+            try:
+                with self.app.app_context():
+                    events = self.db_service.get_session_events(session_id)
+                    return jsonify({
+                        'session_id': session_id,
+                        'events': events,
+                        'count': len(events)
+                    })
+            except Exception as e:
+                logger.error(f"Error getting session events: {e}")
+                return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/analytics/performance')
+        def get_performance_analytics():
+            """Get performance analytics across sessions."""
+            try:
+                with self.app.app_context():
+                    drone_model = request.args.get('drone_model')
+                    environment = request.args.get('environment')
+                    mission_type = request.args.get('mission_type')
+                    limit = request.args.get('limit', 50, type=int)
+                    
+                    analytics = self.db_service.get_performance_analytics(
+                        drone_model=drone_model,
+                        environment=environment,
+                        mission_type=mission_type,
+                        limit=limit
+                    )
+                    return jsonify(analytics)
+            except Exception as e:
+                logger.error(f"Error getting performance analytics: {e}")
                 return jsonify({'error': str(e)}), 500
     
     def _register_socketio_events(self):
@@ -449,7 +547,19 @@ class DroneSimulationServer:
         
         self.state.telemetry_history.append(telemetry)
         
-        # Keep only last 1000 entries
+        # Log to database if we have a session
+        if hasattr(self.state, 'db_session_id') and self.state.db_session_id:
+            try:
+                with self.app.app_context():
+                    self.db_service.log_telemetry_data(
+                        self.state.db_session_id,
+                        self.state.current_time,
+                        telemetry
+                    )
+            except Exception as e:
+                logger.error(f"Error logging telemetry to database: {e}")
+        
+        # Keep only last 1000 entries in memory
         if len(self.state.telemetry_history) > 1000:
             self.state.telemetry_history.pop(0)
     
