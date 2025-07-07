@@ -64,16 +64,19 @@ class SciFiAudioSystem:
                 logger.warning("No audio file available for video enhancement")
                 return False
             
-            # Use FFmpeg to combine video with audio
+            # Use FFmpeg to combine video with audio using compatible codec
             cmd = [
                 'ffmpeg', '-y',  # -y to overwrite output file
                 '-i', video_path,  # Input video
                 '-i', audio_file,  # Input audio
-                '-c:v', 'copy',    # Copy video stream
-                '-c:a', 'aac',     # Audio codec
-                '-map', '0:v',     # Map video from first input
-                '-map', '1:a',     # Map audio from second input
-                '-shortest',       # End when shortest stream ends
+                '-c:v', 'libx264',    # Use H.264 codec
+                '-preset', 'medium',  # Balance speed vs quality
+                '-crf', '23',         # Constant rate factor
+                '-c:a', 'aac',        # Audio codec
+                '-b:a', '128k',       # Audio bitrate
+                '-map', '0:v',        # Map video from first input
+                '-map', '1:a',        # Map audio from second input
+                '-shortest',          # End when shortest stream ends
                 output_path
             ]
             
@@ -365,14 +368,26 @@ class VideoExportSystem:
             if export_options:
                 options.update(export_options)
             
-            # Initialize video writer
-            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            # Initialize video writer with most compatible codec
+            # Try X264 first (better compatibility), fallback to mp4v
+            fourcc = cv2.VideoWriter_fourcc(*'X264')
             video_writer = cv2.VideoWriter(
                 output_path,
                 fourcc,
                 self.export_settings['fps'],
                 self.export_settings['resolution']
             )
+            
+            # If X264 fails, fallback to mp4v and we'll fix it with ffmpeg later
+            if not video_writer.isOpened():
+                logger.warning("X264 codec not available, using mp4v fallback")
+                fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                video_writer = cv2.VideoWriter(
+                    output_path,
+                    fourcc,
+                    self.export_settings['fps'],
+                    self.export_settings['resolution']
+                )
             
             if not video_writer.isOpened():
                 return {'success': False, 'error': 'Failed to open video writer'}
@@ -405,6 +420,15 @@ class VideoExportSystem:
                     frame_count += 1
             
             video_writer.release()
+            
+            # Convert to H.264 for better compatibility using ffmpeg
+            logger.info(f"Starting H.264 conversion for {output_path}")
+            h264_output_path = output_path.replace('.mp4', '_h264.mp4')
+            if self._convert_to_h264(output_path, h264_output_path):
+                os.rename(h264_output_path, output_path)
+                logger.info(f"Successfully converted video to H.264 for better compatibility: {output_path}")
+            else:
+                logger.warning(f"H.264 conversion failed for {output_path}, keeping original format")
             
             # Add sci-fi discovery audio if enabled
             if options.get('background_music', True):
@@ -495,6 +519,42 @@ class VideoExportSystem:
         except Exception as e:
             logger.error(f"Error creating highlight reel: {e}")
             return {'highlights': [], 'total_duration': 0, 'frame_count': 0}
+    
+    def _convert_to_h264(self, input_path: str, output_path: str) -> bool:
+        """
+        Convert video to H.264 codec using ffmpeg for better compatibility.
+        
+        Args:
+            input_path: Path to input video file
+            output_path: Path for H.264 output video
+            
+        Returns:
+            bool: True if conversion successful
+        """
+        try:
+            cmd = [
+                'ffmpeg', '-y',
+                '-i', input_path,
+                '-c:v', 'libx264',
+                '-preset', 'medium',
+                '-crf', '23',
+                '-pix_fmt', 'yuv420p',
+                '-movflags', '+faststart',
+                output_path
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                logger.info(f"Successfully converted video to H.264: {output_path}")
+                return True
+            else:
+                logger.error(f"FFmpeg H.264 conversion error: {result.stderr}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Error converting video to H.264: {e}")
+            return False
     
     def _generate_frame(self, telemetry_data: Dict, view_type: str) -> Dict[str, Any]:
         """Generate a single video frame from telemetry data."""
