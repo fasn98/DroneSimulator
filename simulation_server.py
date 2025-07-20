@@ -922,14 +922,20 @@ class DroneSimulationServer:
         logger.info("Simulation loop started")
         dt = 0.1  # 100ms timestep
         loop_count = 0
+        simulation_duration = 600.0  # Maximum simulation duration in seconds
+        mission_status = "executing"  # Change status from planning to executing
+        total_distance = 0.0  # Track total distance traveled
         
-        while self.state.running:
+        while self.state.running and self.state.current_time < simulation_duration:
             loop_count += 1
             if loop_count % 50 == 0:  # Log every 5 seconds
                 logger.info(f"Simulation loop running - iteration {loop_count}, time: {self.state.current_time:.1f}s")
             if not self.state.paused:
-                # Update simulation time
-                self.state.current_time = time.time() - self.state.start_time
+                # Update simulation time (use simulation time, not real time)
+                self.state.current_time += dt
+                
+                # Store previous position for distance calculation
+                prev_position = self.state.position.copy()
                 
                 # Get current waypoint
                 waypoints = self.state.mission_config.get('waypoints', [])
@@ -939,6 +945,10 @@ class DroneSimulationServer:
                     
                     # Simple physics simulation
                     self._update_drone_physics(target_pos, dt)
+                    
+                    # Calculate distance traveled this step
+                    step_distance = np.linalg.norm(self.state.position - prev_position)
+                    total_distance += step_distance
                     
                     # Check if reached waypoint with realistic timing
                     distance = np.linalg.norm(self.state.position - target_pos)
@@ -974,10 +984,16 @@ class DroneSimulationServer:
                                 # Update mission progress
                                 self.state.mission_progress = (self.state.current_waypoint / len(waypoints)) * 100.0
                 
-                # Log telemetry
-                self._log_telemetry()
+                # Log telemetry with mission status and distance
+                self._log_telemetry(mission_status, total_distance)
             
             time.sleep(dt)
+        
+        # Handle simulation completion due to timeout
+        if self.state.current_time >= simulation_duration:
+            logger.info(f"Simulation completed due to timeout at {simulation_duration}s")
+            self.state.running = False
+            self._complete_simulation('completed_timeout')
     
     def _complete_simulation(self, status='completed'):
         """Complete the current simulation session with proper cleanup."""
@@ -1041,10 +1057,10 @@ class DroneSimulationServer:
         self.state.attitude[0] = math.sin(self.state.current_time * 0.5) * 0.1  # roll
         self.state.attitude[1] = math.cos(self.state.current_time * 0.3) * 0.1  # pitch
     
-    def _log_telemetry(self):
-        """Log current telemetry data."""
+    def _log_telemetry(self, mission_status="executing", total_distance=0.0):
+        """Log current telemetry data with enhanced mission information."""
         telemetry = {
-            'timestamp': self.state.current_time,
+            'timestamp': self.state.current_time,  # Use simulation time consistently
             'position': {
                 'x': float(self.state.position[0]),
                 'y': float(self.state.position[1]),
@@ -1064,7 +1080,9 @@ class DroneSimulationServer:
             'current_waypoint': self.state.current_waypoint,
             'altitude': float(self.state.position[2]),
             'ground_speed': float(np.linalg.norm(self.state.velocity[:2])),
-            'vertical_speed': float(self.state.velocity[2])
+            'vertical_speed': float(self.state.velocity[2]),
+            'mission_status': mission_status,
+            'total_distance': total_distance
         }
         
         self.state.telemetry_history.append(telemetry)
@@ -1112,7 +1130,9 @@ class DroneSimulationServer:
                         'simulation_running': True,
                         'current_time': self.state.current_time,
                         'mission_progress': self.state.mission_progress,
-                        'current_waypoint': self.state.current_waypoint
+                        'current_waypoint': self.state.current_waypoint,
+                        'mission_status': latest_telemetry.get('mission_status', 'executing'),
+                        'total_distance': latest_telemetry.get('total_distance', 0.0)
                     }
                 })
             

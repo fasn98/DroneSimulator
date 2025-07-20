@@ -268,6 +268,20 @@ class DroneSimulationController {
     handleStatusUpdate(status) {
         this.simulationStatus = { ...this.simulationStatus, ...status };
         this.updateStatusDisplay();
+        
+        // Update mission status and distance in real-time display
+        if (status.payload) {
+            const statusElement = document.getElementById('missionStatus');
+            if (statusElement && status.payload.mission_status) {
+                const missionStatus = status.payload.mission_status;
+                statusElement.textContent = missionStatus.charAt(0).toUpperCase() + missionStatus.slice(1);
+            }
+
+            const distanceElement = document.getElementById('missionDistance');
+            if (distanceElement && status.payload.total_distance !== undefined) {
+                distanceElement.textContent = `${status.payload.total_distance.toFixed(1)} m`;
+            }
+        }
     }
 
     updatePlots() {
@@ -512,6 +526,19 @@ class DroneSimulationController {
         const altElement = document.getElementById('droneAltitude');
         if (altElement) {
             altElement.textContent = `${data.altitude.toFixed(1)} m`;
+        }
+
+        // Update mission status and distance
+        const statusElement = document.getElementById('missionStatus');
+        if (statusElement) {
+            const status = data.mission_status || 'executing';
+            statusElement.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+        }
+
+        const distanceElement = document.getElementById('missionDistance');
+        if (distanceElement) {
+            const distance = data.total_distance || 0;
+            distanceElement.textContent = `${distance.toFixed(1)} m`;
         }
     }
 
