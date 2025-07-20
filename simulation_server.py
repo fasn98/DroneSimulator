@@ -221,7 +221,14 @@ class DroneSimulationServer:
                 
                 # Load configurations
                 self.state.drone_config = self._load_drone_config(config.get('drone_model', 'default_quadrotor'))
-                self.state.environment_config = self._load_environment_config(config.get('environment', 'earth'))
+                
+                # Use custom environment if available, otherwise load from config
+                if hasattr(self, 'custom_environment_config') and self.custom_environment_config:
+                    self.state.environment_config = self.custom_environment_config
+                    logger.info("Using custom environment configuration")
+                else:
+                    self.state.environment_config = self._load_environment_config(config.get('environment', 'earth'))
+                
                 self.state.mission_config = self._load_mission_config(config.get('mission_type', 'test_flight'))
                 
                 # Initialize database service if needed
@@ -255,6 +262,9 @@ class DroneSimulationServer:
                 self.state.current_waypoint = 0
                 self.state.mission_progress = 0.0
                 self.state.telemetry_history = []
+                
+                # Store environment config for display
+                self.state.environment_config = environment_config
                 
                 # Start simulation thread
                 logger.info("Starting simulation thread...")
@@ -849,6 +859,31 @@ class DroneSimulationServer:
             except Exception as e:
                 logger.error(f"Error creating Real World video: {e}")
                 return jsonify({'error': str(e)}), 500
+        
+        @self.app.route('/api/environment/custom', methods=['POST'])
+        def apply_custom_environment():
+            """Apply custom environment configuration for next simulation."""
+            try:
+                custom_config = request.get_json() or {}
+                
+                # Validate required fields
+                if 'gravity' not in custom_config:
+                    return jsonify({'error': 'Gravity value required'}), 400
+                
+                # Store custom environment configuration
+                self.custom_environment_config = custom_config
+                
+                logger.info(f"Custom environment applied: gravity={custom_config.get('gravity')} m/s²")
+                
+                return jsonify({
+                    'success': True,
+                    'message': 'Custom environment configuration applied',
+                    'config': custom_config
+                })
+                
+            except Exception as e:
+                logger.error(f"Error applying custom environment: {e}")
+                return jsonify({'error': str(e)}), 500
     
     def _register_socketio_events(self):
         """Register SocketIO event handlers."""
@@ -1057,6 +1092,42 @@ class DroneSimulationServer:
         self.state.attitude[0] = math.sin(self.state.current_time * 0.5) * 0.1  # roll
         self.state.attitude[1] = math.cos(self.state.current_time * 0.3) * 0.1  # pitch
     
+    def _get_environment_data(self):
+        """Get current environment data for display."""
+        if not hasattr(self.state, 'environment_config'):
+            return {}
+        
+        env_config = self.state.environment_config
+        atmosphere = env_config.get('atmosphere', {})
+        wind = env_config.get('wind', {})
+        
+        # Calculate altitude-dependent values
+        altitude = float(self.state.position[2])
+        gravity = env_config.get('gravity', 9.81)
+        
+        # Air density (simplified calculation)
+        sea_level_density = atmosphere.get('sea_level_density', 1.225)
+        if sea_level_density > 0:  # Not vacuum
+            air_density = sea_level_density * math.exp(-altitude / 8400)  # Scale height approximation
+        else:
+            air_density = 0.0
+            
+        # Temperature (simplified calculation)
+        sea_level_temp = atmosphere.get('sea_level_temperature', 288.15)
+        lapse_rate = atmosphere.get('temperature_lapse_rate', -0.0065)
+        temperature_k = sea_level_temp + lapse_rate * altitude
+        temperature_c = temperature_k - 273.15
+        
+        # Wind speed
+        wind_speed = wind.get('base_speed', 0.0) if wind.get('enabled', False) else 0.0
+        
+        return {
+            'gravity': gravity,
+            'air_density': air_density,
+            'temperature': temperature_c,
+            'wind_speed': wind_speed
+        }
+    
     def _log_telemetry(self, mission_status="executing", total_distance=0.0):
         """Log current telemetry data with enhanced mission information."""
         telemetry = {
@@ -1122,6 +1193,9 @@ class DroneSimulationServer:
                     'payload': latest_telemetry
                 })
                 
+                # Calculate environment data
+                env_data = self._get_environment_data()
+                
                 # Broadcast status update
                 self.socketio.emit('status_update', {
                     'type': 'status',
@@ -1132,7 +1206,8 @@ class DroneSimulationServer:
                         'mission_progress': self.state.mission_progress,
                         'current_waypoint': self.state.current_waypoint,
                         'mission_status': latest_telemetry.get('mission_status', 'executing'),
-                        'total_distance': latest_telemetry.get('total_distance', 0.0)
+                        'total_distance': latest_telemetry.get('total_distance', 0.0),
+                        'environment': env_data
                     }
                 })
             

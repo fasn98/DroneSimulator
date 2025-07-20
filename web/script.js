@@ -39,6 +39,9 @@ class DroneSimulationController {
             this.startStatusPolling();
             
             console.log('Drone simulation controller initialized successfully');
+        
+        // Set up custom environment listeners
+        this.setupCustomEnvironmentListeners();
         } catch (error) {
             console.error('Error initializing controller:', error);
         }
@@ -281,7 +284,149 @@ class DroneSimulationController {
             if (distanceElement && status.payload.total_distance !== undefined) {
                 distanceElement.textContent = `${status.payload.total_distance.toFixed(1)} m`;
             }
+            
+            // Update environment display
+            if (status.payload.environment) {
+                this.updateEnvironmentDisplay(status.payload.environment);
+            }
         }
+    }
+    
+    updateEnvironmentDisplay(envData) {
+        // Update gravity
+        const gravityElement = document.getElementById('envGravity');
+        if (gravityElement && envData.gravity !== undefined) {
+            gravityElement.textContent = `${envData.gravity.toFixed(2)} m/s²`;
+        }
+        
+        // Update air density
+        const densityElement = document.getElementById('envDensity');
+        if (densityElement && envData.air_density !== undefined) {
+            densityElement.textContent = `${envData.air_density.toFixed(3)} kg/m³`;
+        }
+        
+        // Update temperature
+        const tempElement = document.getElementById('envTemperature');
+        if (tempElement && envData.temperature !== undefined) {
+            tempElement.textContent = `${envData.temperature.toFixed(1)}°C`;
+        }
+        
+        // Update wind speed
+        const windElement = document.getElementById('envWind');
+        if (windElement && envData.wind_speed !== undefined) {
+            windElement.textContent = `${envData.wind_speed.toFixed(1)} m/s`;
+        }
+    }
+    
+    setupCustomEnvironmentListeners() {
+        // Load environment preset
+        document.getElementById('loadPresetEnv').addEventListener('click', () => {
+            const selectEl = document.getElementById('envPresetSelect');
+            if (selectEl.style.display === 'none') {
+                selectEl.style.display = 'block';
+            } else {
+                const selectedEnv = selectEl.value;
+                this.loadEnvironmentPreset(selectedEnv);
+                selectEl.style.display = 'none';
+            }
+        });
+        
+        // Environment preset selection
+        document.getElementById('envPresetSelect').addEventListener('change', (e) => {
+            this.loadEnvironmentPreset(e.target.value);
+            e.target.style.display = 'none';
+        });
+        
+        // Reset to Earth defaults
+        document.getElementById('resetCustomEnv').addEventListener('click', () => {
+            this.loadEnvironmentPreset('earth');
+        });
+        
+        // Apply custom environment
+        document.getElementById('applyCustomEnv').addEventListener('click', () => {
+            this.applyCustomEnvironment();
+        });
+    }
+    
+    async loadEnvironmentPreset(envName) {
+        try {
+            const response = await fetch('/api/configurations/environments');
+            if (response.ok) {
+                const environments = await response.json();
+                const envConfig = environments[envName];
+                
+                if (envConfig) {
+                    // Update input fields
+                    document.getElementById('customGravity').value = envConfig.gravity || 9.81;
+                    document.getElementById('customAirDensity').value = envConfig.atmosphere?.sea_level_density || 1.225;
+                    document.getElementById('customTemperature').value = 
+                        (envConfig.atmosphere?.sea_level_temperature || 288.15) - 273.15; // Convert K to C
+                    document.getElementById('customWindSpeed').value = envConfig.wind?.base_speed || 0;
+                    document.getElementById('enableWind').checked = envConfig.wind?.enabled || false;
+                    document.getElementById('customEnvName').value = envName.charAt(0).toUpperCase() + envName.slice(1);
+                    
+                    this.showToast(`Loaded ${envName} environment preset`, 'success');
+                }
+            }
+        } catch (error) {
+            console.error('Error loading environment preset:', error);
+            this.showToast('Error loading environment preset', 'error');
+        }
+    }
+    
+    async applyCustomEnvironment() {
+        const customConfig = {
+            gravity: parseFloat(document.getElementById('customGravity').value),
+            atmosphere: {
+                sea_level_density: parseFloat(document.getElementById('customAirDensity').value),
+                sea_level_temperature: parseFloat(document.getElementById('customTemperature').value) + 273.15, // Convert C to K
+                sea_level_pressure: 101325.0,
+                temperature_lapse_rate: -0.0065,
+                gas_constant: 287.0
+            },
+            wind: {
+                enabled: document.getElementById('enableWind').checked,
+                base_speed: parseFloat(document.getElementById('customWindSpeed').value),
+                direction: parseFloat(document.getElementById('customWindDirection').value),
+                gust_factor: 1.5,
+                direction_variability: 30.0
+            }
+        };
+        
+        try {
+            const response = await fetch('/api/environment/custom', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(customConfig)
+            });
+            
+            if (response.ok) {
+                const envName = document.getElementById('customEnvName').value || 'Custom';
+                this.showToast(`Applied custom environment: ${envName}`, 'success');
+            } else {
+                this.showToast('Error applying custom environment', 'error');
+            }
+        } catch (error) {
+            console.error('Error applying custom environment:', error);
+            this.showToast('Error applying custom environment', 'error');
+        }
+    }
+    
+    showToast(message, type = 'info') {
+        // Simple toast notification
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type === 'error' ? 'danger' : 'success'} position-fixed`;
+        toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';
+        toast.innerHTML = `${message} <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>`;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 5000);
     }
 
     updatePlots() {

@@ -161,6 +161,11 @@
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="custom-env-tab" data-bs-toggle="tab" data-bs-target="#custom-env" type="button" role="tab">
+                                <i class="fas fa-cog"></i> Custom Environment
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
                             <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab">
                                 <i class="fas fa-file-alt"></i> Logs
                             </button>
@@ -704,6 +709,77 @@
                                 </div>
                             </div>
                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Custom Environment Tab -->
+                        <div class="tab-pane fade" id="custom-env" role="tabpanel">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-cog"></i> Custom Environment Configuration</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Physical Properties</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">Gravity (m/s²)</label>
+                                                <input type="number" class="form-control" id="customGravity" value="9.81" step="0.01" min="0" max="50">
+                                                <small class="text-muted">Earth: 9.81, Mars: 3.71, Moon: 1.62</small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Air Density (kg/m³)</label>
+                                                <input type="number" class="form-control" id="customAirDensity" value="1.225" step="0.001" min="0" max="10">
+                                                <small class="text-muted">Earth: 1.225, Mars: 0.016, Moon: 0.0</small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Temperature (°C)</label>
+                                                <input type="number" class="form-control" id="customTemperature" value="15" min="-273" max="100">
+                                                <small class="text-muted">Earth: 15, Mars: -63, Moon: -23</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Wind Conditions</h6>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="enableWind" checked>
+                                                <label class="form-check-label" for="enableWind">
+                                                    Enable Wind Effects
+                                                </label>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Wind Speed (m/s)</label>
+                                                <input type="number" class="form-control" id="customWindSpeed" value="5" min="0" max="100">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Wind Direction (degrees)</label>
+                                                <input type="number" class="form-control" id="customWindDirection" value="0" min="0" max="360">
+                                                <small class="text-muted">0° = North, 90° = East, 180° = South, 270° = West</small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Environment Name</label>
+                                                <input type="text" class="form-control" id="customEnvName" value="Custom" placeholder="Custom Environment">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <button class="btn btn-primary me-2" id="applyCustomEnv">
+                                                <i class="fas fa-check"></i> Apply Custom Environment
+                                            </button>
+                                            <button class="btn btn-secondary me-2" id="resetCustomEnv">
+                                                <i class="fas fa-undo"></i> Reset to Earth
+                                            </button>
+                                            <button class="btn btn-info" id="loadPresetEnv">
+                                                <i class="fas fa-download"></i> Load Environment Preset
+                                            </button>
+                                            <select class="form-select mt-2" id="envPresetSelect" style="display: none;">
+                                                <option value="earth">Earth Standard</option>
+                                                <option value="mars">Mars Conditions</option>
+                                                <option value="moon">Moon Vacuum</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
