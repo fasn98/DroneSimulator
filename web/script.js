@@ -239,33 +239,49 @@ class DroneSimulationController {
         // Extract payload if wrapped
         const data = telemetry.payload || telemetry;
         
-        // Normalize the telemetry data format
-        const normalizedData = {
-            timestamp: data.timestamp || Date.now() / 1000,
-            position_x: data.position?.x || data.position_x || 0,
-            position_y: data.position?.y || data.position_y || 0,
-            position_z: data.position?.z || data.position_z || 0,
-            velocity_x: data.velocity?.x || data.velocity_x || 0,
-            velocity_y: data.velocity?.y || data.velocity_y || 0,
-            velocity_z: data.velocity?.z || data.velocity_z || 0,
-            ground_speed: data.ground_speed || Math.sqrt((data.velocity?.x || 0)**2 + (data.velocity?.y || 0)**2),
-            altitude: data.altitude || data.position?.z || data.position_z || 0,
-            roll: data.attitude?.roll || data.roll || 0,
-            pitch: data.attitude?.pitch || data.pitch || 0,
-            yaw: data.attitude?.yaw || data.yaw || 0,
-            mission_progress: data.mission_progress || 0,
-            current_waypoint: data.current_waypoint || 0
-        };
-        
-        this.telemetryData.push(normalizedData);
-        
-        // Keep more points to show complete trajectory (up to 2000 points for full flight)
-        if (this.telemetryData.length > 2000) {
-            this.telemetryData = this.telemetryData.slice(-2000);
+        // Fix timestamp issues - ensure we use simulation time (should be < 1000 seconds for typical simulation)
+        let timestamp = data.timestamp;
+        if (!timestamp || timestamp > 10000) {
+            // Use a simulation-relative timestamp
+            timestamp = this.telemetryData.length * 0.1; // Approximate simulation time
         }
         
-        this.updatePlots();
-        this.updateRealtimeDisplay(normalizedData);
+        // Normalize the telemetry data format with proper data validation
+        const normalizedData = {
+            timestamp: timestamp,
+            position_x: parseFloat(data.position?.x || data.position_x || 0),
+            position_y: parseFloat(data.position?.y || data.position_y || 0),
+            position_z: parseFloat(data.position?.z || data.position_z || 0),
+            velocity_x: parseFloat(data.velocity?.x || data.velocity_x || 0),
+            velocity_y: parseFloat(data.velocity?.y || data.velocity_y || 0),
+            velocity_z: parseFloat(data.velocity?.z || data.velocity_z || 0),
+            ground_speed: parseFloat(data.ground_speed || Math.sqrt((data.velocity?.x || 0)**2 + (data.velocity?.y || 0)**2)),
+            altitude: parseFloat(data.altitude || data.position?.z || data.position_z || 0),
+            roll: parseFloat(data.attitude?.roll || data.roll || 0),
+            pitch: parseFloat(data.attitude?.pitch || data.pitch || 0),
+            yaw: parseFloat(data.attitude?.yaw || data.yaw || 0),
+            mission_progress: parseFloat(data.mission_progress || 0),
+            current_waypoint: parseInt(data.current_waypoint || 0)
+        };
+        
+        // Only add valid data with finite numbers
+        const isValidData = Object.values(normalizedData).every(val => 
+            typeof val === 'number' && isFinite(val) && !isNaN(val)
+        );
+        
+        if (isValidData) {
+            this.telemetryData.push(normalizedData);
+            
+            // Keep more points to show complete trajectory (up to 2000 points for full flight)
+            if (this.telemetryData.length > 2000) {
+                this.telemetryData = this.telemetryData.slice(-2000);
+            }
+            
+            this.updatePlots();
+            this.updateRealtimeDisplay(normalizedData);
+        } else {
+            console.log('Skipping invalid telemetry data:', normalizedData);
+        }
         
         // Update environment display if available
         if (data.environment) {
@@ -556,7 +572,12 @@ class DroneSimulationController {
                             position_x: status.position[0],
                             position_y: status.position[1], 
                             position_z: status.position[2],
-                            timestamp: Date.now() / 1000
+                            timestamp: status.current_time || this.telemetryData.length * 0.1,
+                            altitude: status.position[2],
+                            ground_speed: status.ground_speed || 0,
+                            roll: (status.attitude && status.attitude[0]) || 0,
+                            pitch: (status.attitude && status.attitude[1]) || 0,
+                            yaw: (status.attitude && status.attitude[2]) || 0
                         };
                         
                         // Add to telemetry data for plotting
@@ -756,11 +777,11 @@ class DroneSimulationController {
             return;
         }
 
-        // Filter out invalid data
+        // Filter out invalid data - handle both null and NaN values
         const validData = times.map((time, i) => ({
             time: time,
             altitude: altitudes[i]
-        })).filter(d => !isNaN(d.time) && !isNaN(d.altitude));
+        })).filter(d => d.time != null && d.altitude != null && !isNaN(d.time) && !isNaN(d.altitude) && isFinite(d.time) && isFinite(d.altitude));
 
         if (validData.length === 0) {
             console.log('No valid altitude data to plot');
@@ -803,11 +824,11 @@ class DroneSimulationController {
             return;
         }
 
-        // Filter out invalid data
+        // Filter out invalid data - handle both null and NaN values  
         const validData = times.map((time, i) => ({
             time: time,
             speed: speeds[i]
-        })).filter(d => !isNaN(d.time) && !isNaN(d.speed));
+        })).filter(d => d.time != null && d.speed != null && !isNaN(d.time) && !isNaN(d.speed) && isFinite(d.time) && isFinite(d.speed));
 
         if (validData.length === 0) {
             console.log('No valid speed data to plot');
@@ -856,7 +877,9 @@ class DroneSimulationController {
             roll: data[i].roll * 180/Math.PI,
             pitch: data[i].pitch * 180/Math.PI,
             yaw: data[i].yaw * 180/Math.PI
-        })).filter(d => !isNaN(d.time) && !isNaN(d.roll) && !isNaN(d.pitch) && !isNaN(d.yaw));
+        })).filter(d => d.time != null && d.roll != null && d.pitch != null && d.yaw != null && 
+                      !isNaN(d.time) && !isNaN(d.roll) && !isNaN(d.pitch) && !isNaN(d.yaw) &&
+                      isFinite(d.time) && isFinite(d.roll) && isFinite(d.pitch) && isFinite(d.yaw));
 
         if (validData.length === 0) {
             console.log('No valid attitude data to plot');
