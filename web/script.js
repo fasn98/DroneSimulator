@@ -259,9 +259,9 @@ class DroneSimulationController {
         
         this.telemetryData.push(normalizedData);
         
-        // Keep only last 200 points for performance
-        if (this.telemetryData.length > 200) {
-            this.telemetryData = this.telemetryData.slice(-200);
+        // Keep more points to show complete trajectory (up to 2000 points for full flight)
+        if (this.telemetryData.length > 2000) {
+            this.telemetryData = this.telemetryData.slice(-2000);
         }
         
         this.updatePlots();
@@ -474,12 +474,38 @@ class DroneSimulationController {
                 `Time: ${p.time.toFixed(1)}s<br>Position: (${p.x.toFixed(1)}, ${p.y.toFixed(1)}, ${p.z.toFixed(1)})`
             );
 
+            // Calculate optimal ranges based on actual trajectory data
+            const xValues = positions.map(p => p.x);
+            const yValues = positions.map(p => p.y);
+            const zValues = positions.map(p => p.z);
+            
+            const xMin = Math.min(...xValues, 0);
+            const xMax = Math.max(...xValues, 0);
+            const yMin = Math.min(...yValues, 0);
+            const yMax = Math.max(...yValues, 0);
+            const zMin = Math.min(...zValues, 0);
+            const zMax = Math.max(...zValues, 30);
+            
+            // Add 10% padding around the trajectory
+            const xPadding = (xMax - xMin) * 0.1 || 10;
+            const yPadding = (yMax - yMin) * 0.1 || 10;
+            const zPadding = (zMax - zMin) * 0.1 || 5;
+
             const layout = {
                 title: `3D Flight Trajectory (${this.telemetryData.length} points) - Time: ${positions[positions.length-1]?.time.toFixed(1)}s`,
                 scene: {
-                    xaxis: { title: 'X (m)', range: [-50, 200] },
-                    yaxis: { title: 'Y (m)', range: [-50, 250] },
-                    zaxis: { title: 'Z (m)', range: [0, 100] },
+                    xaxis: { 
+                        title: 'X (m)', 
+                        range: [xMin - xPadding, xMax + xPadding] 
+                    },
+                    yaxis: { 
+                        title: 'Y (m)', 
+                        range: [yMin - yPadding, yMax + yPadding] 
+                    },
+                    zaxis: { 
+                        title: 'Z (m)', 
+                        range: [Math.max(0, zMin - zPadding), zMax + zPadding] 
+                    },
                     camera: {
                         eye: { x: 1.5, y: 1.5, z: 1.5 }
                     }
@@ -535,8 +561,8 @@ class DroneSimulationController {
                         
                         // Add to telemetry data for plotting
                         this.telemetryData.push(fakeTelemetry);
-                        if (this.telemetryData.length > 200) {
-                            this.telemetryData = this.telemetryData.slice(-200);
+                        if (this.telemetryData.length > 2000) {
+                            this.telemetryData = this.telemetryData.slice(-2000);
                         }
                         this.updatePlots();
                     }
@@ -616,9 +642,10 @@ class DroneSimulationController {
                 Plotly.newPlot('trajectoryPlot', [], { 
                     title: 'Flight Trajectory - Start simulation to see data',
                     scene: {
-                        xaxis: { title: 'X (m)', range: [-50, 200] },
-                        yaxis: { title: 'Y (m)', range: [-50, 250] },
-                        zaxis: { title: 'Z (m)', range: [0, 100] }
+                        xaxis: { title: 'X (m)' },
+                        yaxis: { title: 'Y (m)' },
+                        zaxis: { title: 'Z (m)' },
+                        aspectmode: 'cube'
                     }
                 });
             }
