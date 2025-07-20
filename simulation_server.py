@@ -263,8 +263,7 @@ class DroneSimulationServer:
                 self.state.mission_progress = 0.0
                 self.state.telemetry_history = []
                 
-                # Store environment config for display
-                self.state.environment_config = environment_config
+                # Environment config is already stored in self.state.environment_config above
                 
                 # Start simulation thread
                 logger.info("Starting simulation thread...")
@@ -1186,6 +1185,12 @@ class DroneSimulationServer:
         while self.state.running:
             if not self.state.paused and self.state.telemetry_history:
                 latest_telemetry = self.state.telemetry_history[-1]
+                
+                # Calculate environment data
+                env_data = self._get_environment_data()
+                
+                # Add environment data to telemetry
+                latest_telemetry['environment'] = env_data
                 
                 # Broadcast telemetry update
                 self.socketio.emit('telemetry_update', {

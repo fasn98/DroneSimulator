@@ -266,6 +266,11 @@ class DroneSimulationController {
         
         this.updatePlots();
         this.updateRealtimeDisplay(normalizedData);
+        
+        // Update environment display if available
+        if (data.environment) {
+            this.updateEnvironmentDisplay(data.environment);
+        }
     }
 
     handleStatusUpdate(status) {
