@@ -95,6 +95,7 @@ class TelemetryData(db.Model):
     velocity_z = db.Column(db.Float, nullable=False)
     ground_speed = db.Column(db.Float, nullable=False)
     vertical_speed = db.Column(db.Float, nullable=False)
+    vector_speed = db.Column(db.Float, nullable=False)
     
     # Attitude (in radians)
     roll = db.Column(db.Float, nullable=False)
@@ -142,6 +143,7 @@ class TelemetryData(db.Model):
             },
             'ground_speed': self.ground_speed,
             'vertical_speed': self.vertical_speed,
+            'vector_speed': self.vector_speed,
             'altitude': self.altitude,
             'mission_progress': self.mission_progress,
             'current_waypoint': self.current_waypoint,

@@ -255,19 +255,34 @@ class DroneSimulationController {
             timestamp = this.telemetryData.length * 0.1; // Approximate simulation time
         }
         
+        // Calculate ground speed from velocity components if not provided
+        const velocity_x = parseFloat(data.velocity?.x || data.velocity_x || 0);
+        const velocity_y = parseFloat(data.velocity?.y || data.velocity_y || 0);
+        const velocity_z = parseFloat(data.velocity?.z || data.velocity_z || 0);
+        const ground_speed = parseFloat(data.ground_speed || Math.sqrt(velocity_x**2 + velocity_y**2));
+        const pitch = parseFloat(data.attitude?.pitch || data.pitch || 0);
+        
+        // Calculate vertical speed and vector speed based on horizontal speed and pitch angle
+        // Vertical speed = horizontal_speed * sin(pitch) + velocity_z
+        // Vector speed = sqrt(horizontal_speed^2 + vertical_speed^2)
+        const vertical_speed = ground_speed * Math.sin(pitch) + velocity_z;
+        const vector_speed = Math.sqrt(ground_speed**2 + vertical_speed**2);
+        
         // Normalize the telemetry data format with proper data validation
         const normalizedData = {
             timestamp: timestamp,
             position_x: parseFloat(data.position?.x || data.position_x || 0),
             position_y: parseFloat(data.position?.y || data.position_y || 0),
             position_z: parseFloat(data.position?.z || data.position_z || 0),
-            velocity_x: parseFloat(data.velocity?.x || data.velocity_x || 0),
-            velocity_y: parseFloat(data.velocity?.y || data.velocity_y || 0),
-            velocity_z: parseFloat(data.velocity?.z || data.velocity_z || 0),
-            ground_speed: parseFloat(data.ground_speed || Math.sqrt((data.velocity?.x || 0)**2 + (data.velocity?.y || 0)**2)),
+            velocity_x: velocity_x,
+            velocity_y: velocity_y,
+            velocity_z: velocity_z,
+            ground_speed: ground_speed,
+            vertical_speed: vertical_speed,
+            vector_speed: vector_speed,
             altitude: parseFloat(data.altitude || data.position?.z || data.position_z || 0),
             roll: parseFloat(data.attitude?.roll || data.roll || 0),
-            pitch: parseFloat(data.attitude?.pitch || data.pitch || 0),
+            pitch: pitch,
             yaw: parseFloat(data.attitude?.yaw || data.yaw || 0),
             mission_progress: parseFloat(data.mission_progress || 0),
             current_waypoint: parseInt(data.current_waypoint || 0)
@@ -707,8 +722,9 @@ class DroneSimulationController {
                     margin: { l: 60, r: 30, t: 50, b: 50 },
                     plot_bgcolor: '#f8f9fa',
                     paper_bgcolor: 'white',
+                    legend: { x: 0, y: 1 },
                     annotations: [{
-                        text: 'No simulation data available<br>Start a simulation to see live telemetry',
+                        text: 'No simulation data available<br>Start a simulation to see Horizontal, Vertical & Vector speeds',
                         x: 0.5,
                         y: 0.5,
                         xref: 'paper',
@@ -759,16 +775,28 @@ class DroneSimulationController {
             attElement.textContent = `R:${(data.roll * 180/Math.PI).toFixed(1)}° P:${(data.pitch * 180/Math.PI).toFixed(1)}° Y:${(data.yaw * 180/Math.PI).toFixed(1)}°`;
         }
 
-        // Update current velocity
+        // Update current velocity - show vector speed as main velocity
         const velElement = document.getElementById('droneVelocity');
         if (velElement) {
-            velElement.textContent = `${data.ground_speed.toFixed(1)} m/s`;
+            velElement.textContent = `${data.vector_speed.toFixed(1)} m/s`;
         }
 
         // Update current altitude
         const altElement = document.getElementById('droneAltitude');
         if (altElement) {
             altElement.textContent = `${data.altitude.toFixed(1)} m`;
+        }
+
+        // Update horizontal speed
+        const horizontalSpeedElement = document.getElementById('droneHorizontalSpeed');
+        if (horizontalSpeedElement) {
+            horizontalSpeedElement.textContent = `${data.ground_speed.toFixed(1)} m/s`;
+        }
+
+        // Update vertical speed
+        const verticalSpeedElement = document.getElementById('droneVerticalSpeed');
+        if (verticalSpeedElement) {
+            verticalSpeedElement.textContent = `${data.vertical_speed.toFixed(1)} m/s`;
         }
 
         // Update mission status and distance
@@ -805,8 +833,8 @@ class DroneSimulationController {
             // Altitude vs Time plot
             this.updateAltitudePlot(times, recentData.map(d => d.altitude));
             
-            // Speed vs Time plot  
-            this.updateSpeedPlot(times, recentData.map(d => d.ground_speed));
+            // Speed vs Time plot with multiple speed types
+            this.updateSpeedPlot(times, recentData);
             
             // Attitude plots
             this.updateAttitudePlots(times, recentData);
@@ -881,7 +909,7 @@ class DroneSimulationController {
         });
     }
 
-    updateSpeedPlot(times, speeds) {
+    updateSpeedPlot(times, speedData) {
         const element = document.getElementById('speedPlot');
         if (!element) {
             console.log('speedPlot element not found');
@@ -891,26 +919,50 @@ class DroneSimulationController {
         // Filter out invalid data - handle both null and NaN values  
         const validData = times.map((time, i) => ({
             time: time,
-            speed: speeds[i]
-        })).filter(d => d.time != null && d.speed != null && !isNaN(d.time) && !isNaN(d.speed) && isFinite(d.time) && isFinite(d.speed));
+            ground_speed: speedData[i].ground_speed,
+            vertical_speed: speedData[i].vertical_speed,
+            vector_speed: speedData[i].vector_speed
+        })).filter(d => d.time != null && d.ground_speed != null && d.vertical_speed != null && d.vector_speed != null &&
+                      !isNaN(d.time) && !isNaN(d.ground_speed) && !isNaN(d.vertical_speed) && !isNaN(d.vector_speed) && 
+                      isFinite(d.time) && isFinite(d.ground_speed) && isFinite(d.vertical_speed) && isFinite(d.vector_speed));
 
         if (validData.length === 0) {
             console.log('No valid speed data to plot');
             return;
         }
 
-        const trace = {
+        // Ground/Horizontal Speed trace
+        const groundTrace = {
             x: validData.map(d => d.time),
-            y: validData.map(d => d.speed),
+            y: validData.map(d => d.ground_speed),
             type: 'scatter',
-            mode: 'lines+markers',
-            name: 'Ground Speed',
-            line: { color: 'orange', width: 2 },
-            marker: { size: 4 }
+            mode: 'lines',
+            name: 'Horizontal Speed',
+            line: { color: 'orange', width: 2 }
+        };
+
+        // Vertical Speed trace
+        const verticalTrace = {
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.vertical_speed),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Vertical Speed',
+            line: { color: 'green', width: 2 }
+        };
+
+        // Vector Speed trace
+        const vectorTrace = {
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.vector_speed),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Vector Speed',
+            line: { color: 'purple', width: 2 }
         };
 
         const layout = {
-            title: { text: 'Speed vs Time', font: { size: 16 } },
+            title: { text: 'Speed vs Time (Horizontal, Vertical, Vector)', font: { size: 16 } },
             xaxis: { 
                 title: 'Time (s)',
                 showgrid: true,
@@ -922,13 +974,14 @@ class DroneSimulationController {
                 gridcolor: '#e6e6e6'
             },
             margin: { l: 60, r: 30, t: 50, b: 50 },
+            legend: { x: 0, y: 1 },
             plot_bgcolor: 'white',
             paper_bgcolor: 'white',
             annotations: [] // Clear any "no data" annotations when showing real data
         };
 
         // Force complete plot recreation to ensure visibility
-        Plotly.newPlot(element, [trace], layout, {
+        Plotly.newPlot(element, [groundTrace, verticalTrace, vectorTrace], layout, {
             responsive: true,
             displayModeBar: false
         }).then(() => {

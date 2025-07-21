@@ -151,6 +151,7 @@ class DatabaseService:
                 velocity_z=velocity.get('z', 0),
                 ground_speed=telemetry.get('ground_speed', 0),
                 vertical_speed=telemetry.get('vertical_speed', 0),
+                vector_speed=telemetry.get('vector_speed', 0),
                 roll=attitude.get('roll', 0),
                 pitch=attitude.get('pitch', 0),
                 yaw=attitude.get('yaw', 0),
