@@ -1164,6 +1164,11 @@ class DroneSimulationController {
                                             title="Load telemetry data into Telemetry tab">
                                         <i class="fas fa-chart-line"></i> Load to Telemetry
                                     </button>
+                                    <button class="btn btn-outline-info btn-sm trajectory-3d-btn" 
+                                            data-session-id="${session.id}"
+                                            title="Generate 3D trajectory visualization">
+                                        <i class="fas fa-cube"></i> 3D Trajectory
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1189,6 +1194,15 @@ class DroneSimulationController {
                 e.stopPropagation();
                 const sessionId = btn.getAttribute('data-session-id');
                 this.loadSessionTelemetry(sessionId);
+            });
+        });
+        
+        // Add click handlers for 3D trajectory buttons
+        sessionHistoryElement.querySelectorAll('.trajectory-3d-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const sessionId = btn.getAttribute('data-session-id');
+                this.generateTrajectory3D(sessionId);
             });
         });
     }
@@ -1239,6 +1253,172 @@ class DroneSimulationController {
         console.log('Loading details for session:', sessionId);
         // This would show detailed session information
         this.showMessage(`Loading details for session ${sessionId}...`, 'info');
+    }
+    
+    async generateTrajectory3D(sessionId) {
+        console.log('Generating 3D trajectory for session:', sessionId);
+        
+        try {
+            // Show loading message
+            this.showMessage(`Loading trajectory data for session ${sessionId}...`, 'info');
+            
+            // Fetch telemetry data from API
+            const response = await fetch(`/api/history/sessions/${sessionId}/telemetry?limit=2000`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log(`Loaded ${data.telemetry.length} trajectory points for session ${sessionId}`);
+            
+            if (!data.telemetry || data.telemetry.length === 0) {
+                this.showMessage('No trajectory data found for this session', 'warning');
+                return;
+            }
+            
+            // Convert telemetry data to trajectory format
+            const trajectoryData = data.telemetry.map(point => {
+                const position = point.position || {};
+                return {
+                    x: parseFloat(position.x || 0),
+                    y: parseFloat(position.y || 0), 
+                    z: parseFloat(position.z || point.altitude || 0),
+                    timestamp: point.timestamp || 0
+                };
+            }).filter(p => !isNaN(p.x) && !isNaN(p.y) && !isNaN(p.z) && isFinite(p.x) && isFinite(p.y) && isFinite(p.z));
+            
+            if (trajectoryData.length === 0) {
+                this.showMessage('No valid trajectory points found in session data', 'warning');
+                return;
+            }
+            
+            // Switch to trajectory tab and update plot
+            this.switchToTrajectoryTab();
+            this.updateTrajectoryPlot(trajectoryData);
+            
+            this.showMessage(`Generated 3D trajectory with ${trajectoryData.length} points from session ${sessionId}`, 'success');
+            
+        } catch (error) {
+            console.error('Error generating 3D trajectory:', error);
+            this.showMessage(`Error generating trajectory: ${error.message}`, 'error');
+        }
+    }
+    
+    switchToTrajectoryTab() {
+        // Find and activate the trajectory tab
+        const trajectoryTab = document.querySelector('[data-bs-target="#trajectory"]');
+        if (trajectoryTab) {
+            const tabTrigger = new bootstrap.Tab(trajectoryTab);
+            tabTrigger.show();
+            console.log('Switched to Trajectory tab for 3D visualization');
+        }
+    }
+    
+    updateTrajectoryPlot(trajectoryData) {
+        const element = document.getElementById('trajectoryPlot');
+        if (!element) {
+            console.log('trajectoryPlot element not found');
+            return;
+        }
+
+        console.log('Creating 3D trajectory plot with', trajectoryData.length, 'points');
+        console.log('Sample trajectory points:', trajectoryData.slice(0, 3));
+
+        // Create 3D scatter plot
+        const trace = {
+            x: trajectoryData.map(p => p.x),
+            y: trajectoryData.map(p => p.y),
+            z: trajectoryData.map(p => p.z),
+            type: 'scatter3d',
+            mode: 'lines+markers',
+            marker: {
+                size: 3,
+                color: trajectoryData.map((p, i) => i), // Color by time progression
+                colorscale: 'Viridis',
+                colorbar: {
+                    title: 'Time Progression',
+                    titleside: 'right'
+                }
+            },
+            line: {
+                color: 'blue',
+                width: 3
+            },
+            name: '3D Flight Path'
+        };
+
+        // Add start and end markers
+        const startTrace = {
+            x: [trajectoryData[0].x],
+            y: [trajectoryData[0].y],
+            z: [trajectoryData[0].z],
+            type: 'scatter3d',
+            mode: 'markers',
+            marker: {
+                size: 8,
+                color: 'green',
+                symbol: 'circle'
+            },
+            name: 'Start Position'
+        };
+
+        const endTrace = {
+            x: [trajectoryData[trajectoryData.length - 1].x],
+            y: [trajectoryData[trajectoryData.length - 1].y],
+            z: [trajectoryData[trajectoryData.length - 1].z],
+            type: 'scatter3d',
+            mode: 'markers',
+            marker: {
+                size: 8,
+                color: 'red',
+                symbol: 'square'
+            },
+            name: 'End Position'
+        };
+
+        const layout = {
+            title: {
+                text: '3D Flight Trajectory',
+                font: { size: 18 }
+            },
+            scene: {
+                xaxis: { 
+                    title: 'X Position (m)',
+                    showgrid: true,
+                    gridcolor: '#e6e6e6'
+                },
+                yaxis: { 
+                    title: 'Y Position (m)',
+                    showgrid: true,
+                    gridcolor: '#e6e6e6'
+                },
+                zaxis: { 
+                    title: 'Z Altitude (m)',
+                    showgrid: true,
+                    gridcolor: '#e6e6e6'
+                },
+                camera: {
+                    eye: { x: 1.5, y: 1.5, z: 1.5 },
+                    center: { x: 0, y: 0, z: 0 }
+                },
+                aspectmode: 'cube'
+            },
+            margin: { l: 0, r: 0, t: 50, b: 0 },
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white'
+        };
+
+        console.log('Trajectory plot element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
+        
+        Plotly.newPlot(element, [trace, startTrace, endTrace], layout, {
+            responsive: true,
+            displayModeBar: true
+        }).then(() => {
+            console.log(`Successfully created 3D trajectory plot with ${trajectoryData.length} points`);
+            Plotly.Plots.resize(element);
+        }).catch(error => {
+            console.error('Error creating 3D trajectory plot:', error);
+        });
     }
     
     async loadSessionTelemetry(sessionId) {
