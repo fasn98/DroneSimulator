@@ -671,38 +671,92 @@ class DroneSimulationController {
                 });
             }
 
-            // Initialize real-time plots with proper layouts
+            // Initialize real-time plots with visible sample data to ensure rendering
             const altElement = document.getElementById('altitudePlot');
             if (altElement) {
-                Plotly.newPlot('altitudePlot', [], { 
-                    title: 'Altitude vs Time',
-                    xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Altitude (m)' },
-                    margin: { l: 50, r: 20, t: 40, b: 50 }
+                const sampleTrace = {
+                    x: [0, 10, 20],
+                    y: [0, 15, 25],
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    name: 'Altitude',
+                    line: { color: 'green', width: 3 },
+                    marker: { size: 6 }
+                };
+                
+                Plotly.newPlot('altitudePlot', [sampleTrace], { 
+                    title: { text: 'Altitude vs Time (Ready for Data)', font: { size: 16 } },
+                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
+                    yaxis: { title: 'Altitude (m)', showgrid: true, gridcolor: '#e6e6e6' },
+                    margin: { l: 60, r: 30, t: 50, b: 50 },
+                    plot_bgcolor: 'white',
+                    paper_bgcolor: 'white'
+                }, {
+                    responsive: true,
+                    displayModeBar: false
                 });
-                console.log('Initialized altitude plot');
+                console.log('Initialized altitude plot with visible sample data');
             }
 
             const speedElement = document.getElementById('speedPlot');
             if (speedElement) {
-                Plotly.newPlot('speedPlot', [], { 
-                    title: 'Speed vs Time',
-                    xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Speed (m/s)' },
-                    margin: { l: 50, r: 20, t: 40, b: 50 }
+                const sampleTrace = {
+                    x: [0, 10, 20],
+                    y: [0, 3, 5],
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    name: 'Ground Speed',
+                    line: { color: 'orange', width: 3 },
+                    marker: { size: 6 }
+                };
+                
+                Plotly.newPlot('speedPlot', [sampleTrace], { 
+                    title: { text: 'Speed vs Time (Ready for Data)', font: { size: 16 } },
+                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
+                    yaxis: { title: 'Speed (m/s)', showgrid: true, gridcolor: '#e6e6e6' },
+                    margin: { l: 60, r: 30, t: 50, b: 50 },
+                    plot_bgcolor: 'white',
+                    paper_bgcolor: 'white'
+                }, {
+                    responsive: true,
+                    displayModeBar: false
                 });
-                console.log('Initialized speed plot');
+                console.log('Initialized speed plot with visible sample data');
             }
 
             const attElement = document.getElementById('attitudePlot');
             if (attElement) {
-                Plotly.newPlot('attitudePlot', [], { 
-                    title: 'Attitude vs Time',
-                    xaxis: { title: 'Time (s)' },
-                    yaxis: { title: 'Angle (degrees)' },
-                    margin: { l: 50, r: 20, t: 40, b: 50 }
+                const rollTrace = {
+                    x: [0, 10, 20],
+                    y: [0, 5, -3],
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Roll',
+                    line: { color: 'red', width: 2 }
+                };
+                
+                const pitchTrace = {
+                    x: [0, 10, 20],
+                    y: [0, -2, 4],
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Pitch',
+                    line: { color: 'blue', width: 2 }
+                };
+                
+                Plotly.newPlot('attitudePlot', [rollTrace, pitchTrace], { 
+                    title: { text: 'Attitude vs Time (Ready for Data)', font: { size: 16 } },
+                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
+                    yaxis: { title: 'Angle (degrees)', showgrid: true, gridcolor: '#e6e6e6' },
+                    margin: { l: 60, r: 30, t: 50, b: 50 },
+                    legend: { x: 0, y: 1 },
+                    plot_bgcolor: 'white',
+                    paper_bgcolor: 'white'
+                }, {
+                    responsive: true,
+                    displayModeBar: false
                 });
-                console.log('Initialized attitude plot');
+                console.log('Initialized attitude plot with visible sample data');
             }
         }, 100);
     }
@@ -794,15 +848,34 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines+markers',
             name: 'Altitude',
-            line: { color: 'green', width: 2 },
-            marker: { size: 4 }
+            line: { color: 'green', width: 3 },
+            marker: { size: 6 }
         };
 
         const layout = {
-            title: 'Altitude vs Time',
+            title: { text: 'Altitude vs Time', font: { size: 16 } },
             xaxis: { 
                 title: 'Time (s)',
-                range: [Math.min(...validData.map(d => d.time)), Math.max(...validData.map(d => d.time))]
+                showgrid: true,
+                gridcolor: '#e6e6e6'
+            },
+            yaxis: { 
+                title: 'Altitude (m)',
+                showgrid: true,
+                gridcolor: '#e6e6e6'
+            },
+            margin: { l: 60, r: 30, t: 50, b: 50 },
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white'
+        };
+
+        // Force redraw with proper configuration
+        Plotly.newPlot(element, [trace], layout, {
+            responsive: true,
+            displayModeBar: false
+        });
+
+        console.log(`Updated altitude plot with ${validData.length} valid points`);
             },
             yaxis: { 
                 title: 'Altitude (m)',
@@ -846,21 +919,27 @@ class DroneSimulationController {
         };
 
         const layout = {
-            title: 'Speed vs Time',
+            title: { text: 'Speed vs Time', font: { size: 16 } },
             xaxis: { 
                 title: 'Time (s)',
-                range: [Math.min(...validData.map(d => d.time)), Math.max(...validData.map(d => d.time))]
+                showgrid: true,
+                gridcolor: '#e6e6e6'
             },
             yaxis: { 
                 title: 'Speed (m/s)',
-                range: [0, Math.max(...validData.map(d => d.speed)) * 1.1]
+                showgrid: true,
+                gridcolor: '#e6e6e6'
             },
-            margin: { l: 50, r: 20, t: 40, b: 50 },
-            showlegend: false,
-            autosize: true
+            margin: { l: 60, r: 30, t: 50, b: 50 },
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white'
         };
 
-        Plotly.react('speedPlot', [trace], layout);
+        // Force redraw with proper configuration
+        Plotly.newPlot(element, [trace], layout, {
+            responsive: true,
+            displayModeBar: false
+        });
         console.log('Updated speed plot with', validData.length, 'valid points');
     }
 
@@ -914,21 +993,28 @@ class DroneSimulationController {
         };
 
         const layout = {
-            title: 'Attitude vs Time',
+            title: { text: 'Attitude vs Time', font: { size: 16 } },
             xaxis: { 
                 title: 'Time (s)',
-                range: [Math.min(...validData.map(d => d.time)), Math.max(...validData.map(d => d.time))]
+                showgrid: true,
+                gridcolor: '#e6e6e6'
             },
             yaxis: { 
                 title: 'Angle (degrees)',
-                range: [-180, 180]
+                showgrid: true,
+                gridcolor: '#e6e6e6'
             },
-            margin: { l: 50, r: 20, t: 40, b: 50 },
+            margin: { l: 60, r: 30, t: 50, b: 50 },
             legend: { x: 0, y: 1 },
-            autosize: true
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white'
         };
 
-        Plotly.react('attitudePlot', [rollTrace, pitchTrace, yawTrace], layout);
+        // Force redraw with proper configuration
+        Plotly.newPlot(element, [rollTrace, pitchTrace, yawTrace], layout, {
+            responsive: true,
+            displayModeBar: false
+        });
         console.log('Updated attitude plot with', validData.length, 'valid points');
     }
 
