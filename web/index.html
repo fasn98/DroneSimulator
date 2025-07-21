@@ -395,34 +395,102 @@
                         
                         <!-- Analytics Tab -->
                         <div class="tab-pane fade" id="analytics" role="tabpanel">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-3">
+                            <!-- Performance Summary at Top -->
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="card">
                                         <div class="card-header">
-                                            <h6><i class="fas fa-history"></i> Session History</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="mb-3">
-                                                <button class="btn btn-primary btn-sm" id="refreshHistoryBtn">
-                                                    <i class="fas fa-sync"></i> Refresh
-                                                </button>
-                                                <span class="ms-2 text-muted" id="sessionCount">Loading...</span>
-                                            </div>
-                                            <div id="sessionHistory" style="max-height: 400px; overflow-y: auto;">
-                                                <!-- Session history will be populated here -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="card mb-3">
-                                        <div class="card-header">
-                                            <h6><i class="fas fa-chart-pie"></i> Performance Summary</h6>
+                                            <h6><i class="fas fa-chart-pie"></i> Mission Success Dashboard</h6>
                                         </div>
                                         <div class="card-body">
                                             <div id="performanceSummary">
                                                 <!-- Performance summary will be populated here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Extended Session Filters and History -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <h6><i class="fas fa-history"></i> Session History & Filters</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- Extended Filter Section -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-2">
+                                                    <label class="form-label small">Status Filter</label>
+                                                    <select class="form-select form-select-sm" id="statusFilter">
+                                                        <option value="">All Status</option>
+                                                        <option value="completed">Completed Only</option>
+                                                        <option value="completed_timeout">Completed (Timeout)</option>
+                                                        <option value="running">Running/Partial</option>
+                                                        <option value="stopped">Stopped</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label small">Environment</label>
+                                                    <select class="form-select form-select-sm" id="environmentFilter">
+                                                        <option value="">All Environments</option>
+                                                        <option value="earth">Earth</option>
+                                                        <option value="mars">Mars</option>
+                                                        <option value="moon">Moon</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label small">Mission Type</label>
+                                                    <select class="form-select form-select-sm" id="missionTypeFilter">
+                                                        <option value="">All Missions</option>
+                                                        <option value="monitoring">Monitoring</option>
+                                                        <option value="reconnaissance">Reconnaissance</option>
+                                                        <option value="sample_transport">Sample Transport</option>
+                                                        <option value="test_flight">Test Flight</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label small">Drone Model</label>
+                                                    <select class="form-select form-select-sm" id="droneModelFilter">
+                                                        <option value="">All Drones</option>
+                                                        <option value="default_quadrotor">Quadcopter</option>
+                                                        <option value="heavy_lift_hexarotor">Hexarotor</option>
+                                                        <option value="lunar_lander">Lunar Lander</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label small">Session Limit</label>
+                                                    <select class="form-select form-select-sm" id="sessionLimitFilter">
+                                                        <option value="20">Last 20</option>
+                                                        <option value="50" selected>Last 50</option>
+                                                        <option value="100">Last 100</option>
+                                                        <option value="0">All Sessions</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 d-flex align-items-end">
+                                                    <button class="btn btn-primary btn-sm w-100" id="applyFiltersBtn">
+                                                        <i class="fas fa-filter"></i> Apply Filters
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Session Actions -->
+                                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <button class="btn btn-success btn-sm me-2" id="refreshHistoryBtn">
+                                                        <i class="fas fa-sync"></i> Refresh
+                                                    </button>
+                                                    <span class="text-muted" id="sessionCount">Loading...</span>
+                                                </div>
+                                                <div>
+                                                    <span class="badge bg-info" id="filteredCount">0 sessions shown</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Session History -->
+                                            <div id="sessionHistory" style="max-height: 500px; overflow-y: auto;">
+                                                <!-- Session history will be populated here -->
                                             </div>
                                         </div>
                                     </div>

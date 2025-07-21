@@ -1036,6 +1036,14 @@ class DroneSimulationController {
                 this.updateAnalyticsCharts();
             });
         }
+        
+        // Bind apply filters button
+        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        if (applyFiltersBtn) {
+            applyFiltersBtn.addEventListener('click', () => {
+                this.applySessionFilters();
+            });
+        }
     }
 
     async loadSessionHistory() {
@@ -1306,6 +1314,83 @@ class DroneSimulationController {
         const missionStatusElement = document.getElementById('missionStatus');
         if (missionStatusElement) {
             missionStatusElement.textContent = `Historical Session ${sessionId}`;
+        }
+    }
+    
+    async applySessionFilters() {
+        console.log('Applying session filters');
+        
+        try {
+            // Get filter values
+            const statusFilter = document.getElementById('statusFilter')?.value || '';
+            const environmentFilter = document.getElementById('environmentFilter')?.value || '';
+            const missionTypeFilter = document.getElementById('missionTypeFilter')?.value || '';
+            const droneModelFilter = document.getElementById('droneModelFilter')?.value || '';
+            const sessionLimit = document.getElementById('sessionLimitFilter')?.value || '50';
+            
+            console.log('Filters:', { statusFilter, environmentFilter, missionTypeFilter, droneModelFilter, sessionLimit });
+            
+            // Build query parameters
+            const params = new URLSearchParams();
+            if (sessionLimit && sessionLimit !== '0') params.append('limit', sessionLimit);
+            if (statusFilter) params.append('status', statusFilter);
+            if (environmentFilter) params.append('environment', environmentFilter);
+            if (missionTypeFilter) params.append('mission_type', missionTypeFilter);
+            if (droneModelFilter) params.append('drone_model', droneModelFilter);
+            
+            // Fetch filtered sessions
+            const response = await fetch(`/api/analytics/sessions?${params.toString()}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log(`Filtered sessions: ${data.sessions.length} sessions found`);
+            
+            // Apply client-side filtering for more precise results
+            let filteredSessions = data.sessions;
+            
+            if (statusFilter) {
+                filteredSessions = filteredSessions.filter(session => {
+                    if (statusFilter === 'completed') {
+                        return session.status === 'completed' || session.status === 'completed_timeout';
+                    }
+                    return session.status === statusFilter;
+                });
+            }
+            
+            if (environmentFilter) {
+                filteredSessions = filteredSessions.filter(session => session.environment === environmentFilter);
+            }
+            
+            if (missionTypeFilter) {
+                filteredSessions = filteredSessions.filter(session => session.mission_type === missionTypeFilter);
+            }
+            
+            if (droneModelFilter) {
+                filteredSessions = filteredSessions.filter(session => session.drone_model === droneModelFilter);
+            }
+            
+            // Update display
+            this.displaySessionHistory(filteredSessions);
+            this.loadPerformanceSummary(filteredSessions);
+            
+            // Update counts
+            const sessionCountElement = document.getElementById('sessionCount');
+            if (sessionCountElement) {
+                sessionCountElement.textContent = `${data.sessions.length} total sessions`;
+            }
+            
+            const filteredCountElement = document.getElementById('filteredCount');
+            if (filteredCountElement) {
+                filteredCountElement.textContent = `${filteredSessions.length} sessions shown`;
+            }
+            
+            this.showMessage(`Applied filters: ${filteredSessions.length} sessions found`, 'success');
+            
+        } catch (error) {
+            console.error('Error applying filters:', error);
+            this.showMessage(`Error applying filters: ${error.message}`, 'error');
         }
     }
 
