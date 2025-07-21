@@ -1000,6 +1000,14 @@ class DroneSimulationController {
     }
 
     updateAttitudePlots(times, data) {
+        // Update attitude plot (roll and pitch only)
+        this.updateAttitudePlotOnly(times, data);
+        
+        // Update speed plot separately
+        this.updateDashboardSpeedPlot(times, data);
+    }
+
+    updateAttitudePlotOnly(times, data) {
         const element = document.getElementById('attitudePlot');
         if (!element) {
             console.log('attitudePlot element not found');
@@ -1011,9 +1019,7 @@ class DroneSimulationController {
             time: time,
             roll: data[i].roll * 180/Math.PI,
             pitch: data[i].pitch * 180/Math.PI,
-            yaw: data[i].yaw * 180/Math.PI,
-            vertical_speed: data[i].vertical_speed || 0,
-            ground_speed: data[i].ground_speed || 0
+            yaw: data[i].yaw * 180/Math.PI
         })).filter(d => d.time != null && d.roll != null && d.pitch != null && d.yaw != null && 
                       !isNaN(d.time) && !isNaN(d.roll) && !isNaN(d.pitch) && !isNaN(d.yaw) &&
                       isFinite(d.time) && isFinite(d.roll) && isFinite(d.pitch) && isFinite(d.yaw));
@@ -1029,8 +1035,7 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Roll',
-            line: { color: 'red', width: 2 },
-            yaxis: 'y1'
+            line: { color: 'red', width: 2 }
         };
 
         const pitchTrace = {
@@ -1039,9 +1044,59 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Pitch',
-            line: { color: 'blue', width: 2 },
-            yaxis: 'y1'
+            line: { color: 'blue', width: 2 }
         };
+
+        const layout = {
+            title: { text: 'Attitude vs Time', font: { size: 16 } },
+            xaxis: { 
+                title: 'Time (s)',
+                showgrid: true,
+                gridcolor: '#e6e6e6'
+            },
+            yaxis: { 
+                title: 'Angle (degrees)',
+                showgrid: true,
+                gridcolor: '#e6e6e6'
+            },
+            margin: { l: 60, r: 30, t: 50, b: 50 },
+            legend: { x: 0, y: 1 },
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white',
+            annotations: []
+        };
+
+        // Force complete plot recreation - Roll and Pitch only
+        Plotly.newPlot(element, [rollTrace, pitchTrace], layout, {
+            responsive: true,
+            displayModeBar: false
+        }).then(() => {
+            console.log(`Successfully created attitude plot with ${validData.length} valid points`);
+            // Force resize to ensure plot is visible
+            Plotly.Plots.resize(element);
+        }).catch(error => {
+            console.error('Error creating attitude plot:', error);
+        });
+    }
+
+    updateDashboardSpeedPlot(times, data) {
+        const element = document.getElementById('dashboardSpeedPlot');
+        if (!element) {
+            console.log('dashboardSpeedPlot element not found');
+            return;
+        }
+
+        // Filter out invalid data
+        const validData = times.map((time, i) => ({
+            time: time,
+            vertical_speed: data[i].vertical_speed || 0,
+            ground_speed: data[i].ground_speed || 0
+        })).filter(d => d.time != null && !isNaN(d.time) && isFinite(d.time));
+
+        if (validData.length === 0) {
+            console.log('No valid speed data to plot');
+            return;
+        }
 
         const verticalSpeedTrace = {
             x: validData.map(d => d.time),
@@ -1049,8 +1104,7 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Vertical Speed',
-            line: { color: 'orange', width: 2 },
-            yaxis: 'y2'
+            line: { color: 'orange', width: 2 }
         };
 
         const horizontalSpeedTrace = {
@@ -1059,50 +1113,38 @@ class DroneSimulationController {
             type: 'scatter',
             mode: 'lines',
             name: 'Horizontal Speed',
-            line: { color: 'green', width: 2 },
-            yaxis: 'y2'
+            line: { color: 'green', width: 2 }
         };
 
         const layout = {
-            title: { text: 'Attitude & Speed vs Time', font: { size: 16 } },
+            title: { text: 'Speed vs Time', font: { size: 16 } },
             xaxis: { 
                 title: 'Time (s)',
                 showgrid: true,
                 gridcolor: '#e6e6e6'
             },
             yaxis: { 
-                title: 'Angle (degrees)',
-                titlefont: { color: 'black' },
-                tickfont: { color: 'black' },
-                showgrid: true,
-                gridcolor: '#e6e6e6',
-                side: 'left'
-            },
-            yaxis2: {
                 title: 'Speed (m/s)',
-                titlefont: { color: 'darkgreen' },
-                tickfont: { color: 'darkgreen' },
-                overlaying: 'y',
-                side: 'right',
-                showgrid: false
+                showgrid: true,
+                gridcolor: '#e6e6e6'
             },
-            margin: { l: 60, r: 60, t: 50, b: 50 },
+            margin: { l: 60, r: 30, t: 50, b: 50 },
             legend: { x: 0, y: 1 },
             plot_bgcolor: 'white',
             paper_bgcolor: 'white',
-            annotations: [] // Clear any "no data" annotations when showing real data
+            annotations: []
         };
 
-        // Force complete plot recreation with attitude and speed data
-        Plotly.newPlot(element, [rollTrace, pitchTrace, verticalSpeedTrace, horizontalSpeedTrace], layout, {
+        // Force complete plot recreation with speed data
+        Plotly.newPlot(element, [verticalSpeedTrace, horizontalSpeedTrace], layout, {
             responsive: true,
             displayModeBar: false
         }).then(() => {
-            console.log(`Successfully created attitude & speed plot with ${validData.length} valid points`);
+            console.log(`Successfully created dashboard speed plot with ${validData.length} valid points`);
             // Force resize to ensure plot is visible
             Plotly.Plots.resize(element);
         }).catch(error => {
-            console.error('Error creating attitude & speed plot:', error);
+            console.error('Error creating dashboard speed plot:', error);
         });
     }
 
