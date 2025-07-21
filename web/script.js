@@ -870,8 +870,8 @@ class DroneSimulationController {
             paper_bgcolor: 'white'
         };
 
-        // Force redraw with proper configuration
-        Plotly.newPlot(element, [trace], layout, {
+        // Use react instead of newPlot to avoid Canvas2D conflicts
+        Plotly.react(element, [trace], layout, {
             responsive: true,
             displayModeBar: false
         });
@@ -924,8 +924,8 @@ class DroneSimulationController {
             paper_bgcolor: 'white'
         };
 
-        // Force redraw with proper configuration
-        Plotly.newPlot(element, [trace], layout, {
+        // Use react instead of newPlot to avoid Canvas2D conflicts
+        Plotly.react(element, [trace], layout, {
             responsive: true,
             displayModeBar: false
         });
@@ -999,8 +999,8 @@ class DroneSimulationController {
             paper_bgcolor: 'white'
         };
 
-        // Force redraw with proper configuration
-        Plotly.newPlot(element, [rollTrace, pitchTrace, yawTrace], layout, {
+        // Use react instead of newPlot to avoid Canvas2D conflicts
+        Plotly.react(element, [rollTrace, pitchTrace, yawTrace], layout, {
             responsive: true,
             displayModeBar: false
         });
@@ -1297,22 +1297,13 @@ class DroneSimulationController {
         
         console.log('Loading', telemetryPoints.length, 'historical telemetry points');
         
-        // Clear existing plots first for historical data
-        const plots = ['altitudePlot', 'speedPlot', 'attitudePlot'];
-        plots.forEach(plotId => {
-            const element = document.getElementById(plotId);
-            if (element) {
-                Plotly.purge(element);
-            }
-        });
-        
-        // Update trajectory plot with historical data
+        // Update trajectory plot first
         this.updateTrajectoryPlot();
         console.log('Trajectory plot updated successfully');
         
-        // Update real-time plots with historical data - force complete recreation
+        // Clear and recreate real-time plots sequentially to avoid Canvas2D conflicts
         console.log('Updating real-time plots with', Math.min(200, telemetryPoints.length), 'points');
-        this.updateRealtimePlots();
+        this.recreateRealtimePlots();
         
         // Update status display to show it's historical data
         this.updateHistoricalDisplay(sessionId);
@@ -1325,6 +1316,26 @@ class DroneSimulationController {
             const tabTrigger = new bootstrap.Tab(telemetryTab);
             tabTrigger.show();
         }
+    }
+    
+    recreateRealtimePlots() {
+        // Clear plots sequentially to avoid Canvas2D conflicts
+        const plots = ['altitudePlot', 'speedPlot', 'attitudePlot'];
+        
+        // Clear plots with delay to prevent Canvas2D conflicts
+        plots.forEach((plotId, index) => {
+            setTimeout(() => {
+                const element = document.getElementById(plotId);
+                if (element) {
+                    Plotly.purge(element);
+                }
+            }, index * 100);
+        });
+        
+        // Recreate plots after clearing is complete
+        setTimeout(() => {
+            this.updateRealtimePlots();
+        }, 500);
     }
     
     updateHistoricalDisplay(sessionId) {
