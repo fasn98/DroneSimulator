@@ -1115,10 +1115,17 @@ class DroneSimulationController {
                                     <div>Progress: ${session.mission_progress || 0}%</div>
                                     <div>Duration: ${session.duration ? session.duration.toFixed(1) + 's' : 'N/A'}</div>
                                 </div>
-                                <button class="btn btn-outline-primary btn-sm mt-1 view-details-btn" 
-                                        data-session-id="${session.id}">
-                                    <i class="fas fa-eye"></i> View Details
-                                </button>
+                                <div class="btn-group mt-1" role="group">
+                                    <button class="btn btn-outline-primary btn-sm view-details-btn" 
+                                            data-session-id="${session.id}">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                    <button class="btn btn-outline-success btn-sm load-telemetry-btn" 
+                                            data-session-id="${session.id}"
+                                            title="Load telemetry data into Telemetry tab">
+                                        <i class="fas fa-chart-line"></i> Load to Telemetry
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1134,6 +1141,15 @@ class DroneSimulationController {
                 e.stopPropagation();
                 const sessionId = btn.getAttribute('data-session-id');
                 this.viewSessionDetails(sessionId);
+            });
+        });
+        
+        // Add click handlers for load telemetry buttons
+        sessionHistoryElement.querySelectorAll('.load-telemetry-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const sessionId = btn.getAttribute('data-session-id');
+                this.loadSessionTelemetry(sessionId);
             });
         });
     }
@@ -1184,6 +1200,106 @@ class DroneSimulationController {
         console.log('Loading details for session:', sessionId);
         // This would show detailed session information
         this.showMessage(`Loading details for session ${sessionId}...`, 'info');
+    }
+    
+    async loadSessionTelemetry(sessionId) {
+        console.log('Loading telemetry for session:', sessionId);
+        
+        try {
+            // Show loading message
+            this.showMessage(`Loading telemetry data for session ${sessionId}...`, 'info');
+            
+            // Fetch telemetry data from API
+            const response = await fetch(`/api/history/sessions/${sessionId}/telemetry?limit=2000`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log(`Loaded ${data.telemetry.length} telemetry points for session ${sessionId}`);
+            
+            if (!data.telemetry || data.telemetry.length === 0) {
+                this.showMessage('No telemetry data found for this session', 'warning');
+                return;
+            }
+            
+            // Clear current telemetry data and load session data
+            this.clearTelemetryData();
+            this.loadHistoricalTelemetry(data.telemetry, sessionId);
+            
+            // Switch to telemetry tab
+            this.switchToTelemetryTab();
+            
+            this.showMessage(`Loaded ${data.telemetry.length} telemetry points from session ${sessionId}`, 'success');
+            
+        } catch (error) {
+            console.error('Error loading session telemetry:', error);
+            this.showMessage(`Error loading telemetry: ${error.message}`, 'error');
+        }
+    }
+    
+    clearTelemetryData() {
+        console.log('Clearing current telemetry data');
+        this.telemetryData = [];
+        this.missionData = [];
+        
+        // Clear any localStorage data
+        localStorage.removeItem('telemetryData');
+        localStorage.removeItem('missionData');
+    }
+    
+    loadHistoricalTelemetry(telemetryPoints, sessionId) {
+        console.log(`Loading ${telemetryPoints.length} historical telemetry points`);
+        
+        // Convert database telemetry format to internal format
+        this.telemetryData = telemetryPoints.map(point => ({
+            timestamp: point.timestamp || 0,
+            position_x: parseFloat(point.position_x || 0),
+            position_y: parseFloat(point.position_y || 0),
+            position_z: parseFloat(point.position_z || 0),
+            velocity_x: parseFloat(point.velocity_x || 0),
+            velocity_y: parseFloat(point.velocity_y || 0),
+            velocity_z: parseFloat(point.velocity_z || 0),
+            ground_speed: parseFloat(point.ground_speed || 0),
+            altitude: parseFloat(point.altitude || point.position_z || 0),
+            roll: parseFloat(point.roll || 0),
+            pitch: parseFloat(point.pitch || 0),
+            yaw: parseFloat(point.yaw || 0),
+            mission_progress: parseFloat(point.mission_progress || 0),
+            current_waypoint: parseInt(point.current_waypoint || 0)
+        }));
+        
+        // Update plots with historical data
+        this.updatePlots();
+        
+        // Update status display to show it's historical data
+        this.updateHistoricalDisplay(sessionId);
+    }
+    
+    switchToTelemetryTab() {
+        // Activate telemetry tab
+        const telemetryTab = document.getElementById('telemetry-tab');
+        if (telemetryTab) {
+            const tabTrigger = new bootstrap.Tab(telemetryTab);
+            tabTrigger.show();
+        }
+    }
+    
+    updateHistoricalDisplay(sessionId) {
+        // Update the status to show this is historical data
+        const statusElement = document.getElementById('simulationStatus');
+        if (statusElement) {
+            statusElement.innerHTML = `
+                <span class="badge bg-info">Historical Data</span>
+                Session #${sessionId}
+            `;
+        }
+        
+        // Update mission status
+        const missionStatusElement = document.getElementById('missionStatus');
+        if (missionStatusElement) {
+            missionStatusElement.textContent = `Historical Session ${sessionId}`;
+        }
     }
 
     async updateAnalyticsCharts() {
