@@ -671,92 +671,83 @@ class DroneSimulationController {
                 });
             }
 
-            // Initialize real-time plots with visible sample data to ensure rendering
+            // Initialize real-time plots as empty - no sample data
             const altElement = document.getElementById('altitudePlot');
             if (altElement) {
-                const sampleTrace = {
-                    x: [0, 10, 20],
-                    y: [0, 15, 25],
-                    type: 'scatter',
-                    mode: 'lines+markers',
-                    name: 'Altitude',
-                    line: { color: 'green', width: 3 },
-                    marker: { size: 6 }
-                };
-                
-                Plotly.newPlot('altitudePlot', [sampleTrace], { 
-                    title: { text: 'Altitude vs Time (Ready for Data)', font: { size: 16 } },
-                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
-                    yaxis: { title: 'Altitude (m)', showgrid: true, gridcolor: '#e6e6e6' },
+                Plotly.newPlot('altitudePlot', [], { 
+                    title: { text: 'Altitude vs Time - Start Simulation to See Data', font: { size: 16 } },
+                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 10] },
+                    yaxis: { title: 'Altitude (m)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 10] },
                     margin: { l: 60, r: 30, t: 50, b: 50 },
-                    plot_bgcolor: 'white',
-                    paper_bgcolor: 'white'
+                    plot_bgcolor: '#f8f9fa',
+                    paper_bgcolor: 'white',
+                    annotations: [{
+                        text: 'No simulation data available<br>Start a simulation to see live telemetry',
+                        x: 0.5,
+                        y: 0.5,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 14, color: '#6c757d' },
+                        align: 'center'
+                    }]
                 }, {
                     responsive: true,
                     displayModeBar: false
                 });
-                console.log('Initialized altitude plot with visible sample data');
+                console.log('Initialized empty altitude plot');
             }
 
             const speedElement = document.getElementById('speedPlot');
             if (speedElement) {
-                const sampleTrace = {
-                    x: [0, 10, 20],
-                    y: [0, 3, 5],
-                    type: 'scatter',
-                    mode: 'lines+markers',
-                    name: 'Ground Speed',
-                    line: { color: 'orange', width: 3 },
-                    marker: { size: 6 }
-                };
-                
-                Plotly.newPlot('speedPlot', [sampleTrace], { 
-                    title: { text: 'Speed vs Time (Ready for Data)', font: { size: 16 } },
-                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
-                    yaxis: { title: 'Speed (m/s)', showgrid: true, gridcolor: '#e6e6e6' },
+                Plotly.newPlot('speedPlot', [], { 
+                    title: { text: 'Speed vs Time - Start Simulation to See Data', font: { size: 16 } },
+                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 10] },
+                    yaxis: { title: 'Speed (m/s)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 5] },
                     margin: { l: 60, r: 30, t: 50, b: 50 },
-                    plot_bgcolor: 'white',
-                    paper_bgcolor: 'white'
+                    plot_bgcolor: '#f8f9fa',
+                    paper_bgcolor: 'white',
+                    annotations: [{
+                        text: 'No simulation data available<br>Start a simulation to see live telemetry',
+                        x: 0.5,
+                        y: 0.5,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 14, color: '#6c757d' },
+                        align: 'center'
+                    }]
                 }, {
                     responsive: true,
                     displayModeBar: false
                 });
-                console.log('Initialized speed plot with visible sample data');
+                console.log('Initialized empty speed plot');
             }
 
             const attElement = document.getElementById('attitudePlot');
             if (attElement) {
-                const rollTrace = {
-                    x: [0, 10, 20],
-                    y: [0, 5, -3],
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Roll',
-                    line: { color: 'red', width: 2 }
-                };
-                
-                const pitchTrace = {
-                    x: [0, 10, 20],
-                    y: [0, -2, 4],
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Pitch',
-                    line: { color: 'blue', width: 2 }
-                };
-                
-                Plotly.newPlot('attitudePlot', [rollTrace, pitchTrace], { 
-                    title: { text: 'Attitude vs Time (Ready for Data)', font: { size: 16 } },
-                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
-                    yaxis: { title: 'Angle (degrees)', showgrid: true, gridcolor: '#e6e6e6' },
+                Plotly.newPlot('attitudePlot', [], { 
+                    title: { text: 'Attitude vs Time - Start Simulation to See Data', font: { size: 16 } },
+                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 10] },
+                    yaxis: { title: 'Angle (degrees)', showgrid: true, gridcolor: '#e6e6e6', range: [-10, 10] },
                     margin: { l: 60, r: 30, t: 50, b: 50 },
-                    legend: { x: 0, y: 1 },
-                    plot_bgcolor: 'white',
-                    paper_bgcolor: 'white'
+                    plot_bgcolor: '#f8f9fa',
+                    paper_bgcolor: 'white',
+                    annotations: [{
+                        text: 'No simulation data available<br>Start a simulation to see live telemetry',
+                        x: 0.5,
+                        y: 0.5,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 14, color: '#6c757d' },
+                        align: 'center'
+                    }]
                 }, {
                     responsive: true,
                     displayModeBar: false
                 });
-                console.log('Initialized attitude plot with visible sample data');
+                console.log('Initialized empty attitude plot');
             }
         }, 100);
     }
@@ -867,7 +858,8 @@ class DroneSimulationController {
             },
             margin: { l: 60, r: 30, t: 50, b: 50 },
             plot_bgcolor: 'white',
-            paper_bgcolor: 'white'
+            paper_bgcolor: 'white',
+            annotations: [] // Clear any "no data" annotations when showing real data
         };
 
         // Debug plot element before creation
@@ -931,7 +923,8 @@ class DroneSimulationController {
             },
             margin: { l: 60, r: 30, t: 50, b: 50 },
             plot_bgcolor: 'white',
-            paper_bgcolor: 'white'
+            paper_bgcolor: 'white',
+            annotations: [] // Clear any "no data" annotations when showing real data
         };
 
         // Force complete plot recreation to ensure visibility
@@ -1011,7 +1004,8 @@ class DroneSimulationController {
             margin: { l: 60, r: 30, t: 50, b: 50 },
             legend: { x: 0, y: 1 },
             plot_bgcolor: 'white',
-            paper_bgcolor: 'white'
+            paper_bgcolor: 'white',
+            annotations: [] // Clear any "no data" annotations when showing real data
         };
 
         // Force complete plot recreation to ensure visibility
