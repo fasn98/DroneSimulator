@@ -876,18 +876,6 @@ class DroneSimulationController {
         });
 
         console.log(`Updated altitude plot with ${validData.length} valid points`);
-            },
-            yaxis: { 
-                title: 'Altitude (m)',
-                range: [Math.min(...validData.map(d => d.altitude)) - 5, Math.max(...validData.map(d => d.altitude)) + 5]
-            },
-            margin: { l: 50, r: 20, t: 40, b: 50 },
-            showlegend: false,
-            autosize: true
-        };
-
-        Plotly.react('altitudePlot', [trace], layout);
-        console.log('Updated altitude plot with', validData.length, 'valid points');
     }
 
     updateSpeedPlot(times, speeds) {
