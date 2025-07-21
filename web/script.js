@@ -1039,17 +1039,8 @@ class DroneSimulationController {
             line: { color: 'blue', width: 2 }
         };
 
-        const yawTrace = {
-            x: validData.map(d => d.time),
-            y: validData.map(d => d.yaw),
-            type: 'scatter',
-            mode: 'lines',
-            name: 'Yaw',
-            line: { color: 'purple', width: 2 }
-        };
-
         const layout = {
-            title: { text: 'Attitude vs Time', font: { size: 16 } },
+            title: { text: 'Attitude vs Time (Roll & Pitch)', font: { size: 16 } },
             xaxis: { 
                 title: 'Time (s)',
                 showgrid: true,
@@ -1067,12 +1058,12 @@ class DroneSimulationController {
             annotations: [] // Clear any "no data" annotations when showing real data
         };
 
-        // Force complete plot recreation to ensure visibility
-        Plotly.newPlot(element, [rollTrace, pitchTrace, yawTrace], layout, {
+        // Force complete plot recreation to ensure visibility - only Roll and Pitch now
+        Plotly.newPlot(element, [rollTrace, pitchTrace], layout, {
             responsive: true,
             displayModeBar: false
         }).then(() => {
-            console.log(`Successfully created attitude plot with ${validData.length} valid points`);
+            console.log(`Successfully created attitude plot with ${validData.length} valid points (Roll & Pitch only)`);
             // Force resize to ensure plot is visible
             Plotly.Plots.resize(element);
         }).catch(error => {
