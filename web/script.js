@@ -870,12 +870,18 @@ class DroneSimulationController {
             paper_bgcolor: 'white'
         };
 
+        // Debug plot element before creation
+        console.log('Altitude plot element:', element);
+        console.log('Element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
+        console.log('Element visibility:', window.getComputedStyle(element).display);
+        
         // Force complete plot recreation to ensure visibility
         Plotly.newPlot(element, [trace], layout, {
             responsive: true,
             displayModeBar: false
         }).then(() => {
             console.log(`Successfully created altitude plot with ${validData.length} valid points`);
+            console.log('Plot element after creation:', element.offsetWidth, 'x', element.offsetHeight);
             // Force resize to ensure plot is visible
             Plotly.Plots.resize(element);
         }).catch(error => {
@@ -1334,7 +1340,7 @@ class DroneSimulationController {
     
     recreateRealtimePlots() {
         // Clear plots sequentially to avoid Canvas2D conflicts
-        const plots = ['altitudePlot', 'speedPlot', 'attitudePlot'];
+        const plots = ['altitudeSpeedPlot', 'telemetryAttitudePlot', 'powerPlot', 'missionProgressPlot'];
         
         // Clear all plots first
         plots.forEach(plotId => {
@@ -1350,8 +1356,188 @@ class DroneSimulationController {
         
         // Recreate plots after clearing is complete
         setTimeout(() => {
-            this.updateRealtimePlots();
+            this.updateTelemetryTabPlots();
         }, 300);
+    }
+    
+    updateTelemetryTabPlots() {
+        if (this.telemetryData.length === 0) return;
+        
+        // Get last 200 data points for better performance
+        const recentData = this.telemetryData.slice(-200);
+        const times = recentData.map(d => d.timestamp);
+        const data = recentData;
+        
+        console.log('Sample times:', times.slice(-3));
+        console.log('Sample altitudes:', data.slice(-3).map(d => d.altitude));
+        console.log('Sample speeds:', data.slice(-3).map(d => d.ground_speed));
+        
+        // Update telemetry tab specific plots
+        this.updateAltitudeSpeedCombined(times, data);
+        this.updateTelemetryAttitude(times, data);
+        this.updatePowerEnergy(times, data);
+        this.updateMissionProgress(times, data);
+    }
+    
+    updateAltitudeSpeedCombined(times, data) {
+        const element = document.getElementById('altitudeSpeedPlot');
+        if (!element) {
+            console.log('altitudeSpeedPlot element not found');
+            return;
+        }
+
+        const validData = times.map((time, i) => ({
+            time: time,
+            altitude: data[i].altitude,
+            speed: data[i].ground_speed
+        })).filter(d => d.time != null && d.altitude != null && d.speed != null && 
+                      !isNaN(d.time) && !isNaN(d.altitude) && !isNaN(d.speed) &&
+                      isFinite(d.time) && isFinite(d.altitude) && isFinite(d.speed));
+
+        if (validData.length === 0) return;
+
+        const altTrace = {
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.altitude),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Altitude (m)',
+            line: { color: 'blue', width: 2 },
+            yaxis: 'y1'
+        };
+
+        const speedTrace = {
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.speed),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Speed (m/s)',
+            line: { color: 'red', width: 2 },
+            yaxis: 'y2'
+        };
+
+        const layout = {
+            title: 'Altitude & Speed vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Altitude (m)', titlefont: { color: 'blue' }, side: 'left' },
+            yaxis2: { title: 'Speed (m/s)', titlefont: { color: 'red' }, overlaying: 'y', side: 'right' },
+            margin: { l: 60, r: 60, t: 50, b: 50 }
+        };
+
+        console.log('Creating altitude/speed plot, element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
+        
+        Plotly.newPlot(element, [altTrace, speedTrace], layout, {
+            responsive: true,
+            displayModeBar: false
+        }).then(() => {
+            console.log(`Successfully created altitude/speed plot with ${validData.length} points`);
+            Plotly.Plots.resize(element);
+        }).catch(error => {
+            console.error('Error creating altitude/speed plot:', error);
+        });
+    }
+    
+    updateTelemetryAttitude(times, data) {
+        const element = document.getElementById('telemetryAttitudePlot');
+        if (!element) {
+            console.log('telemetryAttitudePlot element not found');
+            return;
+        }
+
+        const validData = times.map((time, i) => ({
+            time: time,
+            roll: data[i].roll * 180/Math.PI,
+            pitch: data[i].pitch * 180/Math.PI,
+            yaw: data[i].yaw * 180/Math.PI
+        })).filter(d => d.time != null && !isNaN(d.time) && isFinite(d.time));
+
+        if (validData.length === 0) return;
+
+        const traces = [
+            { x: validData.map(d => d.time), y: validData.map(d => d.roll), name: 'Roll', line: { color: 'red' } },
+            { x: validData.map(d => d.time), y: validData.map(d => d.pitch), name: 'Pitch', line: { color: 'blue' } },
+            { x: validData.map(d => d.time), y: validData.map(d => d.yaw), name: 'Yaw', line: { color: 'purple' } }
+        ];
+
+        const layout = {
+            title: 'Attitude vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Angle (degrees)' },
+            margin: { l: 60, r: 30, t: 50, b: 50 }
+        };
+
+        console.log('Creating attitude plot, element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
+        
+        Plotly.newPlot(element, traces, layout, {
+            responsive: true,
+            displayModeBar: false
+        }).then(() => {
+            console.log(`Successfully created attitude plot with ${validData.length} points`);
+            Plotly.Plots.resize(element);
+        }).catch(error => {
+            console.error('Error creating attitude plot:', error);
+        });
+    }
+    
+    updatePowerEnergy(times, data) {
+        const element = document.getElementById('powerPlot');
+        if (!element) return;
+
+        const validData = times.map((time, i) => {
+            const speed = data[i].ground_speed || 0;
+            const altitude = data[i].altitude || 0;
+            const power = 50 + (speed * 2) + (altitude * 0.1);
+            return { time: time, power: power, energy: power * time / 3600 };
+        }).filter(d => !isNaN(d.time) && isFinite(d.time));
+
+        if (validData.length === 0) return;
+
+        const traces = [
+            { x: validData.map(d => d.time), y: validData.map(d => d.power), name: 'Power (W)', line: { color: 'orange' }, yaxis: 'y1' },
+            { x: validData.map(d => d.time), y: validData.map(d => d.energy), name: 'Energy (Wh)', line: { color: 'green' }, yaxis: 'y2' }
+        ];
+
+        const layout = {
+            title: 'Power & Energy vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Power (W)', titlefont: { color: 'orange' }, side: 'left' },
+            yaxis2: { title: 'Energy (Wh)', titlefont: { color: 'green' }, overlaying: 'y', side: 'right' },
+            margin: { l: 60, r: 60, t: 50, b: 50 }
+        };
+
+        Plotly.newPlot(element, traces, layout, { responsive: true, displayModeBar: false })
+            .then(() => console.log(`Successfully created power plot with ${validData.length} points`))
+            .catch(error => console.error('Error creating power plot:', error));
+    }
+    
+    updateMissionProgress(times, data) {
+        const element = document.getElementById('missionProgressPlot');
+        if (!element) return;
+
+        const validData = times.map((time, i) => ({
+            time: time,
+            progress: data[i].mission_progress || 0,
+            waypoint: data[i].current_waypoint || 0
+        })).filter(d => !isNaN(d.time) && isFinite(d.time));
+
+        if (validData.length === 0) return;
+
+        const traces = [
+            { x: validData.map(d => d.time), y: validData.map(d => d.progress), name: 'Progress (%)', line: { color: 'green' }, yaxis: 'y1' },
+            { x: validData.map(d => d.time), y: validData.map(d => d.waypoint), name: 'Waypoint', line: { color: 'blue' }, yaxis: 'y2' }
+        ];
+
+        const layout = {
+            title: 'Mission Progress vs Time',
+            xaxis: { title: 'Time (s)' },
+            yaxis: { title: 'Progress (%)', titlefont: { color: 'green' }, side: 'left', range: [0, 100] },
+            yaxis2: { title: 'Waypoint', titlefont: { color: 'blue' }, overlaying: 'y', side: 'right' },
+            margin: { l: 60, r: 60, t: 50, b: 50 }
+        };
+
+        Plotly.newPlot(element, traces, layout, { responsive: true, displayModeBar: false })
+            .then(() => console.log(`Successfully created mission progress plot with ${validData.length} points`))
+            .catch(error => console.error('Error creating mission progress plot:', error));
     }
     
     updateHistoricalDisplay(sessionId) {
