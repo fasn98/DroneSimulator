@@ -462,6 +462,16 @@ class DroneSimulationController {
     updatePlots() {
         this.updateTrajectoryPlot();
         this.updateRealtimePlots();
+        
+        // Store telemetry data in localStorage for persistence
+        if (this.telemetryData.length > 0) {
+            try {
+                const recentData = this.telemetryData.slice(-500); // Keep last 500 points
+                localStorage.setItem('telemetryData', JSON.stringify(recentData));
+            } catch (error) {
+                console.log('Could not save telemetry data to localStorage:', error);
+            }
+        }
     }
 
     updateTrajectoryPlot() {
@@ -785,14 +795,15 @@ class DroneSimulationController {
     }
 
     updateRealtimePlots() {
-        if (this.telemetryData.length < 2) {
-            console.log('Not enough telemetry data for real-time plots');
+        if (this.telemetryData.length === 0) {
+            console.log('No telemetry data for real-time plots');
             return;
         }
 
         try {
-            // Get last 50 points for real-time plotting
-            const recentData = this.telemetryData.slice(-50);
+            // For historical data, use more points to show the complete flight
+            const dataPoints = this.telemetryData.length > 100 ? 200 : Math.min(50, this.telemetryData.length);
+            const recentData = this.telemetryData.slice(-dataPoints);
             const times = recentData.map(d => d.timestamp);
             
             console.log('Updating real-time plots with', recentData.length, 'points');
@@ -1284,8 +1295,24 @@ class DroneSimulationController {
             };
         });
         
-        // Update plots with historical data
-        this.updatePlots();
+        console.log('Loading', telemetryPoints.length, 'historical telemetry points');
+        
+        // Clear existing plots first for historical data
+        const plots = ['altitudePlot', 'speedPlot', 'attitudePlot'];
+        plots.forEach(plotId => {
+            const element = document.getElementById(plotId);
+            if (element) {
+                Plotly.purge(element);
+            }
+        });
+        
+        // Update trajectory plot with historical data
+        this.updateTrajectoryPlot();
+        console.log('Trajectory plot updated successfully');
+        
+        // Update real-time plots with historical data - force complete recreation
+        console.log('Updating real-time plots with', Math.min(200, telemetryPoints.length), 'points');
+        this.updateRealtimePlots();
         
         // Update status display to show it's historical data
         this.updateHistoricalDisplay(sessionId);
