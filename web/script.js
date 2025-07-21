@@ -1705,9 +1705,9 @@ class DroneSimulationController {
         const validData = times.map((time, i) => ({
             time: time,
             altitude: data[i].altitude,
-            horizontal_speed: data[i].horizontal_speed || 0,
+            ground_speed: data[i].ground_speed || 0,
             vertical_speed: data[i].vertical_speed || 0,
-            vector_speed: data[i].vector_speed || 0
+            vector_speed: data[i].vector_speed || Math.sqrt((data[i].ground_speed || 0)**2 + (data[i].vertical_speed || 0)**2)
         })).filter(d => d.time != null && d.altitude != null && 
                       !isNaN(d.time) && !isNaN(d.altitude) &&
                       isFinite(d.time) && isFinite(d.altitude));
@@ -1724,6 +1724,16 @@ class DroneSimulationController {
             yaxis: 'y1'
         };
 
+        const groundSpeedTrace = {
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.ground_speed),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Horizontal Speed (m/s)',
+            line: { color: 'orange', width: 2 },
+            yaxis: 'y2'
+        };
+
         const vectorSpeedTrace = {
             x: validData.map(d => d.time),
             y: validData.map(d => d.vector_speed),
@@ -1738,13 +1748,14 @@ class DroneSimulationController {
             title: 'Altitude & Speed vs Time',
             xaxis: { title: 'Time (s)' },
             yaxis: { title: 'Altitude (m)', titlefont: { color: 'blue' }, side: 'left' },
-            yaxis2: { title: 'Speed (m/s)', titlefont: { color: 'red' }, overlaying: 'y', side: 'right' },
-            margin: { l: 60, r: 60, t: 50, b: 50 }
+            yaxis2: { title: 'Speed (m/s)', titlefont: { color: 'darkred' }, overlaying: 'y', side: 'right' },
+            margin: { l: 60, r: 60, t: 50, b: 50 },
+            legend: { x: 0, y: 1 }
         };
 
         console.log('Creating altitude/speed plot, element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
         
-        Plotly.newPlot(element, [altTrace, vectorSpeedTrace], layout, {
+        Plotly.newPlot(element, [altTrace, groundSpeedTrace, vectorSpeedTrace], layout, {
             responsive: true,
             displayModeBar: false
         }).then(() => {
