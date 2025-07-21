@@ -1567,7 +1567,7 @@ class DroneSimulationController {
     
     recreateRealtimePlots() {
         // Clear plots sequentially to avoid Canvas2D conflicts
-        const plots = ['altitudeSpeedPlot', 'telemetryAttitudePlot', 'powerPlot', 'missionProgressPlot'];
+        const plots = ['altitudeSpeedPlot', 'telemetryAttitudePlot', 'compassPlot', 'powerPlot'];
         
         // Clear all plots first
         plots.forEach(plotId => {
@@ -1602,8 +1602,8 @@ class DroneSimulationController {
         // Update telemetry tab specific plots
         this.updateAltitudeSpeedCombined(times, data);
         this.updateTelemetryAttitude(times, data);
+        this.updateCompassYaw(times, data);
         this.updatePowerEnergy(times, data);
-        this.updateMissionProgress(times, data);
     }
     
     updateAltitudeSpeedCombined(times, data) {
@@ -1616,10 +1616,12 @@ class DroneSimulationController {
         const validData = times.map((time, i) => ({
             time: time,
             altitude: data[i].altitude,
-            speed: data[i].ground_speed
-        })).filter(d => d.time != null && d.altitude != null && d.speed != null && 
-                      !isNaN(d.time) && !isNaN(d.altitude) && !isNaN(d.speed) &&
-                      isFinite(d.time) && isFinite(d.altitude) && isFinite(d.speed));
+            horizontal_speed: data[i].horizontal_speed || 0,
+            vertical_speed: data[i].vertical_speed || 0,
+            vector_speed: data[i].vector_speed || 0
+        })).filter(d => d.time != null && d.altitude != null && 
+                      !isNaN(d.time) && !isNaN(d.altitude) &&
+                      isFinite(d.time) && isFinite(d.altitude));
 
         if (validData.length === 0) return;
 
@@ -1633,13 +1635,33 @@ class DroneSimulationController {
             yaxis: 'y1'
         };
 
-        const speedTrace = {
+        const horizontalSpeedTrace = {
             x: validData.map(d => d.time),
-            y: validData.map(d => d.speed),
+            y: validData.map(d => d.horizontal_speed),
             type: 'scatter',
             mode: 'lines',
-            name: 'Speed (m/s)',
-            line: { color: 'red', width: 2 },
+            name: 'Horizontal Speed (m/s)',
+            line: { color: 'orange', width: 2 },
+            yaxis: 'y2'
+        };
+
+        const verticalSpeedTrace = {
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.vertical_speed),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Vertical Speed (m/s)',
+            line: { color: 'green', width: 2 },
+            yaxis: 'y2'
+        };
+
+        const vectorSpeedTrace = {
+            x: validData.map(d => d.time),
+            y: validData.map(d => d.vector_speed),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Vector Speed (m/s)',
+            line: { color: 'purple', width: 2 },
             yaxis: 'y2'
         };
 
@@ -1653,7 +1675,7 @@ class DroneSimulationController {
 
         console.log('Creating altitude/speed plot, element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
         
-        Plotly.newPlot(element, [altTrace, speedTrace], layout, {
+        Plotly.newPlot(element, [altTrace, horizontalSpeedTrace, verticalSpeedTrace, vectorSpeedTrace], layout, {
             responsive: true,
             displayModeBar: false
         }).then(() => {
@@ -1682,8 +1704,7 @@ class DroneSimulationController {
 
         const traces = [
             { x: validData.map(d => d.time), y: validData.map(d => d.roll), name: 'Roll', line: { color: 'red' } },
-            { x: validData.map(d => d.time), y: validData.map(d => d.pitch), name: 'Pitch', line: { color: 'blue' } },
-            { x: validData.map(d => d.time), y: validData.map(d => d.yaw), name: 'Yaw', line: { color: 'purple' } }
+            { x: validData.map(d => d.time), y: validData.map(d => d.pitch), name: 'Pitch', line: { color: 'blue' } }
         ];
 
         const layout = {
@@ -1737,34 +1758,70 @@ class DroneSimulationController {
             .catch(error => console.error('Error creating power plot:', error));
     }
     
-    updateMissionProgress(times, data) {
-        const element = document.getElementById('missionProgressPlot');
+    updateCompassYaw(times, data) {
+        const element = document.getElementById('compassPlot');
         if (!element) return;
 
         const validData = times.map((time, i) => ({
             time: time,
-            progress: data[i].mission_progress || 0,
-            waypoint: data[i].current_waypoint || 0
-        })).filter(d => !isNaN(d.time) && isFinite(d.time));
+            yaw: data[i].yaw * 180/Math.PI
+        })).filter(d => d.time != null && !isNaN(d.time) && isFinite(d.time));
 
         if (validData.length === 0) return;
 
-        const traces = [
-            { x: validData.map(d => d.time), y: validData.map(d => d.progress), name: 'Progress (%)', line: { color: 'green' }, yaxis: 'y1' },
-            { x: validData.map(d => d.time), y: validData.map(d => d.waypoint), name: 'Waypoint', line: { color: 'blue' }, yaxis: 'y2' }
-        ];
+        // Get the latest yaw value for compass display
+        const currentYaw = validData[validData.length - 1].yaw;
+        const normalizedYaw = ((currentYaw % 360) + 360) % 360; // Normalize to 0-360
 
-        const layout = {
-            title: 'Mission Progress vs Time',
-            xaxis: { title: 'Time (s)' },
-            yaxis: { title: 'Progress (%)', titlefont: { color: 'green' }, side: 'left', range: [0, 100] },
-            yaxis2: { title: 'Waypoint', titlefont: { color: 'blue' }, overlaying: 'y', side: 'right' },
-            margin: { l: 60, r: 60, t: 50, b: 50 }
+        // Create compass-style plot
+        const compassTrace = {
+            r: [1], // Distance from center
+            theta: [normalizedYaw], // Angle
+            type: 'scatterpolar',
+            mode: 'markers+text',
+            marker: {
+                size: 20,
+                color: 'red',
+                symbol: 'arrow-up'
+            },
+            text: [`${normalizedYaw.toFixed(1)}°`],
+            textposition: 'middle center',
+            name: 'Current Heading'
         };
 
-        Plotly.newPlot(element, traces, layout, { responsive: true, displayModeBar: false })
-            .then(() => console.log(`Successfully created mission progress plot with ${validData.length} points`))
-            .catch(error => console.error('Error creating mission progress plot:', error));
+        // Add cardinal directions
+        const cardinalTrace = {
+            r: [0.8, 0.8, 0.8, 0.8],
+            theta: [0, 90, 180, 270],
+            type: 'scatterpolar',
+            mode: 'text',
+            text: ['N', 'E', 'S', 'W'],
+            textfont: { size: 16, color: 'black' },
+            showlegend: false
+        };
+
+        const layout = {
+            title: 'Compass - Current Heading',
+            polar: {
+                radialaxis: {
+                    visible: false,
+                    range: [0, 1]
+                },
+                angularaxis: {
+                    direction: 'clockwise',
+                    rotation: 90,
+                    tickmode: 'array',
+                    tickvals: [0, 45, 90, 135, 180, 225, 270, 315],
+                    ticktext: ['0°', '45°', '90°', '135°', '180°', '225°', '270°', '315°']
+                }
+            },
+            margin: { l: 40, r: 40, t: 50, b: 40 },
+            showlegend: false
+        };
+
+        Plotly.newPlot(element, [compassTrace, cardinalTrace], layout, { responsive: true, displayModeBar: false })
+            .then(() => console.log(`Successfully created compass plot showing ${normalizedYaw.toFixed(1)}° heading`))
+            .catch(error => console.error('Error creating compass plot:', error));
     }
     
     updateHistoricalDisplay(sessionId) {
