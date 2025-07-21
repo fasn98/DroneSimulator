@@ -124,6 +124,15 @@ class DroneSimulationController {
             });
         }
 
+        // Session 87 test button
+        const session87Btn = document.getElementById('loadSession87Btn');
+        if (session87Btn) {
+            session87Btn.addEventListener('click', () => {
+                console.log('Loading session 87 for vertical speed testing');
+                this.loadSessionTelemetry(87);
+            });
+        }
+
         // Pause simulation button
         const pauseBtn = document.getElementById('pauseBtn');
         if (pauseBtn) {
@@ -1279,7 +1288,7 @@ class DroneSimulationController {
                             <div class="col-8">
                                 <h6 class="mb-1">
                                     <i class="fas fa-${statusIcon}"></i>
-                                    ${session.drone_model} - ${session.environment}
+                                    Session ${session.id}: ${session.drone_model} - ${session.environment}
                                 </h6>
                                 <small class="text-muted">
                                     ${session.mission_type} | ${startTime}
@@ -1622,6 +1631,8 @@ class DroneSimulationController {
                 velocity_y: parseFloat(velocity.y || 0),
                 velocity_z: parseFloat(velocity.z || 0),
                 ground_speed: parseFloat(point.ground_speed || 0),
+                vertical_speed: parseFloat(point.vertical_speed || velocity.z || 0),
+                vector_speed: parseFloat(point.vector_speed || 0),
                 altitude: parseFloat(point.altitude || position.z || 0),
                 roll: parseFloat(attitude.roll || 0),
                 pitch: parseFloat(attitude.pitch || 0),
