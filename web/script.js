@@ -41,6 +41,12 @@ class DroneSimulationController {
             // Initialize Analytics functionality
             this.initAnalytics();
             
+            // Load Analytics immediately for testing
+            setTimeout(() => {
+                console.log('Force loading Analytics for debugging');
+                this.loadSessionHistory();
+            }, 1000);
+            
             console.log('Drone simulation controller initialized successfully');
         
         // Set up custom environment listeners
@@ -998,9 +1004,22 @@ class DroneSimulationController {
         const analyticsTab = document.querySelector('[href="#analytics"]');
         if (analyticsTab) {
             analyticsTab.addEventListener('click', () => {
+                console.log('Analytics tab clicked, loading session history');
                 setTimeout(() => this.loadSessionHistory(), 100);
             });
         }
+        
+        // Also bind to bootstrap tab events for more reliable detection
+        const analyticsTabElement = document.getElementById('analytics-tab');
+        if (analyticsTabElement) {
+            analyticsTabElement.addEventListener('shown.bs.tab', () => {
+                console.log('Analytics tab shown, loading session history');
+                this.loadSessionHistory();
+            });
+        }
+        
+        console.log('Analytics tab element found:', !!analyticsTabElement);
+        console.log('Analytics link found:', !!analyticsTab);
         
         // Bind refresh button
         const refreshBtn = document.getElementById('refreshHistoryBtn');
