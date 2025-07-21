@@ -638,10 +638,25 @@ class DroneSimulationController {
             velElement.textContent = `${speed.toFixed(1)} m/s`;
         }
 
-        // Update progress
+        // Update progress display - both percentage text and visual elements
+        const progressPercentage = Math.round(this.simulationStatus.progress || 0);
+        
+        // Update percentage text
         const progressElement = document.getElementById('missionProgressPercentage');
         if (progressElement) {
-            progressElement.textContent = `${Math.round(this.simulationStatus.progress || 0)}%`;
+            progressElement.textContent = `${progressPercentage}%`;
+        }
+        
+        // Update visual progress bar fill
+        const progressFill = document.getElementById('missionProgressFill');
+        if (progressFill) {
+            progressFill.style.width = `${progressPercentage}%`;
+        }
+        
+        // Update drone icon position
+        const droneIcon = document.getElementById('droneIconContainer');
+        if (droneIcon) {
+            droneIcon.style.left = `${progressPercentage}%`;
         }
 
         // Update waypoint
