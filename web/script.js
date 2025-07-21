@@ -1762,8 +1762,15 @@ class DroneSimulationController {
             xaxis: { title: 'Time (s)' },
             yaxis: { title: 'Altitude (m)', titlefont: { color: 'blue' }, side: 'left' },
             yaxis2: { title: 'Speed (m/s)', titlefont: { color: 'darkred' }, overlaying: 'y', side: 'right' },
-            margin: { l: 60, r: 60, t: 50, b: 50 },
-            legend: { x: 0, y: 1 }
+            margin: { l: 60, r: 100, t: 50, b: 50 },
+            legend: { 
+                x: 1.02, 
+                y: 1, 
+                xanchor: 'left',
+                bgcolor: 'rgba(255,255,255,0.8)',
+                bordercolor: '#ccc',
+                borderwidth: 1
+            }
         };
 
         console.log('Creating altitude/speed plot, element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
