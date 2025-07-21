@@ -1172,6 +1172,7 @@ class DroneSimulationServer:
             'altitude': float(self.state.position[2]),
             'ground_speed': float(np.linalg.norm(self.state.velocity[:2])),
             'vertical_speed': float(self.state.velocity[2]),
+            'vector_speed': float(np.linalg.norm(self.state.velocity)),  # Total 3D speed
             'mission_status': mission_status,
             'total_distance': total_distance
         }

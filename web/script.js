@@ -1686,7 +1686,9 @@ class DroneSimulationController {
         
         console.log('Sample times:', times.slice(-3));
         console.log('Sample altitudes:', data.slice(-3).map(d => d.altitude));
-        console.log('Sample speeds:', data.slice(-3).map(d => d.ground_speed));
+        console.log('Sample ground speeds:', data.slice(-3).map(d => d.ground_speed));
+        console.log('Sample vertical speeds:', data.slice(-3).map(d => d.vertical_speed));
+        console.log('Sample vector speeds:', data.slice(-3).map(d => d.vector_speed));
         
         // Update telemetry tab specific plots
         this.updateAltitudeSpeedCombined(times, data);
