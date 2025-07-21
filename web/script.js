@@ -1188,8 +1188,181 @@ class DroneSimulationController {
 
     async updateAnalyticsCharts() {
         console.log('Updating analytics charts');
-        // This would update the performance and trends charts
-        this.showMessage('Analytics charts updated', 'success');
+        
+        // Get selected session filter
+        const sessionFilter = document.getElementById('analyticsFilter');
+        const timeFilter = document.getElementById('analyticsTimeframe');
+        
+        if (!sessionFilter || !timeFilter) {
+            console.error('Analytics filter elements not found');
+            return;
+        }
+        
+        const selectedFilter = sessionFilter.value;
+        const selectedTimeframe = timeFilter.value;
+        
+        try {
+            // Get session data based on filters
+            let url = '/api/analytics/sessions?';
+            if (selectedTimeframe !== 'All Sessions') {
+                const limit = selectedTimeframe.replace(' Sessions', '');
+                url += `limit=${limit}`;
+            }
+            
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            let sessions = data.sessions || [];
+            
+            // Filter sessions based on selection
+            if (selectedFilter !== 'All Sessions') {
+                // If a specific session is selected, filter to just that one
+                const sessionId = parseInt(selectedFilter);
+                if (!isNaN(sessionId)) {
+                    sessions = sessions.filter(s => s.id === sessionId);
+                }
+            }
+            
+            console.log(`Creating charts for ${sessions.length} sessions`);
+            
+            // Create performance charts
+            this.createPerformanceCharts(sessions);
+            
+            this.showMessage(`Analytics updated for ${sessions.length} session(s)`, 'success');
+            
+        } catch (error) {
+            console.error('Error updating analytics charts:', error);
+            this.showMessage('Error updating analytics charts', 'error');
+        }
+    }
+    
+    createPerformanceCharts(sessions) {
+        if (!sessions || sessions.length === 0) {
+            console.log('No sessions to chart');
+            return;
+        }
+        
+        // Create altitude vs time chart
+        this.createAltitudeChart(sessions);
+        
+        // Create mission progress chart  
+        this.createMissionProgressChart(sessions);
+        
+        // Create session details table instead of third chart for now
+        this.createSessionDetailsTable(sessions);
+    }
+    
+    createAltitudeChart(sessions) {
+        const chartContainer = document.getElementById('performanceChart');
+        if (!chartContainer) {
+            console.error('Performance chart container not found');
+            return;
+        }
+        
+        const traces = sessions.map(session => ({
+            x: [0, session.duration || 100],
+            y: [0, session.max_altitude || 0],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: `Session ${session.id} (${session.environment})`,
+            line: { width: 2 }
+        }));
+        
+        const layout = {
+            title: 'Altitude Performance',
+            xaxis: { title: 'Time (seconds)' },
+            yaxis: { title: 'Altitude (meters)' },
+            margin: { t: 40, r: 20, b: 40, l: 60 }
+        };
+        
+        Plotly.newPlot(chartContainer, traces, layout, {responsive: true});
+    }
+    
+    createMissionProgressChart(sessions) {
+        const chartContainer = document.getElementById('trendsChart');
+        if (!chartContainer) {
+            console.error('Trends chart container not found');
+            return;
+        }
+        
+        const traces = [{
+            x: sessions.map(s => `Session ${s.id}`),
+            y: sessions.map(s => s.mission_progress || 0),
+            type: 'bar',
+            name: 'Mission Progress',
+            marker: { color: sessions.map(s => s.mission_progress >= 100 ? '#28a745' : '#007bff') }
+        }];
+        
+        const layout = {
+            title: 'Mission Progress Comparison',
+            xaxis: { title: 'Sessions' },
+            yaxis: { title: 'Progress (%)' },
+            margin: { t: 40, r: 20, b: 80, l: 60 }
+        };
+        
+        Plotly.newPlot(chartContainer, traces, layout, {responsive: true});
+    }
+    
+    createSessionDetailsTable(sessions) {
+        const tableContainer = document.getElementById('sessionDetailsTable');
+        if (!tableContainer) {
+            console.error('Session details table container not found');
+            return;
+        }
+        
+        if (!sessions || sessions.length === 0) {
+            tableContainer.innerHTML = '<div class="alert alert-info">No sessions selected</div>';
+            return;
+        }
+        
+        let tableHtml = `
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Session ID</th>
+                            <th>Drone</th>
+                            <th>Environment</th>
+                            <th>Mission</th>
+                            <th>Progress</th>
+                            <th>Duration</th>
+                            <th>Max Speed</th>
+                            <th>Max Altitude</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        sessions.forEach(session => {
+            const statusBadge = session.status === 'completed' ? 'badge bg-success' : 
+                               session.status === 'running' ? 'badge bg-primary' : 'badge bg-warning';
+            
+            tableHtml += `
+                <tr>
+                    <td>#${session.id}</td>
+                    <td>${session.drone_model}</td>
+                    <td>${session.environment}</td>
+                    <td>${session.mission_type}</td>
+                    <td>${(session.mission_progress || 0).toFixed(1)}%</td>
+                    <td>${session.duration ? session.duration.toFixed(1) + 's' : 'N/A'}</td>
+                    <td>${(session.max_speed || 0).toFixed(2)} m/s</td>
+                    <td>${(session.max_altitude || 0).toFixed(1)} m</td>
+                    <td><span class="${statusBadge}">${session.status}</span></td>
+                </tr>
+            `;
+        });
+        
+        tableHtml += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+        
+        tableContainer.innerHTML = tableHtml;
     }
 
     showMessage(message, type) {
