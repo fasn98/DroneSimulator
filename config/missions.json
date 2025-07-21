@@ -109,7 +109,7 @@
       }
     ],
     "success_criteria": {
-      "flight_time_max": 600.0,
+      "flight_time_max": 500.0,
       "photos_required": 5,
       "coverage_area_min": 10000.0
     },
@@ -136,7 +136,7 @@
         "y": 150,
         "z": 30,
         "action": "navigate",
-        "duration": 60.0,
+        "duration": 40.0,
         "tolerance": 10.0
       },
       {
@@ -160,7 +160,7 @@
         "y": -50,
         "z": 30,
         "action": "navigate",
-        "duration": 80.0,
+        "duration": 50.0,
         "tolerance": 10.0
       },
       {
@@ -181,7 +181,7 @@
       }
     ],
     "success_criteria": {
-      "flight_time_max": 900.0,
+      "flight_time_max": 450.0,
       "payload_delivered": true,
       "delivery_accuracy": 5.0
     },
@@ -216,7 +216,7 @@
         "y": 100,
         "z": 75,
         "action": "monitor",
-        "duration": 300.0,
+        "duration": 80.0,
         "tolerance": 5.0
       },
       {
@@ -224,7 +224,7 @@
         "y": 100,
         "z": 75,
         "action": "monitor",
-        "duration": 300.0,
+        "duration": 80.0,
         "tolerance": 5.0
       },
       {
@@ -232,7 +232,7 @@
         "y": 100,
         "z": 75,
         "action": "monitor",
-        "duration": 300.0,
+        "duration": 80.0,
         "tolerance": 5.0
       },
       {
@@ -245,8 +245,8 @@
       }
     ],
     "success_criteria": {
-      "flight_time_max": 1800.0,
-      "monitoring_duration_min": 600.0,
+      "flight_time_max": 500.0,
+      "monitoring_duration_min": 240.0,
       "data_quality_min": 0.8
     },
     "constraints": {

@@ -1549,7 +1549,7 @@ class DroneSimulationController {
         console.log('Trajectory plot updated successfully');
         
         // Clear and recreate real-time plots sequentially to avoid Canvas2D conflicts
-        console.log('Updating real-time plots with', Math.min(200, telemetryPoints.length), 'points');
+        console.log('Updating real-time plots with', Math.min(1000, telemetryPoints.length), 'points');
         this.recreateRealtimePlots();
         
         // Update status display to show it's historical data
@@ -1590,8 +1590,8 @@ class DroneSimulationController {
     updateTelemetryTabPlots() {
         if (this.telemetryData.length === 0) return;
         
-        // Get last 200 data points for better performance
-        const recentData = this.telemetryData.slice(-200);
+        // Get last 1000 data points for complete mission display
+        const recentData = this.telemetryData.slice(-1000);
         const times = recentData.map(d => d.timestamp);
         const data = recentData;
         

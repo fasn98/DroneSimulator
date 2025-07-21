@@ -35,8 +35,8 @@ Examples:
                        help='Mission type (reconnaissance, sample_transport, monitoring)')
     
     # Simulation parameters
-    parser.add_argument('--duration', '-t', type=float, default=600.0,
-                       help='Simulation duration in seconds (default: 600)')
+    parser.add_argument('--duration', '-t', type=float, default=900.0,
+                       help='Simulation duration in seconds (default: 900)')
     parser.add_argument('--timestep', type=float, default=0.01,
                        help='Simulation timestep in seconds (default: 0.01)')
     parser.add_argument('--realtime', action='store_true',

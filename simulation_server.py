@@ -975,7 +975,9 @@ class DroneSimulationServer:
         logger.info("Simulation loop started")
         dt = 0.1  # 100ms timestep
         loop_count = 0
-        simulation_duration = 600.0  # Maximum simulation duration in seconds
+        # Get mission duration from flight_time_max or default to 900 seconds
+        mission_criteria = self.state.mission_config.get('success_criteria', {})
+        simulation_duration = mission_criteria.get('flight_time_max', 900.0)
         mission_status = "executing"  # Change status from planning to executing
         total_distance = 0.0  # Track total distance traveled
         
