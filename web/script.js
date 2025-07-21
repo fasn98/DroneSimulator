@@ -870,13 +870,17 @@ class DroneSimulationController {
             paper_bgcolor: 'white'
         };
 
-        // Use react instead of newPlot to avoid Canvas2D conflicts
-        Plotly.react(element, [trace], layout, {
+        // Force complete plot recreation to ensure visibility
+        Plotly.newPlot(element, [trace], layout, {
             responsive: true,
             displayModeBar: false
+        }).then(() => {
+            console.log(`Successfully created altitude plot with ${validData.length} valid points`);
+            // Force resize to ensure plot is visible
+            Plotly.Plots.resize(element);
+        }).catch(error => {
+            console.error('Error creating altitude plot:', error);
         });
-
-        console.log(`Updated altitude plot with ${validData.length} valid points`);
     }
 
     updateSpeedPlot(times, speeds) {
@@ -924,12 +928,17 @@ class DroneSimulationController {
             paper_bgcolor: 'white'
         };
 
-        // Use react instead of newPlot to avoid Canvas2D conflicts
-        Plotly.react(element, [trace], layout, {
+        // Force complete plot recreation to ensure visibility
+        Plotly.newPlot(element, [trace], layout, {
             responsive: true,
             displayModeBar: false
+        }).then(() => {
+            console.log(`Successfully created speed plot with ${validData.length} valid points`);
+            // Force resize to ensure plot is visible
+            Plotly.Plots.resize(element);
+        }).catch(error => {
+            console.error('Error creating speed plot:', error);
         });
-        console.log('Updated speed plot with', validData.length, 'valid points');
     }
 
     updateAttitudePlots(times, data) {
@@ -999,12 +1008,17 @@ class DroneSimulationController {
             paper_bgcolor: 'white'
         };
 
-        // Use react instead of newPlot to avoid Canvas2D conflicts
-        Plotly.react(element, [rollTrace, pitchTrace, yawTrace], layout, {
+        // Force complete plot recreation to ensure visibility
+        Plotly.newPlot(element, [rollTrace, pitchTrace, yawTrace], layout, {
             responsive: true,
             displayModeBar: false
+        }).then(() => {
+            console.log(`Successfully created attitude plot with ${validData.length} valid points`);
+            // Force resize to ensure plot is visible
+            Plotly.Plots.resize(element);
+        }).catch(error => {
+            console.error('Error creating attitude plot:', error);
         });
-        console.log('Updated attitude plot with', validData.length, 'valid points');
     }
 
     // Analytics functionality
@@ -1322,20 +1336,22 @@ class DroneSimulationController {
         // Clear plots sequentially to avoid Canvas2D conflicts
         const plots = ['altitudePlot', 'speedPlot', 'attitudePlot'];
         
-        // Clear plots with delay to prevent Canvas2D conflicts
-        plots.forEach((plotId, index) => {
-            setTimeout(() => {
-                const element = document.getElementById(plotId);
-                if (element) {
-                    Plotly.purge(element);
-                }
-            }, index * 100);
+        // Clear all plots first
+        plots.forEach(plotId => {
+            const element = document.getElementById(plotId);
+            if (element) {
+                Plotly.purge(element);
+                // Ensure element has proper dimensions
+                element.style.width = '100%';
+                element.style.height = '300px';
+                element.style.display = 'block';
+            }
         });
         
         // Recreate plots after clearing is complete
         setTimeout(() => {
             this.updateRealtimePlots();
-        }, 500);
+        }, 300);
     }
     
     updateHistoricalDisplay(sessionId) {

@@ -15,6 +15,14 @@
     --moon-gray: #708090;
 }
 
+/* Plotly container styles for proper visibility */
+#altitudePlot, #speedPlot, #attitudePlot, #powerPlot, #missionProgressPlot, #trajectoryPlot {
+    min-height: 300px !important;
+    width: 100% !important;
+    display: block !important;
+    position: relative !important;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f5f5;
