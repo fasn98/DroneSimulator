@@ -446,6 +446,25 @@ class DroneSimulationServer:
                 logger.error(f"Error getting session events: {e}")
                 return jsonify({'error': str(e)}), 500
         
+        @self.app.route('/api/analytics/sessions')
+        def get_analytics_sessions():
+            """Get session history for Analytics tab."""
+            try:
+                with self.app.app_context():
+                    # Initialize database service if needed
+                    if not self.db_service:
+                        self._init_database_service()
+                    
+                    limit = request.args.get('limit', 50, type=int)
+                    sessions = self.db_service.get_session_history(limit=limit)
+                    return jsonify({
+                        'sessions': sessions,
+                        'total': len(sessions)
+                    })
+            except Exception as e:
+                logger.error(f"Error getting analytics sessions: {e}")
+                return jsonify({'error': str(e)}), 500
+        
         @self.app.route('/api/analytics/performance')
         def get_performance_analytics():
             """Get performance analytics across sessions."""

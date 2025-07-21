@@ -243,6 +243,39 @@ body {
     border-radius: 6px;
 }
 
+/* Analytics metrics styling */
+.metric-card {
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.metric-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.session-card {
+    transition: all 0.3s ease;
+    border: 1px solid #dee2e6;
+}
+
+.session-card:hover {
+    box-shadow: 0 4px 8px rgba(0,123,255,0.1);
+    transform: translateY(-2px);
+}
+
 /* Environment-specific styling */
 .env-earth {
     background: linear-gradient(135deg, #87ceeb, #4682b4);

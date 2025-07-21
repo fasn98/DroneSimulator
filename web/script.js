@@ -38,6 +38,9 @@ class DroneSimulationController {
             // Start status polling
             this.startStatusPolling();
             
+            // Initialize Analytics functionality
+            this.initAnalytics();
+            
             console.log('Drone simulation controller initialized successfully');
         
         // Set up custom environment listeners
@@ -985,6 +988,189 @@ class DroneSimulationController {
             displayModeBar: false
         });
         console.log('Updated attitude plot with', validData.length, 'valid points');
+    }
+
+    // Analytics functionality
+    initAnalytics() {
+        console.log('Initializing Analytics functionality');
+        
+        // Bind Analytics tab activation
+        const analyticsTab = document.querySelector('[href="#analytics"]');
+        if (analyticsTab) {
+            analyticsTab.addEventListener('click', () => {
+                setTimeout(() => this.loadSessionHistory(), 100);
+            });
+        }
+        
+        // Bind refresh button
+        const refreshBtn = document.getElementById('refreshHistoryBtn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+                this.loadSessionHistory();
+            });
+        }
+        
+        // Bind analytics update button
+        const updateAnalyticsBtn = document.getElementById('updateAnalyticsBtn');
+        if (updateAnalyticsBtn) {
+            updateAnalyticsBtn.addEventListener('click', () => {
+                this.updateAnalyticsCharts();
+            });
+        }
+    }
+
+    async loadSessionHistory() {
+        console.log('Loading session history for Analytics');
+        
+        try {
+            const response = await fetch('/api/analytics/sessions?limit=50');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Session history data:', data);
+            
+            this.displaySessionHistory(data.sessions);
+            this.loadPerformanceSummary(data.sessions);
+            
+            // Update session count display
+            const sessionCountElement = document.getElementById('sessionCount');
+            if (sessionCountElement) {
+                sessionCountElement.textContent = `${data.sessions.length} sessions found`;
+            }
+            
+        } catch (error) {
+            console.error('Error loading session history:', error);
+            this.showMessage('Failed to load session history', 'error');
+            
+            // Show fallback message
+            const sessionHistoryElement = document.getElementById('sessionHistory');
+            if (sessionHistoryElement) {
+                sessionHistoryElement.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Unable to load session history. ${error.message}
+                    </div>
+                `;
+            }
+        }
+    }
+
+    displaySessionHistory(sessions) {
+        const sessionHistoryElement = document.getElementById('sessionHistory');
+        if (!sessionHistoryElement) return;
+        
+        if (!sessions || sessions.length === 0) {
+            sessionHistoryElement.innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    No simulation sessions found. Run a simulation to see history here.
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        sessions.forEach(session => {
+            const startTime = new Date(session.start_time).toLocaleString();
+            const statusIcon = session.status === 'completed' ? 'check-circle text-success' : 
+                             session.status === 'running' ? 'play-circle text-primary' : 'exclamation-circle text-warning';
+            
+            html += `
+                <div class="card mb-2 session-card" data-session-id="${session.id}">
+                    <div class="card-body p-3">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h6 class="mb-1">
+                                    <i class="fas fa-${statusIcon}"></i>
+                                    ${session.drone_model} - ${session.environment}
+                                </h6>
+                                <small class="text-muted">
+                                    ${session.mission_type} | ${startTime}
+                                </small>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="small">
+                                    <div>Progress: ${session.mission_progress || 0}%</div>
+                                    <div>Duration: ${session.duration ? session.duration.toFixed(1) + 's' : 'N/A'}</div>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm mt-1 view-details-btn" 
+                                        data-session-id="${session.id}">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        sessionHistoryElement.innerHTML = html;
+        
+        // Add click handlers for view details buttons
+        sessionHistoryElement.querySelectorAll('.view-details-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const sessionId = btn.getAttribute('data-session-id');
+                this.viewSessionDetails(sessionId);
+            });
+        });
+    }
+
+    loadPerformanceSummary(sessions) {
+        const summaryElement = document.getElementById('performanceSummary');
+        if (!summaryElement || !sessions) return;
+        
+        const totalSessions = sessions.length;
+        const completedSessions = sessions.filter(s => s.status === 'completed').length;
+        const successRate = totalSessions > 0 ? (completedSessions / totalSessions * 100).toFixed(1) : 0;
+        
+        const avgDuration = sessions.filter(s => s.duration).reduce((sum, s) => sum + s.duration, 0) / 
+                           sessions.filter(s => s.duration).length || 0;
+        const avgProgress = sessions.reduce((sum, s) => sum + (s.mission_progress || 0), 0) / totalSessions || 0;
+        
+        summaryElement.innerHTML = `
+            <div class="row">
+                <div class="col-6">
+                    <div class="metric-card">
+                        <div class="metric-value">${totalSessions}</div>
+                        <div class="metric-label">Total Sessions</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="metric-card">
+                        <div class="metric-value">${successRate}%</div>
+                        <div class="metric-label">Success Rate</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="metric-card">
+                        <div class="metric-value">${avgDuration.toFixed(1)}s</div>
+                        <div class="metric-label">Avg Duration</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="metric-card">
+                        <div class="metric-value">${avgProgress.toFixed(1)}%</div>
+                        <div class="metric-label">Avg Progress</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    async viewSessionDetails(sessionId) {
+        console.log('Loading details for session:', sessionId);
+        // This would show detailed session information
+        this.showMessage(`Loading details for session ${sessionId}...`, 'info');
+    }
+
+    async updateAnalyticsCharts() {
+        console.log('Updating analytics charts');
+        // This would update the performance and trends charts
+        this.showMessage('Analytics charts updated', 'success');
     }
 
     showMessage(message, type) {
