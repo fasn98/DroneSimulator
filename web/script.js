@@ -1256,7 +1256,7 @@ class DroneSimulationController {
     }
     
     async generateTrajectory3D(sessionId) {
-        console.log('Generating 3D trajectory for session:', sessionId);
+        console.log('Loading 3D trajectory for session:', sessionId);
         
         try {
             // Show loading message
@@ -1276,31 +1276,57 @@ class DroneSimulationController {
                 return;
             }
             
-            // Convert telemetry data to trajectory format
-            const trajectoryData = data.telemetry.map(point => {
-                const position = point.position || {};
-                return {
-                    x: parseFloat(position.x || 0),
-                    y: parseFloat(position.y || 0), 
-                    z: parseFloat(position.z || point.altitude || 0),
-                    timestamp: point.timestamp || 0
-                };
-            }).filter(p => !isNaN(p.x) && !isNaN(p.y) && !isNaN(p.z) && isFinite(p.x) && isFinite(p.y) && isFinite(p.z));
+            // Clear current trajectory data and load session data
+            this.clearTrajectoryData();
+            this.loadHistoricalTrajectory(data.telemetry, sessionId);
             
-            if (trajectoryData.length === 0) {
-                this.showMessage('No valid trajectory points found in session data', 'warning');
-                return;
-            }
-            
-            // Switch to trajectory tab and update plot
+            // Switch to trajectory tab
             this.switchToTrajectoryTab();
-            this.updateTrajectoryPlot(trajectoryData);
             
-            this.showMessage(`Generated 3D trajectory with ${trajectoryData.length} points from session ${sessionId}`, 'success');
+            this.showMessage(`Loaded 3D trajectory with ${data.telemetry.length} points from session ${sessionId}`, 'success');
             
         } catch (error) {
-            console.error('Error generating 3D trajectory:', error);
-            this.showMessage(`Error generating trajectory: ${error.message}`, 'error');
+            console.error('Error loading 3D trajectory:', error);
+            this.showMessage(`Error loading trajectory: ${error.message}`, 'error');
+        }
+    }
+    
+    clearTrajectoryData() {
+        console.log('Clearing current trajectory data');
+        // Clear any existing trajectory plot
+        const element = document.getElementById('trajectoryPlot');
+        if (element) {
+            Plotly.purge(element);
+        }
+    }
+    
+    loadHistoricalTrajectory(telemetryPoints, sessionId) {
+        console.log(`Loading ${telemetryPoints.length} historical trajectory points`);
+        
+        // Convert database telemetry format to trajectory data
+        const trajectoryData = telemetryPoints.map(point => {
+            const position = point.position || {};
+            return {
+                x: parseFloat(position.x || 0),
+                y: parseFloat(position.y || 0), 
+                z: parseFloat(position.z || point.altitude || 0),
+                timestamp: point.timestamp || 0
+            };
+        }).filter(p => !isNaN(p.x) && !isNaN(p.y) && !isNaN(p.z) && isFinite(p.x) && isFinite(p.y) && isFinite(p.z));
+        
+        if (trajectoryData.length === 0) {
+            console.log('No valid trajectory points found');
+            return;
+        }
+        
+        console.log('Sample trajectory positions:', trajectoryData.slice(0, 3));
+        
+        // Update the existing trajectory plot using the main controller's method
+        if (window.droneController && window.droneController.updateTrajectoryPlot) {
+            window.droneController.updateTrajectoryPlot(trajectoryData);
+        } else {
+            // Fallback: create the plot directly
+            this.createTrajectoryPlot(trajectoryData);
         }
     }
     
@@ -1314,7 +1340,7 @@ class DroneSimulationController {
         }
     }
     
-    updateTrajectoryPlot(trajectoryData) {
+    createTrajectoryPlot(trajectoryData) {
         const element = document.getElementById('trajectoryPlot');
         if (!element) {
             console.log('trajectoryPlot element not found');
@@ -1322,9 +1348,8 @@ class DroneSimulationController {
         }
 
         console.log('Creating 3D trajectory plot with', trajectoryData.length, 'points');
-        console.log('Sample trajectory points:', trajectoryData.slice(0, 3));
 
-        // Create 3D scatter plot
+        // Create 3D line plot
         const trace = {
             x: trajectoryData.map(p => p.x),
             y: trajectoryData.map(p => p.y),
@@ -1332,19 +1357,19 @@ class DroneSimulationController {
             type: 'scatter3d',
             mode: 'lines+markers',
             marker: {
-                size: 3,
-                color: trajectoryData.map((p, i) => i), // Color by time progression
+                size: 2,
+                color: trajectoryData.map((p, i) => i),
                 colorscale: 'Viridis',
+                showscale: true,
                 colorbar: {
-                    title: 'Time Progression',
-                    titleside: 'right'
+                    title: 'Time Progression'
                 }
             },
             line: {
                 color: 'blue',
-                width: 3
+                width: 4
             },
-            name: '3D Flight Path'
+            name: 'Flight Path'
         };
 
         // Add start and end markers
@@ -1355,11 +1380,10 @@ class DroneSimulationController {
             type: 'scatter3d',
             mode: 'markers',
             marker: {
-                size: 8,
-                color: 'green',
-                symbol: 'circle'
+                size: 10,
+                color: 'green'
             },
-            name: 'Start Position'
+            name: 'Start'
         };
 
         const endTrace = {
@@ -1369,47 +1393,23 @@ class DroneSimulationController {
             type: 'scatter3d',
             mode: 'markers',
             marker: {
-                size: 8,
-                color: 'red',
-                symbol: 'square'
+                size: 10,
+                color: 'red'
             },
-            name: 'End Position'
+            name: 'End'
         };
 
         const layout = {
-            title: {
-                text: '3D Flight Trajectory',
-                font: { size: 18 }
-            },
+            title: '3D Flight Trajectory',
             scene: {
-                xaxis: { 
-                    title: 'X Position (m)',
-                    showgrid: true,
-                    gridcolor: '#e6e6e6'
-                },
-                yaxis: { 
-                    title: 'Y Position (m)',
-                    showgrid: true,
-                    gridcolor: '#e6e6e6'
-                },
-                zaxis: { 
-                    title: 'Z Altitude (m)',
-                    showgrid: true,
-                    gridcolor: '#e6e6e6'
-                },
-                camera: {
-                    eye: { x: 1.5, y: 1.5, z: 1.5 },
-                    center: { x: 0, y: 0, z: 0 }
-                },
+                xaxis: { title: 'X Position (m)', range: [-50, 200] },
+                yaxis: { title: 'Y Position (m)', range: [-50, 250] },
+                zaxis: { title: 'Z Altitude (m)', range: [0, 100] },
                 aspectmode: 'cube'
             },
-            margin: { l: 0, r: 0, t: 50, b: 0 },
-            paper_bgcolor: 'white',
-            plot_bgcolor: 'white'
+            margin: { l: 0, r: 0, t: 50, b: 0 }
         };
 
-        console.log('Trajectory plot element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
-        
         Plotly.newPlot(element, [trace, startTrace, endTrace], layout, {
             responsive: true,
             displayModeBar: true
