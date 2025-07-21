@@ -1252,22 +1252,29 @@ class DroneSimulationController {
         console.log(`Loading ${telemetryPoints.length} historical telemetry points`);
         
         // Convert database telemetry format to internal format
-        this.telemetryData = telemetryPoints.map(point => ({
-            timestamp: point.timestamp || 0,
-            position_x: parseFloat(point.position_x || 0),
-            position_y: parseFloat(point.position_y || 0),
-            position_z: parseFloat(point.position_z || 0),
-            velocity_x: parseFloat(point.velocity_x || 0),
-            velocity_y: parseFloat(point.velocity_y || 0),
-            velocity_z: parseFloat(point.velocity_z || 0),
-            ground_speed: parseFloat(point.ground_speed || 0),
-            altitude: parseFloat(point.altitude || point.position_z || 0),
-            roll: parseFloat(point.roll || 0),
-            pitch: parseFloat(point.pitch || 0),
-            yaw: parseFloat(point.yaw || 0),
-            mission_progress: parseFloat(point.mission_progress || 0),
-            current_waypoint: parseInt(point.current_waypoint || 0)
-        }));
+        this.telemetryData = telemetryPoints.map(point => {
+            // Database stores nested objects for position, velocity, attitude
+            const position = point.position || {};
+            const velocity = point.velocity || {};
+            const attitude = point.attitude || {};
+            
+            return {
+                timestamp: point.timestamp || 0,
+                position_x: parseFloat(position.x || 0),
+                position_y: parseFloat(position.y || 0),
+                position_z: parseFloat(position.z || 0),
+                velocity_x: parseFloat(velocity.x || 0),
+                velocity_y: parseFloat(velocity.y || 0),
+                velocity_z: parseFloat(velocity.z || 0),
+                ground_speed: parseFloat(point.ground_speed || 0),
+                altitude: parseFloat(point.altitude || position.z || 0),
+                roll: parseFloat(attitude.roll || 0),
+                pitch: parseFloat(attitude.pitch || 0),
+                yaw: parseFloat(attitude.yaw || 0),
+                mission_progress: parseFloat(point.mission_progress || 0),
+                current_waypoint: parseInt(point.current_waypoint || 0)
+            };
+        });
         
         // Update plots with historical data
         this.updatePlots();
