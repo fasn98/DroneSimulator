@@ -1724,22 +1724,22 @@ class DroneSimulationController {
             yaxis: 'y1'
         };
 
-        const groundSpeedTrace = {
+        const verticalSpeedTrace = {
             x: validData.map(d => d.time),
-            y: validData.map(d => d.ground_speed),
+            y: validData.map(d => d.vertical_speed),
             type: 'scatter',
             mode: 'lines',
-            name: 'Horizontal Speed (m/s)',
-            line: { color: 'orange', width: 2 },
+            name: 'Vertical Speed (m/s)',
+            line: { color: 'green', width: 2 },
             yaxis: 'y2'
         };
 
-        const vectorSpeedTrace = {
+        const totalSpeedTrace = {
             x: validData.map(d => d.time),
             y: validData.map(d => d.vector_speed),
             type: 'scatter',
             mode: 'lines',
-            name: 'Vector Speed (m/s)',
+            name: 'Total Speed (m/s)',
             line: { color: 'red', width: 2 },
             yaxis: 'y2'
         };
@@ -1755,7 +1755,7 @@ class DroneSimulationController {
 
         console.log('Creating altitude/speed plot, element dimensions:', element.offsetWidth, 'x', element.offsetHeight);
         
-        Plotly.newPlot(element, [altTrace, groundSpeedTrace, vectorSpeedTrace], layout, {
+        Plotly.newPlot(element, [altTrace, verticalSpeedTrace, totalSpeedTrace], layout, {
             responsive: true,
             displayModeBar: false
         }).then(() => {
