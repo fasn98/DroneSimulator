@@ -566,27 +566,8 @@ class DroneSimulationController {
                     this.updateStatusDisplay();
                     this.updateButtonStates(mappedStatus.running);
                     
-                    // Also create fake telemetry from status for trajectory plotting
-                    if (mappedStatus.running && status.position) {
-                        const fakeTelemetry = {
-                            position_x: status.position[0],
-                            position_y: status.position[1], 
-                            position_z: status.position[2],
-                            timestamp: status.current_time || this.telemetryData.length * 0.1,
-                            altitude: status.position[2],
-                            ground_speed: status.ground_speed || 0,
-                            roll: (status.attitude && status.attitude[0]) || 0,
-                            pitch: (status.attitude && status.attitude[1]) || 0,
-                            yaw: (status.attitude && status.attitude[2]) || 0
-                        };
-                        
-                        // Add to telemetry data for plotting
-                        this.telemetryData.push(fakeTelemetry);
-                        if (this.telemetryData.length > 2000) {
-                            this.telemetryData = this.telemetryData.slice(-2000);
-                        }
-                        this.updatePlots();
-                    }
+                    // Remove fake telemetry creation that was causing periodic zero speeds
+                    // Real telemetry data comes through WebSocket, no need for fake data
                 }
             } catch (error) {
                 // Silent fail for polling
