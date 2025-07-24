@@ -13,8 +13,8 @@ import threading
 import math
 import numpy as np
 from pathlib import Path
-from typing import Dict, Any, List
-from dataclasses import dataclass
+from typing import Dict, Any, List, Optional
+from dataclasses import dataclass, field
 
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_socketio import SocketIO, emit
@@ -37,22 +37,22 @@ class SimulationState:
     paused: bool = False
     start_time: float = 0.0
     current_time: float = 0.0
-    drone_config: Dict[str, Any] = None
-    environment_config: Dict[str, Any] = None
-    mission_config: Dict[str, Any] = None
+    drone_config: Optional[Dict[str, Any]] = None
+    environment_config: Optional[Dict[str, Any]] = None
+    mission_config: Optional[Dict[str, Any]] = None
     
     # Drone state
-    position: np.ndarray = None
-    velocity: np.ndarray = None
-    attitude: np.ndarray = None  # roll, pitch, yaw
-    angular_velocity: np.ndarray = None
+    position: Optional[np.ndarray] = None
+    velocity: Optional[np.ndarray] = None
+    attitude: Optional[np.ndarray] = None  # roll, pitch, yaw
+    angular_velocity: Optional[np.ndarray] = None
     
     # Mission state
     current_waypoint: int = 0
     mission_progress: float = 0.0
     
     # Telemetry history
-    telemetry_history: List[Dict[str, Any]] = None
+    telemetry_history: Optional[List[Dict[str, Any]]] = None
     
     def __post_init__(self):
         if self.position is None:
@@ -93,8 +93,14 @@ class DroneSimulationServer:
         self.post_video_creator = None
         self._enhanced_features_initialized = False
         
-        # Initialize SocketIO
-        self.socketio = SocketIO(self.app, cors_allowed_origins="*", async_mode='threading')
+        # Initialize SocketIO with production settings
+        self.socketio = SocketIO(
+            self.app, 
+            cors_allowed_origins="*", 
+            async_mode='threading',
+            logger=False,  # Disable SocketIO debug logging for faster startup
+            engineio_logger=False
+        )
         
         # Simulation state
         self.state = SimulationState()
@@ -111,10 +117,6 @@ class DroneSimulationServer:
         """Initialize database service if not already initialized."""
         if not self.db_initialized:
             try:
-                # Initialize database tables
-                if hasattr(self.app, 'init_db'):
-                    self.app.init_db()
-                
                 # Initialize database service
                 self.db_service = DatabaseService(self.app)
                 self.db_initialized = True
@@ -143,9 +145,11 @@ class DroneSimulationServer:
                     
                 openai_key = os.environ.get('OPENAI_API_KEY')
                 if openai_key:
-                    if hasattr(self.ai_env_generator, 'set_api_key'):
+                    try:
                         self.ai_env_generator.set_api_key(openai_key)
                         logger.info("OpenAI API key configured")
+                    except AttributeError:
+                        logger.warning("AI environment generator does not support set_api_key")
                 else:
                     logger.warning("OpenAI API key not found in environment")
                 
@@ -165,11 +169,14 @@ class DroneSimulationServer:
         
         @self.app.route('/health')
         def health_check():
-            """Simple health check endpoint for deployment."""
+            """Simple health check endpoint for deployment - returns immediately."""
             return jsonify({
                 'status': 'healthy',
                 'service': 'drone-simulation-server',
-                'timestamp': time.time()
+                'version': '2.0',
+                'timestamp': time.time(),
+                'database_ready': self.db_initialized,
+                'enhanced_features_ready': self._enhanced_features_initialized
             }), 200
         
         @self.app.route('/script.js')
@@ -1267,14 +1274,20 @@ class DroneSimulationServer:
             time.sleep(0.5)  # Broadcast every 500ms
     
     def run(self):
-        """Run the web server."""
+        """Run the web server with optimized settings for deployment."""
+        logger.info(f"Starting SocketIO server on {self.host}:{self.port}")
+        
+        # Initialize database in background for non-blocking startup
+        if not self.debug:
+            threading.Thread(target=self._init_database_service, daemon=True).start()
+        
         self.socketio.run(
             self.app,
             host=self.host,
             port=self.port,
             debug=self.debug,
             use_reloader=False,
-            log_output=True,
+            log_output=not self.debug,  # Reduce logging in production
             allow_unsafe_werkzeug=True
         )
 

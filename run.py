@@ -17,29 +17,27 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def main():
-    """Main entry point for deployment."""
+    """Main entry point for deployment - optimized for fast startup."""
     logger.info("Starting Drone Simulation Server deployment...")
     
     # Get port from environment variable or use default
     port = int(os.environ.get('PORT', 5000))
     host = os.environ.get('HOST', '0.0.0.0')
     
-    # Add a small delay to ensure dependencies are loaded
-    logger.info("Initializing dependencies...")
-    time.sleep(0.5)
-    
     try:
         # Import here to avoid early initialization issues
+        logger.info("Loading simulation server...")
         from simulation_server import DroneSimulationServer
         
-        # Create and run server
+        # Create and run server with optimized settings
+        logger.info(f"Initializing server on {host}:{port}")
         server = DroneSimulationServer(
             host=host,
             port=port,
             debug=False  # Disable debug mode for production
         )
         
-        logger.info(f"Starting server on {host}:{port}")
+        logger.info("Server ready - starting SocketIO service...")
         server.run()
     except KeyboardInterrupt:
         logger.info("Shutting down simulation server...")
