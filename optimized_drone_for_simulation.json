@@ -1,0 +1,28 @@
+{
+  "model_name": "professional_quadcopter_optimized",
+  "description": "Acoustically optimized quadcopter with 3.0 dB noise reduction",
+  "mass": 8.9,
+  "dimensions": {
+    "length": 0.55,
+    "width": 0.55,
+    "height": 0.18
+  },
+  "propulsion": {
+    "num_rotors": 4,
+    "rotor_diameter": 0.25,
+    "max_thrust_total": 17.8,
+    "acoustic_optimized": true,
+    "step_angles": [
+      95.4,
+      84.6,
+      95.4,
+      84.6
+    ],
+    "noise_reduction": 3.0
+  },
+  "performance": {
+    "hover_power": 144.4,
+    "efficiency": "High",
+    "thrust_to_weight": 2.0
+  }
+}
