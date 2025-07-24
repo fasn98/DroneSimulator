@@ -1,0 +1,12 @@
+[build]
+run = "python run.py"
+
+[deployment]
+run = "python run.py"
+deploymentTarget = "cloudrun" 
+
+[interpreter]
+command = ["python", "run.py"]
+
+[run]
+command = "python run.py"
