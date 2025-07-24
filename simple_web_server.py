@@ -33,7 +33,7 @@ class SimpleSimulationServer:
                         template_folder='web',
                         static_folder='web',
                         static_url_path='')
-        self.app.config['SECRET_KEY'] = 'drone-sim-secret-key'
+        self.app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(24).hex())
         
         # Initialize SocketIO
         self.socketio = SocketIO(self.app, cors_allowed_origins="*", async_mode='threading')
