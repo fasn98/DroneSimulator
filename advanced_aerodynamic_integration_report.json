@@ -1,0 +1,65 @@
+{
+  "analysis_summary": {
+    "flight_conditions_tested": 3,
+    "mission_profiles_analyzed": 3,
+    "environmental_scenarios": 2,
+    "peak_aerodynamic_efficiency": 26.4,
+    "optimal_flight_condition": "Mach 0.15, 2\u00b0 AoA"
+  },
+  "performance_envelope": {
+    "Low Speed Cruise": {
+      "max_ld": 25.64747459036336,
+      "optimal_alpha": 2.0,
+      "mach": 0.1,
+      "reynolds": 1000000.0
+    },
+    "High Speed Cruise": {
+      "max_ld": 25.942697113125167,
+      "optimal_alpha": 2.0,
+      "mach": 0.25,
+      "reynolds": 3000000.0
+    },
+    "Maximum Speed": {
+      "max_ld": 26.0211013626461,
+      "optimal_alpha": 1.0,
+      "mach": 0.45,
+      "reynolds": 5000000.0
+    }
+  },
+  "stability_characteristics": {
+    "static_stability": -0.5784633708572442,
+    "pitch_damping": 1.1569267417144884,
+    "control_authority": {
+      "elevator": -0.6,
+      "aileron": 0.08,
+      "rudder": 0.05
+    }
+  },
+  "environmental_capabilities": {
+    "martian_operations": true,
+    "dust_storm_tolerance": 0.6,
+    "gust_resistance": 1.6
+  },
+  "optimization_recommendations": {
+    "aerodynamic_optimization": {
+      "optimal_cruise_alpha": 2.0,
+      "max_efficiency_mach": 0.15,
+      "critical_design_points": [
+        "2\u00b0 AoA",
+        "0.15 Mach",
+        "2M Reynolds"
+      ],
+      "stability_margin": "Adequate (CM_\u03b1 < -0.05)"
+    },
+    "mission_adaptability": {
+      "stealth_capability": "Low-speed optimized (M < 0.2)",
+      "attack_capability": "High-speed capable (M up to 0.45)",
+      "endurance_capability": "Maximum efficiency at M = 0.12"
+    },
+    "environmental_robustness": {
+      "martian_operations": "Viable with 2x power margin",
+      "dust_storm_capability": "Limited to 40% intensity",
+      "gust_tolerance": "Safe up to 60% gust factor"
+    }
+  }
+}
