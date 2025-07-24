@@ -86,26 +86,12 @@ class DroneSimulationServer:
         self.db_service = None
         self.db_initialized = False
         
-        # Initialize enhanced features
-        self.google_maps = GoogleMapsIntegration()
-        self.ai_env_generator = AIEnvironmentGenerator()
-        self.video_export = VideoExportSystem()
-        self.post_video_creator = PostSimulationVideoCreator()
-        
-        # Set API keys for enhanced features
-        google_maps_key = os.environ.get('GOOGLE_MAPS_API_KEY')
-        if google_maps_key:
-            self.google_maps.set_api_key(google_maps_key)
-            logger.info("Google Maps API key configured")
-        else:
-            logger.warning("Google Maps API key not found in environment")
-            
-        openai_key = os.environ.get('OPENAI_API_KEY')
-        if openai_key:
-            self.ai_env_generator.set_api_key(openai_key)
-            logger.info("OpenAI API key configured")
-        else:
-            logger.warning("OpenAI API key not found in environment")
+        # Initialize enhanced features (lazy initialization for faster startup)
+        self.google_maps = None
+        self.ai_env_generator = None
+        self.video_export = None
+        self.post_video_creator = None
+        self._enhanced_features_initialized = False
         
         # Initialize SocketIO
         self.socketio = SocketIO(self.app, cors_allowed_origins="*", async_mode='threading')
@@ -115,11 +101,11 @@ class DroneSimulationServer:
         self.simulation_thread = None
         self.telemetry_thread = None
         
-        # Register routes
+        # Register routes and events
         self._register_routes()
         self._register_socketio_events()
         
-        logger.info(f"Starting drone simulation server with database on {host}:{port}")
+        logger.info(f"Drone simulation server initialized on {host}:{port}")
     
     def _init_database_service(self):
         """Initialize database service if not already initialized."""
@@ -136,6 +122,38 @@ class DroneSimulationServer:
             except Exception as e:
                 logger.error(f"Failed to initialize database service: {e}")
                 # Continue without database service for basic functionality
+    
+    def _init_enhanced_features(self):
+        """Initialize enhanced features if not already initialized."""
+        if not self._enhanced_features_initialized:
+            try:
+                # Initialize enhanced features
+                self.google_maps = GoogleMapsIntegration()
+                self.ai_env_generator = AIEnvironmentGenerator()
+                self.video_export = VideoExportSystem()
+                self.post_video_creator = PostSimulationVideoCreator()
+                
+                # Set API keys for enhanced features
+                google_maps_key = os.environ.get('GOOGLE_MAPS_API_KEY')
+                if google_maps_key:
+                    self.google_maps.set_api_key(google_maps_key)
+                    logger.info("Google Maps API key configured")
+                else:
+                    logger.warning("Google Maps API key not found in environment")
+                    
+                openai_key = os.environ.get('OPENAI_API_KEY')
+                if openai_key:
+                    if hasattr(self.ai_env_generator, 'set_api_key'):
+                        self.ai_env_generator.set_api_key(openai_key)
+                        logger.info("OpenAI API key configured")
+                else:
+                    logger.warning("OpenAI API key not found in environment")
+                
+                self._enhanced_features_initialized = True
+                logger.info("Enhanced features initialized successfully")
+            except Exception as e:
+                logger.error(f"Failed to initialize enhanced features: {e}")
+                # Continue without enhanced features for basic functionality
     
     def _register_routes(self):
         """Register Flask routes."""
@@ -492,8 +510,12 @@ class DroneSimulationServer:
         def get_popular_locations():
             """Get popular real-world locations for simulation."""
             try:
-                locations = self.google_maps.get_popular_locations()
-                return jsonify({'locations': locations})
+                self._init_enhanced_features()
+                if self.google_maps:
+                    locations = self.google_maps.get_popular_locations()
+                    return jsonify({'locations': locations})
+                else:
+                    return jsonify({'error': 'Google Maps service not available'}), 503
             except Exception as e:
                 logger.error(f"Error getting popular locations: {e}")
                 return jsonify({'error': str(e)}), 500
@@ -502,12 +524,16 @@ class DroneSimulationServer:
         def search_locations():
             """Search for real-world locations."""
             try:
+                self._init_enhanced_features()
                 query = request.args.get('query')
                 if not query:
                     return jsonify({'error': 'Query parameter required'}), 400
                 
-                results = self.google_maps.search_locations(query)
-                return jsonify({'results': results or []})
+                if self.google_maps:
+                    results = self.google_maps.search_locations(query)
+                    return jsonify({'results': results or []})
+                else:
+                    return jsonify({'error': 'Google Maps service not available'}), 503
             except Exception as e:
                 logger.error(f"Error searching locations: {e}")
                 return jsonify({'error': str(e)}), 500
@@ -1192,7 +1218,7 @@ class DroneSimulationServer:
                 logger.error(f"Error logging telemetry to database: {e}")
         
         # Add frame to video recording if active
-        if self.video_export.recording:
+        if self.video_export and hasattr(self.video_export, 'recording') and self.video_export.recording:
             try:
                 self.video_export.add_frame(telemetry, view_type="chase")
             except Exception as e:
@@ -1247,6 +1273,8 @@ class DroneSimulationServer:
             host=self.host,
             port=self.port,
             debug=self.debug,
+            use_reloader=False,
+            log_output=True,
             allow_unsafe_werkzeug=True
         )
 

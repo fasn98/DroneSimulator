@@ -7,7 +7,7 @@ Provides a simple, fast-startup entry point for cloud deployments.
 import os
 import sys
 import logging
-from simulation_server import DroneSimulationServer
+import time
 
 # Setup logging
 logging.basicConfig(
@@ -24,20 +24,28 @@ def main():
     port = int(os.environ.get('PORT', 5000))
     host = os.environ.get('HOST', '0.0.0.0')
     
-    # Create and run server
-    server = DroneSimulationServer(
-        host=host,
-        port=port,
-        debug=False  # Disable debug mode for production
-    )
+    # Add a small delay to ensure dependencies are loaded
+    logger.info("Initializing dependencies...")
+    time.sleep(0.5)
     
     try:
+        # Import here to avoid early initialization issues
+        from simulation_server import DroneSimulationServer
+        
+        # Create and run server
+        server = DroneSimulationServer(
+            host=host,
+            port=port,
+            debug=False  # Disable debug mode for production
+        )
+        
         logger.info(f"Starting server on {host}:{port}")
         server.run()
     except KeyboardInterrupt:
         logger.info("Shutting down simulation server...")
     except Exception as e:
         logger.error(f"Server error: {e}")
+        logger.exception("Full traceback:")
         sys.exit(1)
 
 if __name__ == '__main__':
