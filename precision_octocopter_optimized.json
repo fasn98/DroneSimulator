@@ -1,0 +1,330 @@
+{
+  "model_name": "precision_octocopter_optimized_aerodynamic",
+  "description": "Professional precision_octocopter with aerodynamic optimization",
+  "template_base": "precision_octocopter",
+  "optimization_profile": "aerodynamic",
+  "physical_properties": {
+    "dimensions": {
+      "length": 0.85,
+      "width": 0.85,
+      "height": 0.25
+    },
+    "dry_weight": 4.5,
+    "max_takeoff_weight": 12.5,
+    "center_of_gravity": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -0.05
+    },
+    "moment_of_inertia": {
+      "Ixx": 0.45,
+      "Iyy": 0.45,
+      "Izz": 0.6749999999999999
+    },
+    "materials": {
+      "frame": "Carbon fiber composite",
+      "rotors": "Carbon fiber with aluminum hub",
+      "electronics_housing": "Aluminum alloy"
+    }
+  },
+  "rotor_specifications": [
+    {
+      "rotor_id": 1,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    },
+    {
+      "rotor_id": 2,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    },
+    {
+      "rotor_id": 3,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    },
+    {
+      "rotor_id": 4,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    },
+    {
+      "rotor_id": 5,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    },
+    {
+      "rotor_id": 6,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    },
+    {
+      "rotor_id": 7,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    },
+    {
+      "rotor_id": 8,
+      "num_blades": 4,
+      "diameter": 0.4,
+      "chord_length": 0.025,
+      "twist_distribution": [
+        0.07999999999999988,
+        -3.08,
+        -5.92,
+        -9.08,
+        -12
+      ],
+      "step_angles": [
+        93.6,
+        86.4,
+        93.6,
+        86.4
+      ],
+      "airfoil_profile": "NACA2412",
+      "tip_speed": 94.24777960769379,
+      "design_rpm": 4500,
+      "acoustic_optimization": true,
+      "manufacturing_tolerance": 0.008
+    }
+  ],
+  "performance_characteristics": {
+    "total_thrust_capacity": 131.27,
+    "hover_power_required": 1277.7,
+    "estimated_weight": 65.63,
+    "thrust_to_weight_ratio": 2.0,
+    "power_loading": 102.7,
+    "disc_loading": 640.5,
+    "figure_of_merit": 0.75,
+    "efficiency_rating": "High",
+    "noise_reduction_level": "3-5 dB below standard designs"
+  },
+  "flight_control_parameters": {
+    "control_gains": {
+      "roll_kp": 0.8,
+      "roll_ki": 0.12,
+      "roll_kd": 0.05,
+      "pitch_kp": 0.8,
+      "pitch_ki": 0.12,
+      "pitch_kd": 0.05,
+      "yaw_kp": 1.2,
+      "yaw_ki": 0.165,
+      "yaw_kd": 0.02
+    },
+    "rate_limits": {
+      "max_roll_rate": 200.0,
+      "max_pitch_rate": 200.0,
+      "max_yaw_rate": 150.0
+    },
+    "attitude_limits": {
+      "max_tilt_angle": 30.0,
+      "max_vertical_speed": 5.0,
+      "max_horizontal_speed": 10.0
+    },
+    "stabilization_features": {
+      "vibration_compensation": true,
+      "dynamic_balancing": true,
+      "wind_resistance": "enhanced",
+      "gps_hold_precision": "\u00b10.5m"
+    }
+  },
+  "acoustic_metrics": {
+    "average_discrete_tone_reduction": 2.0,
+    "maximum_perceived_noise_level": 68.4,
+    "noise_signature": "Optimized broadband distribution",
+    "acoustic_certification": "Suitable for urban operations",
+    "comparison_to_standard": "2.0 dB quieter than conventional designs"
+  },
+  "safety_features": {
+    "redundancy_systems": {
+      "dual_gps": true,
+      "backup_imu": true,
+      "failsafe_landing": true,
+      "motor_failure_compensation": true
+    },
+    "autonomous_features": {
+      "return_to_home": true,
+      "obstacle_avoidance": true,
+      "low_battery_landing": true,
+      "geofencing": true
+    },
+    "monitoring_systems": {
+      "real_time_telemetry": true,
+      "vibration_monitoring": true,
+      "motor_health_tracking": true,
+      "battery_management": "Advanced BMS with cell monitoring"
+    },
+    "emergency_procedures": {
+      "auto_landing_on_failure": true,
+      "emergency_stop": true,
+      "manual_override": true,
+      "parachute_system": true
+    }
+  },
+  "operational_envelope": {
+    "altitude_limits": {
+      "minimum_altitude": 5.0,
+      "maximum_altitude": 300.0,
+      "recommended_cruise": 180.0
+    },
+    "speed_limits": {
+      "maximum_horizontal": 10.0,
+      "maximum_vertical_up": 5.0,
+      "maximum_vertical_down": 3.0,
+      "recommended_cruise": 7.0
+    },
+    "environmental_limits": {
+      "max_wind_speed": 12.0,
+      "operating_temperature": {
+        "min": -10,
+        "max": 50
+      },
+      "maximum_humidity": 90,
+      "precipitation": "Light rain acceptable with proper sealing"
+    },
+    "payload_limits": {
+      "maximum_payload": 8.0,
+      "center_of_gravity_tolerance": "\u00b15cm from geometric center",
+      "vibration_sensitive_payloads": "Suitable due to acoustic optimization"
+    },
+    "flight_time_performance": {
+      "hover_endurance": 35.0,
+      "cruise_endurance": 45.5,
+      "range_at_cruise": 5.308333333333334,
+      "battery_reserve": "20% minimum for safety"
+    }
+  }
+}
