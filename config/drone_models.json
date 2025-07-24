@@ -138,5 +138,169 @@
       "max_speed": 100.0,
       "service_ceiling": 100000.0
     }
+  },
+  "professional_quadcopter_optimized": {
+    "description": "Acoustically optimized professional quadcopter with 3.0 dB noise reduction",
+    "type": "quadrotor",
+    "mass": {
+      "empty_weight": 8.9,
+      "mtow": 17.0,
+      "fuel_capacity": 0.0
+    },
+    "dimensions": {
+      "wingspan": 0.55,
+      "length": 0.55,
+      "height": 0.18,
+      "rotor_diameter": 0.25
+    },
+    "propulsion": {
+      "type": "electric_rotors",
+      "motor_count": 4,
+      "max_thrust_per_motor": 4.45,
+      "power_consumption": 144.4,
+      "efficiency": 0.84,
+      "battery_capacity": 8000.0,
+      "acoustic_optimized": true,
+      "step_angles": [95.4, 84.6, 95.4, 84.6],
+      "noise_reduction": 3.0,
+      "manufacturing_tolerance": 0.008
+    },
+    "aerodynamics": {
+      "drag_coefficient": 0.28,
+      "lift_coefficient": 0.85,
+      "reference_area": 0.15
+    },
+    "control": {
+      "max_roll_rate": 200.0,
+      "max_pitch_rate": 200.0,
+      "max_yaw_rate": 100.0
+    },
+    "sensors": {
+      "camera": {
+        "fov": 75,
+        "range": 1500
+      },
+      "acoustic_monitor": {
+        "frequency_range": [20, 20000],
+        "sensitivity": -40
+      }
+    },
+    "flight_envelope": {
+      "max_altitude": 1500.0,
+      "max_speed": 25.0,
+      "service_ceiling": 3000.0
+    }
+  },
+  "acoustic_hexacopter_optimized": {
+    "description": "Maximum noise reduction hexacopter with 5.0 dB acoustic optimization",
+    "type": "hexarotor",
+    "mass": {
+      "empty_weight": 12.5,
+      "mtow": 28.0,
+      "fuel_capacity": 0.0
+    },
+    "dimensions": {
+      "wingspan": 0.85,
+      "length": 0.85,
+      "height": 0.25,
+      "rotor_diameter": 0.35
+    },
+    "propulsion": {
+      "type": "electric_rotors",
+      "motor_count": 6,
+      "max_thrust_per_motor": 8.5,
+      "power_consumption": 385.0,
+      "efficiency": 0.82,
+      "battery_capacity": 15000.0,
+      "acoustic_optimized": true,
+      "step_angles": [98.1, 81.9, 98.1, 81.9, 98.1, 81.9],
+      "noise_reduction": 5.0,
+      "manufacturing_tolerance": 0.004
+    },
+    "aerodynamics": {
+      "drag_coefficient": 0.32,
+      "lift_coefficient": 0.88,
+      "reference_area": 0.25
+    },
+    "control": {
+      "max_roll_rate": 150.0,
+      "max_pitch_rate": 150.0,
+      "max_yaw_rate": 75.0
+    },
+    "sensors": {
+      "camera": {
+        "fov": 90,
+        "range": 2000
+      },
+      "acoustic_monitor": {
+        "frequency_range": [10, 25000],
+        "sensitivity": -45
+      },
+      "vibration_sensor": {
+        "range": [0.1, 1000],
+        "precision": 0.01
+      }
+    },
+    "flight_envelope": {
+      "max_altitude": 2500.0,
+      "max_speed": 22.0,
+      "service_ceiling": 4000.0
+    }
+  },
+  "precision_octocopter_optimized": {
+    "description": "High-precision octocopter with aerodynamic optimization and redundancy",
+    "type": "octorotor",
+    "mass": {
+      "empty_weight": 15.2,
+      "mtow": 35.0,
+      "fuel_capacity": 0.0
+    },
+    "dimensions": {
+      "wingspan": 0.85,
+      "length": 0.85,
+      "height": 0.25,
+      "rotor_diameter": 0.4
+    },
+    "propulsion": {
+      "type": "electric_rotors",
+      "motor_count": 8,
+      "max_thrust_per_motor": 6.8,
+      "power_consumption": 425.0,
+      "efficiency": 0.88,
+      "battery_capacity": 20000.0,
+      "acoustic_optimized": true,
+      "step_angles": [93.6, 86.4, 93.6, 86.4, 93.6, 86.4, 93.6, 86.4],
+      "noise_reduction": 2.5,
+      "manufacturing_tolerance": 0.004
+    },
+    "aerodynamics": {
+      "drag_coefficient": 0.26,
+      "lift_coefficient": 0.92,
+      "reference_area": 0.28
+    },
+    "control": {
+      "max_roll_rate": 180.0,
+      "max_pitch_rate": 180.0,
+      "max_yaw_rate": 90.0
+    },
+    "sensors": {
+      "camera": {
+        "fov": 120,
+        "range": 3000
+      },
+      "lidar": {
+        "range": 1000,
+        "resolution": 0.05
+      },
+      "precision_imu": {
+        "gyro_range": 2000,
+        "accel_range": 16
+      }
+    },
+    "flight_envelope": {
+      "max_altitude": 3000.0,
+      "max_speed": 28.0,
+      "service_ceiling": 5000.0
+    }
   }
 }
