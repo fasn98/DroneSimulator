@@ -1,0 +1,20 @@
+{
+  "demo_type": "marketing",
+  "scenario": "Mars_Mission_Demo",
+  "timestamp": 1753340973.3697991,
+  "settings": {
+    "drone_model": "heavy_lift_hexarotor",
+    "environment": "mars",
+    "mission_type": "sample_transport",
+    "simulation_duration": 150,
+    "video_quality": "professional",
+    "telemetry_overlay": true,
+    "performance_metrics": true
+  },
+  "marketing_features": [
+    "mars_physics",
+    "atmospheric_simulation",
+    "power_management"
+  ],
+  "target_audience": "aerospace_professionals"
+}

@@ -1,0 +1,53 @@
+{
+  "project": "Drone Simulation Platform Marketing Video",
+  "created": 1753340973.3762944,
+  "total_scenarios": 3,
+  "estimated_total_duration": 360,
+  "video_segments": [
+    {
+      "scenario": "Earth_Mission_Demo",
+      "config_file": "marketing_demo_earth_mission_demo.json",
+      "description": "Professional Earth reconnaissance mission",
+      "estimated_duration": 120,
+      "marketing_value": [
+        "real_time_telemetry",
+        "3d_trajectory",
+        "mission_progress"
+      ]
+    },
+    {
+      "scenario": "Mars_Mission_Demo",
+      "config_file": "marketing_demo_mars_mission_demo.json",
+      "description": "Mars exploration with challenging environment",
+      "estimated_duration": 150,
+      "marketing_value": [
+        "mars_physics",
+        "atmospheric_simulation",
+        "power_management"
+      ]
+    },
+    {
+      "scenario": "Multi_Environment_Demo",
+      "config_file": "marketing_demo_multi_environment_demo.json",
+      "description": "Comparison across planetary environments",
+      "estimated_duration": 90,
+      "marketing_value": [
+        "low_gravity",
+        "vacuum_conditions",
+        "precision_control"
+      ]
+    }
+  ],
+  "production_notes": {
+    "script_file": "marketing_video_script.md",
+    "production_plan": "video_production_plan.md",
+    "target_length": "3-4 minutes",
+    "key_message": "99.8% cost reduction through advanced simulation"
+  },
+  "next_steps": [
+    "Generate demonstration videos using Quick Video Creation",
+    "Capture screen recordings of Analytics interface",
+    "Record 3D trajectory visualizations",
+    "Combine segments with professional narration"
+  ]
+}

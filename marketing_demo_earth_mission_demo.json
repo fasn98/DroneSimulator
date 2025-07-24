@@ -1,0 +1,20 @@
+{
+  "demo_type": "marketing",
+  "scenario": "Earth_Mission_Demo",
+  "timestamp": 1753340973.3677235,
+  "settings": {
+    "drone_model": "default_quadrotor",
+    "environment": "earth",
+    "mission_type": "reconnaissance",
+    "simulation_duration": 120,
+    "video_quality": "professional",
+    "telemetry_overlay": true,
+    "performance_metrics": true
+  },
+  "marketing_features": [
+    "real_time_telemetry",
+    "3d_trajectory",
+    "mission_progress"
+  ],
+  "target_audience": "aerospace_professionals"
+}

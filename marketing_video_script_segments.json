@@ -1,0 +1,32 @@
+{
+  "earth_mission": {
+    "opening": "Watch as our drone executes a precision reconnaissance mission on Earth, demonstrating real-time telemetry and advanced flight dynamics.",
+    "key_points": [
+      "Real-time altitude and speed monitoring",
+      "Precise waypoint navigation",
+      "Professional telemetry displays",
+      "Mission progress tracking"
+    ],
+    "closing": "Notice the smooth trajectory and accurate environmental simulation - exactly what you'd expect in real-world deployment."
+  },
+  "mars_mission": {
+    "opening": "Now observe the same technology adapted for Mars exploration, accounting for reduced gravity and atmospheric conditions.",
+    "key_points": [
+      "Mars atmospheric simulation (3.71 m/s\u00b2 gravity)",
+      "Reduced air density effects",
+      "Extended flight capabilities in low gravity",
+      "Sample transport mission complexity"
+    ],
+    "closing": "Our physics engine automatically adjusts for planetary conditions, ensuring your Mars mission succeeds."
+  },
+  "analytics_showcase": {
+    "opening": "Every simulation generates comprehensive analytics for mission optimization and performance analysis.",
+    "key_points": [
+      "Complete session history tracking",
+      "Performance comparison tools",
+      "Energy consumption analysis",
+      "Mission success rate calculations"
+    ],
+    "closing": "Make data-driven decisions before committing to expensive real-world missions."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "demo_type": "marketing",
+  "scenario": "Multi_Environment_Demo",
+  "timestamp": 1753340973.371429,
+  "settings": {
+    "drone_model": "default_quadrotor",
+    "environment": "moon",
+    "mission_type": "monitoring",
+    "simulation_duration": 90,
+    "video_quality": "professional",
+    "telemetry_overlay": true,
+    "performance_metrics": true
+  },
+  "marketing_features": [
+    "low_gravity",
+    "vacuum_conditions",
+    "precision_control"
+  ],
+  "target_audience": "aerospace_professionals"
+}
