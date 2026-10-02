@@ -315,7 +315,12 @@ class DroneSimulationController {
             mission_progress: parseFloat(data.mission_progress || 0),
             current_waypoint: parseInt(data.current_waypoint || 0),
             power_w: parseFloat(data.power_w || 0),
-            battery_wh: parseFloat(data.battery_wh || 0)
+            battery_wh: parseFloat(data.battery_wh || 0),
+            // physics-core values (NaN-safe: absent in older sessions -> 0, charts skip them)
+            thrust_to_weight: parseFloat(data.thrust_to_weight || 0),
+            tip_mach: parseFloat(data.tip_mach || 0),
+            air_density: parseFloat(data.air_density || 0),
+            wind_speed: parseFloat(data.wind_speed || 0)
         };
         
         // Only add valid data with finite numbers
@@ -584,117 +589,81 @@ class DroneSimulationController {
     }
 
     updateAdvancedAerodynamicPlots() {
+        // Physics-core charts (replace the former L/D and "dust storm impact" curves, which
+        // were not computed by the simulation and have no meaning for a multirotor).
         if (this.telemetryData.length === 0) return;
-        
-        // Calculate L/D efficiency based on realistic aerodynamic analysis
-        const times = this.telemetryData.map(d => d.timestamp);
-        const ldRatios = this.telemetryData.map(d => {
-            const speed = d.vector_speed || 0;
-            const altitude = d.altitude || 0;
-            const airDensity = d.environment?.air_density || 0.015;
-            
-            // Advanced L/D calculation based on our optimization analysis
-            // Peak efficiency of 26.4 at optimal conditions
-            const baseLD = 24.0; // Base efficiency for optimized drone
-            const speedFactor = Math.min(speed / 4.0, 1.0); // Optimal at 4 m/s
-            const altitudeFactor = Math.max(0.1, 1.0 - (altitude / 100.0) * 0.2); // Slight decrease with altitude
-            const densityFactor = airDensity / 0.015; // Mars adjustment
-            
-            return baseLD * speedFactor * altitudeFactor * densityFactor;
-        });
-        
-        // Environmental impact factors
-        const envImpacts = this.telemetryData.map(d => {
-            const windSpeed = d.environment?.wind_speed || 0;
-            const airDensity = d.environment?.air_density || 1.225;
-            const temperature = d.environment?.temperature || 15;
-            
-            // Dust storm impact calculation
-            const windFactor = Math.min(windSpeed / 50.0, 1.0); // Max impact at 50 m/s
-            const densityFactor = (1.225 - airDensity) / 1.225; // Higher impact with lower density
-            const tempFactor = Math.abs(temperature + 63) / 100.0; // Mars temperature deviation
-            
-            return (windFactor * 0.4 + densityFactor * 0.4 + tempFactor * 0.2);
-        });
-        
-        // Update L/D efficiency plot
-        this.updateAerodynamicEfficiencyPlot(times, ldRatios);
-        
-        // Update environmental impact plot
-        this.updateEnvironmentalImpactPlot(times, envImpacts);
+        const pts = this.telemetryData.filter(d => d.timestamp != null && isFinite(d.timestamp));
+        const hasPhysics = pts.some(d => d.thrust_to_weight > 0 || d.tip_mach > 0);
+        this.updateThrustMarginPlot(pts, hasPhysics);
+        this.updateAtmospherePlot(pts, hasPhysics);
     }
-    
-    updateAerodynamicEfficiencyPlot(times, ldRatios) {
+
+    updateThrustMarginPlot(pts, hasPhysics) {
         const element = document.getElementById('aerodynamicPlot');
         if (!element) return;
-        
-        const validData = times.map((time, i) => ({
-            time: time,
-            ld: ldRatios[i]
-        })).filter(d => d.time != null && d.ld != null && !isNaN(d.time) && !isNaN(d.ld));
-        
-        if (validData.length === 0) return;
-        
-        const trace = {
-            x: validData.map(d => d.time),
-            y: validData.map(d => d.ld),
-            type: 'scatter',
-            mode: 'lines',
-            name: 'L/D Efficiency',
-            line: { color: '#007bff', width: 3 }
-        };
-        
+        if (!hasPhysics) {
+            Plotly.newPlot(element, [], this.emptyPhysicsLayout('Thrust Margin & Rotor Tip Mach'), { responsive: true, displayModeBar: false });
+            return;
+        }
+        const t = pts.map(d => d.timestamp);
+        const traces = [
+            { x: t, y: pts.map(d => d.thrust_to_weight), type: 'scatter', mode: 'lines', name: 'T/W available', line: { color: '#007bff', width: 3 } },
+            { x: t, y: pts.map(d => d.tip_mach), type: 'scatter', mode: 'lines', name: 'Tip Mach', yaxis: 'y2', line: { color: '#fd7e14', width: 2 } },
+            { x: [t[0], t[t.length - 1]], y: [1, 1], type: 'scatter', mode: 'lines', name: 'T/W = 1 (cannot climb)', line: { color: '#dc3545', width: 1, dash: 'dash' } },
+            { x: [t[0], t[t.length - 1]], y: [0.8, 0.8], type: 'scatter', mode: 'lines', name: 'Tip Mach 0.8 limit', yaxis: 'y2', line: { color: '#fd7e14', width: 1, dash: 'dot' } },
+        ];
         const layout = {
-            title: { text: 'Aerodynamic Efficiency (L/D Ratio)', font: { size: 16 } },
+            title: { text: 'Thrust Margin & Rotor Tip Mach', font: { size: 16 } },
             xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
-            yaxis: { title: 'L/D Ratio', showgrid: true, gridcolor: '#e6e6e6', range: [0, 30] },
-            margin: { l: 60, r: 30, t: 50, b: 50 },
+            yaxis: { title: 'Thrust / weight', showgrid: true, gridcolor: '#e6e6e6', rangemode: 'tozero' },
+            yaxis2: { title: 'Tip Mach', overlaying: 'y', side: 'right', range: [0, 1] },
+            legend: { orientation: 'h', y: -0.25 },
+            margin: { l: 60, r: 60, t: 50, b: 70 },
             plot_bgcolor: 'white',
             paper_bgcolor: 'white',
-            annotations: []
         };
-        
-        Plotly.newPlot(element, [trace], layout, {
-            responsive: true,
-            displayModeBar: false
-        });
+        Plotly.newPlot(element, traces, layout, { responsive: true, displayModeBar: false });
     }
-    
-    updateEnvironmentalImpactPlot(times, impacts) {
+
+    updateAtmospherePlot(pts, hasPhysics) {
         const element = document.getElementById('environmentalPlot');
         if (!element) return;
-        
-        const validData = times.map((time, i) => ({
-            time: time,
-            impact: impacts[i]
-        })).filter(d => d.time != null && d.impact != null && !isNaN(d.time) && !isNaN(d.impact));
-        
-        if (validData.length === 0) return;
-        
-        const trace = {
-            x: validData.map(d => d.time),
-            y: validData.map(d => d.impact),
-            type: 'scatter',
-            mode: 'lines+markers',
-            name: 'Dust Storm Impact',
-            line: { color: '#dc3545', width: 3 },
-            marker: { size: 4 }
-        };
-        
+        if (!hasPhysics) {
+            Plotly.newPlot(element, [], this.emptyPhysicsLayout('Atmosphere at the Drone'), { responsive: true, displayModeBar: false });
+            return;
+        }
+        const t = pts.map(d => d.timestamp);
+        const traces = [
+            { x: t, y: pts.map(d => d.air_density), type: 'scatter', mode: 'lines', name: 'Air density (kg/m³)', line: { color: '#20c997', width: 3 } },
+            { x: t, y: pts.map(d => d.wind_speed), type: 'scatter', mode: 'lines', name: 'Wind (m/s)', yaxis: 'y2', line: { color: '#6f42c1', width: 2 } },
+        ];
         const layout = {
-            title: { text: 'Environmental Conditions & Dust Storm Impact', font: { size: 16 } },
+            title: { text: 'Atmosphere at the Drone', font: { size: 16 } },
             xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6' },
-            yaxis: { title: 'Impact Factor (0-1)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 1] },
-            margin: { l: 60, r: 30, t: 50, b: 50 },
+            yaxis: { title: 'Air density (kg/m³)', showgrid: true, gridcolor: '#e6e6e6', rangemode: 'tozero' },
+            yaxis2: { title: 'Wind (m/s)', overlaying: 'y', side: 'right', rangemode: 'tozero' },
+            legend: { orientation: 'h', y: -0.25 },
+            margin: { l: 60, r: 60, t: 50, b: 70 },
             plot_bgcolor: 'white',
             paper_bgcolor: 'white',
-            annotations: []
         };
-        
-        Plotly.newPlot(element, [trace], layout, {
-            responsive: true,
-            displayModeBar: false
-        });
+        Plotly.newPlot(element, traces, layout, { responsive: true, displayModeBar: false });
+    }
+
+    emptyPhysicsLayout(title) {
+        return {
+            title: { text: title, font: { size: 16 } },
+            xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 10] },
+            yaxis: { showgrid: true, gridcolor: '#e6e6e6' },
+            margin: { l: 60, r: 30, t: 50, b: 50 },
+            plot_bgcolor: '#f8f9fa',
+            paper_bgcolor: 'white',
+            annotations: [{
+                text: 'Physics-core telemetry appears here once a simulation runs',
+                x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
+                showarrow: false, font: { size: 14, color: '#6c757d' }, align: 'center'
+            }]
+        };
     }
 
     updateTrajectoryPlot() {
@@ -963,42 +932,12 @@ class DroneSimulationController {
                 console.log('Initialized empty speed plot');
             }
 
-            // Initialize advanced aerodynamic efficiency plot
-            const aeroElement = document.getElementById('aerodynamicPlot');
-            if (aeroElement) {
-                Plotly.newPlot('aerodynamicPlot', [], { 
-                    title: { text: 'Aerodynamic Efficiency (L/D Ratio)', font: { size: 16 } },
-                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 10] },
-                    yaxis: { title: 'L/D Ratio', showgrid: true, gridcolor: '#e6e6e6', range: [0, 30] },
-                    margin: { l: 60, r: 30, t: 50, b: 50 },
-                    plot_bgcolor: '#f8f9fa',
-                    paper_bgcolor: 'white',
-                    annotations: [{
-                        text: 'Advanced Aerodynamic Analysis<br>Peak efficiency up to 26.4 L/D',
-                        x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
-                        showarrow: false, font: { size: 14, color: '#6c757d' }, align: 'center'
-                    }]
-                }, { responsive: true, displayModeBar: false });
-                console.log('Initialized aerodynamic efficiency plot');
+            // Physics-core charts start empty (filled by updateAdvancedAerodynamicPlots)
+            if (document.getElementById('aerodynamicPlot')) {
+                Plotly.newPlot('aerodynamicPlot', [], this.emptyPhysicsLayout('Thrust Margin & Rotor Tip Mach'), { responsive: true, displayModeBar: false });
             }
-        
-            // Initialize environmental impact plot
-            const envElement = document.getElementById('environmentalPlot');
-            if (envElement) {
-                Plotly.newPlot('environmentalPlot', [], { 
-                    title: { text: 'Environmental Conditions & Dust Storm Impact', font: { size: 16 } },
-                    xaxis: { title: 'Time (s)', showgrid: true, gridcolor: '#e6e6e6', range: [0, 10] },
-                    yaxis: { title: 'Impact Factor', showgrid: true, gridcolor: '#e6e6e6', range: [0, 1] },
-                    margin: { l: 60, r: 30, t: 50, b: 50 },
-                    plot_bgcolor: '#f8f9fa',
-                    paper_bgcolor: 'white',
-                    annotations: [{
-                        text: 'Mars Dust Storm Effects<br>98.4% density reduction, 48 m/s winds',
-                        x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
-                        showarrow: false, font: { size: 14, color: '#6c757d' }, align: 'center'
-                    }]
-                }, { responsive: true, displayModeBar: false });
-                console.log('Initialized environmental impact plot');
+            if (document.getElementById('environmentalPlot')) {
+                Plotly.newPlot('environmentalPlot', [], this.emptyPhysicsLayout('Atmosphere at the Drone'), { responsive: true, displayModeBar: false });
             }
 
             const attElement = document.getElementById('attitudePlot');
