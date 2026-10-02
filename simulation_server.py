@@ -24,6 +24,8 @@ from src.google_maps_integration import GoogleMapsIntegration
 from src.ai_environment_generator import AIEnvironmentGenerator
 from src.video_export_system import VideoExportSystem
 from src.post_simulation_video_creator import PostSimulationVideoCreator
+from src.physics.dynamics import euler_from_quat
+from src.physics.web_session import WebSession
 import logging
 
 # Setup logging
@@ -53,6 +55,13 @@ class SimulationState:
     
     # Telemetry history
     telemetry_history: Optional[List[Dict[str, Any]]] = None
+
+    # Twin v2 physics session (src/physics/web_session.py)
+    twin: Optional[Any] = None
+    twin_feasibility: Optional[Dict[str, Any]] = None
+    mission_status: str = "ready"
+    failure_reason: Optional[str] = None
+    realtime_factor: float = 1.0
     
     def __post_init__(self):
         if self.position is None:
@@ -256,6 +265,24 @@ class DroneSimulationServer:
                 
                 self.state.mission_config = self._load_mission_config(config.get('mission_type', 'test_flight'))
                 
+                # Twin v2: the physics core flies the mission
+                custom_env = getattr(self, 'custom_environment_config', None) or None
+                self.state.twin = WebSession(
+                    config.get('drone_model', 'default_quadrotor'),
+                    self.state.mission_config,
+                    environment='custom' if custom_env else config.get('environment', 'earth'),
+                    environment_config=custom_env,
+                    seed=int(time.time()) % (2 ** 31),
+                )
+                self.state.twin_feasibility = self.state.twin.feasibility()
+                self.state.mission_status = 'executing'
+                self.state.failure_reason = None
+                self.state.realtime_factor = 1.0
+                if self.state.twin_feasibility.get('warning'):
+                    logger.warning(f"Twin feasibility: {self.state.twin_feasibility['warning']} "
+                                   f"{self.state.twin_feasibility.get('warnings')}")
+                    self.socketio.emit('twin_warning', self.state.twin_feasibility)
+                
                 # Initialize database service if needed
                 self._init_database_service()
                 
@@ -280,7 +307,7 @@ class DroneSimulationServer:
                 self.state.paused = False
                 self.state.start_time = time.time()
                 self.state.current_time = 0.0
-                self.state.position = np.array([0.0, 0.0, 0.0])
+                self.state.position = np.array(self.state.twin.sim.x[0:3], dtype=float)
                 self.state.velocity = np.array([0.0, 0.0, 0.0])
                 self.state.attitude = np.array([0.0, 0.0, 0.0])
                 self.state.angular_velocity = np.array([0.0, 0.0, 0.0])
@@ -308,7 +335,8 @@ class DroneSimulationServer:
                     'success': True,
                     'message': 'Simulation started',
                     'config': config,
-                    'session_id': getattr(self.state, 'db_session_id', None)
+                    'session_id': getattr(self.state, 'db_session_id', None),
+                    'twin': self.state.twin_feasibility
                 })
                 
             except Exception as e:
@@ -372,7 +400,12 @@ class DroneSimulationServer:
                     'current_waypoint': self.state.current_waypoint,
                     'position': self.state.position.tolist() if self.state.position is not None else [0, 0, 0],
                     'velocity': self.state.velocity.tolist() if self.state.velocity is not None else [0, 0, 0],
-                    'attitude': self.state.attitude.tolist() if self.state.attitude is not None else [0, 0, 0]
+                    'attitude': self.state.attitude.tolist() if self.state.attitude is not None else [0, 0, 0],
+                    'mission_status': self.state.mission_status,
+                    'failure_reason': self.state.failure_reason,
+                    'realtime_factor': self.state.realtime_factor,
+                    'twin': self.state.twin_feasibility,
+                    'warning': (self.state.twin_feasibility or {}).get('warning')
                 })
                 
             except Exception as e:
@@ -1004,84 +1037,71 @@ class DroneSimulationServer:
             return {}
     
     def _run_simulation(self):
-        """Run the simulation loop."""
-        logger.info("Simulation loop started")
-        dt = 0.1  # 100ms timestep
+        """Fly the mission with the Twin v2 physics core, paced in real time.
+
+        Each 0.1 s tick integrates 0.1 s of physics (20 RK4 steps at dt = 5 ms,
+        control at 50 Hz) and then sleeps for whatever is left of the tick. If
+        the physics ever takes longer than the tick, the simulation runs slower
+        than real time (reported as realtime_factor) instead of skipping physics.
+        """
+        logger.info("Simulation loop started (Twin v2 physics)")
+        twin = self.state.twin
+        tick = 0.1
         loop_count = 0
-        # Get mission duration from flight_time_max or default to 900 seconds
-        mission_criteria = self.state.mission_config.get('success_criteria', {})
-        simulation_duration = mission_criteria.get('flight_time_max', 900.0)
-        mission_status = "executing"  # Change status from planning to executing
-        total_distance = 0.0  # Track total distance traveled
-        
-        while self.state.running and self.state.current_time < simulation_duration:
-            loop_count += 1
-            if loop_count % 50 == 0:  # Log every 5 seconds
-                logger.info(f"Simulation loop running - iteration {loop_count}, time: {self.state.current_time:.1f}s")
+
+        # `self.state.twin is twin` stops this thread if a newer simulation replaced it
+        while self.state.running and self.state.twin is twin and not twin.finished:
+            tick_start = time.perf_counter()
             if not self.state.paused:
-                # Update simulation time (use simulation time, not real time)
-                self.state.current_time += dt
-                
-                # Store previous position for distance calculation
-                prev_position = self.state.position.copy()
-                
-                # Get current waypoint
-                waypoints = self.state.mission_config.get('waypoints', [])
-                if waypoints and self.state.current_waypoint < len(waypoints):
-                    target_waypoint = waypoints[self.state.current_waypoint]
-                    target_pos = np.array([target_waypoint['x'], target_waypoint['y'], target_waypoint['z']])
-                    
-                    # Simple physics simulation
-                    self._update_drone_physics(target_pos, dt)
-                    
-                    # Calculate distance traveled this step
-                    step_distance = np.linalg.norm(self.state.position - prev_position)
-                    total_distance += step_distance
-                    
-                    # Check if reached waypoint with realistic timing
-                    distance = np.linalg.norm(self.state.position - target_pos)
-                    tolerance = target_waypoint.get('tolerance', 5.0)
-                    
-                    if distance < tolerance:
-                        # Add minimum time at waypoint for realistic mission timing
-                        if not hasattr(self.state, 'waypoint_arrival_time'):
-                            self.state.waypoint_arrival_time = self.state.current_time
-                        
-                        # Stay at waypoint for the specified duration
-                        waypoint_duration = target_waypoint.get('duration', 10.0)
-                        time_at_waypoint = self.state.current_time - self.state.waypoint_arrival_time
-                        
-                        if time_at_waypoint >= waypoint_duration:
-                            # Move to next waypoint
-                            self.state.current_waypoint += 1
-                            delattr(self.state, 'waypoint_arrival_time')  # Reset for next waypoint
-                            
-                            if self.state.current_waypoint >= len(waypoints):
-                                # Mission complete
-                                self.state.mission_progress = 100.0
-                                self.state.running = False
-                                
-                                # End the session in database with completed status
-                                self._complete_simulation('completed')
-                                
-                                self.socketio.emit('mission_complete', {
-                                    'message': 'Mission completed successfully',
-                                    'total_time': self.state.current_time
-                                })
-                            else:
-                                # Update mission progress
-                                self.state.mission_progress = (self.state.current_waypoint / len(waypoints)) * 100.0
-                
-                # Log telemetry with mission status and distance
-                self._log_telemetry(mission_status, total_distance)
-            
-            time.sleep(dt)
-        
-        # Handle simulation completion due to timeout
-        if self.state.current_time >= simulation_duration:
-            logger.info(f"Simulation completed due to timeout at {simulation_duration}s")
-            self.state.running = False
-            self._complete_simulation('completed_timeout')
+                loop_count += 1
+                twin.advance(tick)
+                self._sync_state_from_twin()
+                self._log_telemetry(twin.telemetry())
+                compute = time.perf_counter() - tick_start
+                self.state.realtime_factor = 0.9 * self.state.realtime_factor + 0.1 * min(1.0, tick / max(compute, 1e-6))
+                if loop_count % 50 == 0:  # Log every ~5 seconds
+                    logger.info(f"Twin t={twin.t:.1f}s progress={100 * twin.progress:.0f}% "
+                                f"physics load={100 * compute / tick:.0f}% of the tick")
+            time.sleep(max(tick - (time.perf_counter() - tick_start), 0.0))
+
+        if twin.finished and self.state.running and self.state.twin is twin:
+            self._finish_twin_mission(twin)
+
+    def _sync_state_from_twin(self):
+        """Mirror the physics state into SimulationState (used by the REST endpoints)."""
+        twin = self.state.twin
+        x = twin.sim.x
+        self.state.current_time = twin.t
+        self.state.position = np.array(x[0:3], dtype=float)
+        self.state.velocity = np.array(x[3:6], dtype=float)
+        self.state.attitude = np.array(euler_from_quat(x[6:10]), dtype=float)
+        self.state.angular_velocity = np.array(x[10:13], dtype=float)
+        self.state.current_waypoint = twin.current_waypoint
+        self.state.mission_progress = 100.0 * twin.progress
+        self.state.mission_status = twin.status
+        self.state.failure_reason = twin.failure_reason
+
+    def _finish_twin_mission(self, twin):
+        """Close a mission that ended on its own (completed, failed or timed out)."""
+        db_status = {'completed': 'completed', 'failed': 'failed', 'timeout': 'completed_timeout'}.get(
+            twin.status, twin.status)
+        logger.info(f"Mission ended: {twin.status} at t={twin.t:.1f}s ({twin.failure_reason or 'ok'})")
+        self.state.running = False
+        self._complete_simulation(db_status)
+        final = self.state.telemetry_history[-1] if self.state.telemetry_history else twin.telemetry()
+        final['environment'] = self._get_environment_data()
+        self.socketio.emit('telemetry_update', {'type': 'telemetry', 'payload': final})
+        if twin.status == 'completed':
+            self.socketio.emit('mission_complete', {
+                'message': 'Mission completed successfully',
+                'total_time': twin.t
+            })
+        else:
+            self.socketio.emit('mission_failed', {
+                'status': twin.status,
+                'message': twin.failure_reason or twin.status,
+                'total_time': twin.t
+            })
     
     def _complete_simulation(self, status='completed'):
         """Complete the current simulation session with proper cleanup."""
@@ -1107,47 +1127,11 @@ class DroneSimulationServer:
                 import traceback
                 traceback.print_exc()
     
-    def _update_drone_physics(self, target_pos: np.ndarray, dt: float):
-        """Update drone physics with realistic navigation timing."""
-        # Calculate position error
-        position_error = target_pos - self.state.position
-        distance_to_target = np.linalg.norm(position_error)
-        
-        # Realistic drone speeds and acceleration
-        max_velocity = 5.0  # m/s (realistic drone speed)
-        max_acceleration = 2.0  # m/s^2 (realistic acceleration)
-        
-        # Proportional controller with realistic gains
-        velocity_command = position_error * 0.2  # Lower gain for smoother movement
-        
-        # Limit velocity more realistically
-        velocity_magnitude = np.linalg.norm(velocity_command)
-        if velocity_magnitude > max_velocity:
-            velocity_command = velocity_command / velocity_magnitude * max_velocity
-        
-        # Apply acceleration limits for realistic movement
-        velocity_diff = velocity_command - self.state.velocity
-        accel_magnitude = np.linalg.norm(velocity_diff) / dt
-        if accel_magnitude > max_acceleration:
-            velocity_diff = velocity_diff / accel_magnitude * max_acceleration * dt
-        
-        # Update velocity and position with realistic physics
-        self.state.velocity += velocity_diff
-        self.state.position += self.state.velocity * dt
-        
-        # Update attitude (simple heading control)
-        if np.linalg.norm(self.state.velocity) > 0.1:
-            heading = math.atan2(self.state.velocity[1], self.state.velocity[0])
-            self.state.attitude[2] = heading  # yaw
-        
-        # Add some realistic variations
-        gravity = self.state.environment_config.get('gravity', 9.81)
-        self.state.attitude[0] = math.sin(self.state.current_time * 0.5) * 0.1  # roll
-        self.state.attitude[1] = math.cos(self.state.current_time * 0.3) * 0.1  # pitch
-    
     def _get_environment_data(self):
         """Get current environment data for display."""
-        if not hasattr(self.state, 'environment_config'):
+        if self.state.twin is not None:
+            return self.state.twin.environment_data()
+        if not self.state.environment_config:
             return {}
         
         env_config = self.state.environment_config
@@ -1181,35 +1165,8 @@ class DroneSimulationServer:
             'wind_speed': wind_speed
         }
     
-    def _log_telemetry(self, mission_status="executing", total_distance=0.0):
-        """Log current telemetry data with enhanced mission information."""
-        telemetry = {
-            'timestamp': self.state.current_time,  # Use simulation time consistently
-            'position': {
-                'x': float(self.state.position[0]),
-                'y': float(self.state.position[1]),
-                'z': float(self.state.position[2])
-            },
-            'velocity': {
-                'x': float(self.state.velocity[0]),
-                'y': float(self.state.velocity[1]),
-                'z': float(self.state.velocity[2])
-            },
-            'attitude': {
-                'roll': float(self.state.attitude[0]),
-                'pitch': float(self.state.attitude[1]),
-                'yaw': float(self.state.attitude[2])
-            },
-            'mission_progress': self.state.mission_progress,
-            'current_waypoint': self.state.current_waypoint,
-            'altitude': float(self.state.position[2]),
-            'ground_speed': float(np.linalg.norm(self.state.velocity[:2])),
-            'vertical_speed': float(self.state.velocity[2]),
-            'vector_speed': float(np.linalg.norm(self.state.velocity)),  # Total 3D speed
-            'mission_status': mission_status,
-            'total_distance': total_distance
-        }
-        
+    def _log_telemetry(self, telemetry: Dict[str, Any]):
+        """Store one telemetry dict (built by WebSession.telemetry) and forward it to DB / video."""
         self.state.telemetry_history.append(telemetry)
         
         # Log to database if we have a session and database service
@@ -1267,7 +1224,9 @@ class DroneSimulationServer:
                         'current_waypoint': self.state.current_waypoint,
                         'mission_status': latest_telemetry.get('mission_status', 'executing'),
                         'total_distance': latest_telemetry.get('total_distance', 0.0),
-                        'environment': env_data
+                        'environment': env_data,
+                        'realtime_factor': self.state.realtime_factor,
+                        'twin': self.state.twin_feasibility
                     }
                 })
             

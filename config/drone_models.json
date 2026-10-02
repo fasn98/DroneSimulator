@@ -302,5 +302,251 @@
       "max_speed": 28.0,
       "service_ceiling": 5000.0
     }
+  },
+  "mars_hexacopter_tcc": {
+    "description": "TCC baseline Mars hexacopter, sized on the NASA Mars Science Helicopter concept (31 kg, 6 x 1.28 m rotors)",
+    "type": "hexarotor",
+    "mass": {
+      "empty_weight": 31.2,
+      "mtow": 31.2,
+      "fuel_capacity": 0.0
+    },
+    "dimensions": {
+      "wingspan": 3.98,
+      "length": 3.98,
+      "height": 0.8,
+      "rotor_diameter": 1.28
+    },
+    "propulsion": {
+      "type": "electric_rotors",
+      "motor_count": 6,
+      "max_thrust_per_motor": 25.0,
+      "power_consumption": 6200.0,
+      "efficiency": 0.68,
+      "battery_capacity": 1200.0
+    },
+    "aerodynamics": {
+      "drag_coefficient": 1.0,
+      "lift_coefficient": 0.0,
+      "reference_area": 0.6
+    },
+    "control": {
+      "max_roll_rate": 60.0,
+      "max_pitch_rate": 60.0,
+      "max_yaw_rate": 30.0
+    },
+    "sensors": {
+      "camera": {
+        "fov": 90,
+        "range": 2000
+      },
+      "lidar": {
+        "range": 100,
+        "resolution": 0.05
+      }
+    },
+    "flight_envelope": {
+      "max_altitude": 200.0,
+      "max_speed": 10.0,
+      "service_ceiling": 500.0
+    },
+    "physics": {
+      "kind": "multirotor",
+      "mass_dry": 31.2,
+      "payload": 0.0,
+      "battery_wh": 1200.0,
+      "avionics_w": 30.0,
+      "heater_w": 0.0,
+      "inertia": [
+        9.0,
+        9.0,
+        17.0
+      ],
+      "drag_area": 0.6,
+      "landing_gear": {
+        "radius": 0.6,
+        "height": 0.5
+      },
+      "rotor_layout": {
+        "count": 6,
+        "arm_length": 1.35,
+        "angle_offset_deg": 0.0,
+        "height": 0.25
+      },
+      "rotor": {
+        "radius": 0.64,
+        "solidity": 0.25,
+        "ct_sigma_max": 0.15,
+        "figure_of_merit": 0.615,
+        "motor_efficiency": 0.68,
+        "max_tip_mach": 0.8,
+        "time_constant": 0.08
+      },
+      "notes": "From NASA/TM-2020-220485 (Johnson et al.): 31.2 kg gross, R = 0.64 m, M_tip = 0.8, C_T/sigma = 0.115 at sigma = 0.25, FM = 0.615, motor efficiency 0.68, rho = 0.015 kg/m3 at -50 C. Assumptions (not from NASA): C_T/sigma stall limit 0.15, battery 1200 Wh, inertia and drag area estimated, arm 1.35 m so 1.28 m disks do not overlap."
+    }
+  },
+  "tcc_mars_70kg_original": {
+    "description": "TCC chapter 3 Mars drone as originally specified (70 kg MTOW, 6 x 0.6 m rotors) - kept to demonstrate it cannot hover",
+    "type": "hexarotor",
+    "mass": {
+      "empty_weight": 35.0,
+      "mtow": 70.0,
+      "fuel_capacity": 0.0
+    },
+    "dimensions": {
+      "wingspan": 2.5,
+      "length": 1.2,
+      "height": 0.8,
+      "rotor_diameter": 0.6
+    },
+    "propulsion": {
+      "type": "electric_rotors",
+      "motor_count": 6,
+      "max_thrust_per_motor": 20.0,
+      "power_consumption": 2500.0,
+      "efficiency": 0.85,
+      "battery_capacity": 1000.0
+    },
+    "aerodynamics": {
+      "drag_coefficient": 1.0,
+      "lift_coefficient": 0.0,
+      "reference_area": 0.5
+    },
+    "control": {
+      "max_roll_rate": 60.0,
+      "max_pitch_rate": 60.0,
+      "max_yaw_rate": 30.0
+    },
+    "sensors": {
+      "camera": {
+        "fov": 90,
+        "range": 2000
+      }
+    },
+    "flight_envelope": {
+      "max_altitude": 200.0,
+      "max_speed": 10.0,
+      "service_ceiling": 500.0
+    },
+    "physics": {
+      "kind": "multirotor",
+      "mass_dry": 55.0,
+      "payload": 15.0,
+      "battery_wh": 1000.0,
+      "avionics_w": 30.0,
+      "heater_w": 0.0,
+      "inertia": [
+        12.0,
+        12.0,
+        22.0
+      ],
+      "drag_area": 0.5,
+      "landing_gear": {
+        "radius": 0.5,
+        "height": 0.4
+      },
+      "rotor_layout": {
+        "count": 6,
+        "arm_length": 0.95,
+        "angle_offset_deg": 0.0,
+        "height": 0.2
+      },
+      "rotor": {
+        "radius": 0.3,
+        "solidity": 0.25,
+        "ct_sigma_max": 0.15,
+        "figure_of_merit": 0.615,
+        "motor_efficiency": 0.68,
+        "max_tip_mach": 0.8,
+        "time_constant": 0.08
+      },
+      "notes": "Geometry and mass from TCC chapter 3 (span 2.5 m, rotors 0.6 m, MTOW 70 kg incl. 15 kg payload). Rotor technology deliberately as good as the NASA MSH design, so the shortfall is due to size, not technology."
+    }
+  },
+  "lunar_hopper_tcc": {
+    "description": "TCC lunar variant: propulsive hopper (no rotors - there is no air on the Moon)",
+    "type": "lander",
+    "mass": {
+      "empty_weight": 45.0,
+      "mtow": 80.0,
+      "fuel_capacity": 35.0
+    },
+    "dimensions": {
+      "wingspan": 1.0,
+      "length": 1.0,
+      "height": 0.8,
+      "rotor_diameter": 0.0
+    },
+    "propulsion": {
+      "type": "chemical_thrusters",
+      "motor_count": 4,
+      "max_thrust_per_motor": 60.0,
+      "power_consumption": 0.0,
+      "efficiency": 1.0,
+      "specific_impulse": 230.0
+    },
+    "aerodynamics": {
+      "drag_coefficient": 0.0,
+      "lift_coefficient": 0.0,
+      "reference_area": 0.0
+    },
+    "control": {
+      "max_roll_rate": 30.0,
+      "max_pitch_rate": 30.0,
+      "max_yaw_rate": 15.0
+    },
+    "sensors": {
+      "camera": {
+        "fov": 120,
+        "range": 10000
+      },
+      "radar": {
+        "range": 500,
+        "resolution": 0.1
+      }
+    },
+    "flight_envelope": {
+      "max_altitude": 500.0,
+      "max_speed": 30.0,
+      "service_ceiling": 1000.0
+    },
+    "physics": {
+      "kind": "hopper",
+      "mass_dry": 45.0,
+      "payload": 0.0,
+      "propellant_mass": 35.0,
+      "battery_wh": 400.0,
+      "avionics_w": 40.0,
+      "heater_w": 0.0,
+      "inertia": [
+        8.0,
+        8.0,
+        10.0
+      ],
+      "drag_area": 0.0,
+      "landing_gear": {
+        "radius": 0.6,
+        "height": 0.5
+      },
+      "thrusters": {
+        "main": {
+          "count": 4,
+          "max_force": 60.0,
+          "isp": 230.0,
+          "radius": 0.35,
+          "angle_offset_deg": 0.0,
+          "z": -0.2
+        },
+        "rcs": {
+          "count": 4,
+          "max_force": 5.0,
+          "isp": 220.0,
+          "radius": 0.55,
+          "angle_offset_deg": 45.0,
+          "z": 0.2
+        }
+      },
+      "notes": "Mass from TCC chapter 3 (80 kg incl. propellant). The TCC's 8-12 thrusters of 5-10 N give at most 120 N, below the 130 N lunar weight, so 4 x 60 N throttleable main engines are added. Isp ~230 s is an approximate value for green monopropellant (LMP-103S class); battery and inertia are assumptions."
+    }
   }
 }

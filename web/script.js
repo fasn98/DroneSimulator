@@ -164,6 +164,7 @@ class DroneSimulationController {
             if (response.ok) {
                 const result = await response.json();
                 this.clearSimulationData();
+                this.updateTwinWarning(result.twin);
                 this.showMessage('Simulation started successfully', 'success');
                 this.updateButtonStates(true);
                 console.log('Simulation started:', result);
@@ -251,6 +252,21 @@ class DroneSimulationController {
             console.log('WebSocket mission event received:', data);
             this.missionData.push(data);
         });
+
+        // Twin v2 physics events
+        this.socket.on('twin_warning', (data) => {
+            this.updateTwinWarning(data);
+        });
+
+        this.socket.on('mission_complete', (data) => {
+            this.showMessage(`Missão concluída em ${Number(data.total_time || 0).toFixed(1)} s`, 'success');
+            this.updateButtonStates(false);
+        });
+
+        this.socket.on('mission_failed', (data) => {
+            this.showMessage(`Missão falhou: ${data.message}`, 'error');
+            this.updateButtonStates(false);
+        });
     }
 
     handleTelemetryUpdate(telemetry) {
@@ -274,8 +290,11 @@ class DroneSimulationController {
         // Calculate vertical speed and vector speed based on horizontal speed and pitch angle
         // Vertical speed = horizontal_speed * sin(pitch) + velocity_z
         // Vector speed = sqrt(horizontal_speed^2 + vertical_speed^2)
-        const vertical_speed = ground_speed * Math.sin(pitch) + velocity_z;
-        const vector_speed = Math.sqrt(ground_speed**2 + vertical_speed**2);
+        // Twin v2 sends the true vertical and 3D speeds; the estimate is kept for old sessions
+        const vertical_speed = (data.vertical_speed !== undefined && data.vertical_speed !== null)
+            ? parseFloat(data.vertical_speed) : ground_speed * Math.sin(pitch) + velocity_z;
+        const vector_speed = (data.vector_speed !== undefined && data.vector_speed !== null)
+            ? parseFloat(data.vector_speed) : Math.sqrt(ground_speed**2 + vertical_speed**2);
         
         // Normalize the telemetry data format with proper data validation
         const normalizedData = {
@@ -294,7 +313,9 @@ class DroneSimulationController {
             pitch: pitch,
             yaw: parseFloat(data.attitude?.yaw || data.yaw || 0),
             mission_progress: parseFloat(data.mission_progress || 0),
-            current_waypoint: parseInt(data.current_waypoint || 0)
+            current_waypoint: parseInt(data.current_waypoint || 0),
+            power_w: parseFloat(data.power_w || 0),
+            battery_wh: parseFloat(data.battery_wh || 0)
         };
         
         // Only add valid data with finite numbers
@@ -320,6 +341,47 @@ class DroneSimulationController {
         if (data.environment) {
             this.updateEnvironmentDisplay(data.environment);
         }
+
+        // Twin v2 physics panel
+        if (data.power_w !== undefined) {
+            this.updateTwinPhysicsDisplay(data);
+        }
+    }
+
+    updateTwinPhysicsDisplay(data) {
+        const fmt = (v, digits) => (typeof v === 'number' && isFinite(v)) ? v.toFixed(digits) : '—';
+        const setText = (id, text) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        };
+
+        setText('twinPower', `${fmt(data.power_w / 1000, 2)} kW`);
+        setText('twinBattery', `${fmt(data.battery_pct, 1)}% (${fmt(data.battery_wh, 0)} Wh)`);
+        setText('droneBattery', `${fmt(data.battery_pct, 0)}%`);
+        setText('twinDensity', `${fmt(data.air_density, 4)} kg/m³`);
+        setText('twinTipMach', fmt(data.tip_mach, 2));
+        setText('twinThrustToWeight', fmt(data.thrust_to_weight, 2));
+
+        const propCol = document.getElementById('twinPropellantCol');
+        const hasPropellant = typeof data.propellant_kg === 'number' && data.propellant_kg > 0;
+        if (propCol) propCol.style.display = hasPropellant ? '' : 'none';
+        if (hasPropellant) setText('twinPropellant', `${fmt(data.propellant_kg, 2)} kg`);
+
+        const twEl = document.getElementById('twinThrustToWeight');
+        if (twEl) twEl.className = (typeof data.thrust_to_weight === 'number' && data.thrust_to_weight < 1) ? 'text-danger fw-bold' : '';
+    }
+
+    updateTwinWarning(twin) {
+        const banner = document.getElementById('twinWarningBanner');
+        const text = document.getElementById('twinWarningText');
+        if (!banner || !text) return;
+        if (twin && twin.warning) {
+            text.textContent = twin.warning;
+            banner.className = `alert alert-${twin.warning_level === 'danger' ? 'danger' : 'warning'} mb-3`;
+        } else {
+            text.textContent = '';
+            banner.className = 'alert alert-danger d-none mb-3';
+        }
     }
 
     handleStatusUpdate(status) {
@@ -342,6 +404,10 @@ class DroneSimulationController {
             // Update environment display
             if (status.payload.environment) {
                 this.updateEnvironmentDisplay(status.payload.environment);
+            }
+
+            if (status.payload.twin) {
+                this.updateTwinWarning(status.payload.twin);
             }
         }
     }
@@ -1985,7 +2051,13 @@ class DroneSimulationController {
         const element = document.getElementById('powerPlot');
         if (!element) return;
 
+        const hasPhysics = data.some(d => d.power_w > 0);
+        const batteryStart = data.length ? (data[0].battery_wh || 0) : 0;
         const validData = times.map((time, i) => {
+            if (hasPhysics) {
+                // Twin v2: electrical power from the rotor model, energy = battery used
+                return { time: time, power: data[i].power_w || 0, energy: Math.max(batteryStart - (data[i].battery_wh || 0), 0) };
+            }
             const speed = data[i].ground_speed || 0;
             const altitude = data[i].altitude || 0;
             const power = 50 + (speed * 2) + (altitude * 0.1);

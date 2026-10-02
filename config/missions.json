@@ -254,5 +254,70 @@
       "max_speed": 15.0,
       "loiter_accuracy": 10.0
     }
+  },
+  "reconhecimento_marte_tcc": {
+    "name": "Reconhecimento Marte - TCC",
+    "description": "Reconhecimento Marte - TCC: decolagem a 15 m, 3 pontos de observação num raio de ~50 m e pouso no ponto de partida (< 5 min). Dimensionada para os veículos do TCC (mars_hexacopter_tcc em Marte, lunar_hopper_tcc na Lua).",
+    "type": "reconnaissance",
+    "cruise_speed": 4.0,
+    "waypoints": [
+      {
+        "x": 0,
+        "y": 0,
+        "z": 15,
+        "action": "takeoff",
+        "duration": 3.0,
+        "tolerance": 1.5
+      },
+      {
+        "x": 40,
+        "y": 0,
+        "z": 15,
+        "action": "observe",
+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 40,
+        "y": 30,
+        "z": 15,
+        "action": "observe",
+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 0,
+        "y": 30,
+        "z": 15,
+        "action": "observe",
+        "duration": 5.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "z": 15,
+        "action": "navigate",
+        "duration": 2.0,
+        "tolerance": 2.0
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "action": "land",
+        "duration": 3.0,
+        "tolerance": 1.5
+      }
+    ],
+    "success_criteria": {
+      "flight_time_max": 300.0,
+      "waypoint_tolerance": 2.0
+    },
+    "constraints": {
+      "max_altitude": 30.0,
+      "max_speed": 5.0,
+      "geofence_radius": 100.0
+    }
   }
 }

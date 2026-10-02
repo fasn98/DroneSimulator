@@ -132,10 +132,12 @@ class DatabaseService:
             attitude = telemetry.get('attitude', {})
             angular_velocity = telemetry.get('angular_velocity', {})
             
-            # Calculate power consumption (basic model)
+            # Power: Twin v2 physics value when present, otherwise the legacy basic model
             speed = telemetry.get('ground_speed', 0)
             altitude = telemetry.get('altitude', 0)
-            power = 50 + (speed * 2) + (altitude * 0.1)  # Watts
+            power = telemetry.get('power_w')
+            if power is None:
+                power = 50 + (speed * 2) + (altitude * 0.1)  # Watts
             
             # Calculate cumulative energy (simplified)
             energy = telemetry.get('energy_consumed', power * timestamp / 3600)  # Wh
@@ -361,7 +363,7 @@ class DatabaseService:
             session.mission_progress = progress
             session.waypoints_completed = waypoint
             
-            # Calculate energy (simplified)
+            # Calculate energy (Twin v2 sends energy_consumed; simplified model otherwise)
             power = 50 + (speed * 2) + (altitude * 0.1)
             session.total_energy = telemetry.get('energy_consumed', power * telemetry.get('timestamp', 0) / 3600)
             
