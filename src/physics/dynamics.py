@@ -149,7 +149,7 @@ class RigidBodyDynamics:
         p_rotor = 0.0
         for i, r in enumerate(v.rotors):
             t = f_act[i]
-            f = np.array([0.0, 0.0, t])
+            f = np.array([0.0, 0.0, t * r.effectiveness])
             force_b += f
             moment_b += cross3(r.position, f)
             moment_b[2] += -r.spin * r.torque(t, rho, a)
@@ -195,6 +195,12 @@ class RigidBodyDynamics:
         dx[13 + n] = -(p_rotor + v.avionics_w + v.heater_w) / 3600.0 if x[13 + n] > 0 else 0.0
         dx[14 + n] = -mdot if x[14 + n] > 0 else 0.0
         return dx
+
+    def specific_force_body(self, x: np.ndarray, cmd: np.ndarray) -> np.ndarray:
+        """What an ideal accelerometer at the CG reads: (a - g) in the body frame (m/s^2)."""
+        acc_w = self.derivative(x, cmd)[3:6]
+        R = quat_to_rot(x[6:10] / np.linalg.norm(x[6:10]))
+        return R.T @ (acc_w - np.array([0.0, 0.0, -self.body.gravity]))
 
     def rk4_step(self, x: np.ndarray, cmd: np.ndarray, dt: float) -> np.ndarray:
         k1 = self.derivative(x, cmd)

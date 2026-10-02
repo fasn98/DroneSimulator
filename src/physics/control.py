@@ -38,6 +38,9 @@ class Allocator:
     def __init__(self, dyn: RigidBodyDynamics):
         self.dyn = dyn
         v = dyn.vehicle
+        # Estimated effectiveness per rotor; the fault-tolerant reconfiguration lowers it after
+        # the SADPF isolates a degraded rotor, so the allocator stops relying on that rotor.
+        self.effectiveness = np.ones(len(v.rotors))
         self.arm = max([np.linalg.norm(r.position[:2]) for r in v.rotors] +
                        [np.linalg.norm(t.position[:2]) for t in v.thrusters] + [0.1])
 
@@ -48,9 +51,10 @@ class Allocator:
         n_lift = max(len(v.rotors), 1)
         t_hover = dyn.mass(x) * dyn.body.gravity / n_lift
         cols = []
-        for r in v.rotors:
+        for i, r in enumerate(v.rotors):
             kq = r.torque(t_hover, rho, a) / t_hover if t_hover > 0 else 0.0
-            cols.append([1.0, r.position[1], -r.position[0], -r.spin * kq])
+            e = self.effectiveness[i]
+            cols.append([e, e * r.position[1], -e * r.position[0], -r.spin * kq])
         for t in v.thrusters:
             m = cross3(t.position, t.direction)
             cols.append([t.direction[2], m[0], m[1], m[2]])

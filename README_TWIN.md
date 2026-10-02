@@ -1,4 +1,4 @@
-# Twin v2: physics core
+# Twin v2/v3: physics core, navigation and fault diagnosis
 
 Twin v2 replaces the kinematic motion of the original Twin with a 6-DoF physics model. In that model, gravity, air density and actuator limits decide whether and how the drone flies. The code lives in `src/physics/` and depends only on `numpy` and `scipy`.
 
@@ -92,7 +92,47 @@ print(tel.column("power_w").mean(), tel.column("battery_wh")[-1])
 
 Note: the web app uses `config/environments.json` Mars (610 Pa, 210 K → ρ = 0.0154 kg/m³, a = 226 m/s). Under these conditions `mars_hexacopter_tcc` has T/W = 1.26 and shows a "low control margin" warning. The table above uses NASA's design point (0.015 kg/m³ at −50 °C), which gives T/W = 1.31.
 
+## Phase 3: sensors, EKF and the SADPF (thesis Ch. 5.4)
+
+**What it adds** (all optional; without these options, phases 1 and 2 behave exactly as before):
+
+| Part | Model |
+| --- | --- |
+| Sensors (`sensors.py`) | **3 IMUs** (accel + gyro, white noise, turn-on bias, bias random walk) fused by median vote. Downward **laser altimeter** (slant range, 0.3–50 m). **Visual navigation** (position and heading, 5 Hz). **Barometer**, with noise set in pascals, so altitude noise follows σ_p/(ρg): about 3.5 m on Mars and 0.02 m on Earth. No magnetometer, because Mars has no global magnetic field. |
+| Navigation (`ekf.py`) | 15-state error-state EKF (Solà 2017): position, velocity, attitude, accelerometer bias, gyro bias. Every update computes its NIS, and a 99.9 % χ² gate rejects outliers. Divergence recovery reopens the covariance when two independent sensors are rejected at the same time. |
+| Faults | `RotorFault(index, effectiveness, t)`: loss of effectiveness, meaning the rotor spends the commanded power but delivers only part of the thrust. `SensorFault(sensor, kind, t, value, unit)` with kind = bias, stuck, dropout or noise. |
+| SADPF (`sadpf.py`) | **Model-based diagnosis**: force residual r_F = m·a_z − Σ e_i f_i and roll/pitch residual r_M = Iω̇ + ω×Iω − M(f). A first-order actuator model driven by the commands predicts f, and the same low-pass filter is applied to both sides of each residual. The rotor is isolated by the column that best fits the residual, and the fit also gives its effectiveness. **Sensors**: repeated χ² rejections isolate a sensor, a reading that stops changing is flagged as stuck, and a single IMU unit is isolated when it leaves the 3-unit vote. **Levels** follow 5.4.2: Nível 1 aviso, Nível 2 alerta (reconfigure the control allocation, isolate the sensor), Nível 3 crítico (land). **Prognosis**: after a rotor fault, a linear program computes the thrust-to-weight still available with roll and pitch balanced. If it is below 1.1, the vehicle could hover but not manoeuvre, so the SADPF lands it. A land detector cuts the motors only once the vehicle is on its legs and still. |
+| Web | `WebSession(..., sadpf=True)` (on by default in `simulation_server.py`). `POST /api/simulation/fault` injects faults. Telemetry carries `sadpf` (level, residual, EKF error, rotor effectiveness, isolated sensors, events), and the server emits `sadpf_event`. The UI has a SADPF panel with fault injection. |
+
+**Monte Carlo campaign** (`python tools/twin_fault_campaign.py`, results in `docs/twin_v3/`)
+
+- Setup: 130 flights of `mars_hexacopter_tcc` on Mars, each with one fault injected at a random time.
+- Model mismatch: every flight uses a **perturbed plant**, while the controller and SADPF keep the nominal model:
+  - mass N(1, 1 %)
+  - inertia U(0.9, 1.1)
+  - per-rotor thrust scale N(1, 2 %)
+  - actuator time constant U(0.8, 1.2)
+- Wind: 5 ± 2 m/s, the operating envelope of a Mars rotorcraft (Ingenuity was cleared for about 10 m/s).
+
+| Scenario | Detected and isolated | Median / max latency | Notes |
+| --- | --- | --- | --- |
+| No fault, 20 flights | — | — | **0 false alarms** |
+| No fault, dust-storm wind 15 ± 15 m/s, 10 flights | — | — | 1 false alarm (Nível 1); the drag the diagnosis does not model shows in the residual |
+| Rotor loss of effectiveness 25–70 %, 20 flights | **20/20**, correct rotor | 0.93 / 1.08 s | LOE estimate error 4.7 % (median). 16 flights landed because the margin left was < 1.1. Without SADPF: 3/20 tipped over and the median altitude loss was 6.4 m. With SADPF: 0 tipped over and the median altitude loss was 0.23 m. |
+| Rotor stopped, 10 flights | **10/10** | 0.89 / 0.91 s | **With SADPF 10/10 landed upright** (touchdown ≤ 3.6 m/s). **Without SADPF 10/10 tipped over.** |
+| Laser altimeter bias / stuck | 10/10 and 10/10 | 0.57 s / 0.33 s | flight continues on the other sensors |
+| Visual-nav position jump 2–6 m | 10/10 | 0.98 / 1.09 s | Nível 3: no position reference, so it lands in place (median navigation error during landing 4.8 m) |
+| Gyro or accelerometer fault in one IMU | 10/10 and 10/10 | 0.46 s / 0.42 s | Outvoted by the other two IMUs. The flight continues. |
+
+![Rotor fault with and without SADPF](docs/twin_v3/rotor_fault_example.png)
+![Campaign](docs/twin_v3/campaign.png)
+
+**Honest scope**
+- The plant is perturbed, but the diagnosis still uses the same physics family as the simulator. These results are *verification* of the method, not hardware validation.
+- Detectability limit: a loss below about 20 % on one rotor stays inside the residual threshold (3.5 % of weight).
+- On the TCC baseline (T/W 1.26 in the app's Mars), a loss of more than about 40 % on one rotor leaves too little margin. The vehicle must land. This is a design finding: fault tolerance needs a larger T/W margin, or a rotor layout (e.g. coaxial or PPNNPN) that keeps yaw authority.
+- The app's default Mars wind (15 m/s mean, 15 m/s gust σ) is dust-storm level, beyond what a Mars rotorcraft would fly in.
+
 ## Next phases
 
-3. Add sensor models with an EKF, a fault-injection API and residual-based fault detection (the SADPF from thesis Ch. 5.4), plus a Monte Carlo campaign.
-4. Rewrite the thesis Ch. 3, 6 and 7 with these results, and clean up the repository (move videos and audio to Git LFS or Releases).
+4. Rewrite the thesis Ch. 3, 5.4, 6 and 7 with these results, and clean up the repository (move videos and audio to Git LFS or Releases).
