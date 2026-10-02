@@ -524,7 +524,19 @@ class DroneSimulationController {
             
             if (response.ok) {
                 const envName = document.getElementById('customEnvName').value || 'Custom';
-                this.showToast(`Applied custom environment: ${envName}`, 'success');
+                // Make the custom environment an explicit choice in the Environment selector
+                const envSelect = document.getElementById('environment');
+                if (envSelect) {
+                    let opt = envSelect.querySelector('option[value="custom"]');
+                    if (!opt) {
+                        opt = document.createElement('option');
+                        opt.value = 'custom';
+                        envSelect.appendChild(opt);
+                    }
+                    opt.textContent = `custom (${envName})`;
+                    envSelect.value = 'custom';
+                }
+                this.showToast(`Ambiente personalizado aplicado: ${envName}. Selecionado como "custom" no menu Environment.`, 'success');
             } else {
                 this.showToast('Error applying custom environment', 'error');
             }
