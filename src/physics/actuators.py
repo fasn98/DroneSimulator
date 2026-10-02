@@ -43,6 +43,10 @@ class Rotor:
     position: np.ndarray = field(default_factory=lambda: np.zeros(3))  # body frame, m
     spin: int = 1  # +1 = counter-clockwise seen from above (reaction torque is -z)
     health: float = 1.0  # 1 = nominal, 0 = failed (used by fault injection)
+    # Fraction of the commanded thrust the rotor actually delivers (loss-of-effectiveness fault,
+    # e.g. a chipped blade or a degraded motor). The motor still spends the power and reaction
+    # torque of the commanded thrust, so the fault shows up as missing force, not missing power.
+    effectiveness: float = 1.0
 
     @property
     def disk_area(self) -> float:

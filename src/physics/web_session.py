@@ -19,6 +19,8 @@ import numpy as np
 
 from .atmosphere import Body, body_from_config, load_body
 from .dynamics import euler_from_quat
+from .sadpf import LEVEL_NAMES, RotorFault
+from .sensors import SensorConfig, SensorFault
 from .simulator import TwinSimulator, waypoint_route
 from .sizing import hover_report
 from .vehicle import DEFAULT_MODELS, load_vehicle
@@ -56,7 +58,8 @@ class WebSession:
 
     def __init__(self, vehicle_name: str, mission: Dict[str, Any], environment: str = "earth",
                  environment_config: Optional[Dict[str, Any]] = None, dt: float = 0.005, seed: int = 0,
-                 models_path: str | Path = DEFAULT_MODELS, ground_timeout: float = GROUND_TIMEOUT):
+                 models_path: str | Path = DEFAULT_MODELS, ground_timeout: float = GROUND_TIMEOUT,
+                 sadpf: bool = False):
         self.vehicle = load_vehicle(vehicle_name, models_path)
         with open(models_path) as f:
             self.envelope = json.load(f).get(vehicle_name, {}).get("flight_envelope", {}) or {}
@@ -66,7 +69,10 @@ class WebSession:
             self.body: Body = body_from_config(environment or "custom", environment_config, prefer_density=True)
         else:
             self.body = load_body(environment)
-        self.sim = TwinSimulator(self.vehicle, self.body, dt=dt, seed=seed)
+        # Phase 3: with sadpf the vehicle flies on its EKF estimate and the SADPF watches for faults
+        self.sim = TwinSimulator(self.vehicle, self.body, dt=dt, seed=seed,
+                                 sensors=SensorConfig() if sadpf else None, sadpf=sadpf)
+        self._events_sent = 0
         self.dt = dt
         self.ground_timeout = ground_timeout
 
@@ -146,7 +152,7 @@ class WebSession:
             if self.finished:
                 return
             prev = sim.x[0:3].copy()
-            sim.step(self.route(sim.t, sim.x))
+            sim.step(self.route(sim.t, sim.nav_state()))
             x = sim.x
             self.total_distance += float(np.linalg.norm(x[0:3] - prev))
             if x[2] > self.max_height:
@@ -154,6 +160,12 @@ class WebSession:
             self._check_end(x, n)
 
     def _check_end(self, x: np.ndarray, n: int) -> None:
+        sp = self.sim.sadpf
+        if sp is not None and sp.landed:
+            self.status = "failed"
+            critical = [e for e in sp.events if e.level == 3]
+            self.failure_reason = "SADPF: pouso de emergência — " + (critical[0].message if critical else "falha crítica")
+            return
         if self.route.progress() >= 1.0:
             self.status = "completed"
             return
@@ -181,6 +193,49 @@ class WebSession:
             self.failure_reason = f"Tempo limite da missão ({self.time_limit:.0f} s) atingido"
 
     # ------------------------------------------------------------------ #
+    def inject_fault(self, spec: Dict[str, Any]) -> str:
+        """Inject a fault now. spec: {"type": "rotor", "rotor": 1..n, "effectiveness": 0..1} or
+        {"type": "sensor", "sensor": "altimeter|nav_pos|nav_yaw|baro|gyro|accel", "kind": "bias|stuck|dropout|noise",
+         "value": float or [x, y, z], "unit": 1..3}. Returns a Portuguese description."""
+        if self.sim.sensors is None:
+            raise ValueError("Injeção de falhas requer o SADPF ativo (sadpf=True)")
+        t = self.sim.t
+        if spec.get("type") == "rotor":
+            n_rot = len(self.vehicle.rotors)
+            idx = int(spec.get("rotor", 1)) - 1
+            if not 0 <= idx < n_rot:
+                raise ValueError(f"Rotor deve estar entre 1 e {n_rot}")
+            eff = float(np.clip(float(spec.get("effectiveness", 0.5)), 0.0, 1.0))
+            self.sim.rotor_faults.append(RotorFault(idx, eff, t))
+            return f"Rotor {idx + 1} com {eff * 100:.0f}% de eficácia a partir de t = {t:.1f} s"
+        value = spec.get("value", 0.0)
+        value = np.asarray(value, dtype=float) if isinstance(value, (list, tuple)) else float(value)
+        unit = max(int(spec.get("unit", 1)) - 1, 0)
+        f = SensorFault(str(spec.get("sensor")), str(spec.get("kind", "bias")), t, value, unit=unit)
+        self.sim.sensors.faults.append(f)
+        return f"Falha '{f.kind}' no sensor {f.sensor} a partir de t = {t:.1f} s"
+
+    def sadpf_data(self) -> Optional[Dict[str, Any]]:
+        sp, sim = self.sim.sadpf, self.sim
+        if sp is None:
+            return None
+        events = [{"t": _num(e.t, 2), "level": e.level, "code": e.code, "message": e.message} for e in sp.events]
+        new = events[self._events_sent:]
+        self._events_sent = len(events)
+        return {
+            "level": sp.level,
+            "level_name": LEVEL_NAMES[sp.level],
+            "residual": _num(np.linalg.norm(sp.fdi.residual), 5),
+            "threshold": sp.cfg.detect_threshold,
+            "nav_error_m": _num(np.linalg.norm(sim.ekf.p - sim.x[0:3]), 4),
+            "nav_sigma_m": _num(np.linalg.norm(sim.ekf.position_sigma), 4),
+            "isolated": sorted(sp.sensors.isolated),
+            "rotor_effectiveness": [_num(e, 3) for e in sim.ctrl.alloc.effectiveness],
+            "landing": sp.land_requested is not None,
+            "new_events": new,
+            "events": events[-8:],
+        }
+
     def feasibility(self) -> Dict[str, Any]:
         r = self.report
         return {
@@ -245,4 +300,6 @@ class WebSession:
             "thrust_to_weight": _num(tw, 3),
             "on_ground": bool(out.on_ground),
             "wind_speed": _num(np.linalg.norm(sim.dyn.wind), 3),
+            # --- Twin phase 3 (None when the SADPF is off) ---
+            "sadpf": self.sadpf_data(),
         }

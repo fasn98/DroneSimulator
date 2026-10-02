@@ -281,6 +281,7 @@ class DroneSimulationServer:
                     environment='custom' if use_custom else env_name,
                     environment_config=custom_env,
                     seed=int(time.time()) % (2 ** 31),
+                    sadpf=bool(config.get('sadpf', True)),
                 )
                 self.state.twin_feasibility = self.state.twin.feasibility()
                 self.state.mission_status = 'executing'
@@ -391,6 +392,20 @@ class DroneSimulationServer:
                 logger.error(f"Error pausing simulation: {e}")
                 return jsonify({'error': str(e)}), 500
         
+        @self.app.route('/api/simulation/fault', methods=['POST'])
+        def inject_fault():
+            """Twin phase 3: inject a rotor or sensor fault into the running mission."""
+            twin = getattr(self.state, 'twin', None)
+            if not self.state.running or twin is None:
+                return jsonify({'error': 'Nenhuma simulação em andamento'}), 400
+            try:
+                message = twin.inject_fault(request.get_json() or {})
+            except (ValueError, TypeError) as e:
+                return jsonify({'error': str(e)}), 400
+            logger.info(f"Fault injected: {message}")
+            self.socketio.emit('sadpf_event', {'t': twin.t, 'level': 0, 'code': 'fault_injected', 'message': message})
+            return jsonify({'success': True, 'message': message})
+
         @self.app.route('/api/simulation/status')
         def get_simulation_status():
             """Get current simulation status."""
@@ -1064,7 +1079,11 @@ class DroneSimulationServer:
                 loop_count += 1
                 twin.advance(tick)
                 self._sync_state_from_twin()
-                self._log_telemetry(twin.telemetry())
+                telemetry = twin.telemetry()
+                self._log_telemetry(telemetry)
+                for event in (telemetry.get('sadpf') or {}).get('new_events', []):
+                    logger.warning(f"SADPF {event['t']}s nível {event['level']}: {event['message']}")
+                    self.socketio.emit('sadpf_event', event)
                 compute = time.perf_counter() - tick_start
                 self.state.realtime_factor = 0.9 * self.state.realtime_factor + 0.1 * min(1.0, tick / max(compute, 1e-6))
                 if loop_count % 50 == 0:  # Log every ~5 seconds

@@ -1,0 +1,5251 @@
+{
+ "meta": {
+  "vehicle": "mars_hexacopter_tcc",
+  "body": "mars",
+  "duration_s": 45.0,
+  "runs": 140,
+  "wind": "mean 5 m/s, gust sigma 2 m/s (nominal_storm: app default 15 m/s, sigma 15 m/s)",
+  "wall_time_s": 610.9,
+  "plant_perturbation": "mass N(1,1%), inertia U(0.9,1.1), rotor thrust scale N(1,2%), tau U(0.8,1.2)",
+  "sadpf": {
+   "residual_tau": 0.3,
+   "detect_threshold": 0.035,
+   "detect_persistence": 0.3,
+   "isolate_persistence": 0.5,
+   "min_height": 1.0,
+   "reconfigure": true,
+   "land_on_critical": true,
+   "land_rate": 0.8,
+   "min_post_fault_tw": 1.1,
+   "nis_reject_count": {
+    "nav_pos": 5,
+    "nav_yaw": 5,
+    "altimeter": 10,
+    "baro": 10
+   },
+   "stuck_samples": 6,
+   "gyro_bias_spec": 0.02,
+   "imu_vote_tau": 0.3,
+   "imu_vote_threshold": {
+    "gyro": 0.015,
+    "accel": 0.15
+   },
+   "imu_vote_persistence": 0.3
+  }
+ },
+ "summary": {
+  "nominal": {
+   "runs": 20,
+   "false_alarm_runs": 0,
+   "tipped_over": 0
+  },
+  "nominal_storm": {
+   "runs": 10,
+   "false_alarm_runs": 1,
+   "tipped_over": 0
+  },
+  "rotor_loe": {
+   "runs": 20,
+   "false_alarm_runs": 0,
+   "tipped_over": 0,
+   "detected": 20,
+   "latency_median_s": 0.93,
+   "latency_max_s": 1.08,
+   "loe_abs_error_median": 0.047,
+   "landed": 16,
+   "touchdown_speed_max": 1.93,
+   "max_alt_deviation_median_m": 0.23
+  },
+  "rotor_loe (sem SADPF)": {
+   "runs": 20,
+   "false_alarm_runs": 0,
+   "tipped_over": 3,
+   "detected": 20,
+   "latency_median_s": 0.93,
+   "latency_max_s": 1.08,
+   "loe_abs_error_median": 0.047,
+   "landed": 0,
+   "touchdown_speed_max": null,
+   "max_alt_deviation_median_m": 6.44
+  },
+  "rotor_out": {
+   "runs": 10,
+   "false_alarm_runs": 0,
+   "tipped_over": 0,
+   "detected": 10,
+   "latency_median_s": 0.89,
+   "latency_max_s": 0.91,
+   "loe_abs_error_median": 0.134,
+   "landed": 10,
+   "touchdown_speed_max": 3.57,
+   "max_alt_deviation_median_m": null
+  },
+  "rotor_out (sem SADPF)": {
+   "runs": 10,
+   "false_alarm_runs": 0,
+   "tipped_over": 10,
+   "detected": 10,
+   "latency_median_s": 0.89,
+   "latency_max_s": 0.91,
+   "loe_abs_error_median": 0.134,
+   "landed": 0,
+   "touchdown_speed_max": null,
+   "max_alt_deviation_median_m": 10.52
+  },
+  "altimeter_bias": {
+   "runs": 10,
+   "false_alarm_runs": 0,
+   "tipped_over": 0,
+   "detected": 10,
+   "latency_median_s": 0.57,
+   "latency_max_s": 0.59
+  },
+  "altimeter_stuck": {
+   "runs": 10,
+   "false_alarm_runs": 0,
+   "tipped_over": 0,
+   "detected": 10,
+   "latency_median_s": 0.33,
+   "latency_max_s": 0.36
+  },
+  "nav_pos_jump": {
+   "runs": 10,
+   "false_alarm_runs": 0,
+   "tipped_over": 0,
+   "detected": 10,
+   "latency_median_s": 0.98,
+   "latency_max_s": 1.09,
+   "max_nav_error_median_m": 4.75
+  },
+  "gyro_unit_bias": {
+   "runs": 10,
+   "false_alarm_runs": 0,
+   "tipped_over": 0,
+   "detected": 10,
+   "latency_median_s": 0.46,
+   "latency_max_s": 0.72
+  },
+  "accel_unit_bias": {
+   "runs": 10,
+   "false_alarm_runs": 0,
+   "tipped_over": 0,
+   "detected": 10,
+   "latency_median_s": 0.42,
+   "latency_max_s": 0.91
+  }
+ },
+ "runs": [
+  {
+   "scenario": "nominal",
+   "run": 0,
+   "sadpf": true,
+   "seed": 1000,
+   "t_fault": 18.059,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.98,
+   "max_alt_deviation_m": 0.096,
+   "max_nav_error_m": 0.261,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 1,
+   "sadpf": true,
+   "seed": 1001,
+   "t_fault": 20.407,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.62,
+   "max_alt_deviation_m": 0.105,
+   "max_nav_error_m": 0.269,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 2,
+   "sadpf": true,
+   "seed": 1002,
+   "t_fault": 15.042,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.0,
+   "max_alt_deviation_m": 0.116,
+   "max_nav_error_m": 0.262,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 3,
+   "sadpf": true,
+   "seed": 1003,
+   "t_fault": 23.034,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.73,
+   "max_alt_deviation_m": 0.104,
+   "max_nav_error_m": 0.238,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 4,
+   "sadpf": true,
+   "seed": 1004,
+   "t_fault": 26.694,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.48,
+   "max_alt_deviation_m": 0.104,
+   "max_nav_error_m": 0.285,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 5,
+   "sadpf": true,
+   "seed": 1005,
+   "t_fault": 26.163,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.0,
+   "max_alt_deviation_m": 0.089,
+   "max_nav_error_m": 0.298,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 6,
+   "sadpf": true,
+   "seed": 1006,
+   "t_fault": 20.983,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.25,
+   "max_alt_deviation_m": 0.12,
+   "max_nav_error_m": 0.26,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 7,
+   "sadpf": true,
+   "seed": 1007,
+   "t_fault": 24.086,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.84,
+   "max_alt_deviation_m": 0.097,
+   "max_nav_error_m": 0.368,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 8,
+   "sadpf": true,
+   "seed": 1008,
+   "t_fault": 21.209,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.95,
+   "max_alt_deviation_m": 0.106,
+   "max_nav_error_m": 0.281,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 9,
+   "sadpf": true,
+   "seed": 1009,
+   "t_fault": 26.426,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.27,
+   "max_alt_deviation_m": 0.106,
+   "max_nav_error_m": 0.163,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 10,
+   "sadpf": true,
+   "seed": 1010,
+   "t_fault": 25.647,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.75,
+   "max_alt_deviation_m": 0.091,
+   "max_nav_error_m": 0.242,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 11,
+   "sadpf": true,
+   "seed": 1011,
+   "t_fault": 18.729,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.5,
+   "max_alt_deviation_m": 0.106,
+   "max_nav_error_m": 0.298,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 12,
+   "sadpf": true,
+   "seed": 1012,
+   "t_fault": 19.631,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.0,
+   "max_alt_deviation_m": 0.096,
+   "max_nav_error_m": 0.251,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 13,
+   "sadpf": true,
+   "seed": 1013,
+   "t_fault": 29.168,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.73,
+   "max_alt_deviation_m": 0.117,
+   "max_nav_error_m": 0.239,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 14,
+   "sadpf": true,
+   "seed": 1014,
+   "t_fault": 22.996,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.84,
+   "max_alt_deviation_m": 0.08,
+   "max_nav_error_m": 0.3,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 15,
+   "sadpf": true,
+   "seed": 1015,
+   "t_fault": 23.97,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.8,
+   "max_alt_deviation_m": 0.085,
+   "max_nav_error_m": 0.3,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 16,
+   "sadpf": true,
+   "seed": 1016,
+   "t_fault": 23.022,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.21,
+   "max_alt_deviation_m": 0.084,
+   "max_nav_error_m": 0.216,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 17,
+   "sadpf": true,
+   "seed": 1017,
+   "t_fault": 25.067,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.14,
+   "max_alt_deviation_m": 0.123,
+   "max_nav_error_m": 0.241,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 18,
+   "sadpf": true,
+   "seed": 1018,
+   "t_fault": 15.24,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.82,
+   "max_alt_deviation_m": 0.102,
+   "max_nav_error_m": 0.223,
+   "events": []
+  },
+  {
+   "scenario": "nominal",
+   "run": 19,
+   "sadpf": true,
+   "seed": 1019,
+   "t_fault": 22.79,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.08,
+   "max_alt_deviation_m": 0.103,
+   "max_nav_error_m": 0.192,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 0,
+   "sadpf": true,
+   "seed": 2000,
+   "t_fault": 20.505,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 8.2,
+   "max_alt_deviation_m": 0.094,
+   "max_nav_error_m": 0.259,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 1,
+   "sadpf": true,
+   "seed": 2001,
+   "t_fault": 22.096,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.71,
+   "max_alt_deviation_m": 0.123,
+   "max_nav_error_m": 0.27,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 2,
+   "sadpf": true,
+   "seed": 2002,
+   "t_fault": 21.827,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 8.54,
+   "max_alt_deviation_m": 0.097,
+   "max_nav_error_m": 0.292,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 3,
+   "sadpf": true,
+   "seed": 2003,
+   "t_fault": 15.231,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.54,
+   "max_alt_deviation_m": 0.087,
+   "max_nav_error_m": 0.239,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 4,
+   "sadpf": true,
+   "seed": 2004,
+   "t_fault": 19.435,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.4,
+   "max_alt_deviation_m": 0.129,
+   "max_nav_error_m": 0.32,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 5,
+   "sadpf": true,
+   "seed": 2005,
+   "t_fault": 17.918,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.53,
+   "max_alt_deviation_m": 0.088,
+   "max_nav_error_m": 0.443,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 6,
+   "sadpf": true,
+   "seed": 2006,
+   "t_fault": 28.538,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.06,
+   "max_alt_deviation_m": 0.11,
+   "max_nav_error_m": 0.221,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 7,
+   "sadpf": true,
+   "seed": 2007,
+   "t_fault": 26.415,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 8.03,
+   "max_alt_deviation_m": 0.109,
+   "max_nav_error_m": 0.225,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 8,
+   "sadpf": true,
+   "seed": 2008,
+   "t_fault": 23.085,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 7.85,
+   "max_alt_deviation_m": 0.109,
+   "max_nav_error_m": 0.236,
+   "events": []
+  },
+  {
+   "scenario": "nominal_storm",
+   "run": 9,
+   "sadpf": true,
+   "seed": 2009,
+   "t_fault": 18.856,
+   "truth": {},
+   "detected": false,
+   "latency_s": null,
+   "loe_estimate": null,
+   "level": null,
+   "false_alarms": 1,
+   "false_alarm_codes": [
+    "rotor_loe"
+   ],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 8.17,
+   "max_alt_deviation_m": 0.105,
+   "max_nav_error_m": 0.237,
+   "events": [
+    {
+     "t": 40.34,
+     "level": 1,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 13% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 0.1289,
+     "tw_post": 1.2044
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 0,
+   "sadpf": true,
+   "seed": 3000,
+   "t_fault": 15.471,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.27675143272322766
+   },
+   "detected": true,
+   "latency_s": 0.949,
+   "loe_estimate": 0.2814,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.87,
+   "max_alt_deviation_m": 0.219,
+   "max_nav_error_m": 0.27,
+   "events": [
+    {
+     "t": 16.42,
+     "level": 2,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 28% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.14 \u2014 miss\u00e3o continua",
+     "rotor": 0,
+     "loe": 0.2814,
+     "tw_post": 1.1405
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 1,
+   "sadpf": true,
+   "seed": 3001,
+   "t_fault": 29.7,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.5971847560982411
+   },
+   "detected": true,
+   "latency_s": 0.88,
+   "loe_estimate": 0.5434,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 1.2004080486733264,
+   "tipped_over": false,
+   "max_tilt_after_deg": 10.63,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.602,
+   "events": [
+    {
+     "t": 30.58,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 54% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.03 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 3,
+     "loe": 0.5434,
+     "tw_post": 1.0306
+    },
+    {
+     "t": 40.98,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 2,
+   "sadpf": true,
+   "seed": 3002,
+   "t_fault": 17.589,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.6204195757770136
+   },
+   "detected": true,
+   "latency_s": 0.931,
+   "loe_estimate": 0.5666,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 1.2797421117116745,
+   "tipped_over": false,
+   "max_tilt_after_deg": 20.84,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.373,
+   "events": [
+    {
+     "t": 18.52,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 57% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.02 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 1,
+     "loe": 0.5666,
+     "tw_post": 1.0208
+    },
+    {
+     "t": 30.72,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 3,
+   "sadpf": true,
+   "seed": 3003,
+   "t_fault": 18.582,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.4974721518193731
+   },
+   "detected": true,
+   "latency_s": 0.978,
+   "loe_estimate": 0.4113,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8029410546660735,
+   "tipped_over": false,
+   "max_tilt_after_deg": 7.39,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.294,
+   "events": [
+    {
+     "t": 19.56,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 41% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.09 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 0,
+     "loe": 0.4113,
+     "tw_post": 1.086
+    },
+    {
+     "t": 32.1,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 4,
+   "sadpf": true,
+   "seed": 3004,
+   "t_fault": 28.372,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.62031320023545
+   },
+   "detected": true,
+   "latency_s": 0.928,
+   "loe_estimate": 0.5177,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 1.03725763509274,
+   "tipped_over": false,
+   "max_tilt_after_deg": 27.41,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.444,
+   "events": [
+    {
+     "t": 29.3,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 52% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.04 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 3,
+     "loe": 0.5177,
+     "tw_post": 1.0413
+    },
+    {
+     "t": 42.0,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 5,
+   "sadpf": true,
+   "seed": 3005,
+   "t_fault": 15.019,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.5467187009887395
+   },
+   "detected": true,
+   "latency_s": 0.921,
+   "loe_estimate": 0.4585,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7949957060159053,
+   "tipped_over": false,
+   "max_tilt_after_deg": 8.94,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.416,
+   "events": [
+    {
+     "t": 15.94,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 46% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.07 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 1,
+     "loe": 0.4585,
+     "tw_post": 1.0662
+    },
+    {
+     "t": 28.38,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 6,
+   "sadpf": true,
+   "seed": 3006,
+   "t_fault": 19.681,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.490817925703396
+   },
+   "detected": true,
+   "latency_s": 0.939,
+   "loe_estimate": 0.4575,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7676981198735671,
+   "tipped_over": false,
+   "max_tilt_after_deg": 9.13,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.398,
+   "events": [
+    {
+     "t": 20.62,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 46% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.07 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 4,
+     "loe": 0.4575,
+     "tw_post": 1.0666
+    },
+    {
+     "t": 33.2,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 7,
+   "sadpf": true,
+   "seed": 3007,
+   "t_fault": 16.702,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.5632930734465278
+   },
+   "detected": true,
+   "latency_s": 0.958,
+   "loe_estimate": 0.4672,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7972514684961214,
+   "tipped_over": false,
+   "max_tilt_after_deg": 9.15,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.458,
+   "events": [
+    {
+     "t": 17.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 47% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.06 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 3,
+     "loe": 0.4672,
+     "tw_post": 1.0625
+    },
+    {
+     "t": 30.02,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 8,
+   "sadpf": true,
+   "seed": 3008,
+   "t_fault": 24.246,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.5803619034633565
+   },
+   "detected": true,
+   "latency_s": 0.874,
+   "loe_estimate": 0.549,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 1.2427641729949588,
+   "tipped_over": false,
+   "max_tilt_after_deg": 14.47,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.379,
+   "events": [
+    {
+     "t": 25.12,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 55% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.03 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 3,
+     "loe": 0.549,
+     "tw_post": 1.0282
+    },
+    {
+     "t": 37.22,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 9,
+   "sadpf": true,
+   "seed": 3009,
+   "t_fault": 17.536,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 0.6827797783676852
+   },
+   "detected": true,
+   "latency_s": 0.904,
+   "loe_estimate": 0.6318,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 1.93100150616034,
+   "tipped_over": false,
+   "max_tilt_after_deg": 41.21,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.418,
+   "events": [
+    {
+     "t": 18.44,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 63% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.99 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 2,
+     "loe": 0.6318,
+     "tw_post": 0.9935
+    },
+    {
+     "t": 29.34,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 10,
+   "sadpf": true,
+   "seed": 3010,
+   "t_fault": 28.024,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.27447044960261713
+   },
+   "detected": true,
+   "latency_s": 1.076,
+   "loe_estimate": 0.2498,
+   "level": 1,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.2,
+   "max_alt_deviation_m": 0.234,
+   "max_nav_error_m": 0.289,
+   "events": [
+    {
+     "t": 29.1,
+     "level": 1,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 25% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 0.2498,
+     "tw_post": 1.1538
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 11,
+   "sadpf": true,
+   "seed": 3011,
+   "t_fault": 21.815,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.5148160173727494
+   },
+   "detected": true,
+   "latency_s": 0.905,
+   "loe_estimate": 0.4801,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7508524103268458,
+   "tipped_over": false,
+   "max_tilt_after_deg": 8.75,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.389,
+   "events": [
+    {
+     "t": 22.72,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 48% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.06 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 1,
+     "loe": 0.4801,
+     "tw_post": 1.0571
+    },
+    {
+     "t": 35.06,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 12,
+   "sadpf": true,
+   "seed": 3012,
+   "t_fault": 21.357,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 0.467161186854651
+   },
+   "detected": true,
+   "latency_s": 0.883,
+   "loe_estimate": 0.4654,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8047599277781966,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.97,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.283,
+   "events": [
+    {
+     "t": 22.24,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 47% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.06 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 2,
+     "loe": 0.4654,
+     "tw_post": 1.0633
+    },
+    {
+     "t": 34.64,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 13,
+   "sadpf": true,
+   "seed": 3013,
+   "t_fault": 26.94,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 5,
+    "loe": 0.56851978047467
+   },
+   "detected": true,
+   "latency_s": 0.94,
+   "loe_estimate": 0.5062,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8695388714982145,
+   "tipped_over": false,
+   "max_tilt_after_deg": 25.37,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.518,
+   "events": [
+    {
+     "t": 27.88,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 51% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.05 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 5,
+     "loe": 0.5062,
+     "tw_post": 1.0462
+    },
+    {
+     "t": 42.14,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 14,
+   "sadpf": true,
+   "seed": 3014,
+   "t_fault": 19.729,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.41240184176466665
+   },
+   "detected": true,
+   "latency_s": 0.971,
+   "loe_estimate": 0.3693,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 9.89,
+   "max_alt_deviation_m": 0.261,
+   "max_nav_error_m": 0.255,
+   "events": [
+    {
+     "t": 20.7,
+     "level": 2,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 37% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.10 \u2014 miss\u00e3o continua",
+     "rotor": 0,
+     "loe": 0.3693,
+     "tw_post": 1.1036
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 15,
+   "sadpf": true,
+   "seed": 3015,
+   "t_fault": 15.25,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.31259842986205644
+   },
+   "detected": true,
+   "latency_s": 0.87,
+   "loe_estimate": 0.3171,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.4,
+   "max_alt_deviation_m": 0.205,
+   "max_nav_error_m": 0.204,
+   "events": [
+    {
+     "t": 16.12,
+     "level": 2,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 32% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.13 \u2014 miss\u00e3o continua",
+     "rotor": 4,
+     "loe": 0.3171,
+     "tw_post": 1.1255
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 16,
+   "sadpf": true,
+   "seed": 3016,
+   "t_fault": 28.479,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.42959641791014924
+   },
+   "detected": true,
+   "latency_s": 0.961,
+   "loe_estimate": 0.3884,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7872447629116683,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.62,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.469,
+   "events": [
+    {
+     "t": 29.44,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 39% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.10 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 0,
+     "loe": 0.3884,
+     "tw_post": 1.0956
+    },
+    {
+     "t": 42.12,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 17,
+   "sadpf": true,
+   "seed": 3017,
+   "t_fault": 21.943,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.613252721013587
+   },
+   "detected": true,
+   "latency_s": 0.917,
+   "loe_estimate": 0.5487,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 1.2184638439446467,
+   "tipped_over": false,
+   "max_tilt_after_deg": 9.36,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.244,
+   "events": [
+    {
+     "t": 22.86,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 55% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.03 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 3,
+     "loe": 0.5487,
+     "tw_post": 1.0283
+    },
+    {
+     "t": 33.22,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 18,
+   "sadpf": true,
+   "seed": 3018,
+   "t_fault": 28.533,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.4677744676655692
+   },
+   "detected": true,
+   "latency_s": 0.927,
+   "loe_estimate": 0.4305,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.790667018794431,
+   "tipped_over": false,
+   "max_tilt_after_deg": 9.57,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.37,
+   "events": [
+    {
+     "t": 29.46,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 43% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.08 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 4,
+     "loe": 0.4305,
+     "tw_post": 1.0779
+    },
+    {
+     "t": 42.22,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 19,
+   "sadpf": true,
+   "seed": 3019,
+   "t_fault": 18.708,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.46813765640356964
+   },
+   "detected": true,
+   "latency_s": 1.012,
+   "loe_estimate": 0.3889,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.790131887279508,
+   "tipped_over": false,
+   "max_tilt_after_deg": 10.04,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.687,
+   "events": [
+    {
+     "t": 19.72,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 39% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 1.10 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 1,
+     "loe": 0.3889,
+     "tw_post": 1.0954
+    },
+    {
+     "t": 34.04,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 0,
+   "sadpf": false,
+   "seed": 3000,
+   "t_fault": 15.471,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.27675143272322766
+   },
+   "detected": true,
+   "latency_s": 0.949,
+   "loe_estimate": 0.2814,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.87,
+   "max_alt_deviation_m": 0.297,
+   "max_nav_error_m": 0.267,
+   "events": [
+    {
+     "t": 16.42,
+     "level": 2,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 28% \u2014 monitorar tend\u00eancia; T/W restante 1.14 \u2014 miss\u00e3o continua",
+     "rotor": 0,
+     "loe": 0.2814,
+     "tw_post": 1.1405
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 1,
+   "sadpf": false,
+   "seed": 3001,
+   "t_fault": 29.7,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.5971847560982411
+   },
+   "detected": true,
+   "latency_s": 0.88,
+   "loe_estimate": 0.5434,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 37.01,
+   "max_alt_deviation_m": 9.512,
+   "max_nav_error_m": 0.374,
+   "events": [
+    {
+     "t": 30.58,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 54% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.5434,
+     "tw_post": 1.0306
+    },
+    {
+     "t": 31.44,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 70% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.6978,
+     "tw_post": 0.9658
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 2,
+   "sadpf": false,
+   "seed": 3002,
+   "t_fault": 17.589,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.6204195757770136
+   },
+   "detected": true,
+   "latency_s": 0.931,
+   "loe_estimate": 0.5666,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 37.58,
+   "max_alt_deviation_m": 9.476,
+   "max_nav_error_m": 0.26,
+   "events": [
+    {
+     "t": 18.52,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 57% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 0.5666,
+     "tw_post": 1.0208
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 3,
+   "sadpf": false,
+   "seed": 3003,
+   "t_fault": 18.582,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.4974721518193731
+   },
+   "detected": true,
+   "latency_s": 0.978,
+   "loe_estimate": 0.4113,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.45,
+   "max_alt_deviation_m": 0.45,
+   "max_nav_error_m": 0.211,
+   "events": [
+    {
+     "t": 19.56,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 41% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 0.4113,
+     "tw_post": 1.086
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 4,
+   "sadpf": false,
+   "seed": 3004,
+   "t_fault": 28.372,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.62031320023545
+   },
+   "detected": true,
+   "latency_s": 0.928,
+   "loe_estimate": 0.5177,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 40.06,
+   "max_alt_deviation_m": 9.41,
+   "max_nav_error_m": 0.218,
+   "events": [
+    {
+     "t": 29.3,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 52% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.5177,
+     "tw_post": 1.0413
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 5,
+   "sadpf": false,
+   "seed": 3005,
+   "t_fault": 15.019,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.5467187009887395
+   },
+   "detected": true,
+   "latency_s": 0.921,
+   "loe_estimate": 0.4585,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 39.21,
+   "max_alt_deviation_m": 9.44,
+   "max_nav_error_m": 0.758,
+   "events": [
+    {
+     "t": 15.94,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 46% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 0.4585,
+     "tw_post": 1.0662
+    },
+    {
+     "t": 39.46,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 6,
+   "sadpf": false,
+   "seed": 3006,
+   "t_fault": 19.681,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.490817925703396
+   },
+   "detected": true,
+   "latency_s": 0.939,
+   "loe_estimate": 0.4575,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.18,
+   "max_alt_deviation_m": 0.462,
+   "max_nav_error_m": 0.215,
+   "events": [
+    {
+     "t": 20.62,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 46% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 0.4575,
+     "tw_post": 1.0666
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 7,
+   "sadpf": false,
+   "seed": 3007,
+   "t_fault": 16.702,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.5632930734465278
+   },
+   "detected": true,
+   "latency_s": 0.958,
+   "loe_estimate": 0.4672,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.91,
+   "max_alt_deviation_m": 10.522,
+   "max_nav_error_m": 0.441,
+   "events": [
+    {
+     "t": 17.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 47% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.4672,
+     "tw_post": 1.0625
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 8,
+   "sadpf": false,
+   "seed": 3008,
+   "t_fault": 24.246,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.5803619034633565
+   },
+   "detected": true,
+   "latency_s": 0.874,
+   "loe_estimate": 0.549,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.73,
+   "max_alt_deviation_m": 10.52,
+   "max_nav_error_m": 0.266,
+   "events": [
+    {
+     "t": 25.12,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 55% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.549,
+     "tw_post": 1.0282
+    },
+    {
+     "t": 25.98,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 71% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.7069,
+     "tw_post": 0.962
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 9,
+   "sadpf": false,
+   "seed": 3009,
+   "t_fault": 17.536,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 0.6827797783676852
+   },
+   "detected": true,
+   "latency_s": 0.904,
+   "loe_estimate": 0.6318,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.68,
+   "max_alt_deviation_m": 10.515,
+   "max_nav_error_m": 0.439,
+   "events": [
+    {
+     "t": 18.44,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 63% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 0.6318,
+     "tw_post": 0.9935
+    },
+    {
+     "t": 19.3,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 79% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 0.7886,
+     "tw_post": 0.9277
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 10,
+   "sadpf": false,
+   "seed": 3010,
+   "t_fault": 28.024,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.27447044960261713
+   },
+   "detected": true,
+   "latency_s": 1.076,
+   "loe_estimate": 0.2498,
+   "level": 1,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.2,
+   "max_alt_deviation_m": 0.234,
+   "max_nav_error_m": 0.289,
+   "events": [
+    {
+     "t": 29.1,
+     "level": 1,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 25% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 0.2498,
+     "tw_post": 1.1538
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 11,
+   "sadpf": false,
+   "seed": 3011,
+   "t_fault": 21.815,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.5148160173727494
+   },
+   "detected": true,
+   "latency_s": 0.905,
+   "loe_estimate": 0.4801,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 43.55,
+   "max_alt_deviation_m": 9.413,
+   "max_nav_error_m": 2.061,
+   "events": [
+    {
+     "t": 22.72,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 48% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 0.4801,
+     "tw_post": 1.0571
+    },
+    {
+     "t": 38.14,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 12,
+   "sadpf": false,
+   "seed": 3012,
+   "t_fault": 21.357,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 0.467161186854651
+   },
+   "detected": true,
+   "latency_s": 0.883,
+   "loe_estimate": 0.4654,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 49.15,
+   "max_alt_deviation_m": 3.463,
+   "max_nav_error_m": 0.215,
+   "events": [
+    {
+     "t": 22.24,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 47% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 0.4654,
+     "tw_post": 1.0633
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 13,
+   "sadpf": false,
+   "seed": 3013,
+   "t_fault": 26.94,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 5,
+    "loe": 0.56851978047467
+   },
+   "detected": true,
+   "latency_s": 0.94,
+   "loe_estimate": 0.5062,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 37.09,
+   "max_alt_deviation_m": 9.459,
+   "max_nav_error_m": 0.28,
+   "events": [
+    {
+     "t": 27.88,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 51% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 0.5062,
+     "tw_post": 1.0462
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 14,
+   "sadpf": false,
+   "seed": 3014,
+   "t_fault": 19.729,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.41240184176466665
+   },
+   "detected": true,
+   "latency_s": 0.971,
+   "loe_estimate": 0.3693,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.39,
+   "max_alt_deviation_m": 0.409,
+   "max_nav_error_m": 0.256,
+   "events": [
+    {
+     "t": 20.7,
+     "level": 2,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 37% \u2014 monitorar tend\u00eancia; T/W restante 1.10 \u2014 miss\u00e3o continua",
+     "rotor": 0,
+     "loe": 0.3693,
+     "tw_post": 1.1036
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 15,
+   "sadpf": false,
+   "seed": 3015,
+   "t_fault": 15.25,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.31259842986205644
+   },
+   "detected": true,
+   "latency_s": 0.87,
+   "loe_estimate": 0.3171,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.31,
+   "max_alt_deviation_m": 0.338,
+   "max_nav_error_m": 0.204,
+   "events": [
+    {
+     "t": 16.12,
+     "level": 2,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 32% \u2014 monitorar tend\u00eancia; T/W restante 1.13 \u2014 miss\u00e3o continua",
+     "rotor": 4,
+     "loe": 0.3171,
+     "tw_post": 1.1255
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 16,
+   "sadpf": false,
+   "seed": 3016,
+   "t_fault": 28.479,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 0.42959641791014924
+   },
+   "detected": true,
+   "latency_s": 0.961,
+   "loe_estimate": 0.3884,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.59,
+   "max_alt_deviation_m": 0.344,
+   "max_nav_error_m": 0.21,
+   "events": [
+    {
+     "t": 29.44,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 39% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 0.3884,
+     "tw_post": 1.0956
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 17,
+   "sadpf": false,
+   "seed": 3017,
+   "t_fault": 21.943,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 0.613252721013587
+   },
+   "detected": true,
+   "latency_s": 0.917,
+   "loe_estimate": 0.5487,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 44.29,
+   "max_alt_deviation_m": 9.493,
+   "max_nav_error_m": 0.256,
+   "events": [
+    {
+     "t": 22.86,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 55% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.5487,
+     "tw_post": 1.0283
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 18,
+   "sadpf": false,
+   "seed": 3018,
+   "t_fault": 28.533,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 0.4677744676655692
+   },
+   "detected": true,
+   "latency_s": 0.927,
+   "loe_estimate": 0.4305,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.34,
+   "max_alt_deviation_m": 0.381,
+   "max_nav_error_m": 0.266,
+   "events": [
+    {
+     "t": 29.46,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 43% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 0.4305,
+     "tw_post": 1.0779
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_loe",
+   "run": 19,
+   "sadpf": false,
+   "seed": 3019,
+   "t_fault": 18.708,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 0.46813765640356964
+   },
+   "detected": true,
+   "latency_s": 1.012,
+   "loe_estimate": 0.3889,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.76,
+   "max_alt_deviation_m": 0.468,
+   "max_nav_error_m": 0.311,
+   "events": [
+    {
+     "t": 19.72,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 39% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 0.3889,
+     "tw_post": 1.0954
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 0,
+   "sadpf": true,
+   "seed": 4000,
+   "t_fault": 15.873,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.907,
+   "loe_estimate": 0.8373,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.3211861975925125,
+   "tipped_over": false,
+   "max_tilt_after_deg": 12.64,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.464,
+   "events": [
+    {
+     "t": 16.78,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 84% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.91 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 0,
+     "loe": 0.8373,
+     "tw_post": 0.9073
+    },
+    {
+     "t": 17.64,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 0,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 23.52,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 1,
+   "sadpf": true,
+   "seed": 4001,
+   "t_fault": 20.115,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 5,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.885,
+   "loe_estimate": 0.89,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.5405823672704586,
+   "tipped_over": false,
+   "max_tilt_after_deg": 12.78,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.473,
+   "events": [
+    {
+     "t": 21.0,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 89% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.89 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 5,
+     "loe": 0.89,
+     "tw_post": 0.8852
+    },
+    {
+     "t": 21.86,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 5,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 27.94,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 2,
+   "sadpf": true,
+   "seed": 4002,
+   "t_fault": 23.458,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.902,
+   "loe_estimate": 0.8627,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.371008737605766,
+   "tipped_over": false,
+   "max_tilt_after_deg": 14.47,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.451,
+   "events": [
+    {
+     "t": 24.36,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 86% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.90 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 2,
+     "loe": 0.8627,
+     "tw_post": 0.8967
+    },
+    {
+     "t": 25.22,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 2,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 31.64,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 3,
+   "sadpf": true,
+   "seed": 4003,
+   "t_fault": 15.62,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.84,
+   "loe_estimate": 0.8868,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.5671158728265517,
+   "tipped_over": false,
+   "max_tilt_after_deg": 12.74,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.517,
+   "events": [
+    {
+     "t": 16.46,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 89% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.89 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 4,
+     "loe": 0.8868,
+     "tw_post": 0.8865
+    },
+    {
+     "t": 17.32,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 4,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 23.26,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 4,
+   "sadpf": true,
+   "seed": 4004,
+   "t_fault": 22.49,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.89,
+   "loe_estimate": 0.8536,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.293524081733092,
+   "tipped_over": false,
+   "max_tilt_after_deg": 12.84,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.384,
+   "events": [
+    {
+     "t": 23.38,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 85% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.90 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 2,
+     "loe": 0.8536,
+     "tw_post": 0.9005
+    },
+    {
+     "t": 24.24,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 2,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 30.62,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 5,
+   "sadpf": true,
+   "seed": 4005,
+   "t_fault": 29.754,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.906,
+   "loe_estimate": 0.8538,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.340120135065421,
+   "tipped_over": false,
+   "max_tilt_after_deg": 14.37,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.43,
+   "events": [
+    {
+     "t": 30.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 85% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.90 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 4,
+     "loe": 0.8538,
+     "tw_post": 0.9004
+    },
+    {
+     "t": 31.52,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 4,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 38.08,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 6,
+   "sadpf": true,
+   "seed": 4006,
+   "t_fault": 28.634,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 5,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.906,
+   "loe_estimate": 0.8747,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.485834227475669,
+   "tipped_over": false,
+   "max_tilt_after_deg": 15.07,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.262,
+   "events": [
+    {
+     "t": 29.54,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 87% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.89 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 5,
+     "loe": 0.8747,
+     "tw_post": 0.8916
+    },
+    {
+     "t": 30.4,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 5,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 36.72,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 7,
+   "sadpf": true,
+   "seed": 4007,
+   "t_fault": 28.168,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.892,
+   "loe_estimate": 0.8698,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.3681116850415105,
+   "tipped_over": false,
+   "max_tilt_after_deg": 13.52,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.415,
+   "events": [
+    {
+     "t": 29.06,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 87% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.89 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 0,
+     "loe": 0.8698,
+     "tw_post": 0.8936
+    },
+    {
+     "t": 29.92,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 0,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 36.38,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 8,
+   "sadpf": true,
+   "seed": 4008,
+   "t_fault": 18.916,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.884,
+   "loe_estimate": 0.8684,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.405945228202598,
+   "tipped_over": false,
+   "max_tilt_after_deg": 14.04,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.517,
+   "events": [
+    {
+     "t": 19.8,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 87% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.89 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 1,
+     "loe": 0.8684,
+     "tw_post": 0.8943
+    },
+    {
+     "t": 20.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 1,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 27.32,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 9,
+   "sadpf": true,
+   "seed": 4009,
+   "t_fault": 22.906,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.894,
+   "loe_estimate": 0.8572,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 3.4505984135207957,
+   "tipped_over": false,
+   "max_tilt_after_deg": 15.27,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.55,
+   "events": [
+    {
+     "t": 23.8,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 86% \u2014 aloca\u00e7\u00e3o de controle reconfigurada; T/W restante 0.90 < 1.10 \u2014 pouso de emerg\u00eancia",
+     "rotor": 3,
+     "loe": 0.8572,
+     "tw_post": 0.8989
+    },
+    {
+     "t": 24.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 100% \u2014 aloca\u00e7\u00e3o de controle reconfigurada",
+     "rotor": 3,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 30.98,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 0,
+   "sadpf": false,
+   "seed": 4000,
+   "t_fault": 15.873,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.907,
+   "loe_estimate": 0.8373,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.75,
+   "max_alt_deviation_m": 10.516,
+   "max_nav_error_m": 1.05,
+   "events": [
+    {
+     "t": 16.78,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 84% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 0.8373,
+     "tw_post": 0.9073
+    },
+    {
+     "t": 17.64,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 22.02,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 1,
+   "sadpf": false,
+   "seed": 4001,
+   "t_fault": 20.115,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 5,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.885,
+   "loe_estimate": 0.89,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.67,
+   "max_alt_deviation_m": 10.529,
+   "max_nav_error_m": 10.841,
+   "events": [
+    {
+     "t": 21.0,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 89% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 0.89,
+     "tw_post": 0.8852
+    },
+    {
+     "t": 21.86,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 26.1,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    },
+    {
+     "t": 33.68,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 2,
+   "sadpf": false,
+   "seed": 4002,
+   "t_fault": 23.458,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.902,
+   "loe_estimate": 0.8627,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.52,
+   "max_alt_deviation_m": 10.526,
+   "max_nav_error_m": 1.738,
+   "events": [
+    {
+     "t": 24.36,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 86% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 0.8627,
+     "tw_post": 0.8967
+    },
+    {
+     "t": 25.22,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 29.76,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 3,
+   "sadpf": false,
+   "seed": 4003,
+   "t_fault": 15.62,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.84,
+   "loe_estimate": 0.8868,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.57,
+   "max_alt_deviation_m": 10.532,
+   "max_nav_error_m": 0.757,
+   "events": [
+    {
+     "t": 16.46,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 89% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 0.8868,
+     "tw_post": 0.8865
+    },
+    {
+     "t": 17.32,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 21.54,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 4,
+   "sadpf": false,
+   "seed": 4004,
+   "t_fault": 22.49,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 2,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.89,
+   "loe_estimate": 0.8536,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.85,
+   "max_alt_deviation_m": 10.527,
+   "max_nav_error_m": 7.603,
+   "events": [
+    {
+     "t": 23.38,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 85% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 0.8536,
+     "tw_post": 0.9005
+    },
+    {
+     "t": 24.24,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 28.38,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    },
+    {
+     "t": 30.78,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 1.0,
+     "tw_post": 0.4198
+    },
+    {
+     "t": 31.64,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 1.0,
+     "tw_post": 0.4198
+    },
+    {
+     "t": 31.88,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 32.48,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 1.0,
+     "tw_post": -0.0
+    },
+    {
+     "t": 33.3,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 1.0,
+     "tw_post": -0.0
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 5,
+   "sadpf": false,
+   "seed": 4005,
+   "t_fault": 29.754,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 4,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.906,
+   "loe_estimate": 0.8538,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.99,
+   "max_alt_deviation_m": 10.531,
+   "max_nav_error_m": 8.335,
+   "events": [
+    {
+     "t": 30.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 85% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 0.8538,
+     "tw_post": 0.9004
+    },
+    {
+     "t": 31.52,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 35.58,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    },
+    {
+     "t": 38.18,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 60% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.5997,
+     "tw_post": 0.5879
+    },
+    {
+     "t": 40.02,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 1.0,
+     "tw_post": 0.5038
+    },
+    {
+     "t": 40.28,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 40.98,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 1.0,
+     "tw_post": 0.4198
+    },
+    {
+     "t": 42.1,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 1.0,
+     "tw_post": 0.4197
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 6,
+   "sadpf": false,
+   "seed": 4006,
+   "t_fault": 28.634,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 5,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.906,
+   "loe_estimate": 0.8747,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.99,
+   "max_alt_deviation_m": 10.524,
+   "max_nav_error_m": 8.276,
+   "events": [
+    {
+     "t": 29.54,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 87% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 0.8747,
+     "tw_post": 0.8916
+    },
+    {
+     "t": 30.4,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 34.1,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    },
+    {
+     "t": 36.42,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 29% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 0.287,
+     "tw_post": 0.7191
+    },
+    {
+     "t": 37.48,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 37.98,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 1.0,
+     "tw_post": 0.5694
+    },
+    {
+     "t": 39.24,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 1.0,
+     "tw_post": 0.4198
+    },
+    {
+     "t": 44.7,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 1.0,
+     "tw_post": 0.4196
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 7,
+   "sadpf": false,
+   "seed": 4007,
+   "t_fault": 28.168,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 0,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.892,
+   "loe_estimate": 0.8698,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 180.0,
+   "max_alt_deviation_m": 10.509,
+   "max_nav_error_m": 8.007,
+   "events": [
+    {
+     "t": 29.06,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 87% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 0.8698,
+     "tw_post": 0.8936
+    },
+    {
+     "t": 29.92,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 1: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 0,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 33.82,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    },
+    {
+     "t": 36.36,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 67% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 0.6652,
+     "tw_post": 0.5604
+    },
+    {
+     "t": 37.68,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 38.16,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 3: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 2,
+     "loe": 1.0,
+     "tw_post": 0.4901
+    },
+    {
+     "t": 38.98,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 1.0,
+     "tw_post": -0.0
+    },
+    {
+     "t": 39.8,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 1.0,
+     "tw_post": -0.0
+    },
+    {
+     "t": 41.48,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 5: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 4,
+     "loe": 1.0,
+     "tw_post": -0.0
+    },
+    {
+     "t": 42.3,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 6: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 5,
+     "loe": 1.0,
+     "tw_post": -0.0
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 8,
+   "sadpf": false,
+   "seed": 4008,
+   "t_fault": 18.916,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 1,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.884,
+   "loe_estimate": 0.8684,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.51,
+   "max_alt_deviation_m": 10.516,
+   "max_nav_error_m": 1.379,
+   "events": [
+    {
+     "t": 19.8,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 87% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 0.8684,
+     "tw_post": 0.8943
+    },
+    {
+     "t": 20.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 24.9,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    },
+    {
+     "t": 26.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 2: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 1,
+     "loe": 1.0,
+     "tw_post": 0.8397
+    }
+   ]
+  },
+  {
+   "scenario": "rotor_out",
+   "run": 9,
+   "sadpf": false,
+   "seed": 4009,
+   "t_fault": 22.906,
+   "truth": {
+    "code": "rotor_loe",
+    "rotor": 3,
+    "loe": 1.0
+   },
+   "detected": true,
+   "latency_s": 0.894,
+   "loe_estimate": 0.8572,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": true,
+   "max_tilt_after_deg": 179.86,
+   "max_alt_deviation_m": 10.516,
+   "max_nav_error_m": 0.746,
+   "events": [
+    {
+     "t": 23.8,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 86% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 0.8572,
+     "tw_post": 0.8989
+    },
+    {
+     "t": 24.66,
+     "level": 3,
+     "code": "rotor_loe",
+     "message": "Rotor 4: perda de efic\u00e1cia estimada 100% \u2014 monitorar tend\u00eancia",
+     "rotor": 3,
+     "loe": 1.0,
+     "tw_post": 0.8391
+    },
+    {
+     "t": 29.1,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 0,
+   "sadpf": true,
+   "seed": 5000,
+   "t_fault": 27.331,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": -1.7229196495786407
+   },
+   "detected": true,
+   "latency_s": 0.569,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.51,
+   "max_alt_deviation_m": 0.141,
+   "max_nav_error_m": 0.231,
+   "events": [
+    {
+     "t": 27.9,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 1,
+   "sadpf": true,
+   "seed": 5001,
+   "t_fault": 29.893,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": 0.8292979990770519
+   },
+   "detected": true,
+   "latency_s": 0.587,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.63,
+   "max_alt_deviation_m": 0.195,
+   "max_nav_error_m": 0.283,
+   "events": [
+    {
+     "t": 30.48,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 2,
+   "sadpf": true,
+   "seed": 5002,
+   "t_fault": 20.43,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": 1.4265788089988605
+   },
+   "detected": true,
+   "latency_s": 0.57,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.34,
+   "max_alt_deviation_m": 0.298,
+   "max_nav_error_m": 0.306,
+   "events": [
+    {
+     "t": 21.0,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 3,
+   "sadpf": true,
+   "seed": 5003,
+   "t_fault": 20.88,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": 0.8419940488192474
+   },
+   "detected": true,
+   "latency_s": 0.54,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.94,
+   "max_alt_deviation_m": 0.305,
+   "max_nav_error_m": 0.33,
+   "events": [
+    {
+     "t": 21.42,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 4,
+   "sadpf": true,
+   "seed": 5004,
+   "t_fault": 16.354,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": -1.1343622491192407
+   },
+   "detected": true,
+   "latency_s": 0.566,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.71,
+   "max_alt_deviation_m": 0.229,
+   "max_nav_error_m": 0.279,
+   "events": [
+    {
+     "t": 16.92,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 5,
+   "sadpf": true,
+   "seed": 5005,
+   "t_fault": 26.238,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": 1.3732791724254587
+   },
+   "detected": true,
+   "latency_s": 0.582,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.74,
+   "max_alt_deviation_m": 0.174,
+   "max_nav_error_m": 0.279,
+   "events": [
+    {
+     "t": 26.82,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 6,
+   "sadpf": true,
+   "seed": 5006,
+   "t_fault": 25.483,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": -2.215864625563434
+   },
+   "detected": true,
+   "latency_s": 0.557,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.22,
+   "max_alt_deviation_m": 0.133,
+   "max_nav_error_m": 0.243,
+   "events": [
+    {
+     "t": 26.04,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 7,
+   "sadpf": true,
+   "seed": 5007,
+   "t_fault": 29.159,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": -0.9724160495488205
+   },
+   "detected": true,
+   "latency_s": 0.541,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.8,
+   "max_alt_deviation_m": 0.098,
+   "max_nav_error_m": 0.202,
+   "events": [
+    {
+     "t": 29.7,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 8,
+   "sadpf": true,
+   "seed": 5008,
+   "t_fault": 25.882,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": -1.5499392240950565
+   },
+   "detected": true,
+   "latency_s": 0.578,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.58,
+   "max_alt_deviation_m": 0.266,
+   "max_nav_error_m": 0.284,
+   "events": [
+    {
+     "t": 26.46,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_bias",
+   "run": 9,
+   "sadpf": true,
+   "seed": 5009,
+   "t_fault": 16.294,
+   "truth": {
+    "code": "sensor_altimeter",
+    "size": 1.2551947460752484
+   },
+   "detected": true,
+   "latency_s": 0.566,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.36,
+   "max_alt_deviation_m": 0.264,
+   "max_nav_error_m": 0.377,
+   "events": [
+    {
+     "t": 16.86,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "innovation"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 0,
+   "sadpf": true,
+   "seed": 6000,
+   "t_fault": 17.434,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.326,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.26,
+   "max_alt_deviation_m": 0.207,
+   "max_nav_error_m": 0.259,
+   "events": [
+    {
+     "t": 17.76,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 1,
+   "sadpf": true,
+   "seed": 6001,
+   "t_fault": 18.338,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.322,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.99,
+   "max_alt_deviation_m": 0.317,
+   "max_nav_error_m": 0.35,
+   "events": [
+    {
+     "t": 18.66,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 2,
+   "sadpf": true,
+   "seed": 6002,
+   "t_fault": 26.42,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.34,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.82,
+   "max_alt_deviation_m": 0.138,
+   "max_nav_error_m": 0.238,
+   "events": [
+    {
+     "t": 26.76,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 3,
+   "sadpf": true,
+   "seed": 6003,
+   "t_fault": 26.247,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.333,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.72,
+   "max_alt_deviation_m": 0.183,
+   "max_nav_error_m": 0.24,
+   "events": [
+    {
+     "t": 26.58,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 4,
+   "sadpf": true,
+   "seed": 6004,
+   "t_fault": 20.719,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.341,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.91,
+   "max_alt_deviation_m": 0.206,
+   "max_nav_error_m": 0.297,
+   "events": [
+    {
+     "t": 21.06,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 5,
+   "sadpf": true,
+   "seed": 6005,
+   "t_fault": 27.09,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.33,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.08,
+   "max_alt_deviation_m": 0.114,
+   "max_nav_error_m": 0.217,
+   "events": [
+    {
+     "t": 27.42,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 6,
+   "sadpf": true,
+   "seed": 6006,
+   "t_fault": 25.084,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.356,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.82,
+   "max_alt_deviation_m": 0.325,
+   "max_nav_error_m": 0.366,
+   "events": [
+    {
+     "t": 25.44,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 7,
+   "sadpf": true,
+   "seed": 6007,
+   "t_fault": 22.963,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.317,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.62,
+   "max_alt_deviation_m": 0.218,
+   "max_nav_error_m": 0.234,
+   "events": [
+    {
+     "t": 23.28,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 8,
+   "sadpf": true,
+   "seed": 6008,
+   "t_fault": 18.96,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.3,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.27,
+   "max_alt_deviation_m": 0.265,
+   "max_nav_error_m": 0.281,
+   "events": [
+    {
+     "t": 19.26,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "altimeter_stuck",
+   "run": 9,
+   "sadpf": true,
+   "seed": 6009,
+   "t_fault": 21.017,
+   "truth": {
+    "code": "sensor_altimeter"
+   },
+   "detected": true,
+   "latency_s": 0.343,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.55,
+   "max_alt_deviation_m": 0.196,
+   "max_nav_error_m": 0.296,
+   "events": [
+    {
+     "t": 21.36,
+     "level": 2,
+     "code": "sensor_altimeter",
+     "message": "Falha: alt\u00edmetro laser (leitura congelada) \u2014 sensor isolado; navega\u00e7\u00e3o continua com os demais",
+     "sensor": "altimeter",
+     "reason": "stuck"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 0,
+   "sadpf": true,
+   "seed": 7000,
+   "t_fault": 29.839,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 4.258819723757096
+   },
+   "detected": true,
+   "latency_s": 0.941,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7906182617663301,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.0,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 0.149,
+   "events": [
+    {
+     "t": 30.78,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 44.58,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 1,
+   "sadpf": true,
+   "seed": 7001,
+   "t_fault": 26.776,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 5.386202945539004
+   },
+   "detected": true,
+   "latency_s": 0.924,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7901954741954212,
+   "tipped_over": false,
+   "max_tilt_after_deg": 7.61,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 4.969,
+   "events": [
+    {
+     "t": 27.7,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 40.48,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 2,
+   "sadpf": true,
+   "seed": 7002,
+   "t_fault": 25.733,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 3.020441292457985
+   },
+   "detected": true,
+   "latency_s": 1.087,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8034944567499602,
+   "tipped_over": false,
+   "max_tilt_after_deg": 1.92,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 2.284,
+   "events": [
+    {
+     "t": 26.82,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 39.68,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 3,
+   "sadpf": true,
+   "seed": 7003,
+   "t_fault": 15.855,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 5.440102167868693
+   },
+   "detected": true,
+   "latency_s": 1.065,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7867286872653209,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.26,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 5.895,
+   "events": [
+    {
+     "t": 16.92,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 29.72,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 4,
+   "sadpf": true,
+   "seed": 7004,
+   "t_fault": 25.367,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 3.0705052220968216
+   },
+   "detected": true,
+   "latency_s": 1.013,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8051008728771579,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.19,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 2.228,
+   "events": [
+    {
+     "t": 26.38,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 39.2,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 5,
+   "sadpf": true,
+   "seed": 7005,
+   "t_fault": 19.038,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 3.9949196132979172
+   },
+   "detected": true,
+   "latency_s": 0.962,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8095813048735894,
+   "tipped_over": false,
+   "max_tilt_after_deg": 6.87,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 9.277,
+   "events": [
+    {
+     "t": 20.0,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 32.64,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 6,
+   "sadpf": true,
+   "seed": 7006,
+   "t_fault": 19.651,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 3.9900464615908993
+   },
+   "detected": true,
+   "latency_s": 1.009,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8175325853932139,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.34,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 3.416,
+   "events": [
+    {
+     "t": 20.66,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 33.5,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 7,
+   "sadpf": true,
+   "seed": 7007,
+   "t_fault": 15.912,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 5.047099755051711
+   },
+   "detected": true,
+   "latency_s": 1.008,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.7893133588063223,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.65,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 6.32,
+   "events": [
+    {
+     "t": 16.92,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 29.64,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 8,
+   "sadpf": true,
+   "seed": 7008,
+   "t_fault": 17.737,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 5.647821189292832
+   },
+   "detected": true,
+   "latency_s": 0.943,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8245760655995679,
+   "tipped_over": false,
+   "max_tilt_after_deg": 9.22,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 11.258,
+   "events": [
+    {
+     "t": 18.68,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 31.44,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "nav_pos_jump",
+   "run": 9,
+   "sadpf": true,
+   "seed": 7009,
+   "t_fault": 23.512,
+   "truth": {
+    "code": "sensor_nav_pos",
+    "size": 4.931194389485792
+   },
+   "detected": true,
+   "latency_s": 0.888,
+   "loe_estimate": null,
+   "level": 3,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": true,
+   "touchdown_speed": 0.8169201816424418,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.51,
+   "max_alt_deviation_m": null,
+   "max_nav_error_m": 4.53,
+   "events": [
+    {
+     "t": 24.4,
+     "level": 3,
+     "code": "sensor_nav_pos",
+     "message": "Falha: navega\u00e7\u00e3o visual (posi\u00e7\u00e3o) (res\u00edduo do EKF fora do limite \u03c7\u00b2) \u2014 sensor isolado; sem refer\u00eancia de posi\u00e7\u00e3o \u2014 pouso de emerg\u00eancia no local",
+     "sensor": "nav_pos",
+     "reason": "innovation"
+    },
+    {
+     "t": 37.28,
+     "level": 3,
+     "code": "landed",
+     "message": "Pouso de emerg\u00eancia conclu\u00eddo; motores desligados"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 0,
+   "sadpf": true,
+   "seed": 8000,
+   "t_fault": 23.401,
+   "truth": {
+    "code": "sensor_gyro#0",
+    "size": 0.03606300994448916
+   },
+   "detected": true,
+   "latency_s": 0.479,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.17,
+   "max_alt_deviation_m": 0.031,
+   "max_nav_error_m": 0.264,
+   "events": [
+    {
+     "t": 23.88,
+     "level": 2,
+     "code": "sensor_gyro#0",
+     "message": "Falha: girosc\u00f3pio da IMU 1 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#0",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 1,
+   "sadpf": true,
+   "seed": 8001,
+   "t_fault": 26.416,
+   "truth": {
+    "code": "sensor_gyro#0",
+    "size": 0.041505908399390536
+   },
+   "detected": true,
+   "latency_s": 0.464,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.63,
+   "max_alt_deviation_m": 0.043,
+   "max_nav_error_m": 0.231,
+   "events": [
+    {
+     "t": 26.88,
+     "level": 2,
+     "code": "sensor_gyro#0",
+     "message": "Falha: girosc\u00f3pio da IMU 1 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#0",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 2,
+   "sadpf": true,
+   "seed": 8002,
+   "t_fault": 26.019,
+   "truth": {
+    "code": "sensor_gyro#1",
+    "size": 0.04118541844534761
+   },
+   "detected": true,
+   "latency_s": 0.461,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.15,
+   "max_alt_deviation_m": 0.036,
+   "max_nav_error_m": 0.363,
+   "events": [
+    {
+     "t": 26.48,
+     "level": 2,
+     "code": "sensor_gyro#1",
+     "message": "Falha: girosc\u00f3pio da IMU 2 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#1",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 3,
+   "sadpf": true,
+   "seed": 8003,
+   "t_fault": 27.681,
+   "truth": {
+    "code": "sensor_gyro#2",
+    "size": 0.042097695981830885
+   },
+   "detected": true,
+   "latency_s": 0.499,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.36,
+   "max_alt_deviation_m": 0.029,
+   "max_nav_error_m": 0.27,
+   "events": [
+    {
+     "t": 28.18,
+     "level": 2,
+     "code": "sensor_gyro#2",
+     "message": "Falha: girosc\u00f3pio da IMU 3 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#2",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 4,
+   "sadpf": true,
+   "seed": 8004,
+   "t_fault": 24.234,
+   "truth": {
+    "code": "sensor_gyro#2",
+    "size": 0.09007358846258387
+   },
+   "detected": true,
+   "latency_s": 0.386,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.93,
+   "max_alt_deviation_m": 0.048,
+   "max_nav_error_m": 0.218,
+   "events": [
+    {
+     "t": 24.62,
+     "level": 2,
+     "code": "sensor_gyro#2",
+     "message": "Falha: girosc\u00f3pio da IMU 3 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#2",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 5,
+   "sadpf": true,
+   "seed": 8005,
+   "t_fault": 29.207,
+   "truth": {
+    "code": "sensor_gyro#1",
+    "size": 0.07626277154562038
+   },
+   "detected": true,
+   "latency_s": 0.393,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.74,
+   "max_alt_deviation_m": 0.047,
+   "max_nav_error_m": 0.367,
+   "events": [
+    {
+     "t": 29.6,
+     "level": 2,
+     "code": "sensor_gyro#1",
+     "message": "Falha: girosc\u00f3pio da IMU 2 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#1",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 6,
+   "sadpf": true,
+   "seed": 8006,
+   "t_fault": 26.548,
+   "truth": {
+    "code": "sensor_gyro#2",
+    "size": 0.05990185772157519
+   },
+   "detected": true,
+   "latency_s": 0.412,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.01,
+   "max_alt_deviation_m": 0.052,
+   "max_nav_error_m": 0.409,
+   "events": [
+    {
+     "t": 26.96,
+     "level": 2,
+     "code": "sensor_gyro#2",
+     "message": "Falha: girosc\u00f3pio da IMU 3 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#2",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 7,
+   "sadpf": true,
+   "seed": 8007,
+   "t_fault": 29.557,
+   "truth": {
+    "code": "sensor_gyro#0",
+    "size": 0.026229402817862894
+   },
+   "detected": true,
+   "latency_s": 0.723,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.49,
+   "max_alt_deviation_m": 0.032,
+   "max_nav_error_m": 0.248,
+   "events": [
+    {
+     "t": 30.28,
+     "level": 2,
+     "code": "sensor_gyro#0",
+     "message": "Falha: girosc\u00f3pio da IMU 1 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#0",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 8,
+   "sadpf": true,
+   "seed": 8008,
+   "t_fault": 16.665,
+   "truth": {
+    "code": "sensor_gyro#0",
+    "size": 0.06709679274608378
+   },
+   "detected": true,
+   "latency_s": 0.395,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.56,
+   "max_alt_deviation_m": 0.109,
+   "max_nav_error_m": 0.315,
+   "events": [
+    {
+     "t": 17.06,
+     "level": 2,
+     "code": "sensor_gyro#0",
+     "message": "Falha: girosc\u00f3pio da IMU 1 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#0",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "gyro_unit_bias",
+   "run": 9,
+   "sadpf": true,
+   "seed": 8009,
+   "t_fault": 20.548,
+   "truth": {
+    "code": "sensor_gyro#1",
+    "size": 0.03906175365423191
+   },
+   "detected": true,
+   "latency_s": 0.492,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.8,
+   "max_alt_deviation_m": 0.09,
+   "max_nav_error_m": 0.188,
+   "events": [
+    {
+     "t": 21.04,
+     "level": 2,
+     "code": "sensor_gyro#1",
+     "message": "Falha: girosc\u00f3pio da IMU 2 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "gyro#1",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 0,
+   "sadpf": true,
+   "seed": 9000,
+   "t_fault": 25.694,
+   "truth": {
+    "code": "sensor_accel#2",
+    "size": 0.6710679945409137
+   },
+   "detected": true,
+   "latency_s": 0.386,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.04,
+   "max_alt_deviation_m": 0.045,
+   "max_nav_error_m": 0.201,
+   "events": [
+    {
+     "t": 26.08,
+     "level": 2,
+     "code": "sensor_accel#2",
+     "message": "Falha: aceler\u00f4metro da IMU 3 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#2",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 1,
+   "sadpf": true,
+   "seed": 9001,
+   "t_fault": 29.948,
+   "truth": {
+    "code": "sensor_accel#2",
+    "size": 0.38608823396433023
+   },
+   "detected": true,
+   "latency_s": 0.412,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 2.57,
+   "max_alt_deviation_m": 0.024,
+   "max_nav_error_m": 0.217,
+   "events": [
+    {
+     "t": 30.36,
+     "level": 2,
+     "code": "sensor_accel#2",
+     "message": "Falha: aceler\u00f4metro da IMU 3 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#2",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 2,
+   "sadpf": true,
+   "seed": 9002,
+   "t_fault": 26.907,
+   "truth": {
+    "code": "sensor_accel#0",
+    "size": 0.3642055001552062
+   },
+   "detected": true,
+   "latency_s": 0.513,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.81,
+   "max_alt_deviation_m": 0.036,
+   "max_nav_error_m": 0.24,
+   "events": [
+    {
+     "t": 27.42,
+     "level": 2,
+     "code": "sensor_accel#0",
+     "message": "Falha: aceler\u00f4metro da IMU 1 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#0",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 3,
+   "sadpf": true,
+   "seed": 9003,
+   "t_fault": 19.484,
+   "truth": {
+    "code": "sensor_accel#1",
+    "size": 0.5593767936800107
+   },
+   "detected": true,
+   "latency_s": 0.436,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 5.28,
+   "max_alt_deviation_m": 0.091,
+   "max_nav_error_m": 0.217,
+   "events": [
+    {
+     "t": 19.92,
+     "level": 2,
+     "code": "sensor_accel#1",
+     "message": "Falha: aceler\u00f4metro da IMU 2 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#1",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 4,
+   "sadpf": true,
+   "seed": 9004,
+   "t_fault": 21.856,
+   "truth": {
+    "code": "sensor_accel#0",
+    "size": 0.5744996787854637
+   },
+   "detected": true,
+   "latency_s": 0.404,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.44,
+   "max_alt_deviation_m": 0.077,
+   "max_nav_error_m": 0.242,
+   "events": [
+    {
+     "t": 22.26,
+     "level": 2,
+     "code": "sensor_accel#0",
+     "message": "Falha: aceler\u00f4metro da IMU 1 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#0",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 5,
+   "sadpf": true,
+   "seed": 9005,
+   "t_fault": 20.01,
+   "truth": {
+    "code": "sensor_accel#0",
+    "size": 0.3295768600343719
+   },
+   "detected": true,
+   "latency_s": 0.65,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.87,
+   "max_alt_deviation_m": 0.118,
+   "max_nav_error_m": 0.253,
+   "events": [
+    {
+     "t": 20.66,
+     "level": 2,
+     "code": "sensor_accel#0",
+     "message": "Falha: aceler\u00f4metro da IMU 1 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#0",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 6,
+   "sadpf": true,
+   "seed": 9006,
+   "t_fault": 29.729,
+   "truth": {
+    "code": "sensor_accel#1",
+    "size": 0.8716837214956523
+   },
+   "detected": true,
+   "latency_s": 0.371,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.78,
+   "max_alt_deviation_m": 0.05,
+   "max_nav_error_m": 0.205,
+   "events": [
+    {
+     "t": 30.1,
+     "level": 2,
+     "code": "sensor_accel#1",
+     "message": "Falha: aceler\u00f4metro da IMU 2 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#1",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 7,
+   "sadpf": true,
+   "seed": 9007,
+   "t_fault": 20.349,
+   "truth": {
+    "code": "sensor_accel#2",
+    "size": 0.47147448203768083
+   },
+   "detected": true,
+   "latency_s": 0.451,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.9,
+   "max_alt_deviation_m": 0.042,
+   "max_nav_error_m": 0.391,
+   "events": [
+    {
+     "t": 20.8,
+     "level": 2,
+     "code": "sensor_accel#2",
+     "message": "Falha: aceler\u00f4metro da IMU 3 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#2",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 8,
+   "sadpf": true,
+   "seed": 9008,
+   "t_fault": 17.212,
+   "truth": {
+    "code": "sensor_accel#1",
+    "size": 0.9192202872518933
+   },
+   "detected": true,
+   "latency_s": 0.388,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 3.5,
+   "max_alt_deviation_m": 0.122,
+   "max_nav_error_m": 0.281,
+   "events": [
+    {
+     "t": 17.6,
+     "level": 2,
+     "code": "sensor_accel#1",
+     "message": "Falha: aceler\u00f4metro da IMU 2 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#1",
+     "reason": "vote"
+    }
+   ]
+  },
+  {
+   "scenario": "accel_unit_bias",
+   "run": 9,
+   "sadpf": true,
+   "seed": 9009,
+   "t_fault": 19.532,
+   "truth": {
+    "code": "sensor_accel#2",
+    "size": 0.23242242209128358
+   },
+   "detected": true,
+   "latency_s": 0.908,
+   "loe_estimate": null,
+   "level": 2,
+   "false_alarms": 0,
+   "false_alarm_codes": [],
+   "landed": false,
+   "touchdown_speed": null,
+   "tipped_over": false,
+   "max_tilt_after_deg": 4.19,
+   "max_alt_deviation_m": 0.087,
+   "max_nav_error_m": 0.201,
+   "events": [
+    {
+     "t": 20.44,
+     "level": 2,
+     "code": "sensor_accel#2",
+     "message": "Falha: aceler\u00f4metro da IMU 3 (diverge da vota\u00e7\u00e3o das 3 IMUs) \u2014 unidade isolada; IMU segue com as redundantes",
+     "sensor": "accel#2",
+     "reason": "vote"
+    }
+   ]
+  }
+ ]
+}

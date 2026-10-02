@@ -17,11 +17,15 @@ from .vehicle import Vehicle, load_vehicle, list_vehicles
 from .dynamics import RigidBodyDynamics, quat_from_euler, euler_from_quat
 from .control import GeometricController, Gains
 from .simulator import TwinSimulator, hover_at, waypoint_route
+from .sensors import SensorConfig, SensorFault, SensorSuite
+from .ekf import NavigationEKF
+from .sadpf import RotorFault, Sadpf, SadpfConfig
 from .sizing import hover_report, max_hover_mass, ideal_hover_power, lunar_delta_v
 
 __all__ = [
     "Body", "body_from_config", "load_body", "Rotor", "Thruster", "Vehicle", "load_vehicle", "list_vehicles",
     "RigidBodyDynamics", "quat_from_euler", "euler_from_quat", "GeometricController", "Gains",
     "TwinSimulator", "hover_at", "waypoint_route", "hover_report", "max_hover_mass",
-    "ideal_hover_power", "lunar_delta_v",
+    "ideal_hover_power", "lunar_delta_v", "SensorConfig", "SensorFault", "SensorSuite", "NavigationEKF",
+    "RotorFault", "Sadpf", "SadpfConfig",
 ]

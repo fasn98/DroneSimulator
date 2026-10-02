@@ -140,6 +140,12 @@ class DroneSimulationController {
                 await this.pauseSimulation();
             });
         }
+
+        // Twin phase 3: fault injection
+        const injectBtn = document.getElementById('injectFaultBtn');
+        if (injectBtn) {
+            injectBtn.addEventListener('click', () => this.injectFault());
+        }
     }
 
     getSimulationConfig() {
@@ -253,6 +259,13 @@ class DroneSimulationController {
             this.missionData.push(data);
         });
 
+        // Twin phase 3: SADPF events (detections, isolations, emergency landing, injected faults)
+        this.socket.on('sadpf_event', (data) => {
+            this.addSadpfEvent(data);
+            if (data.level >= 3) this.showMessage(data.message, 'error');
+            else if (data.level === 2) this.showMessage(data.message, 'warning');
+        });
+
         // Twin v2 physics events
         this.socket.on('twin_warning', (data) => {
             this.updateTwinWarning(data);
@@ -350,6 +363,73 @@ class DroneSimulationController {
         // Twin v2 physics panel
         if (data.power_w !== undefined) {
             this.updateTwinPhysicsDisplay(data);
+        }
+        if (data.sadpf) {
+            this.updateSadpfDisplay(data.sadpf);
+        }
+    }
+
+    updateSadpfDisplay(s) {
+        const setText = (id, text) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        };
+        const badge = document.getElementById('sadpfLevel');
+        if (badge) {
+            const cls = ['bg-success', 'bg-info', 'bg-warning text-dark', 'bg-danger'][s.level] || 'bg-secondary';
+            badge.className = `badge ${cls}`;
+            badge.textContent = s.landing ? `${s.level_name} — pouso de emergência` : s.level_name;
+        }
+        const r = typeof s.residual === 'number' ? s.residual : 0;
+        setText('sadpfResidual', `${(r * 100).toFixed(1)}% do peso (limite ${(s.threshold * 100).toFixed(1)}%)`);
+        const bar = document.getElementById('sadpfResidualBar');
+        if (bar) {
+            const pct = Math.min(100, (r / (2 * s.threshold)) * 100);
+            bar.style.width = `${pct}%`;
+            bar.className = `progress-bar ${r > s.threshold ? 'bg-danger' : 'bg-success'}`;
+        }
+        setText('sadpfNavError', `${(s.nav_error_m ?? 0).toFixed(2)} m (1σ ${(s.nav_sigma_m ?? 0).toFixed(2)} m)`);
+        const eff = (s.rotor_effectiveness || []).map((e, i) => `R${i + 1} ${Math.round((e ?? 1) * 100)}%`);
+        setText('sadpfRotors', eff.length ? eff.join(' · ') : '—');
+        setText('sadpfIsolated', (s.isolated && s.isolated.length) ? s.isolated.join(', ') : 'nenhum');
+    }
+
+    addSadpfEvent(e) {
+        const list = document.getElementById('sadpfEvents');
+        if (!list) return;
+        if (list.firstElementChild && list.firstElementChild.classList.contains('text-muted')) list.innerHTML = '';
+        const li = document.createElement('li');
+        const cls = ['text-secondary', 'text-info', 'text-warning', 'text-danger'][e.level] || 'text-secondary';
+        li.className = cls;
+        li.textContent = `t = ${Number(e.t || 0).toFixed(1)} s — ${e.message}`;
+        list.prepend(li);
+    }
+
+    async injectFault() {
+        const type = document.getElementById('faultType')?.value || 'rotor';
+        const target = parseInt(document.getElementById('faultTarget')?.value || '1', 10);
+        const value = parseFloat(document.getElementById('faultValue')?.value || '0');
+        let spec;
+        if (type === 'rotor') {
+            spec = { type: 'rotor', rotor: target, effectiveness: value };
+        } else {
+            const [sensor, kind] = type.split(':');
+            spec = { type: 'sensor', sensor, kind, unit: target };
+            if (kind === 'bias') {
+                if (sensor === 'altimeter') spec.value = value;
+                else if (sensor === 'nav_pos') spec.value = [value, 0, 0];
+                else if (sensor === 'gyro') spec.value = [0, value * Math.PI / 180, 0];
+            }
+        }
+        try {
+            const res = await fetch('/api/simulation/fault', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spec)
+            });
+            const body = await res.json();
+            if (!res.ok) throw new Error(body.error || res.statusText);
+            this.showMessage(body.message, 'info');
+        } catch (err) {
+            this.showMessage(`Falha não injetada: ${err.message}`, 'error');
         }
     }
 

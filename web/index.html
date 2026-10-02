@@ -300,6 +300,68 @@
                                 </div>
                             </div>
 
+                            <!-- Twin phase 3: SADPF (fault detection, isolation and autonomous actions) -->
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0"><i class="fas fa-stethoscope"></i> SADPF — Autodiagnóstico de Falhas</h6>
+                                            <span id="sadpfLevel" class="badge bg-secondary">desligado</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-6 col-md-3">
+                                                    <strong>Resíduo (atuadores):</strong><br>
+                                                    <span id="sadpfResidual">—</span>
+                                                    <div class="progress mt-1" style="height: 6px;"><div id="sadpfResidualBar" class="progress-bar bg-success" style="width: 0%"></div></div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <strong>Erro de navegação (EKF):</strong><br>
+                                                    <span id="sadpfNavError">—</span>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <strong>Eficácia dos rotores:</strong><br>
+                                                    <span id="sadpfRotors">—</span>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <strong>Sensores isolados:</strong><br>
+                                                    <span id="sadpfIsolated">nenhum</span>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3 g-2 align-items-end">
+                                                <div class="col-12"><strong>Injetar falha (missão em andamento):</strong></div>
+                                                <div class="col-6 col-md-3">
+                                                    <select id="faultType" class="form-select form-select-sm">
+                                                        <option value="rotor">Rotor — perda de eficácia</option>
+                                                        <option value="altimeter:bias">Altímetro laser — viés</option>
+                                                        <option value="altimeter:stuck">Altímetro laser — congelado</option>
+                                                        <option value="nav_pos:bias">Navegação visual — salto de posição</option>
+                                                        <option value="gyro:bias">Giroscópio (1 IMU) — viés</option>
+                                                        <option value="accel:stuck">Acelerômetro (1 IMU) — congelado</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-3 col-md-2">
+                                                    <label class="form-label small mb-0" for="faultTarget">Rotor / IMU</label>
+                                                    <input id="faultTarget" type="number" class="form-control form-control-sm" value="3" min="1" max="8">
+                                                </div>
+                                                <div class="col-3 col-md-2">
+                                                    <label class="form-label small mb-0" for="faultValue">Valor</label>
+                                                    <input id="faultValue" type="number" class="form-control form-control-sm" value="0.5" step="0.05">
+                                                </div>
+                                                <div class="col-12 col-md-5">
+                                                    <button id="injectFaultBtn" class="btn btn-sm btn-outline-danger"><i class="fas fa-bolt"></i> Injetar</button>
+                                                    <small class="text-muted ms-2">Rotor: eficácia 0–1 · Altímetro: viés em m · Navegação: salto em m · Giro: viés em °/s</small>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <strong>Eventos:</strong>
+                                                <ul id="sadpfEvents" class="list-unstyled small mb-0" style="max-height: 160px; overflow-y: auto;"><li class="text-muted">Sem eventos</li></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <div class="card">
