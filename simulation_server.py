@@ -256,21 +256,29 @@ class DroneSimulationServer:
                 # Load configurations
                 self.state.drone_config = self._load_drone_config(config.get('drone_model', 'default_quadrotor'))
                 
-                # Use custom environment if available, otherwise load from config
-                if hasattr(self, 'custom_environment_config') and self.custom_environment_config:
-                    self.state.environment_config = self.custom_environment_config
+                # The custom environment is used only when the user explicitly selects "custom";
+                # a standard environment (earth / mars / moon) always wins otherwise.
+                env_name = config.get('environment', 'earth')
+                stored_custom = getattr(self, 'custom_environment_config', None) or None
+                use_custom = env_name == 'custom' and stored_custom is not None
+                if env_name == 'custom' and stored_custom is None:
+                    return jsonify({'error': 'Ambiente personalizado não aplicado. Use a aba Custom Environment '
+                                             'ou escolha earth, mars ou moon.'}), 400
+                if use_custom:
+                    self.state.environment_config = stored_custom
                     logger.info("Using custom environment configuration")
                 else:
-                    self.state.environment_config = self._load_environment_config(config.get('environment', 'earth'))
+                    self.state.environment_config = self._load_environment_config(env_name)
+                    logger.info(f"Using standard environment: {env_name}")
                 
                 self.state.mission_config = self._load_mission_config(config.get('mission_type', 'test_flight'))
                 
                 # Twin v2: the physics core flies the mission
-                custom_env = getattr(self, 'custom_environment_config', None) or None
+                custom_env = stored_custom if use_custom else None
                 self.state.twin = WebSession(
                     config.get('drone_model', 'default_quadrotor'),
                     self.state.mission_config,
-                    environment='custom' if custom_env else config.get('environment', 'earth'),
+                    environment='custom' if use_custom else env_name,
                     environment_config=custom_env,
                     seed=int(time.time()) % (2 ** 31),
                 )
