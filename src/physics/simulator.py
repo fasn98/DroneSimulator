@@ -108,10 +108,23 @@ def hover_at(position: Sequence[float], yaw: float = 0.0, climb_rate: float = 1.
 
 
 def waypoint_route(waypoints: Sequence[Sequence[float]], cruise_speed: float = 3.0, climb_rate: float = 1.0,
-                   hold_time: float = 3.0, acceptance: float = 1.5) -> Callable[[float, np.ndarray], Setpoint]:
-    """Carrot-chasing route follower over (x, y, z) waypoints, starting with a vertical climb."""
+                   hold_time: float | Sequence[float] = 3.0, acceptance: float | Sequence[float] = 1.5,
+                   max_accel: Optional[float] = None) -> Callable[[float, np.ndarray], Setpoint]:
+    """Carrot-chasing route follower over (x, y, z) waypoints, starting with a vertical climb.
+
+    `hold_time` and `acceptance` may be scalars or one value per waypoint. With
+    `max_accel` (m/s^2) the reference follows a trapezoidal speed profile: it
+    speeds up at most at `max_accel` and slows down so that it stops on each
+    waypoint. Without it the reference jumps straight to cruise speed (the
+    Phase 1 behaviour), which a tilt-limited vehicle in low gravity cannot track
+    without overshooting.
+    """
     wps = [np.asarray(w, dtype=float) for w in waypoints]
-    state = {"i": 0, "ref": None, "arrived": None, "t": 0.0}
+    holds = [float(h) for h in hold_time] if np.ndim(hold_time) else [float(hold_time)] * len(wps)
+    accs = [float(a) for a in acceptance] if np.ndim(acceptance) else [float(acceptance)] * len(wps)
+    if len(holds) != len(wps) or len(accs) != len(wps):
+        raise ValueError("hold_time / acceptance must have one value per waypoint")
+    state = {"i": 0, "ref": None, "arrived": None, "t": 0.0, "v": 0.0}
 
     def fn(t: float, x: np.ndarray) -> Setpoint:
         if state["ref"] is None:
@@ -125,19 +138,24 @@ def waypoint_route(waypoints: Sequence[Sequence[float]], cruise_speed: float = 3
         d = target - ref
         dist = np.linalg.norm(d)
         speed = climb_rate if abs(d[2]) > np.linalg.norm(d[:2]) else cruise_speed
+        if max_accel is not None:
+            speed = min(speed, state["v"] + max_accel * dt, np.sqrt(2.0 * max_accel * dist))
         vel = np.zeros(3)
         if dist > speed * dt and dist > 1e-6:
             vel = d / dist * speed
             ref = ref + vel * dt
+            state["v"] = speed
         else:
             ref = target.copy()
+            state["v"] = 0.0
         state["ref"] = ref
-        if np.linalg.norm(x[0:3] - target) < acceptance and state["i"] < len(wps):
+        if state["i"] < len(wps) and np.linalg.norm(x[0:3] - target) < accs[i]:
             if state["arrived"] is None:
                 state["arrived"] = t
-            elif t - state["arrived"] >= hold_time:
+            elif t - state["arrived"] >= holds[i]:
                 state["i"] += 1
                 state["arrived"] = None
         return ref, vel, 0.0
     fn.progress = lambda: state["i"] / len(wps)  # fraction of waypoints completed
+    fn.index = lambda: state["i"]  # index of the active waypoint (== len(waypoints) when done)
     return fn

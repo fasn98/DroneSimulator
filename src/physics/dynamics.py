@@ -30,6 +30,11 @@ from .vehicle import Vehicle
 # ---------------------------------------------------------------------- #
 # Quaternion helpers
 # ---------------------------------------------------------------------- #
+def cross3(a, b) -> np.ndarray:
+    """Cross product of two 3-vectors (same result as np.cross, ~10x less overhead)."""
+    return np.array([a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]])
+
+
 def quat_to_rot(q: np.ndarray) -> np.ndarray:
     w, x, y, z = q
     return np.array([
@@ -146,7 +151,7 @@ class RigidBodyDynamics:
             t = f_act[i]
             f = np.array([0.0, 0.0, t])
             force_b += f
-            moment_b += np.cross(r.position, f)
+            moment_b += cross3(r.position, f)
             moment_b[2] += -r.spin * r.torque(t, rho, a)
             p_rotor += r.electrical_power(t, rho)
         mdot = 0.0
@@ -154,7 +159,7 @@ class RigidBodyDynamics:
             t = f_act[self.n_rot + j]
             f = th.direction * t
             force_b += f
-            moment_b += np.cross(th.position, f)
+            moment_b += cross3(th.position, f)
             mdot += th.mass_flow(t)
 
         force_w = R @ force_b + np.array([0.0, 0.0, -m * self.body.gravity])
@@ -170,7 +175,7 @@ class RigidBodyDynamics:
         for foot in self.feet:
             pf = pos + R @ foot
             if pf[2] < 0.0:
-                vf = vel + R @ np.cross(w, foot)
+                vf = vel + R @ cross3(w, foot)
                 fz = max(k * (-pf[2]) - c * vf[2], 0.0)
                 ft = -c * vf[:2]
                 cap = self.GROUND_FRICTION * fz
@@ -179,13 +184,13 @@ class RigidBodyDynamics:
                     ft *= cap / nt
                 f_ground = np.array([ft[0], ft[1], fz])
                 force_w += f_ground
-                moment_b += np.cross(foot, R.T @ f_ground)
+                moment_b += cross3(foot, R.T @ f_ground)
 
         dx = np.zeros_like(x)
         dx[0:3] = vel
         dx[3:6] = force_w / m
         dx[6:10] = quat_derivative(q, w)
-        dx[10:13] = self.inertia_inv @ (moment_b - np.cross(w, self.inertia @ w))
+        dx[10:13] = self.inertia_inv @ (moment_b - cross3(w, self.inertia @ w))
         dx[13:13 + n] = (np.clip(cmd, 0.0, limits) - act) / self.tau
         dx[13 + n] = -(p_rotor + v.avionics_w + v.heater_w) / 3600.0 if x[13 + n] > 0 else 0.0
         dx[14 + n] = -mdot if x[14 + n] > 0 else 0.0

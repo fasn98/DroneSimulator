@@ -15,7 +15,7 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.optimize import lsq_linear
 
-from .dynamics import RigidBodyDynamics, quat_to_rot
+from .dynamics import RigidBodyDynamics, cross3, quat_to_rot
 
 
 def _vee(m: np.ndarray) -> np.ndarray:
@@ -52,7 +52,7 @@ class Allocator:
             kq = r.torque(t_hover, rho, a) / t_hover if t_hover > 0 else 0.0
             cols.append([1.0, r.position[1], -r.position[0], -r.spin * kq])
         for t in v.thrusters:
-            m = np.cross(t.position, t.direction)
+            m = cross3(t.position, t.direction)
             cols.append([t.direction[2], m[0], m[1], m[2]])
         return np.array(cols).T
 
@@ -103,16 +103,16 @@ class GeometricController:
         # --- attitude loop (SO(3)) ----------------------------------------
         b3 = f_des / np.linalg.norm(f_des)
         b1c = np.array([np.cos(yaw_ref), np.sin(yaw_ref), 0.0])
-        b2 = np.cross(b3, b1c)
+        b2 = cross3(b3, b1c)
         b2 /= np.linalg.norm(b2)
-        b1 = np.cross(b2, b3)
+        b1 = cross3(b2, b3)
         R_des = np.column_stack([b1, b2, b3])
         thrust = float(f_des @ R[:, 2])
         e_R = 0.5 * _vee(R_des.T @ R - R.T @ R_des)
         I = dyn.inertia
         K_R = I * g.att_wn ** 2
         K_w = I * 2 * g.att_zeta * g.att_wn
-        moment = -K_R @ e_R - K_w @ w + np.cross(w, I @ w)
+        moment = -K_R @ e_R - K_w @ w + cross3(w, I @ w)
 
         wrench = np.array([max(thrust, 0.0), *moment])
         self.last_wrench = wrench

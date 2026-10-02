@@ -73,6 +73,44 @@ class Body:
         return b
 
 
+def body_from_config(name: str, cfg: dict, prefer_density: bool = False) -> Body:
+    """Build a Body from an environments.json-style dict.
+
+    With `prefer_density=True` (used for user-defined environments, whose UI asks
+    for density rather than pressure) the surface pressure is derived from
+    `sea_level_density` via p = rho R T, so the density the user typed is the
+    density the rotors see.
+    """
+    atm = cfg.get("atmosphere", {}) or {}
+    rho_in = float(atm.get("sea_level_density", 0.0) or 0.0)
+    pressure = float(atm.get("sea_level_pressure", 0.0) or 0.0)
+    use_density = prefer_density and "sea_level_density" in atm
+    vacuum = atm.get("type") == "vacuum" or (rho_in <= 0.0 if use_density else pressure <= 0.0)
+    gas_r = float(atm.get("gas_constant", 0.0) or 0.0)
+    temp = float(atm.get("sea_level_temperature", 250.0) or 250.0)
+    if not vacuum and gas_r <= 0.0:
+        gas_r = 287.0
+    if not vacuum and use_density:
+        pressure = rho_in * gas_r * temp
+    wind = cfg.get("wind", {}) or {}
+    wind_on = bool(wind.get("enabled", False)) and not vacuum
+    base = float(wind.get("base_speed", 0.0) or 0.0)
+    return Body(
+        name=name,
+        gravity=float(cfg["gravity"]),
+        has_atmosphere=not vacuum,
+        surface_pressure=pressure if not vacuum else 0.0,
+        surface_temperature=temp,
+        lapse_rate=float(atm.get("temperature_lapse_rate", 0.0) or 0.0),
+        gas_constant=gas_r if not vacuum else 0.0,
+        gamma=GAMMA_BY_BODY.get(name, 1.4),
+        wind_mean=base if wind_on else 0.0,
+        # gust_factor in the legacy config is a peak multiplier; treat (factor-1)*mean/2 as 1-sigma
+        wind_gust_std=(max(float(wind.get("gust_factor", 1.0)), 1.0) - 1.0) * base / 2.0 if wind_on else 0.0,
+        wind_direction_deg=float(wind.get("direction", 0.0) or 0.0),
+    )
+
+
 def load_body(name: str, config_path: str | Path = "config/environments.json") -> Body:
     """Build a Body from the legacy environments.json format."""
     path = Path(config_path)
@@ -80,22 +118,4 @@ def load_body(name: str, config_path: str | Path = "config/environments.json") -
         path = Path(__file__).resolve().parents[2] / path
     with open(path) as f:
         cfg = json.load(f)[name]
-
-    atm = cfg.get("atmosphere", {})
-    vacuum = atm.get("type") == "vacuum" or atm.get("sea_level_pressure", 0.0) <= 0.0
-    wind = cfg.get("wind", {})
-    wind_on = bool(wind.get("enabled", False)) and not vacuum
-    return Body(
-        name=name,
-        gravity=float(cfg["gravity"]),
-        has_atmosphere=not vacuum,
-        surface_pressure=float(atm.get("sea_level_pressure", 0.0)),
-        surface_temperature=float(atm.get("sea_level_temperature", 250.0)),
-        lapse_rate=float(atm.get("temperature_lapse_rate", 0.0)),
-        gas_constant=float(atm.get("gas_constant", 0.0)),
-        gamma=GAMMA_BY_BODY.get(name, 1.4),
-        wind_mean=float(wind.get("base_speed", 0.0)) if wind_on else 0.0,
-        # gust_factor in the legacy config is a peak multiplier; treat (factor-1)*mean/2 as 1-sigma
-        wind_gust_std=(max(float(wind.get("gust_factor", 1.0)) - 1.0, 0.0)
-                       * float(wind.get("base_speed", 0.0)) / 2.0) if wind_on else 0.0,
-    )
+    return body_from_config(name, cfg)

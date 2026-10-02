@@ -11,7 +11,7 @@ Quick start:
     tel = sim.run(60.0, hover_at([0, 0, 10]))
 """
 
-from .atmosphere import Body, load_body
+from .atmosphere import Body, body_from_config, load_body
 from .actuators import Rotor, Thruster
 from .vehicle import Vehicle, load_vehicle, list_vehicles
 from .dynamics import RigidBodyDynamics, quat_from_euler, euler_from_quat
@@ -20,7 +20,7 @@ from .simulator import TwinSimulator, hover_at, waypoint_route
 from .sizing import hover_report, max_hover_mass, ideal_hover_power, lunar_delta_v
 
 __all__ = [
-    "Body", "load_body", "Rotor", "Thruster", "Vehicle", "load_vehicle", "list_vehicles",
+    "Body", "body_from_config", "load_body", "Rotor", "Thruster", "Vehicle", "load_vehicle", "list_vehicles",
     "RigidBodyDynamics", "quat_from_euler", "euler_from_quat", "GeometricController", "Gains",
     "TwinSimulator", "hover_at", "waypoint_route", "hover_report", "max_hover_mass",
     "ideal_hover_power", "lunar_delta_v",
