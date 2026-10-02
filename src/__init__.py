@@ -12,19 +12,31 @@ Main modules:
 - data_logger: Telemetry collection and storage
 - visualization: Data plotting and analysis
 - simulator: Main simulation controller
+- physics: Twin v2 physics core (density-dependent rotors, quaternion 6-DoF, RK4)
 """
 
 __version__ = "1.0.0"
 __author__ = "Drone Simulation Team"
 __email__ = "simulation@example.com"
 
-from .simulator import DroneSimulator
-from .drone_model import DroneModel
-from .physics_engine import PhysicsEngine
-from .environment import Environment
-from .mission_manager import MissionManager
-from .data_logger import DataLogger
-from .visualization import Visualizer
+# Lazy imports: `import src.physics` must not pull in matplotlib, pygame, etc.
+_LAZY = {
+    'DroneSimulator': '.simulator',
+    'DroneModel': '.drone_model',
+    'PhysicsEngine': '.physics_engine',
+    'Environment': '.environment',
+    'MissionManager': '.mission_manager',
+    'DataLogger': '.data_logger',
+    'Visualizer': '.visualization',
+}
+
+
+def __getattr__(name):
+    if name in _LAZY:
+        import importlib
+        return getattr(importlib.import_module(_LAZY[name], __name__), name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
 
 __all__ = [
     'DroneSimulator',

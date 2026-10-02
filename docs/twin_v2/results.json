@@ -1,0 +1,88 @@
+{
+  "conditions": {
+    "mars_design_density_kg_m3": 0.015,
+    "mars_design_temperature_c": -50.0
+  },
+  "hover": {
+    "mars_hexacopter_tcc": {
+      "vehicle": "mars_hexacopter_tcc",
+      "body": "mars",
+      "gross_mass_kg": 31.2,
+      "weight_n": 115.752,
+      "max_vertical_force_n": 151.14094427583098,
+      "thrust_to_weight": 1.3057307370570788,
+      "can_hover": true,
+      "density_kg_m3": 0.015,
+      "tip_mach": 0.8,
+      "rotor_rpm": 2783.496469081174,
+      "ct_sigma_hover": 0.11487820248306131,
+      "hover_power_w": 6217.533511668164,
+      "endurance_min": 11.58015471326063,
+      "propellant_flow_kg_s": 0.0
+    },
+    "tcc_mars_70kg_original": {
+      "vehicle": "tcc_mars_70kg_original",
+      "body": "mars",
+      "gross_mass_kg": 70.0,
+      "weight_n": 259.7,
+      "max_vertical_force_n": 33.209680138732395,
+      "thrust_to_weight": 0.1278770894829896,
+      "can_hover": false,
+      "density_kg_m3": 0.015,
+      "tip_mach": 0.8,
+      "rotor_rpm": 5938.125800706505,
+      "ct_sigma_hover": 1.1730013609666432,
+      "hover_power_w": null,
+      "endurance_min": 0.0,
+      "propellant_flow_kg_s": 0.0
+    },
+    "lunar_hopper_tcc": {
+      "vehicle": "lunar_hopper_tcc",
+      "body": "moon",
+      "gross_mass_kg": 80.0,
+      "weight_n": 129.60000000000002,
+      "max_vertical_force_n": 240.0,
+      "thrust_to_weight": 1.8518518518518514,
+      "can_hover": true,
+      "density_kg_m3": 0.0,
+      "tip_mach": 0.0,
+      "rotor_rpm": 0.0,
+      "ct_sigma_hover": 0.0,
+      "hover_power_w": 0.0,
+      "endurance_min": 13.351345700331873,
+      "propellant_flow_kg_s": 0.057458791826930235
+    }
+  },
+  "lunar_hopper_delta_v_m_s": 1297.750802072258,
+  "nasa_msh_reference_hover_power_w": 6200.0,
+  "feasibility": {
+    "tcc_70kg_max_hover_mass_kg": 8.95139626380927,
+    "rotor_diameter_needed_for_70kg_m": 1.6800000000000002
+  },
+  "flights": {
+    "mars_hexacopter_tcc": {
+      "body": "mars",
+      "max_altitude_m": 10.607353769906162,
+      "hover_error_max_m": 0.03321109468671146,
+      "mean_power_w": 6125.7154515435695,
+      "battery_used_wh": 76.69634435702983,
+      "propellant_used_kg": 0.0
+    },
+    "tcc_mars_70kg_original": {
+      "body": "mars",
+      "max_altitude_m": 0.39563496943465676,
+      "hover_error_max_m": null,
+      "mean_power_w": 1928.3863759612896,
+      "battery_used_wh": 24.05081556788309,
+      "propellant_used_kg": 0.0
+    },
+    "lunar_hopper_tcc": {
+      "body": "moon",
+      "max_altitude_m": 10.54930202429291,
+      "hover_error_max_m": 0.04839839864973605,
+      "mean_power_w": 40.0,
+      "battery_used_wh": 0.49999999993133315,
+      "propellant_used_kg": 2.5428826684160697
+    }
+  }
+}
