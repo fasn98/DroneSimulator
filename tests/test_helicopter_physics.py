@@ -183,7 +183,7 @@ class TestAntiTorque(unittest.TestCase):
         p = params()
         hover = level_flight(p, 0.0, 1.225)
         self.assertEqual(hover.f_fin, 0.0)  # no fin force in hover
-        open_rotor = level_flight(replace(p, tr_sigma_d=0.5), 0.0, 1.225)
+        open_rotor = level_flight(replace(p, tr_duct_gain=1.0), 0.0, 1.225)
         # ideal duct, sigma_d = 1: induced power 1/sqrt(2) of the open rotor at the same thrust
         tr_prof = open_rotor.p_tail - (open_rotor.p_tail - hover.p_tail) / (1 - 2 ** -0.5)
         self.assertGreater(open_rotor.p_tail, hover.p_tail * 1.3)

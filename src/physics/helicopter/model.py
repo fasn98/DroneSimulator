@@ -190,7 +190,8 @@ class HelicopterDynamics:
             target = 0.0 if self.engine_failed[i] else u.p_cmd[i]
             tau = p.eng_fail_tau if self.engine_failed[i] else p.eng_tau
             dx[16 + i] = (target - x[16 + i]) / tau
-        dx[18] = -p.sfc * (max(x[16], 0.0) + max(x[17], 0.0)) / 3.6e6 if x[18] > 0 else 0.0
+        dx[18] = -fuel_flow_kgs(p, max(x[16], 0.0) + max(x[17], 0.0),
+                                sum(1 for f in self.engine_failed if not f)) if x[18] > 0 else 0.0
         return dx
 
     def rk4_step(self, x: np.ndarray, u: Controls, dt: float) -> np.ndarray:
@@ -203,6 +204,12 @@ class HelicopterDynamics:
         xn[18] = max(xn[18], 0.0)
         xn[13] = max(xn[13], 0.0)
         return xn
+
+
+def fuel_flow_kgs(p: HeliParams, power_w: float, n_running: int) -> float:
+    """Fuel flow (kg/s) on a Willans line: a constant flow per running engine plus a marginal SFC times the power
+    (both CALIBRADO on the published endurance and range, see rotor.calibrate_fuel_flow)."""
+    return n_running * p.ff_idle_kgh / 3600.0 + p.sfc_marginal * max(power_w, 0.0) / 3.6e6
 
 
 def engine_limit_w(p: HeliParams, atm: HeliAtmosphere, z: float, rating: str, n_running: int) -> float:

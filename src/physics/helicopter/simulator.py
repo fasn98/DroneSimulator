@@ -29,7 +29,7 @@ from ..simloop import SimulationLoop, Telemetry, WindModel
 from .isa import HeliAtmosphere, RHO0
 from .model import Controls, HelicopterDynamics, Terrain, engine_limit_w, rating_for
 from .params import HeliParams
-from .rotor import fin_side_force, calibrate_drag_area, tail_rotor_max_thrust
+from .rotor import calibrate_drag_area, fin_side_force, fuel_flow_params, tail_rotor_max_thrust
 
 KT = 0.514444
 
@@ -73,6 +73,8 @@ class HelicopterSimulator(SimulationLoop):
         self.p = copy.deepcopy(params) if params is not None else HeliParams()
         if self.p.f_drag <= 0.0:
             self.p.f_drag = calibrate_drag_area(self.p)
+        if self.p.ff_idle_kgh <= 0.0:
+            self.p.ff_idle_kgh, self.p.sfc_marginal = fuel_flow_params(self.p)
         self.atm = atmosphere or HeliAtmosphere()
         self.dt = dt
         self.g = gains or SasGains()

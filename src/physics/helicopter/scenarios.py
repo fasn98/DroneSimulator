@@ -99,6 +99,7 @@ class CatAConfig:
     # (detection ~0.7 s + pilot reaction 1 s at 1.5 m/s climb); the decision is taken at recognition
     fail_after_tdp_s: float = 0.5  # post-TDP failure this long after the TDP
     criterion: str = "elevado_29_60"  # or "literal_29_59c" (see procedures.evaluate_cat_a)
+    params: Optional[dict] = None  # HeliParams overrides (sensitivity studies), e.g. {"tr_duct_gain": 1.15}
 
 
 def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = None, seed: int = 0,
@@ -112,7 +113,7 @@ def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = N
     """
     cfg = cfg or CatAConfig()
     atm = _atm(cfg.elevation_m, cfg.delta_t, cfg.headwind_ms)
-    p = HeliParams(mass=mass)
+    p = HeliParams(mass=mass, **(cfg.params or {}))
     terrain = Terrain(pad_half_size=cfg.deck_half_size_m, pad_height=cfg.deck_height_m)
     sim = HelicopterSimulator(p, atm, seed=seed, wind=cfg.headwind_ms > 0, terrain=terrain, sadpf=True)
     v_toss = vtoss(sim.p, atm, 0.0, mass)
@@ -175,7 +176,7 @@ def cat_a_max_mass(cfg: Optional[CatAConfig] = None, lo: float = 2200.0, hi: Opt
     log lets one check.
     """
     cfg = cfg or CatAConfig()
-    hi = hi or HeliParams().mass
+    hi = hi or HeliParams().mass  # MTOW (the overrides never change it)
     log: List[dict] = []
 
     def safe(m):

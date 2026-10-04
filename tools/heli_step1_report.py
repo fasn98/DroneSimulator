@@ -113,7 +113,7 @@ def main():
     vs = np.linspace(0, 150, 61)
     with_fin = [level_flight(p, x * KT, 1.225) for x in vs]
     no_fin = [level_flight(replace(p, fin_S=0.0), x * KT, 1.225) for x in vs]
-    open_rotor = replace(p, tr_sigma_d=0.5)  # sigma_d = 0.5 reproduces the open-rotor induced power
+    open_rotor = replace(p, tr_duct_gain=1.0)  # sigma_d = 0.5 reproduces the open-rotor induced power
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.2), dpi=150)
     ax[0].plot(vs, [q.p_tail / 1e3 for q in with_fin], lw=2, label="Fenestron com deriva (modelo)")
     ax[0].plot(vs, [q.p_tail / 1e3 for q in no_fin], lw=1.4, ls="--", label="sem a força da deriva")

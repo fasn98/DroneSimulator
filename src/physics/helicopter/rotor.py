@@ -162,8 +162,9 @@ def tail_rotor_max_thrust(p: HeliParams, rho: float, omega: float) -> float:
 def tail_rotor_power(p: HeliParams, thrust: float, rho: float, omega: float) -> float:
     A = math.pi * p.tr_R ** 2
     vt = p.tr_vt * omega / p.omega100
-    # ideal ducted fan (Leishman): P = T^1.5 / sqrt(4 sigma_d rho A); sigma_d = 1 -> 1/sqrt(2) of an open rotor
-    p_ind = p.kappa * abs(thrust) ** 1.5 / math.sqrt(4.0 * p.tr_sigma_d * rho * A) if rho > 0 else 0.0
+    # ducted fan: same power -> G times the thrust of an open rotor, i.e. P = kappa (T/G)^1.5 / sqrt(2 rho A).
+    # G = 2^(1/3) = 1.26 is the ideal duct with expansion ratio 1 (Leishman): P = T^1.5 / sqrt(4 rho A).
+    p_ind = p.kappa * (abs(thrust) / p.tr_duct_gain) ** 1.5 / math.sqrt(2.0 * rho * A) if rho > 0 else 0.0
     p_prof = p.tr_sigma * p.cd0 / 8.0 * rho * A * vt ** 3
     return p_ind + p_prof
 
@@ -241,6 +242,58 @@ def calibrate_drag_area(p: HeliParams, v_kt: float = 136.0, p_kw: float | None =
     target = (p_kw if p_kw is not None else p.gearbox_limit_kw("MCP")) * 1e3
     V = v_kt * 0.514444
     return brentq(lambda f: level_flight(p, V, rho, f_drag=f).p_engines - target, 0.05, 5.0, xtol=1e-6)
+
+
+def _fuel_mission(p: HeliParams, idle: float, marg: float, speed: str, fuel_kg: float, rho: float = 1.225,
+                  dm: float = 5.0) -> tuple:
+    """Endurance (h) or range (NM) burning fuel_kg from MTOW at the best-endurance / best-range speed, no reserve."""
+    m, t, d = p.mass, 0.0, 0.0
+    burned = 0.0
+    while burned < fuel_kg - 1e-9:
+        bs = best_speeds(p, rho, m)
+        v = (bs["v_be_kt"] if speed == "be" else bs["v_br_kt"]) * 0.514444
+        pw = level_flight(p, v, rho, m).p_engines
+        ff = 2 * idle / 3600.0 + marg * pw / 3.6e6  # kg/s, both engines running
+        step = min(dm, fuel_kg - burned)
+        dt = step / ff
+        t += dt
+        d += v * dt
+        m -= step
+        burned += step
+    return t / 3600.0, d / 1852.0
+
+
+def calibrate_fuel_flow(p: HeliParams, endurance_h: float | None = None, range_nm: float | None = None,
+                        fuel_kg: float | None = None) -> tuple:
+    """Willans-line fuel flow (idle flow per engine kg/h, marginal SFC kg/kWh) such that the model reproduces the
+    published endurance (at the best-endurance speed) and range (at the best-range speed) with the standard fuel,
+    from MTOW, ISA sea level, no reserve. The published conditions are not stated: these are assumptions, and the
+    result is CALIBRADO."""
+    from dataclasses import replace
+    from scipy.optimize import fsolve
+    from .params import v as table_value
+    e = endurance_h or table_value("endurance_std")
+    r = range_nm or table_value("range_std")
+    fuel = fuel_kg or table_value("fuel_capacity")
+    p = replace(p, mass=table_value("mtow"), fuel=fuel)  # the published figures are taken at MTOW
+
+    def res(x):
+        idle, marg = x
+        return [_fuel_mission(p, idle, marg, "be", fuel, dm=20.0)[0] - e,
+                _fuel_mission(p, idle, marg, "br", fuel, dm=20.0)[1] - r]
+    idle, marg = fsolve(res, [40.0, 0.25], xtol=1e-6)
+    return float(idle), float(marg)
+
+
+_FUEL_CACHE: Dict[tuple, tuple] = {}
+
+
+def fuel_flow_params(p: HeliParams) -> tuple:
+    """Cached calibrate_fuel_flow for the aerodynamic parameters that change the power curve."""
+    key = (round(p.f_drag, 6), p.tr_duct_gain, round(p.fin_alpha0, 6), p.fin_S, p.R, p.cd0, p.kappa)
+    if key not in _FUEL_CACHE:
+        _FUEL_CACHE[key] = calibrate_fuel_flow(p)
+    return _FUEL_CACHE[key]
 
 
 def power_curve(p: HeliParams, rho: float, mass: float | None = None, v_max_kt: float = 150.0, n: int = 61

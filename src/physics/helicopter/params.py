@@ -109,10 +109,11 @@ TABLE: Dict[str, P] = {
                  "Braço do rotor de cauda"),
     "tr_thrust_max": _p(4500, "N", "ESTIMADO", "margem ~2× o empuxo de equilíbrio em pairado no MTOW",
                         "Empuxo máximo do rotor de cauda (100 % NR, nível do mar)"),
-    "tr_expansion": _p(1.0, "-", "ESTIMADO",
-                       "teoria do ventilador carenado ideal (Leishman): P = κ·T^1,5/√(4·σd·ρ·A); com σd = 1 o duto "
-                       "carrega metade do empuxo; mesma tração → potência induzida 1/√2 da de um rotor aberto; mesma potência → empuxo 2^(1/3) ≈ 1,26×; sem dado público "
-                       "do difusor do Fenestron", "Razão de expansão do duto do Fenestron σd"),
+    "tr_duct_gain": _p(1.26, "-", "ESTIMADO",
+                       "ganho de empuxo do duto na mesma potência (Fenestron × rotor aberto de mesmo diâmetro); "
+                       "1,26 = 2^(1/3) é o máximo teórico do duto ideal com razão de expansão 1 (Leishman); "
+                       "P_ind = κ·(T/G)^1,5/√(2ρA); sem dado público do Fenestron (sensibilidade 1,10–1,26 no Passo 3)",
+                       "Ganho de empuxo do duto do Fenestron G"),
     "fin_area": _p(0.9, "m²", "FONTE", SRC["kampa1997"], "Área da deriva vertical (\"small fin\", configuração "
                    "básica VFR do EC135 em 1997; a deriva do H135 atual pode diferir)"),
     "fin_lift_slope": _p(3.0, "1/rad", "ESTIMADO", "superfície de baixo alongamento (~1,5), ordem de grandeza "
@@ -139,8 +140,10 @@ TABLE: Dict[str, P] = {
     "eng_fail_tau": _p(1.0, "s", "ESTIMADO", "desaceleração após apagamento", "Constante de tempo da queda de potência"),
     "transmission_eff": _p(0.97, "-", "ESTIMADO", "valor típico de caixa principal", "Rendimento da transmissão"),
     "accessory_kw": _p(10, "kW", "ESTIMADO", "geradores, bombas, ar-condicionado médico", "Potência de acessórios"),
-    "sfc": _p(0.36, "kg/kWh", "ESTIMADO", "consumo específico típico de turboeixo da classe (sem dado público)",
-              "Consumo específico"),
+    "endurance_std": _p(3.6, "h", "FONTE", SRC["airbus"], "Autonomia máxima com tanque padrão (3 h 36 min; "
+                        "condições não informadas)"),
+    "range_std": _p(342, "NM", "FONTE", SRC["airbus"], "Alcance máximo com tanque padrão (633 km; condições não "
+                    "informadas)"),
     # airframe
     "download_frac": _p(0.03, "-", "ESTIMADO", "arrasto vertical da fuselagem na esteira, típico 2–5 %", "Download"),
     "f_side": _p(5.0, "m²", "ESTIMADO", "área lateral da fuselagem × Cd", "Área de arrasto lateral"),
@@ -185,7 +188,7 @@ class HeliParams:
     tr_vt: float = field(default_factory=lambda: v("tr_tip_speed"))
     tr_arm: float = field(default_factory=lambda: v("tr_arm"))
     tr_tmax: float = field(default_factory=lambda: v("tr_thrust_max"))
-    tr_sigma_d: float = field(default_factory=lambda: v("tr_expansion"))
+    tr_duct_gain: float = field(default_factory=lambda: v("tr_duct_gain"))
     fin_S: float = field(default_factory=lambda: v("fin_area"))
     fin_a: float = field(default_factory=lambda: v("fin_lift_slope"))
     fin_alpha0: float = field(default_factory=lambda: math.radians(v("fin_incidence")))
@@ -193,7 +196,8 @@ class HeliParams:
     p100_kw: float = P100_KW
     eta_tr: float = field(default_factory=lambda: v("transmission_eff"))
     p_acc_kw: float = field(default_factory=lambda: v("accessory_kw"))
-    sfc: float = field(default_factory=lambda: v("sfc"))
+    ff_idle_kgh: float = 0.0  # kg/h per running engine at zero power (Willans line, CALIBRADO in rotor.py)
+    sfc_marginal: float = 0.0  # kg/kWh, fuel per extra unit of power (Willans line, CALIBRADO in rotor.py)
     eng_tau: float = field(default_factory=lambda: v("eng_tau"))
     eng_fail_tau: float = field(default_factory=lambda: v("eng_fail_tau"))
     lapse_exp: float = field(default_factory=lambda: v("eng_lapse_exp"))
