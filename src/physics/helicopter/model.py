@@ -28,7 +28,7 @@ import numpy as np
 from ..dynamics import cross3, quat_derivative, quat_from_euler, quat_to_rot
 from .isa import HeliAtmosphere
 from .params import HeliParams
-from .rotor import RotorState, main_rotor, tail_rotor_max_thrust, tail_rotor_power
+from .rotor import RotorState, fin_side_force, main_rotor, tail_rotor_max_thrust, tail_rotor_power
 
 N_STATE = 19
 
@@ -142,7 +142,8 @@ class HelicopterDynamics:
         # fuselage download in the rotor wake, fading with speed
         vh = max(rs.v_h, 1e-3)
         dl = p.download / (1.0 + (a.airspeed / vh) ** 2)
-        f_b = T * n + np.array([0.0, a.tail_thrust, -dl * max(T, 0.0)])
+        f_fin = fin_side_force(p, a.rho, float(v_rel_b[0]), float(v_rel_b[1]))
+        f_b = T * n + np.array([0.0, a.tail_thrust + f_fin, -dl * max(T, 0.0)])
         # anisotropic fuselage drag (body axes)
         fx, fy, fz = p.f_drag, p.f_side, p.f_vertical
         f_b += -0.5 * a.rho * np.array([fx * abs(v_rel_b[0]) * v_rel_b[0], fy * abs(v_rel_b[1]) * v_rel_b[1],
@@ -150,7 +151,7 @@ class HelicopterDynamics:
         # moments: rotor thrust at the hub, hub stiffness, tail rotor, rotor drive torque reaction, yaw damping
         r_hub = np.array([0.0, 0.0, p.hub_h])
         m_b = cross3(r_hub, T * n) + p.hub_k * np.array([x[15], x[14], 0.0])
-        m_b += cross3(np.array([-p.tr_arm, 0.0, 0.0]), np.array([0.0, a.tail_thrust, 0.0]))
+        m_b += cross3(np.array([-p.tr_arm, 0.0, 0.0]), np.array([0.0, a.tail_thrust + f_fin, 0.0]))  # Fenestron + fin
         p_eng = p.eta_tr * (max(x[16], 0.0) + max(x[17], 0.0))
         q_shaft = max(p_eng - a.p_tail - a.p_acc, 0.0) / omega
         m_b[2] += -p.rotor_dir * q_shaft - p.yaw_damping * w[2]

@@ -4,15 +4,16 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0 e 1 aprovados; Passo 2 aprovado com ajustes; os ajustes (flare, critérios de 15 ft, falha em torno do TDP, diagrama H-V) estão concluídos e aguardando aval.** Os passos seguintes (interior UTI, HUD e documentação final) ainda não foram feitos.
+Estado atual: **Passos 0, 1 e 2 aprovados.** As verificações pedidas no aval do Passo 2 (H-V, base de certificação, Fenestron e deriva, 2ª validação de velocidade, gráficos de potência) estão concluídas e aguardam aval antes do Passo 3. Os passos seguintes (interior UTI, HUD e documentação final) ainda não foram feitos.
 
 ## Como rodar
 
 ```bash
-python -m unittest tests.test_helicopter_physics -v   # validação do Passo 1 (13 testes)
+python -m unittest tests.test_helicopter_physics -v   # validação do Passo 1 (14 testes)
 python -m unittest tests.test_helicopter_scenarios -v # validação do Passo 2 (15 testes, ~5 min)
 python -m unittest tests.test_template_regression      # drone de Marte idêntico ao de antes
-python tools/heli_step1_report.py                      # números-chave e figura da curva de potência
+python tools/heli_step1_report.py                      # números-chave e figuras das curvas de potência
+python -m tools.heli_hv_refine                         # pior margem do H-V e grade refinada (~35 min)
 python -m tools.heli_step2b_report                     # massas Cat A (2 critérios), falha × TDP, H-V (~70 min)
 python -m tools.heli_step2_report                      # demais cenários do Passo 2 (~5 min; usa o JSON acima)
 python -m tools.heli_flare_sweep 110 2                 # varredura do flare (~15 min por rodada)
@@ -74,15 +75,35 @@ tel = sim.run(30.0, heli.default_guidance())   # decola e paira a 15 m
   - W' inclui o *download* da fuselagem, que some com a velocidade.
   - D = ½ρV²f.
 - Potência total = induzida + perfil·(1 + 4,65μ²) + parasita ½ρV³f + rotor de cauda + acessórios, dividida pelo rendimento da transmissão.
-- **Área de arrasto f: CALIBRADA**, não estimada. Escolhida de modo que o cruzeiro rápido publicado (136 kt) exija a potência máxima contínua AEO (2 × 69 % de torque = 567 kW) ao nível do mar, ISA, no MTOW. Resultado: f = **1,37 m²**.
+- **Área de arrasto f: CALIBRADA**, não estimada. Escolhida de modo que o cruzeiro rápido publicado (136 kt, folheto Airbus de 2022, sem condições declaradas) exija a potência máxima contínua AEO (2 × 69 % de torque = 567 kW) ao nível do mar, ISA, no MTOW. Resultado: f = **1,50 m²** (era 1,37 m² antes do modelo da deriva, que reduziu a potência de cauda no cruzeiro).
+- **2ª validação (velocidade máxima)**: a página técnica da Airbus informa "Max speed: 140 kts" no MTOW. A curva cruza a potência AEO de decolagem (616 kW) em **142,0 kt**, um erro de **+1,5 %**.
+  - Essa comparação é só parcialmente independente: a mesma área f calibrada vale para as duas velocidades.
+  - A comparação com 136 kt na potência máxima contínua dá 0 % por construção, porque é o ponto de calibração. Não serve como validação.
+  - A mesma página rotula 136 kt como "Maximum speed (VNE)", o que conflita com o VNE de 155 KIAS do TCDS. Por isso o valor de 136 kt foi tomado do folheto, onde aparece como cruzeiro rápido.
+  - Kampa et al. (1997) dão "Vcruise 141 kts" para o EC135 da época, sem informar a massa.
+- **Soma dos componentes × total**: no pairado, a potência total requerida dos motores (594 kW) fica ~28 kW (4,7 %) acima da soma rotor + cauda (566 kW). A diferença é a perda de transmissão (η = 0,97, ~18 kW) mais os acessórios (10 kW), que não aparecem como curvas separadas no gráfico.
 - A velocidade de máxima autonomia é o mínimo de P. A de máximo alcance é o mínimo de P/V, sem vento.
 
 ![Curva de potência](helicoptero/curva_potencia.png)
 
-### 5. Rotor de cauda carenado (tipo Fenestron)
-- Empuxo comandado pelos pedais. O empuxo de equilíbrio anula o torque de acionamento do rotor principal: T_tr = Q/l_tr.
-- Potência de ventilador carenado (razão de expansão 1): P = κ·T^1,5/√(4ρA) mais a potência de perfil.
-- O resultado é **calculado**, não assumido: **11 %** da potência do rotor principal no pairado.
+![Curva de potência a 1.500 m ISA+25](helicoptero/curva_potencia_1500m_isa25.png)
+
+- A 1.500 m ISA+25 (altitude-densidade de ~2.360 m), o pairado fora do efeito solo no MTOW exige ~642 kW, acima dos 564 kW AEO disponíveis. A potência OEI 30 s (459 kW) só sustenta voo nivelado entre ~35 e ~127 kt. Isso explica as massas Categoria A em altitude.
+
+### 5. Antitorque: rotor de cauda carenado (tipo Fenestron) e deriva vertical
+- O modelo **já tratava** o rotor de cauda como carenado: a potência induzida de ventilador carenado ideal com razão de expansão σd = 1 é 1/√2 da de um rotor aberto. Agora a razão de expansão é um parâmetro explícito (σd, ESTIMADO = 1,0, sem dado público do difusor do Fenestron).
+  - P_ind = κ·T^1,5/√(4·σd·ρ·A).
+  - Com σd = 1, o duto carrega metade do empuxo. Para o mesmo empuxo, a potência induzida é 1/√2 ≈ 0,71 da de um rotor aberto. Para a mesma potência, o empuxo é 2^(1/3) ≈ 1,26 vez maior: esse é o fator de aumento de empuxo (teoria ideal, Leishman).
+  - No pairado no MTOW, o Fenestron pede **57 kW** contra **80 kW** de um rotor aberto de mesmo diâmetro.
+- **Deriva vertical (novo)**: força lateral em voo à frente, F = q·S·a·(α₀ − β), limitada a |C_L| ≤ 1,0.
+  - S = 0,9 m² (FONTE: "small fin" do EC135 em Kampa et al. 1997; a deriva do H135 atual pode diferir).
+  - Inclinação a = 3,0/rad (ESTIMADO); incidência/arqueamento efetivo α₀ = 6° (ESTIMADO).
+  - A deriva atua no mesmo braço do Fenestron e alivia o empuxo exigido dele: T_tr = Q/l_tr − F_deriva.
+  - No cruzeiro de 136 kt, a deriva assume **41 %** do antitorque, e a potência do Fenestron cai de ~67 para **27 kW**.
+  - No 6-DoF a deriva entra nas forças, no momento de guinada (com estabilidade direcional pelo termo de derrapagem) e na alimentação do pedal do SAS. O amortecimento de guinada da deriva continua no parâmetro agrupado de amortecimento de guinada, para não ser contado duas vezes.
+- Resultado no pairado: **11 %** da potência do rotor principal (inalterado, a deriva não atua no pairado).
+
+![Antitorque: Fenestron e deriva](helicoptero/curva_potencia_cauda.png)
 
 ### 6. Rotação do rotor (NR), base da autorrotação
 - I·Ω·dΩ/dt = η·(P₁ + P₂) − P_rotor − P_cauda − P_acessórios.
@@ -117,7 +138,7 @@ tel = sim.run(30.0, heli.default_guidance())   # decola e paira a 15 m
   - **autorrotação**: o coletivo passa a controlar o NR, e a altura fica livre.
 - O empuxo lateral do rotor de cauda é compensado por inclinação lateral: há ~4° de rolagem de equilíbrio no pairado.
 
-## Validação (Passo 1): `tests/test_helicopter_physics.py`, 13 testes passando
+## Validação (Passo 1): `tests/test_helicopter_physics.py`, 14 testes passando
 
 | Verificação | Resultado | Critério |
 |---|---|---|
@@ -170,6 +191,8 @@ O controle dos motores também não sabe da falha injetada:
 
 Essa compensação entre motores entrou nos ajustes do Passo 2. Antes, o motor bom só recebia metade da demanda até a detecção.
 
+**Esse comportamento modela a reação do FADEC à queda de NR e é independente do SADPF.** Cada controle de motor só "vê" que o NR e a potência total caíram e reage a isso. O SADPF não participa: ele só identifica o motor com falha e, a partir da detecção, arma os regimes OEI e dá a recomendação ao piloto. O limiar de 25 % é ESTIMADO (aprovado).
+
 ### SADPF do helicóptero (`sadpf.py`)
 
 | Item | Regra | Status |
@@ -185,13 +208,13 @@ Tempos de detecção medidos: **~0,7 s** para falha de um motor e **~1,7–2,0 s
 
 ### Cenário 1: transferência inter-hospitalar
 - Percurso: decolagem, subida, cruzeiro a 300 m e 110 kt, aproximação em rampa de 8°, pairado e pouso vertical. Vento de 5 m/s com rajadas.
-- Resultado em 20 km: voo de **7 min**, consumo de **24 kg** (consumo específico ESTIMADO), toque a 1,2 m/s, erro de posição de 2,9 m.
+- Resultado em 20 km: voo de **7 min**, consumo de **24 kg** (consumo específico ESTIMADO), toque a 1,0 m/s, erro de posição de 2,9 m.
 - O SADPF fica no nível 0, sem alarme falso.
 
 ### Cenário 2: resgate em área restrita
 - Rampa de 12°, pairado baixo em efeito solo e **vento cruzado de 8 m/s** com rajadas de 1,5 m/s.
-- No pairado final: fator de efeito solo **0,97**, potência de **439 kW** contra **537 kW** fora do efeito solo com o mesmo vento.
-- Pedal máximo de 43 %, rolagem máxima de 3,7°, toque a 0,5 m/s, erro de posição de 3,0 m.
+- No pairado final: fator de efeito solo **0,97**, potência de **442 kW** contra **537 kW** fora do efeito solo com o mesmo vento.
+- Pedal máximo de 46 %, rolagem máxima de 3,8°, toque a 0,9 m/s, erro de posição de 3,0 m.
 
 ### Cenário 3: Categoria A em heliponto elevado (DEMO)
 
@@ -279,10 +302,10 @@ Os dois motores param em t = 2 s, a 300 m, MTOW, ISA. O piloto só reage depois 
 | | À frente (≈ 70 kt) | Vertical |
 |---|---|---|
 | Velocidade de mínima razão de descida (método de energia, DERIVADO) | 70 kt | — |
-| Razão de descida estabilizada, simulada | **9,7 m/s** | **22,6 m/s** |
+| Razão de descida estabilizada, simulada | **9,9 m/s** | **22,6 m/s** |
 | Razão de descida prevista | 10,4 m/s (energia: W·V_z = P_rotor + P_cauda + P_acess.) | 19,9 m/s (momento ideal); a teoria da curva empírica dá ≈ 1,7–1,8·v_h |
 | NR antes do amortecimento | 94,7–104,8 % (limites sem motor do TCDS: 85–106 %) | 94,1–102,0 % |
-| Toque | **1,1 m/s** vertical, **13,9 m/s** (27 kt) de velocidade no solo, 10,5° nariz acima: pouso corrido | **19,6 m/s**: impacto |
+| Toque | **1,2 m/s** vertical, **14,8 m/s** (29 kt) de velocidade no solo, 10,5° nariz acima: pouso corrido | **19,6 m/s**: impacto |
 
 - A comparação mostra por que a autorrotação se faz com velocidade à frente: a razão de descida cai para menos da metade, e a energia cinética permite o flare.
 - A vertical a partir de 300 m termina em impacto. Esse é o comportamento esperado da região a evitar do diagrama altura-velocidade para falha total.
@@ -302,7 +325,7 @@ Os dois motores param em t = 2 s, a 300 m, MTOW, ISA. O piloto só reage depois 
   - altura, atitude e razão de descida segurada pelo coletivo no amortecimento;
   - referência de NR na planagem (100 % ou 104 %).
 - **Resultado: a meta não foi atingida.** Com velocidade vertical ≤ 1,5 m/s, nenhuma combinação válida tocou abaixo de **27,5 kt**. As únicas que tocaram a ≤ 15 kt chegaram ao solo a 9–10 m/s de velocidade vertical.
-  - Melhor combinação (novo padrão): **1,44 m/s e 27,5 kt** a partir de 150 m (1,12 m/s e 27 kt a partir de 300 m), com 10,5–11,9° de nariz acima no toque.
+  - Melhor combinação (novo padrão): **1,44 m/s e 27,5 kt** a partir de 150 m (1,24 m/s e 29 kt a partir de 300 m, com o modelo da deriva), com 10,5–11,9° de nariz acima no toque.
   - O gráfico mostra a fronteira de compromisso: quando a velocidade no solo cai, a velocidade vertical sobe.
 - **Achado da varredura**: subir a referência de NR para 104 % na planagem leva o rotor a **115 %** na entrada da autorrotação, acima do limite sem motor de 106 % do TCDS.
   - Todas as 164 combinações com 104 % passaram do limite; o padrão ficou em 100 %.
@@ -363,7 +386,7 @@ O [14 CFR 29.59(a)(1)](https://www.ecfr.gov/current/title-14/section-29.59) exig
 
 | Condição | Pontos inseguros |
 |---|---|
-| Nível do mar, ISA, 2.980 kg | **nenhum** (com um motor, a potência OEI 30 s permite pairar dentro do efeito solo) |
+| Nível do mar, ISA, 2.980 kg | **nenhum** (com um motor, a potência OEI 30 s permite pairar dentro do efeito solo); detalhes da margem abaixo |
 | 1.500 m, ISA+25, 2.614 kg (massa Cat A) | **pairado de 25 a 30 m**: alto demais para pairar no efeito solo com um motor e baixo demais para ganhar velocidade (45 m já é seguro). Dois pontos isolados no limite: 10 m a 10 kt (2,03 m/s contra 2,0 m/s) e 2 m a 20 kt (toca a 18 kt antes da reação do piloto) |
 
 **Trajetórias Cat A AEO sobrepostas** (velocidade horizontal × altura dos esquis acima da superfície abaixo):
@@ -380,6 +403,26 @@ O [14 CFR 29.59(a)(1)](https://www.ecfr.gov/current/title-14/section-29.59) exig
 - O diagrama depende da técnica de pouso do "piloto" do modelo, cujos parâmetros são ESTIMADOS. Uma técnica melhor só reduziria a região insegura.
 
 ![Diagrama H-V](helicoptero/hv_diagrama.png)
+
+#### Verificações pedidas no aval do Passo 2
+
+**Nível do mar, ISA, 2.980 kg**:
+- **Resolução da grade**: 72 pontos.
+  - Velocidades: 0, 10, 20, 30, 40 e 60 kt (passo de 10 kt; 20 kt entre 40 e 60).
+  - Alturas: 2, 5, 8, 10, 12, 15, 20, 25, 30, 45, 60 e 90 m (passo de 2–3 m até 15 m, 5 m até 30 m, 15–30 m acima).
+- **Margem** de cada ponto: a fração do limite de pouso seguro usada no toque, pela grandeza mais crítica (1,0 = no limite), com a melhor técnica.
+- **Pior margem**: **10 m a 10 kt**, técnica vertical. Toque a **1,56 m/s** contra o limite de 2,0 m/s: usou **78 %** do limite, e faltaram 0,44 m/s para ficar inseguro.
+- Seguem 8 m a 10 kt (67 %) e 2 m a 10 kt (64 %). Nenhum ponto ficou inseguro.
+- A região de baixa velocidade em torno de 10 m é a mais próxima de formar um "joelho" de H-V ao nível do mar.
+
+**1.500 m, ISA+25, 2.614 kg, grade refinada em torno de 10 m / 10 kt**:
+- **Resolução**: 0 a 20 kt a cada 2,5 kt e 6 a 14 m a cada 0,5 m (153 pontos), 4 vezes mais fina que a grade original nos dois eixos.
+- **Região insegura**: uma "ilha" estreita entre **10 e 12,5 kt** e **10 a 12,5 m** (8 pontos). Pousa a mais de 2,0 m/s porque está lenta demais para a aproximação à frente e rápida demais para a descida vertical.
+- **Trajetória Cat A AEO**: nessa faixa de altura, ela sobe quase na vertical, a **no máximo 2,5 kt** de velocidade horizontal.
+- **Folga**: o ponto mais próximo da trajetória (2,0 kt a 11,6 m) fica a **3,2 passos de grade** do ponto inseguro mais próximo (10 kt a 11,5 m), ou seja, **~8 kt** de folga em velocidade na mesma altura.
+- **Conclusão**: a trajetória fica fora da região insegura com folga. O ponto inseguro da grade grossa (10 m / 10 kt) faz parte dessa ilha, que não toca a trajetória.
+
+![Refino do H-V](helicoptero/hv_refino.png)
 
 ### Validação (Passo 2): `tests/test_helicopter_scenarios.py`, 15 testes
 
@@ -402,11 +445,56 @@ O [14 CFR 29.59(a)(1)](https://www.ecfr.gov/current/title-14/section-29.59) exig
 
 Números completos em `docs/helicoptero/passo2_resultados.json` e `passo2b_resultados.json` (gerados por `tools/heli_step2_report.py` e `tools/heli_step2b_report.py`).
 
+## Efeito do modelo Fenestron + deriva nos resultados (aval do Passo 2, itens 5–7)
+
+A deriva mudou a física em voo à frente, então a validação e os cenários foram rodados de novo:
+
+| Grandeza | Antes | Depois |
+|---|---|---|
+| Área de arrasto f (CALIBRADA) | 1,37 m² | **1,50 m²** |
+| Pairado OGE, nível do mar, MTOW; teto de pairado; efeito solo | 594 kW; +11,7 %; −15 % | inalterados (a deriva não atua no pairado) |
+| V máx. autonomia / alcance | 69 / 102 kt | 69 / 102 kt |
+| Potência do Fenestron a 136 kt | ~67 kW | **27 kW** |
+| Massas Cat A (10 combinações de condição × critério) | — | **todas idênticas** dentro da resolução de 25 kg da bisseção |
+| Cat A no limite (1.500 m ISA+25): perda de altura / descida abaixo do deck | 21,2 / 6,0 m | 21,2 / 5,9 m |
+| Autorrotação à frente (300 m): descida / toque | 9,7 m/s; 1,1 m/s a 27 kt | 9,9 m/s; 1,2 m/s a 29 kt |
+| Transferência de 20 km: consumo | 23,8 kg | 24,0 kg |
+| H-V e varredura de falha × TDP | — | mesmos pontos seguros e inseguros |
+| Testes (74) e regressão do drone de Marte | passando | passando |
+
+- A decolagem Categoria A acontece a baixa velocidade, onde a deriva quase não atua. Por isso as massas não mudaram.
+
+## Base de certificação: por que usar os §§ 29.59, 29.60, 29.67 e 29.87 numa aeronave classe H135
+
+- O EC135/H135 é certificado como helicóptero **pequeno**: base JAR-27 / CS-27, e não CS-29.
+- O [TCDS EASA R.009](https://www.easa.europa.eu/en/downloads/7943/en) (Issue 20) declara, para EC135 P3, T3 e variantes H: *"For CAT A Certification: CS-27 Amdt. 2, Appendix C requirements"*. Também cita o isolamento de motores Categoria A do *"JAR 29, Issue 1"*.
+- O Apêndice C da Part 27 ([eCFR](https://www.ecfr.gov/current/title-14/chapter-I/subchapter-C/part-27/appendix-Appendix%20C%20to%20Part%2027)) exige que um helicóptero pequeno multimotor certificado Categoria A cumpra, entre outros, os §§ **29.53, 29.59, 29.60, 29.65(a), 29.67(a), 29.77, 29.79 e 29.87(a)** da Part 29.
+- **Conclusão**: aplicar os critérios de desempenho Categoria A da Part 29 a uma aeronave classe H135 é coerente com a base de certificação dela.
+- **Ressalvas**:
+  - conferi o texto do Apêndice C da FAA no eCFR, mas não o da CS-27 Amdt. 2 da EASA, citado pelo TCDS (é o equivalente europeu);
+  - o RBAC 27 da ANAC adota a Part 27.
+  - **Isso não torna o simulador um meio de demonstração de conformidade.**
+
+## Especificação do HUD para o Passo 4 (decidida no aval do Passo 2)
+
+- **Disclaimer** sempre visível.
+- **Categoria A**:
+  - **padrão**: modo heliponto elevado ([14 CFR 29.60](https://www.ecfr.gov/current/title-14/section-29.60)), com a massa máxima Cat A da configuração;
+  - **comparação**: massa no modo literal ([29.59(c)](https://www.ecfr.gov/current/title-14/section-29.59)), exibida ao lado;
+  - **profundidade máxima da descida abaixo do nível do deck**, que o 29.60(a)(3) exige determinar (`max_drop_below_deck_m`);
+  - também: ramo e ação recomendada pelo SADPF, cronômetro OEI (30 s → 2 min), margens de potência OEI e perda máxima de altura.
+- **Autorrotação**: razões de descida com velocidade à frente e vertical, lado a lado.
+- **Procedência**: rótulo da variante de cada número exibido (coluna "Variante / documento" da tabela de parâmetros).
+
+## Backlog (depois do Passo 4)
+
+- **Flare com coordenação cíclico/coletivo**: a varredura do Passo 2 não atingiu toque ≤ 1,5 m/s e ≤ 15 kt (melhor: 1,44 m/s e 27,5 kt). Caminho provável: comandar cíclico e coletivo de forma coordenada no flare, por exemplo com otimização de trajetória.
+
 ## Limitações conhecidas (não implementadas)
 - **Teto de pairado OGE pessimista em 11,7 %** em relação ao valor publicado de 7.200 ft (decisão 1 acima). Isso também deixa conservadoras as massas Categoria A em altitude.
 - **Rotor**: inflow uniforme, sem pá elástica, sem *blowback* e sem acoplamentos de *flapping* com a velocidade. A estabilidade estática em voo à frente vem só do SAS.
 - **Aerodinâmica**: compressibilidade e estol de pá recuante não são modelados, então o modelo não prevê V_NE. Faltam a sustentação da fuselagem, a deriva e o estabilizador horizontal.
-- **Rotor de cauda**: sem descarga em voo à frente (o empuxo da deriva não é modelado).
+- **Antitorque**: duto ideal (sem perdas de difusor), deriva sem esteira do rotor principal nem interferência com o Fenestron; a incidência efetiva da deriva é ESTIMADA.
 - **Motores**: modelo de 1ª ordem com consumo específico estimado (sem dado público). Não há modelo de Ng.
 - **Pouso**: esquis mola-amortecedor simples, sem modelo de dano. Os limites de toque usados nos critérios são ESTIMADOS.
 
@@ -440,6 +528,11 @@ Números completos em `docs/helicoptero/passo2_resultados.json` e `passo2b_resul
 | Velocidade de ponta do rotor de cauda | 188 | m/s | **FONTE** | EC135 (Kampa et al., 1997) | [link](https://dspace-erf.nlr.nl/bitstreams/8af39742-be07-4807-b1f4-d15ac616f12b/download) |
 | Braço do rotor de cauda | 6 | m | **ESTIMADO** | classe H135 (estimativa do modelo) | distância eixo do rotor principal → rotor de cauda, geometria da classe |
 | Empuxo máximo do rotor de cauda (100 % NR, nível do mar) | 4.500 | N | **ESTIMADO** | classe H135 (estimativa do modelo) | margem ~2× o empuxo de equilíbrio em pairado no MTOW |
+| Razão de expansão do duto do Fenestron σd | 1 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | teoria do ventilador carenado ideal (Leishman): P = κ·T^1,5/√(4·σd·ρ·A); com σd = 1 o duto carrega metade do empuxo; mesma tração → potência induzida 1/√2 da de um rotor aberto; mesma potência → empuxo 2^(1/3) ≈ 1,26×; sem dado público do difusor do Fenestron |
+| Área da deriva vertical ("small fin", configuração básica VFR do EC135 em 1997; a deriva do H135 atual pode diferir) | 0,9 | m² | **FONTE** | EC135 (Kampa et al., 1997) | [link](https://dspace-erf.nlr.nl/bitstreams/8af39742-be07-4807-b1f4-d15ac616f12b/download) |
+| Inclinação da curva de sustentação da deriva | 3 | 1/rad | **ESTIMADO** | classe H135 (estimativa do modelo) | superfície de baixo alongamento (~1,5), ordem de grandeza de 2πA/(2+A) |
+| Incidência efetiva da deriva | 6 | ° | **ESTIMADO** | classe H135 (estimativa do modelo) | incidência/arqueamento efetivo da deriva; escolhido para a deriva assumir cerca de metade do antitorque no cruzeiro rápido (o princípio de projeto da deriva arqueada que alivia o Fenestron é público, o valor não) |
+| CL máximo da deriva | 1 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | estol da deriva de baixo alongamento |
 | Potência a 100 % de torque, por motor | 410,7 | kW | **DERIVADO** | EC135 (Doleschel & Emmerling, 2007) | 665 N·m × 5.898 rpm ([link](https://dspace-erf.nlr.nl/bitstreams/02b3ce46-b124-4c27-892e-b3cd0d2021cf/download)) |
 | Torque de decolagem, dois motores (2 × 75 %) | 75 | % | **FONTE** | EC135 P2/P3, TCDS EASA R.009 | [link](https://www.easa.europa.eu/sites/default/files/dfu/certification-type-certificates-docs-rotorcraft-EASA-TCDS-R.009_Airbus_Helicopters_Deutschland_EC135-05-07012014.pdf) |
 | Torque máximo contínuo, dois motores (2 × 69 %) | 69 | % | **FONTE** | EC135 P2/P3, TCDS EASA R.009 | [link](https://www.easa.europa.eu/sites/default/files/dfu/certification-type-certificates-docs-rotorcraft-EASA-TCDS-R.009_Airbus_Helicopters_Deutschland_EC135-05-07012014.pdf) |

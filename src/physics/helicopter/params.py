@@ -109,6 +109,18 @@ TABLE: Dict[str, P] = {
                  "Braço do rotor de cauda"),
     "tr_thrust_max": _p(4500, "N", "ESTIMADO", "margem ~2× o empuxo de equilíbrio em pairado no MTOW",
                         "Empuxo máximo do rotor de cauda (100 % NR, nível do mar)"),
+    "tr_expansion": _p(1.0, "-", "ESTIMADO",
+                       "teoria do ventilador carenado ideal (Leishman): P = κ·T^1,5/√(4·σd·ρ·A); com σd = 1 o duto "
+                       "carrega metade do empuxo; mesma tração → potência induzida 1/√2 da de um rotor aberto; mesma potência → empuxo 2^(1/3) ≈ 1,26×; sem dado público "
+                       "do difusor do Fenestron", "Razão de expansão do duto do Fenestron σd"),
+    "fin_area": _p(0.9, "m²", "FONTE", SRC["kampa1997"], "Área da deriva vertical (\"small fin\", configuração "
+                   "básica VFR do EC135 em 1997; a deriva do H135 atual pode diferir)"),
+    "fin_lift_slope": _p(3.0, "1/rad", "ESTIMADO", "superfície de baixo alongamento (~1,5), ordem de grandeza "
+                         "de 2πA/(2+A)", "Inclinação da curva de sustentação da deriva"),
+    "fin_incidence": _p(6.0, "°", "ESTIMADO", "incidência/arqueamento efetivo da deriva; escolhido para a deriva "
+                        "assumir cerca de metade do antitorque no cruzeiro rápido (o princípio de projeto da deriva "
+                        "arqueada que alivia o Fenestron é público, o valor não)", "Incidência efetiva da deriva"),
+    "fin_cl_max": _p(1.0, "-", "ESTIMADO", "estol da deriva de baixo alongamento", "CL máximo da deriva"),
     # engines and transmission (per engine; power limits from torque limits x 100 % torque power)
     "p100": _p(P100_KW, "kW", "DERIVADO", f"665 N·m × 5.898 rpm ({SRC['doleschel2007']})",
                "Potência a 100 % de torque, por motor", "EC135 (Doleschel & Emmerling, 2007)"),
@@ -173,6 +185,11 @@ class HeliParams:
     tr_vt: float = field(default_factory=lambda: v("tr_tip_speed"))
     tr_arm: float = field(default_factory=lambda: v("tr_arm"))
     tr_tmax: float = field(default_factory=lambda: v("tr_thrust_max"))
+    tr_sigma_d: float = field(default_factory=lambda: v("tr_expansion"))
+    fin_S: float = field(default_factory=lambda: v("fin_area"))
+    fin_a: float = field(default_factory=lambda: v("fin_lift_slope"))
+    fin_alpha0: float = field(default_factory=lambda: math.radians(v("fin_incidence")))
+    fin_clmax: float = field(default_factory=lambda: v("fin_cl_max"))
     p100_kw: float = P100_KW
     eta_tr: float = field(default_factory=lambda: v("transmission_eff"))
     p_acc_kw: float = field(default_factory=lambda: v("accessory_kw"))

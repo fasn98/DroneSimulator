@@ -29,7 +29,7 @@ from ..simloop import SimulationLoop, Telemetry, WindModel
 from .isa import HeliAtmosphere, RHO0
 from .model import Controls, HelicopterDynamics, Terrain, engine_limit_w, rating_for
 from .params import HeliParams
-from .rotor import calibrate_drag_area, tail_rotor_max_thrust
+from .rotor import fin_side_force, calibrate_drag_area, tail_rotor_max_thrust
 
 KT = 0.514444
 
@@ -195,7 +195,8 @@ class HelicopterSimulator(SimulationLoop):
         self._vz_int = float(np.clip(self._vz_int + e_vz * dt, -5.0, 5.0))
         a_z = e_vz / g.vz_tau + g.vz_ki * self._vz_int
         f_des = m * np.array([a_xy[0], a_xy[1], grav + a_z]) - drag_w
-        f_des -= R @ np.array([0.0, aero.tail_thrust, 0.0])  # the tilted rotor also balances the tail-rotor side force
+        f_fin = fin_side_force(p, aero.rho, float(v_rel_b[0]), float(v_rel_b[1]))
+        f_des -= R @ np.array([0.0, aero.tail_thrust + f_fin, 0.0])  # rotor tilt also balances tail + fin side force
         h_max = f_des[2] * math.tan(math.radians(g.max_tilt_deg))
         h = np.linalg.norm(f_des[:2])
         if h > h_max:
@@ -222,7 +223,7 @@ class HelicopterSimulator(SimulationLoop):
         e_yaw = math.atan2(math.sin(euler_from_quat(x[6:10])[2] - yaw_ref),
                            math.cos(euler_from_quat(x[6:10])[2] - yaw_ref))
         mz_des = -I[2, 2] * (g.yaw_wn ** 2 * e_yaw + 2 * g.yaw_zeta * g.yaw_wn * w[2])
-        t_tr = (-p.rotor_dir * q_drive - p.yaw_damping * w[2] - mz_des) / p.tr_arm
+        t_tr = (-p.rotor_dir * q_drive - p.yaw_damping * w[2] - mz_des) / p.tr_arm - f_fin  # fin unloads it
         pedal = float(np.clip(t_tr / max(tail_rotor_max_thrust(p, aero.rho, omega), 1.0), -1.0, 1.0))
 
         # collective
@@ -302,7 +303,7 @@ class HelicopterSimulator(SimulationLoop):
             "p_main_kw": a.rotor.power / 1e3, "p_tail_kw": a.p_tail / 1e3,
             "p_eng1_kw": x[16] / 1e3, "p_eng2_kw": x[17] / 1e3, "p_avail_kw": p_avail / 1e3,
             "collective_deg": math.degrees(self.u.collective), "pedal": self.u.pedal,
-            "k_ge": a.rotor.k_ge, "vrs": float(a.rotor.vrs), "v_h": a.rotor.v_h,
+            "fin_n": fin_side_force(self.p, a.rho, float(v_rel_b[0]), float(v_rel_b[1])), "k_ge": a.rotor.k_ge, "vrs": float(a.rotor.vrs), "v_h": a.rotor.v_h,
             "mass_kg": self.dyn.mass(x), "fuel_kg": x[18], "on_ground": float(a.on_ground),
             "rating": {"TO": 0, "OEI30": 1, "OEI2": 2, "OEIC": 3}[self.rating], "autorotation": float(self.autorotation),
             "cushion": float(self.cushion), "sadpf_level": float(self.sadpf.level) if self.sadpf else 0.0,

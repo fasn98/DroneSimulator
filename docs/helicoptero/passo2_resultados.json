@@ -35,22 +35,22 @@
     ],
     "max_oei_rating": 2,
     "oei30_margin_hover_kw": -79.764,
-    "oei2_margin_vtoss_kw": 15.931
+    "oei2_margin_vtoss_kw": 16.715
    },
    "continue": {
     "branch": "continue",
     "criterion": "elevado_29_60",
-    "min_height_over_deck_m": 10.401,
-    "min_agl_beyond_m": 24.042,
-    "min_height_rel_deck_m": -5.958,
+    "min_height_over_deck_m": 10.407,
+    "min_agl_beyond_m": 24.105,
+    "min_height_rel_deck_m": -5.895,
     "reached_vtoss": true,
     "touched_down": false,
-    "oei_roc_at_vtoss_fpm": 122.44058639848086,
+    "oei_roc_at_vtoss_fpm": 128.2785215610266,
     "vtoss_kt": 25.0,
-    "max_drop_below_deck_m": 5.958,
+    "max_drop_below_deck_m": 5.895,
     "safe": true,
     "reason": "ok",
-    "max_height_loss_m": 21.216,
+    "max_height_loss_m": 21.153,
     "oei30_used_s": 30.0,
     "mass_kg": 2614.375,
     "sadpf": {
@@ -76,7 +76,7 @@
     ],
     "max_oei_rating": 2,
     "oei30_margin_hover_kw": -79.764,
-    "oei2_margin_vtoss_kw": 15.931
+    "oei2_margin_vtoss_kw": 16.715
    }
   },
   "acima_do_limite": {
@@ -113,22 +113,22 @@
     ],
     "max_oei_rating": 2,
     "oei30_margin_hover_kw": -107.21,
-    "oei2_margin_vtoss_kw": 18.785
+    "oei2_margin_vtoss_kw": 19.798
    },
    "continue": {
     "branch": "continue",
     "criterion": "elevado_29_60",
-    "min_height_over_deck_m": 0.507,
-    "min_agl_beyond_m": 10.083,
-    "min_height_rel_deck_m": -19.917,
+    "min_height_over_deck_m": 0.505,
+    "min_agl_beyond_m": 10.138,
+    "min_height_rel_deck_m": -19.862,
     "reached_vtoss": true,
     "touched_down": true,
-    "oei_roc_at_vtoss_fpm": 138.431781963769,
+    "oei_roc_at_vtoss_fpm": 145.70057648955208,
     "vtoss_kt": 29.0,
-    "max_drop_below_deck_m": 19.917,
+    "max_drop_below_deck_m": 19.862,
     "safe": false,
     "reason": "tocou o heliponto ou o solo",
-    "max_height_loss_m": 32.559,
+    "max_height_loss_m": 32.505,
     "oei30_used_s": 28.0,
     "mass_kg": 2714.375,
     "sadpf": {
@@ -154,7 +154,7 @@
     ],
     "max_oei_rating": 1,
     "oei30_margin_hover_kw": -107.21,
-    "oei2_margin_vtoss_kw": 18.785
+    "oei2_margin_vtoss_kw": 19.798
    }
   }
  },
@@ -163,11 +163,11 @@
    "mode": "forward",
    "height_m": 300.0,
    "v_glide_kt": 70.0,
-   "rod_steady_ms": 9.701,
-   "rod_predicted_ms": 10.439,
-   "min_nr_pct": 66.557,
-   "min_nr_before_cushion_pct": 94.713,
-   "max_nr_pct": 104.769,
+   "rod_steady_ms": 9.927,
+   "rod_predicted_ms": 10.36,
+   "min_nr_pct": 71.853,
+   "min_nr_before_cushion_pct": 94.635,
+   "max_nr_pct": 104.844,
    "sadpf": {
     "level": 3,
     "recommendation": "autorrotacao",
@@ -180,42 +180,42 @@
      "phase": "glide"
     },
     {
-     "t": 29.915,
+     "t": 29.38,
      "phase": "flare",
-     "agl": 39.98404759003632
+     "agl": 39.966749992793254
     },
     {
-     "t": 36.61,
+     "t": 35.92,
      "phase": "level",
-     "agl": 5.990932677513882
+     "agl": 5.988971032377776
     },
     {
-     "t": 36.615,
+     "t": 35.925,
      "phase": "cushion",
-     "agl": 5.970435416801066
+     "agl": 5.967768747913121
     },
     {
-     "t": 38.56,
+     "t": 37.76,
      "phase": "landed"
     }
    ],
    "landing": {
     "landed": true,
-    "touchdown_t": 38.605,
-    "touchdown_sink_ms": 1.124,
-    "touchdown_pitch_up_deg": 10.519,
-    "touchdown_ground_speed_ms": 13.873,
-    "max_tilt_after_deg": 10.519
+    "touchdown_t": 37.805,
+    "touchdown_sink_ms": 1.239,
+    "touchdown_pitch_up_deg": 10.473,
+    "touchdown_ground_speed_ms": 14.774,
+    "max_tilt_after_deg": 10.473
    }
   },
   "vertical": {
    "mode": "vertical",
    "height_m": 300.0,
    "v_glide_kt": 0.0,
-   "rod_steady_ms": 22.565,
+   "rod_steady_ms": 22.564,
    "rod_predicted_ms": 19.881,
-   "min_nr_pct": 72.072,
-   "min_nr_before_cushion_pct": 94.088,
+   "min_nr_pct": 72.07,
+   "min_nr_before_cushion_pct": 94.08,
    "max_nr_pct": 102.022,
    "sadpf": {
     "level": 3,
@@ -231,74 +231,74 @@
     {
      "t": 17.09,
      "phase": "cushion",
-     "agl": 14.899471717433128
+     "agl": 14.926636411591838
     },
     {
-     "t": 17.755,
+     "t": 17.76,
      "phase": "landed"
     }
    ],
    "landing": {
     "landed": true,
     "touchdown_t": 17.805,
-    "touchdown_sink_ms": 19.566,
+    "touchdown_sink_ms": 19.567,
     "touchdown_pitch_up_deg": -0.0,
-    "touchdown_ground_speed_ms": 0.102,
-    "max_tilt_after_deg": 0.962
+    "touchdown_ground_speed_ms": 0.223,
+    "max_tilt_after_deg": 1.026
    }
   }
  },
  "rescue": {
   "landing": {
    "landed": true,
-   "touchdown_t": 61.705,
-   "touchdown_sink_ms": 0.497,
-   "touchdown_pitch_up_deg": -3.456,
-   "touchdown_ground_speed_ms": 0.3,
-   "max_tilt_after_deg": 4.186
+   "touchdown_t": 61.805,
+   "touchdown_sink_ms": 0.932,
+   "touchdown_pitch_up_deg": -2.823,
+   "touchdown_ground_speed_ms": 0.384,
+   "max_tilt_after_deg": 3.13
   },
   "phases": [
    {
-    "t": 54.7,
+    "t": 54.69,
     "phase": "final"
    },
    {
-    "t": 61.685,
+    "t": 61.725,
     "phase": "landed"
    }
   ],
-  "power_oge_same_wind_kw": 537.454,
+  "power_oge_same_wind_kw": 537.046,
   "k_ge_hover": 0.969,
-  "power_hover_kw": 439.045,
-  "max_pedal": 0.432,
-  "max_bank_deg": 3.67,
-  "final_position_error_m": 3.018
+  "power_hover_kw": 442.353,
+  "max_pedal": 0.461,
+  "max_bank_deg": 3.751,
+  "final_position_error_m": 3.032
  },
  "transfer_20km": {
   "landing": {
    "landed": true,
-   "touchdown_t": 421.005,
-   "touchdown_sink_ms": 1.203,
-   "touchdown_pitch_up_deg": -4.125,
-   "touchdown_ground_speed_ms": 0.929,
-   "max_tilt_after_deg": 4.762
+   "touchdown_t": 421.505,
+   "touchdown_sink_ms": 0.989,
+   "touchdown_pitch_up_deg": 0.015,
+   "touchdown_ground_speed_ms": 0.026,
+   "max_tilt_after_deg": 0.052
   },
   "phases": [
    {
-    "t": 9.79,
+    "t": 9.82,
     "phase": "enroute"
    },
    {
-    "t": 414.705,
+    "t": 414.745,
     "phase": "final"
    },
    {
-    "t": 420.995,
+    "t": 421.03,
     "phase": "landed"
    }
   ],
-  "flight_time_s": 420.995,
-  "fuel_used_kg": 23.836,
-  "final_position_error_m": 2.872
+  "flight_time_s": 421.03,
+  "fuel_used_kg": 24.026,
+  "final_position_error_m": 2.866
  }
 }

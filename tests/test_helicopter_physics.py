@@ -175,3 +175,22 @@ class TestTakeoffAndHover(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAntiTorque(unittest.TestCase):
+    def test_duct_and_fin(self):
+        from dataclasses import replace
+        p = params()
+        hover = level_flight(p, 0.0, 1.225)
+        self.assertEqual(hover.f_fin, 0.0)  # no fin force in hover
+        open_rotor = level_flight(replace(p, tr_sigma_d=0.5), 0.0, 1.225)
+        # ideal duct, sigma_d = 1: induced power 1/sqrt(2) of the open rotor at the same thrust
+        tr_prof = open_rotor.p_tail - (open_rotor.p_tail - hover.p_tail) / (1 - 2 ** -0.5)
+        self.assertGreater(open_rotor.p_tail, hover.p_tail * 1.3)
+        cruise = level_flight(p, 136 * 0.514444, 1.225)
+        no_fin = level_flight(replace(p, fin_S=0.0), 136 * 0.514444, 1.225)
+        self.assertGreater(cruise.f_fin, 0.0)
+        self.assertLess(cruise.t_tail, no_fin.t_tail)  # the fin unloads the Fenestron
+        self.assertLess(cruise.p_tail, no_fin.p_tail)
+        self.assertAlmostEqual(cruise.t_tail + cruise.f_fin, no_fin.t_tail, delta=1.0)  # same anti-torque
+        self.assertGreater(tr_prof, 0.0)

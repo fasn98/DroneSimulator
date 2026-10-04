@@ -59,31 +59,89 @@ def main():
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    pc = power_curve(p, 1.225, v_max_kt=145, n=59)
-    v = np.array([q.V for q in pc]) / 0.514444
-    fig, ax = plt.subplots(figsize=(8, 4.6), dpi=150)
-    ax.plot(v, [q.p_engines / 1e3 for q in pc], color="#1d4f8f", lw=2.2, label="Total requerida (motores)")
-    ax.plot(v, [q.p_induced / 1e3 for q in pc], color="#6b8fc7", lw=1.2, ls="--", label="Induzida (κ·T·vᵢ)")
-    ax.plot(v, [q.p_profile / 1e3 for q in pc], color="#8a6d3b", lw=1.2, ls="--", label="Perfil (1 + 4,65 μ²)")
-    ax.plot(v, [q.p_parasite / 1e3 for q in pc], color="#a3361f", lw=1.2, ls="--", label="Parasita (½ρV³f)")
-    ax.plot(v, [q.p_tail / 1e3 for q in pc], color="#0f6b5c", lw=1.2, ls=":", label="Rotor de cauda")
-    for key, lab, c in (("TO", "AEO decolagem", "#333333"), ("MCP", "AEO máx. contínua", "#777777"),
-                        ("OEI30", "OEI 30 s", "#b35c00"), ("OEIC", "OEI contínua", "#d4a017")):
-        ax.axhline(p.gearbox_limit_kw(key), color=c, lw=0.9, ls="-.", label=f"{lab}: {p.gearbox_limit_kw(key):.0f} kW")
-    ax.axvline(bs["v_be_kt"], color="#1d4f8f", lw=0.7, alpha=0.5)
-    ax.axvline(bs["v_br_kt"], color="#1d4f8f", lw=0.7, alpha=0.5)
-    ax.text(bs["v_be_kt"], 40, f" V máx. autonomia\n {bs['v_be_kt']:.0f} kt", fontsize=7)
-    ax.text(bs["v_br_kt"], 40, f" V máx. alcance\n {bs['v_br_kt']:.0f} kt", fontsize=7)
-    ax.set_xlabel("Velocidade verdadeira (kt)")
-    ax.set_ylabel("Potência (kW)")
-    ax.set_title("Classe H135 · MTOW 2.980 kg · ISA nível do mar · calculado pelo Twin", fontsize=10)
-    ax.set_ylim(0, 700)
-    ax.grid(alpha=0.25)
-    ax.legend(fontsize=6.5, ncol=2, loc="upper center")
-    fig.text(0.01, 0.01, "Simulador conceitual e educacional. Não é um simulador certificado (FSTD) nem substitui dados do fabricante.",
-             fontsize=6, color="#555555")
+    from dataclasses import replace
+    from scipy.optimize import brentq
+    KT = 0.514444
+    disclaimer = "Simulador conceitual e educacional. Não é um simulador certificado (FSTD) nem substitui dados do fabricante."
+
+    def curve(ax, rho, avail, title, mass=None, components=True):
+        pc = power_curve(p, rho, mass, v_max_kt=150, n=61)
+        v = np.array([q.V for q in pc]) / KT
+        ax.plot(v, [q.p_engines / 1e3 for q in pc], color="#1d4f8f", lw=2.2, label="Total requerida (motores)")
+        if components:
+            ax.plot(v, [q.p_induced / 1e3 for q in pc], color="#6b8fc7", lw=1.2, ls="--", label="Induzida (κ·T·vᵢ)")
+            ax.plot(v, [q.p_profile / 1e3 for q in pc], color="#8a6d3b", lw=1.2, ls="--", label="Perfil (1 + 4,65 μ²)")
+            ax.plot(v, [q.p_parasite / 1e3 for q in pc], color="#a3361f", lw=1.2, ls="--", label="Parasita (½ρV³f)")
+            ax.plot(v, [q.p_tail / 1e3 for q in pc], color="#0f6b5c", lw=1.2, ls=":", label="Fenestron (com deriva)")
+        for lab, kw, c in avail:
+            ax.axhline(kw, color=c, lw=0.9, ls="-.", label=f"{lab}: {kw:.0f} kW")
+        b = best_speeds(p, rho, mass)
+        for key, txt in (("v_be_kt", "V máx. autonomia"), ("v_br_kt", "V máx. alcance")):
+            ax.axvline(b[key], color="#1d4f8f", lw=0.7, alpha=0.5)
+            ax.text(b[key], 30, f" {txt}\n {b[key]:.0f} kt", fontsize=7)
+        ax.set_xlabel("Velocidade verdadeira (kt)")
+        ax.set_ylabel("Potência (kW)")
+        ax.set_title(title, fontsize=10)
+        ax.set_ylim(0, 720)
+        ax.grid(alpha=0.25)
+        ax.legend(fontsize=7, loc="upper left", bbox_to_anchor=(1.01, 1.0), borderaxespad=0)
+
+    # 1) sea level ISA, MTOW (gearbox limits = available power at sea level)
+    fig, ax = plt.subplots(figsize=(10, 4.8), dpi=150)
+    curve(ax, 1.225, [(lab, p.gearbox_limit_kw(k), c) for k, lab, c in (
+        ("TO", "AEO decolagem", "#333333"), ("MCP", "AEO máx. contínua", "#777777"),
+        ("OEI30", "OEI 30 s", "#b35c00"), ("OEIC", "OEI contínua", "#d4a017"))],
+        "Classe H135 · MTOW 2.980 kg · ISA nível do mar · calculado pelo Twin")
+    fig.text(0.01, 0.01, disclaimer, fontsize=6, color="#555555")
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     fig.savefig(OUT / "curva_potencia.png")
+
+    # 2) 1 500 m ISA+25 (available power with the thermal lapse, capped by the gearbox)
+    hh = HeliAtmosphere(elevation_m=1500.0, delta_t=25.0)
+    rho_hh = hh.density(0.0)
+    av = lambda r, n: n * engine_limit_w(p, hh, 0.0, r, n) / 1e3  # noqa: E731
+    fig, ax = plt.subplots(figsize=(10, 4.8), dpi=150)
+    curve(ax, rho_hh, [("AEO decolagem", av("TO", 2), "#333333"), ("AEO máx. contínua", av("MCP", 2), "#777777"),
+                       ("OEI 30 s", av("OEI30", 1), "#b35c00"), ("OEI 2 min", av("OEI2", 1), "#c77c1e"),
+                       ("OEI contínua", av("OEIC", 1), "#d4a017")],
+          f"Classe H135 · MTOW 2.980 kg · 1.500 m ISA+25 (altitude-densidade {hh.density_altitude(0.0):.0f} m)")
+    fig.text(0.01, 0.01, disclaimer, fontsize=6, color="#555555")
+    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    fig.savefig(OUT / "curva_potencia_1500m_isa25.png")
+
+    # 3) Fenestron: thrust and power with and without the fin, and open rotor in hover for reference
+    vs = np.linspace(0, 150, 61)
+    with_fin = [level_flight(p, x * KT, 1.225) for x in vs]
+    no_fin = [level_flight(replace(p, fin_S=0.0), x * KT, 1.225) for x in vs]
+    open_rotor = replace(p, tr_sigma_d=0.5)  # sigma_d = 0.5 reproduces the open-rotor induced power
+    fig, ax = plt.subplots(1, 2, figsize=(11, 4.2), dpi=150)
+    ax[0].plot(vs, [q.p_tail / 1e3 for q in with_fin], lw=2, label="Fenestron com deriva (modelo)")
+    ax[0].plot(vs, [q.p_tail / 1e3 for q in no_fin], lw=1.4, ls="--", label="sem a força da deriva")
+    ax[0].scatter([0], [level_flight(open_rotor, 0.0, 1.225).p_tail / 1e3], color="tab:red", zorder=3,
+                  label="rotor aberto de mesmo diâmetro (pairado)")
+    ax[0].set_xlabel("Velocidade (kt)"), ax[0].set_ylabel("Potência do rotor de cauda (kW)"), ax[0].grid(alpha=.25)
+    ax[0].legend(fontsize=7)
+    ax[1].plot(vs, [q.t_tail for q in with_fin], lw=2, label="empuxo do Fenestron")
+    ax[1].plot(vs, [q.f_fin for q in with_fin], lw=1.4, label="força lateral da deriva")
+    ax[1].plot(vs, [q.t_tail for q in no_fin], lw=1.2, ls="--", label="empuxo do Fenestron sem deriva")
+    ax[1].set_xlabel("Velocidade (kt)"), ax[1].set_ylabel("Força (N)"), ax[1].grid(alpha=.25), ax[1].legend(fontsize=7)
+    fig.suptitle("Antitorque: Fenestron (duto σd = 1) e deriva vertical · MTOW · ISA nível do mar", fontsize=10)
+    fig.text(0.01, 0.01, disclaimer, fontsize=6, color="#555555")
+    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    fig.savefig(OUT / "curva_potencia_cauda.png")
+
+    # second validation: speeds where the curve meets AEO MCP and AEO take-off power (sea level, MTOW)
+    def v_at(kw):
+        return brentq(lambda x: level_flight(p, x * KT, 1.225).p_engines / 1e3 - kw, 90.0, 200.0) 
+    res["v_at_aeo_mcp_kt"] = v_at(p.gearbox_limit_kw("MCP"))
+    res["v_at_aeo_to_kt"] = v_at(p.gearbox_limit_kw("TO"))
+    h0 = level_flight(p, 0.0, 1.225)
+    res["hover_sum_components_kw"] = (h0.p_main + h0.p_tail) / 1e3
+    res["hover_transmission_and_accessories_kw"] = h0.p_engines / 1e3 - (h0.p_main + h0.p_tail) / 1e3
+    res["fin_share_at_136kt"] = level_flight(p, 136 * KT, 1.225).f_fin / (
+        level_flight(p, 136 * KT, 1.225).f_fin + level_flight(p, 136 * KT, 1.225).t_tail)
+    res["hover_tail_open_rotor_kw"] = level_flight(open_rotor, 0.0, 1.225).p_tail / 1e3
+    (OUT / "passo1_resultados.json").write_text(json.dumps(res, indent=2, default=float))
     print(json.dumps(res, indent=1, default=float))
 
 

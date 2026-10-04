@@ -782,7 +782,7 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "cruzou a borda a 2.3 m acima do deck (< 15 ft, 29.60)",
+     "continue_reason": "cruzou a borda a 2.6 m acima do deck (< 15 ft, 29.60)",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
@@ -794,13 +794,13 @@
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "cruzou a borda a 2.3 m acima do deck (< 15 ft, 29.60)"
+       "reason": "cruzou a borda a 2.6 m acima do deck (< 15 ft, 29.60)"
       },
       {
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
        "safe": false,
-       "reason": "cruzou a borda a 4.0 m acima do deck (< 15 ft, 29.60)"
+       "reason": "cruzou a borda a 4.4 m acima do deck (< 15 ft, 29.60)"
       }
      ]
     },
@@ -846,13 +846,13 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a -6.0 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a -5.9 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -6.0 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -5.9 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
@@ -993,13 +993,13 @@
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 2.6 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 2.7 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 3.9 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 4.0 m do nível do deck (< 15 ft, 29.59(c))"
       }
      ]
     },
@@ -1045,7 +1045,7 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a -14.9 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a -14.8 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
@@ -1057,7 +1057,7 @@
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -14.9 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -14.8 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": 0.0,
@@ -1153,25 +1153,25 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a 0.0 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a 0.1 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 0.0 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 0.1 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 1.2 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 1.3 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 2.0 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 2.1 m do nível do deck (< 15 ft, 29.59(c))"
       }
      ]
     },
@@ -1207,13 +1207,13 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a 3.7 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a 3.8 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 3.7 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 3.8 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
@@ -1325,13 +1325,13 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a -16.2 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a -16.1 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -16.2 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -16.1 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
@@ -1343,7 +1343,7 @@
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -13.0 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -12.9 m do nível do deck (< 15 ft, 29.59(c))"
       }
      ]
     },
@@ -1352,13 +1352,13 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a 0.8 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a 0.9 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 0.8 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 0.9 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
@@ -1370,7 +1370,7 @@
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 3.3 m do nível do deck (< 15 ft, 29.59(c))"
       }
      ]
     },
@@ -1497,25 +1497,25 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a -7.4 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a -7.3 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -7.4 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -7.3 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -5.9 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -5.8 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -4.5 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -4.4 m do nível do deck (< 15 ft, 29.59(c))"
       }
      ]
     },
@@ -1578,19 +1578,19 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a 1.3 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a 1.4 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 1.3 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 1.4 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 2.6 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 2.7 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": 0.0,
@@ -1723,25 +1723,25 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a -0.3 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a -0.0 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a -0.3 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a -0.0 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 0.8 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 1.9 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 2.2 m do nível do deck (< 15 ft, 29.59(c))"
       }
      ]
     },
@@ -1804,25 +1804,25 @@
      "reject": true,
      "reject_reason": "ok",
      "continue": false,
-     "continue_reason": "desceu a 2.6 m do nível do deck (< 15 ft, 29.59(c))",
+     "continue_reason": "desceu a 2.9 m do nível do deck (< 15 ft, 29.59(c))",
      "gap": [
       {
        "fail_rel_tdp_m": -1.0,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 2.6 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 2.9 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": -0.5,
        "branch": "continue",
        "safe": false,
-       "reason": "desceu a 3.6 m do nível do deck (< 15 ft, 29.59(c))"
+       "reason": "desceu a 3.9 m do nível do deck (< 15 ft, 29.59(c))"
       },
       {
        "fail_rel_tdp_m": 0.0,
        "branch": "continue",
-       "safe": false,
-       "reason": "desceu a 4.4 m do nível do deck (< 15 ft, 29.59(c))"
+       "safe": true,
+       "reason": "ok"
       }
      ]
     }
@@ -1849,7 +1849,7 @@
      "detect_rel_tdp_m": -4.765,
      "action_rel_tdp_m": -4.132,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 14.917
+     "max_height_loss_m": 15.042
     },
     "recommended": "abortar"
    },
@@ -1871,7 +1871,7 @@
      "detect_rel_tdp_m": -3.765,
      "action_rel_tdp_m": -3.125,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 20.059
+     "max_height_loss_m": 19.965
     },
     "recommended": "abortar"
    },
@@ -1888,12 +1888,12 @@
     },
     "continue": {
      "safe": false,
-     "reason": "cruzou a borda a 1.5 m acima do deck (< 15 ft, 29.60)",
+     "reason": "cruzou a borda a 1.6 m acima do deck (< 15 ft, 29.60)",
      "recommended": "abortar",
      "detect_rel_tdp_m": -2.77,
      "action_rel_tdp_m": -2.138,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 20.718
+     "max_height_loss_m": 20.639
     },
     "recommended": "abortar"
    },
@@ -1915,7 +1915,7 @@
      "detect_rel_tdp_m": -1.776,
      "action_rel_tdp_m": -1.142,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 21.133
+     "max_height_loss_m": 21.071
     },
     "recommended": "abortar"
    },
@@ -1937,7 +1937,7 @@
      "detect_rel_tdp_m": -0.791,
      "action_rel_tdp_m": -0.185,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 21.435
+     "max_height_loss_m": 21.387
     },
     "recommended": "abortar"
    },
@@ -1959,7 +1959,7 @@
      "detect_rel_tdp_m": -0.288,
      "action_rel_tdp_m": 0.293,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 19.807
+     "max_height_loss_m": 19.757
     },
     "recommended": "abortar"
    },
@@ -1981,7 +1981,7 @@
      "detect_rel_tdp_m": 0.213,
      "action_rel_tdp_m": 0.78,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 18.752
+     "max_height_loss_m": 18.701
     },
     "recommended": "prosseguir"
    },
@@ -2003,7 +2003,7 @@
      "detect_rel_tdp_m": 0.714,
      "action_rel_tdp_m": 1.277,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 17.922
+     "max_height_loss_m": 17.873
     },
     "recommended": "prosseguir"
    },
@@ -2025,7 +2025,7 @@
      "detect_rel_tdp_m": 1.189,
      "action_rel_tdp_m": 1.778,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 16.978
+     "max_height_loss_m": 16.931
     },
     "recommended": "prosseguir"
    },
@@ -2038,7 +2038,7 @@
      "detect_rel_tdp_m": 2.188,
      "action_rel_tdp_m": 2.752,
      "touchdown_sink_ms": 0.105,
-     "max_height_loss_m": 14.813
+     "max_height_loss_m": 14.812
     },
     "continue": {
      "safe": true,
@@ -2047,7 +2047,7 @@
      "detect_rel_tdp_m": 2.188,
      "action_rel_tdp_m": 2.752,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 15.518
+     "max_height_loss_m": 15.475
     },
     "recommended": "prosseguir"
    },
@@ -2069,7 +2069,7 @@
      "detect_rel_tdp_m": 3.184,
      "action_rel_tdp_m": 3.725,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 13.925
+     "max_height_loss_m": 13.884
     },
     "recommended": "prosseguir"
    },
@@ -2082,7 +2082,7 @@
      "detect_rel_tdp_m": 4.17,
      "action_rel_tdp_m": 4.67,
      "touchdown_sink_ms": 0.105,
-     "max_height_loss_m": 16.734
+     "max_height_loss_m": 16.735
     },
     "continue": {
      "safe": true,
@@ -2091,7 +2091,7 @@
      "detect_rel_tdp_m": 4.17,
      "action_rel_tdp_m": 4.67,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 12.316
+     "max_height_loss_m": 12.275
     },
     "recommended": "prosseguir"
    },
@@ -2102,18 +2102,18 @@
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 5.165,
-     "action_rel_tdp_m": 5.569,
+     "action_rel_tdp_m": 5.57,
      "touchdown_sink_ms": 0.105,
-     "max_height_loss_m": 17.668
+     "max_height_loss_m": 17.667
     },
     "continue": {
      "safe": true,
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 5.165,
-     "action_rel_tdp_m": 5.569,
+     "action_rel_tdp_m": 5.57,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 10.875
+     "max_height_loss_m": 10.834
     },
     "recommended": "prosseguir"
    },
@@ -2124,18 +2124,18 @@
      "reason": "tombamento",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 6.109,
-     "action_rel_tdp_m": 6.48,
+     "action_rel_tdp_m": 6.481,
      "touchdown_sink_ms": 0.105,
-     "max_height_loss_m": 18.574
+     "max_height_loss_m": 18.579
     },
     "continue": {
      "safe": true,
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 6.109,
-     "action_rel_tdp_m": 6.48,
+     "action_rel_tdp_m": 6.481,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 7.809
+     "max_height_loss_m": 7.778
     },
     "recommended": "prosseguir"
    },
@@ -2146,18 +2146,18 @@
      "reason": "tombamento",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 7.045,
-     "action_rel_tdp_m": 7.365,
+     "action_rel_tdp_m": 7.368,
      "touchdown_sink_ms": 0.105,
-     "max_height_loss_m": 19.546
+     "max_height_loss_m": 19.545
     },
     "continue": {
      "safe": true,
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 7.045,
-     "action_rel_tdp_m": 7.365,
+     "action_rel_tdp_m": 7.368,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 6.495
+     "max_height_loss_m": 6.465
     },
     "recommended": "prosseguir"
    }
@@ -2181,7 +2181,7 @@
      "detect_rel_tdp_m": -4.668,
      "action_rel_tdp_m": -3.83,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 16.019
+     "max_height_loss_m": 15.925
     },
     "recommended": "abortar"
    },
@@ -2203,7 +2203,7 @@
      "detect_rel_tdp_m": -3.668,
      "action_rel_tdp_m": -2.798,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 17.423
+     "max_height_loss_m": 17.478
     },
     "recommended": "abortar"
    },
@@ -2225,7 +2225,7 @@
      "detect_rel_tdp_m": -2.635,
      "action_rel_tdp_m": -1.795,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 23.116
+     "max_height_loss_m": 23.087
     },
     "recommended": "abortar"
    },
@@ -2247,7 +2247,7 @@
      "detect_rel_tdp_m": -1.633,
      "action_rel_tdp_m": -0.796,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 28.611
+     "max_height_loss_m": 28.53
     },
     "recommended": "abortar"
    },
@@ -2269,7 +2269,7 @@
      "detect_rel_tdp_m": -0.633,
      "action_rel_tdp_m": 0.182,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 27.761
+     "max_height_loss_m": 27.687
     },
     "recommended": "abortar"
    },
@@ -2291,7 +2291,7 @@
      "detect_rel_tdp_m": -0.123,
      "action_rel_tdp_m": 0.666,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 26.32
+     "max_height_loss_m": 26.246
     },
     "recommended": "abortar"
    },
@@ -2313,7 +2313,7 @@
      "detect_rel_tdp_m": 0.356,
      "action_rel_tdp_m": 1.167,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 25.138
+     "max_height_loss_m": 25.065
     },
     "recommended": "prosseguir"
    },
@@ -2335,7 +2335,7 @@
      "detect_rel_tdp_m": 0.837,
      "action_rel_tdp_m": 1.681,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 23.979
+     "max_height_loss_m": 23.909
     },
     "recommended": "prosseguir"
    },
@@ -2357,7 +2357,7 @@
      "detect_rel_tdp_m": 1.353,
      "action_rel_tdp_m": 2.179,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 23.185
+     "max_height_loss_m": 23.119
     },
     "recommended": "prosseguir"
    },
@@ -2370,7 +2370,7 @@
      "detect_rel_tdp_m": 2.342,
      "action_rel_tdp_m": 3.164,
      "touchdown_sink_ms": 0.198,
-     "max_height_loss_m": 15.249
+     "max_height_loss_m": 15.248
     },
     "continue": {
      "safe": true,
@@ -2379,7 +2379,7 @@
      "detect_rel_tdp_m": 2.342,
      "action_rel_tdp_m": 3.164,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 21.375
+     "max_height_loss_m": 21.312
     },
     "recommended": "prosseguir"
    },
@@ -2392,7 +2392,7 @@
      "detect_rel_tdp_m": 3.335,
      "action_rel_tdp_m": 4.152,
      "touchdown_sink_ms": 0.198,
-     "max_height_loss_m": 16.242
+     "max_height_loss_m": 16.244
     },
     "continue": {
      "safe": true,
@@ -2401,7 +2401,7 @@
      "detect_rel_tdp_m": 3.335,
      "action_rel_tdp_m": 4.152,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 19.428
+     "max_height_loss_m": 19.369
     },
     "recommended": "prosseguir"
    },
@@ -2414,7 +2414,7 @@
      "detect_rel_tdp_m": 4.354,
      "action_rel_tdp_m": 5.106,
      "touchdown_sink_ms": 0.198,
-     "max_height_loss_m": 17.188
+     "max_height_loss_m": 17.186
     },
     "continue": {
      "safe": true,
@@ -2423,7 +2423,7 @@
      "detect_rel_tdp_m": 4.354,
      "action_rel_tdp_m": 5.106,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 17.734
+     "max_height_loss_m": 17.676
     },
     "recommended": "prosseguir"
    },
@@ -2434,18 +2434,18 @@
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 5.327,
-     "action_rel_tdp_m": 6.049,
+     "action_rel_tdp_m": 6.05,
      "touchdown_sink_ms": 0.198,
-     "max_height_loss_m": 18.138
+     "max_height_loss_m": 18.14
     },
     "continue": {
      "safe": true,
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 5.327,
-     "action_rel_tdp_m": 6.049,
+     "action_rel_tdp_m": 6.05,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 15.756
+     "max_height_loss_m": 15.697
     },
     "recommended": "prosseguir"
    },
@@ -2456,18 +2456,18 @@
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 6.288,
-     "action_rel_tdp_m": 6.975,
+     "action_rel_tdp_m": 6.976,
      "touchdown_sink_ms": 0.198,
-     "max_height_loss_m": 19.072
+     "max_height_loss_m": 19.075
     },
     "continue": {
      "safe": true,
      "reason": "ok",
      "recommended": "prosseguir",
      "detect_rel_tdp_m": 6.288,
-     "action_rel_tdp_m": 6.975,
+     "action_rel_tdp_m": 6.976,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 13.632
+     "max_height_loss_m": 13.568
     },
     "recommended": "prosseguir"
    },
@@ -2477,19 +2477,19 @@
      "safe": false,
      "reason": "tombamento",
      "recommended": "prosseguir",
-     "detect_rel_tdp_m": 7.283,
-     "action_rel_tdp_m": 7.857,
+     "detect_rel_tdp_m": 7.284,
+     "action_rel_tdp_m": 7.859,
      "touchdown_sink_ms": 0.198,
-     "max_height_loss_m": 19.955
+     "max_height_loss_m": 19.958
     },
     "continue": {
      "safe": true,
      "reason": "ok",
      "recommended": "prosseguir",
-     "detect_rel_tdp_m": 7.283,
-     "action_rel_tdp_m": 7.857,
+     "detect_rel_tdp_m": 7.284,
+     "action_rel_tdp_m": 7.859,
      "touchdown_sink_ms": null,
-     "max_height_loss_m": 10.705
+     "max_height_loss_m": 10.649
     },
     "recommended": "prosseguir"
    }
@@ -2537,27 +2537,27 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.287,
-     "touchdown_ground_speed_ms": 4.972,
-     "max_tilt_after_deg": 5.002,
+     "touchdown_sink_ms": 1.289,
+     "touchdown_ground_speed_ms": 4.965,
+     "max_tilt_after_deg": 4.954,
      "min_nr_pct": 98.129,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.287,
-       "touchdown_ground_speed_ms": 4.972,
-       "max_tilt_after_deg": 5.002,
+       "touchdown_sink_ms": 1.289,
+       "touchdown_ground_speed_ms": 4.965,
+       "max_tilt_after_deg": 4.954,
        "min_nr_pct": 98.129
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.287,
-       "touchdown_ground_speed_ms": 4.972,
-       "max_tilt_after_deg": 5.002,
+       "touchdown_sink_ms": 1.289,
+       "touchdown_ground_speed_ms": 4.965,
+       "max_tilt_after_deg": 4.954,
        "min_nr_pct": 98.129
       }
      ]
@@ -2569,28 +2569,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.296,
-     "touchdown_ground_speed_ms": 0.386,
-     "max_tilt_after_deg": 4.255,
-     "min_nr_pct": 90.56,
+     "touchdown_sink_ms": 0.392,
+     "touchdown_ground_speed_ms": 0.327,
+     "max_tilt_after_deg": 4.114,
+     "min_nr_pct": 90.437,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.296,
-       "touchdown_ground_speed_ms": 0.386,
-       "max_tilt_after_deg": 4.255,
-       "min_nr_pct": 90.56
+       "touchdown_sink_ms": 0.392,
+       "touchdown_ground_speed_ms": 0.327,
+       "max_tilt_after_deg": 4.114,
+       "min_nr_pct": 90.437
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.296,
-       "touchdown_ground_speed_ms": 0.386,
-       "max_tilt_after_deg": 4.255,
-       "min_nr_pct": 90.56
+       "touchdown_sink_ms": 0.392,
+       "touchdown_ground_speed_ms": 0.327,
+       "max_tilt_after_deg": 4.114,
+       "min_nr_pct": 90.437
       }
      ]
     },
@@ -2601,19 +2601,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.248,
-     "touchdown_ground_speed_ms": 0.306,
-     "max_tilt_after_deg": 4.566,
-     "min_nr_pct": 88.498,
+     "touchdown_sink_ms": 0.368,
+     "touchdown_ground_speed_ms": 0.27,
+     "max_tilt_after_deg": 4.464,
+     "min_nr_pct": 88.442,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.248,
-       "touchdown_ground_speed_ms": 0.306,
-       "max_tilt_after_deg": 4.566,
-       "min_nr_pct": 88.498
+       "touchdown_sink_ms": 0.368,
+       "touchdown_ground_speed_ms": 0.27,
+       "max_tilt_after_deg": 4.464,
+       "min_nr_pct": 88.442
       }
      ]
     },
@@ -2624,19 +2624,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.385,
-     "touchdown_ground_speed_ms": 0.268,
-     "max_tilt_after_deg": 2.432,
-     "min_nr_pct": 92.02,
+     "touchdown_sink_ms": 0.15,
+     "touchdown_ground_speed_ms": 0.34,
+     "max_tilt_after_deg": 2.612,
+     "min_nr_pct": 91.986,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.385,
-       "touchdown_ground_speed_ms": 0.268,
-       "max_tilt_after_deg": 2.432,
-       "min_nr_pct": 92.02
+       "touchdown_sink_ms": 0.15,
+       "touchdown_ground_speed_ms": 0.34,
+       "max_tilt_after_deg": 2.612,
+       "min_nr_pct": 91.986
       }
      ]
     },
@@ -2647,19 +2647,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.405,
-     "touchdown_ground_speed_ms": 0.981,
-     "max_tilt_after_deg": 5.704,
-     "min_nr_pct": 92.751,
+     "touchdown_sink_ms": 0.524,
+     "touchdown_ground_speed_ms": 0.977,
+     "max_tilt_after_deg": 5.315,
+     "min_nr_pct": 92.72,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.405,
-       "touchdown_ground_speed_ms": 0.981,
-       "max_tilt_after_deg": 5.704,
-       "min_nr_pct": 92.751
+       "touchdown_sink_ms": 0.524,
+       "touchdown_ground_speed_ms": 0.977,
+       "max_tilt_after_deg": 5.315,
+       "min_nr_pct": 92.72
       }
      ]
     },
@@ -2702,28 +2702,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.197,
-     "touchdown_ground_speed_ms": 0.542,
-     "max_tilt_after_deg": 3.11,
-     "min_nr_pct": 91.858,
+     "touchdown_sink_ms": 0.354,
+     "touchdown_ground_speed_ms": 0.527,
+     "max_tilt_after_deg": 2.87,
+     "min_nr_pct": 91.877,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.197,
-       "touchdown_ground_speed_ms": 0.542,
-       "max_tilt_after_deg": 3.11,
-       "min_nr_pct": 91.858
+       "touchdown_sink_ms": 0.354,
+       "touchdown_ground_speed_ms": 0.527,
+       "max_tilt_after_deg": 2.87,
+       "min_nr_pct": 91.877
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.197,
-       "touchdown_ground_speed_ms": 0.542,
-       "max_tilt_after_deg": 3.11,
-       "min_nr_pct": 91.858
+       "touchdown_sink_ms": 0.354,
+       "touchdown_ground_speed_ms": 0.527,
+       "max_tilt_after_deg": 2.87,
+       "min_nr_pct": 91.877
       }
      ]
     },
@@ -2734,28 +2734,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.43,
-     "touchdown_ground_speed_ms": 0.27,
-     "max_tilt_after_deg": 4.125,
-     "min_nr_pct": 92.165,
+     "touchdown_sink_ms": 0.439,
+     "touchdown_ground_speed_ms": 0.277,
+     "max_tilt_after_deg": 4.127,
+     "min_nr_pct": 91.997,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.43,
-       "touchdown_ground_speed_ms": 0.27,
-       "max_tilt_after_deg": 4.125,
-       "min_nr_pct": 92.165
+       "touchdown_sink_ms": 0.439,
+       "touchdown_ground_speed_ms": 0.277,
+       "max_tilt_after_deg": 4.127,
+       "min_nr_pct": 91.997
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.43,
-       "touchdown_ground_speed_ms": 0.27,
-       "max_tilt_after_deg": 4.125,
-       "min_nr_pct": 92.165
+       "touchdown_sink_ms": 0.439,
+       "touchdown_ground_speed_ms": 0.277,
+       "max_tilt_after_deg": 4.127,
+       "min_nr_pct": 91.997
       }
      ]
     },
@@ -2766,19 +2766,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.411,
-     "touchdown_ground_speed_ms": 1.17,
-     "max_tilt_after_deg": 3.559,
-     "min_nr_pct": 91.856,
+     "touchdown_sink_ms": 0.165,
+     "touchdown_ground_speed_ms": 1.267,
+     "max_tilt_after_deg": 3.51,
+     "min_nr_pct": 91.775,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.411,
-       "touchdown_ground_speed_ms": 1.17,
-       "max_tilt_after_deg": 3.559,
-       "min_nr_pct": 91.856
+       "touchdown_sink_ms": 0.165,
+       "touchdown_ground_speed_ms": 1.267,
+       "max_tilt_after_deg": 3.51,
+       "min_nr_pct": 91.775
       }
      ]
     },
@@ -2789,19 +2789,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.254,
-     "touchdown_ground_speed_ms": 0.279,
-     "max_tilt_after_deg": 2.566,
-     "min_nr_pct": 92.132,
+     "touchdown_sink_ms": 0.338,
+     "touchdown_ground_speed_ms": 0.266,
+     "max_tilt_after_deg": 2.558,
+     "min_nr_pct": 92.1,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.254,
-       "touchdown_ground_speed_ms": 0.279,
-       "max_tilt_after_deg": 2.566,
-       "min_nr_pct": 92.132
+       "touchdown_sink_ms": 0.338,
+       "touchdown_ground_speed_ms": 0.266,
+       "max_tilt_after_deg": 2.558,
+       "min_nr_pct": 92.1
       }
      ]
     },
@@ -2812,19 +2812,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.46,
-     "touchdown_ground_speed_ms": 0.917,
-     "max_tilt_after_deg": 5.692,
-     "min_nr_pct": 92.679,
+     "touchdown_sink_ms": 0.428,
+     "touchdown_ground_speed_ms": 0.966,
+     "max_tilt_after_deg": 5.372,
+     "min_nr_pct": 92.64,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.46,
-       "touchdown_ground_speed_ms": 0.917,
-       "max_tilt_after_deg": 5.692,
-       "min_nr_pct": 92.679
+       "touchdown_sink_ms": 0.428,
+       "touchdown_ground_speed_ms": 0.966,
+       "max_tilt_after_deg": 5.372,
+       "min_nr_pct": 92.64
       }
      ]
     },
@@ -2867,28 +2867,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.923,
-     "touchdown_ground_speed_ms": 6.473,
+     "touchdown_sink_ms": 1.919,
+     "touchdown_ground_speed_ms": 6.468,
      "max_tilt_after_deg": 11.493,
-     "min_nr_pct": 95.095,
+     "min_nr_pct": 95.07,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.923,
-       "touchdown_ground_speed_ms": 6.473,
+       "touchdown_sink_ms": 1.919,
+       "touchdown_ground_speed_ms": 6.468,
        "max_tilt_after_deg": 11.493,
-       "min_nr_pct": 95.095
+       "min_nr_pct": 95.07
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.989,
-       "touchdown_ground_speed_ms": 1.461,
-       "max_tilt_after_deg": 9.285,
-       "min_nr_pct": 92.015
+       "touchdown_sink_ms": 0.999,
+       "touchdown_ground_speed_ms": 1.605,
+       "max_tilt_after_deg": 10.054,
+       "min_nr_pct": 92.029
       }
      ]
     },
@@ -2899,28 +2899,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.298,
-     "touchdown_ground_speed_ms": 0.509,
-     "max_tilt_after_deg": 3.022,
-     "min_nr_pct": 88.83,
+     "touchdown_sink_ms": 0.33,
+     "touchdown_ground_speed_ms": 0.525,
+     "max_tilt_after_deg": 3.071,
+     "min_nr_pct": 88.8,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.298,
-       "touchdown_ground_speed_ms": 0.509,
-       "max_tilt_after_deg": 3.022,
-       "min_nr_pct": 88.83
+       "touchdown_sink_ms": 0.33,
+       "touchdown_ground_speed_ms": 0.525,
+       "max_tilt_after_deg": 3.071,
+       "min_nr_pct": 88.8
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.19,
-       "touchdown_ground_speed_ms": 0.302,
-       "max_tilt_after_deg": 4.551,
-       "min_nr_pct": 91.753
+       "touchdown_sink_ms": 0.41,
+       "touchdown_ground_speed_ms": 0.257,
+       "max_tilt_after_deg": 4.301,
+       "min_nr_pct": 91.81
       }
      ]
     },
@@ -2931,19 +2931,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.35,
-     "touchdown_ground_speed_ms": 0.34,
-     "max_tilt_after_deg": 3.23,
-     "min_nr_pct": 90.688,
+     "touchdown_sink_ms": 0.235,
+     "touchdown_ground_speed_ms": 0.349,
+     "max_tilt_after_deg": 3.321,
+     "min_nr_pct": 90.874,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.35,
-       "touchdown_ground_speed_ms": 0.34,
-       "max_tilt_after_deg": 3.23,
-       "min_nr_pct": 90.688
+       "touchdown_sink_ms": 0.235,
+       "touchdown_ground_speed_ms": 0.349,
+       "max_tilt_after_deg": 3.321,
+       "min_nr_pct": 90.874
       }
      ]
     },
@@ -2954,19 +2954,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.475,
-     "touchdown_ground_speed_ms": 0.341,
-     "max_tilt_after_deg": 3.865,
-     "min_nr_pct": 90.383,
+     "touchdown_sink_ms": 0.416,
+     "touchdown_ground_speed_ms": 0.338,
+     "max_tilt_after_deg": 3.998,
+     "min_nr_pct": 90.414,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.475,
-       "touchdown_ground_speed_ms": 0.341,
-       "max_tilt_after_deg": 3.865,
-       "min_nr_pct": 90.383
+       "touchdown_sink_ms": 0.416,
+       "touchdown_ground_speed_ms": 0.338,
+       "max_tilt_after_deg": 3.998,
+       "min_nr_pct": 90.414
       }
      ]
     },
@@ -2977,19 +2977,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.432,
-     "touchdown_ground_speed_ms": 0.246,
-     "max_tilt_after_deg": 3.787,
-     "min_nr_pct": 90.8,
+     "touchdown_sink_ms": 0.444,
+     "touchdown_ground_speed_ms": 0.25,
+     "max_tilt_after_deg": 3.766,
+     "min_nr_pct": 90.326,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.432,
-       "touchdown_ground_speed_ms": 0.246,
-       "max_tilt_after_deg": 3.787,
-       "min_nr_pct": 90.8
+       "touchdown_sink_ms": 0.444,
+       "touchdown_ground_speed_ms": 0.25,
+       "max_tilt_after_deg": 3.766,
+       "min_nr_pct": 90.326
       }
      ]
     },
@@ -3000,19 +3000,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.33,
-     "touchdown_ground_speed_ms": 0.016,
-     "max_tilt_after_deg": 5.585,
-     "min_nr_pct": 82.483,
+     "touchdown_sink_ms": 0.439,
+     "touchdown_ground_speed_ms": 0.083,
+     "max_tilt_after_deg": 5.482,
+     "min_nr_pct": 82.502,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.33,
-       "touchdown_ground_speed_ms": 0.016,
-       "max_tilt_after_deg": 5.585,
-       "min_nr_pct": 82.483
+       "touchdown_sink_ms": 0.439,
+       "touchdown_ground_speed_ms": 0.083,
+       "max_tilt_after_deg": 5.482,
+       "min_nr_pct": 82.502
       },
       {
        "technique": "vertical",
@@ -3032,28 +3032,28 @@
      "technique": "vertical",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.589,
-     "touchdown_ground_speed_ms": 0.836,
-     "max_tilt_after_deg": 9.327,
-     "min_nr_pct": 92.406,
+     "touchdown_sink_ms": 1.557,
+     "touchdown_ground_speed_ms": 0.924,
+     "max_tilt_after_deg": 9.59,
+     "min_nr_pct": 92.118,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 1.667,
-       "touchdown_ground_speed_ms": 9.264,
-       "max_tilt_after_deg": 11.106,
-       "min_nr_pct": 86.927
+       "touchdown_sink_ms": 1.657,
+       "touchdown_ground_speed_ms": 9.273,
+       "max_tilt_after_deg": 11.11,
+       "min_nr_pct": 86.792
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.589,
-       "touchdown_ground_speed_ms": 0.836,
-       "max_tilt_after_deg": 9.327,
-       "min_nr_pct": 92.406
+       "touchdown_sink_ms": 1.557,
+       "touchdown_ground_speed_ms": 0.924,
+       "max_tilt_after_deg": 9.59,
+       "min_nr_pct": 92.118
       }
      ]
     },
@@ -3064,28 +3064,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.232,
-     "touchdown_ground_speed_ms": 0.364,
-     "max_tilt_after_deg": 2.593,
-     "min_nr_pct": 88.814,
+     "touchdown_sink_ms": 0.352,
+     "touchdown_ground_speed_ms": 0.304,
+     "max_tilt_after_deg": 2.433,
+     "min_nr_pct": 88.775,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.232,
-       "touchdown_ground_speed_ms": 0.364,
-       "max_tilt_after_deg": 2.593,
-       "min_nr_pct": 88.814
+       "touchdown_sink_ms": 0.352,
+       "touchdown_ground_speed_ms": 0.304,
+       "max_tilt_after_deg": 2.433,
+       "min_nr_pct": 88.775
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.17,
-       "touchdown_ground_speed_ms": 0.287,
-       "max_tilt_after_deg": 4.444,
-       "min_nr_pct": 89.817
+       "touchdown_sink_ms": 0.263,
+       "touchdown_ground_speed_ms": 0.267,
+       "max_tilt_after_deg": 4.34,
+       "min_nr_pct": 89.745
       }
      ]
     },
@@ -3096,19 +3096,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.456,
-     "touchdown_ground_speed_ms": 0.352,
-     "max_tilt_after_deg": 2.985,
-     "min_nr_pct": 91.771,
+     "touchdown_sink_ms": 0.321,
+     "touchdown_ground_speed_ms": 0.351,
+     "max_tilt_after_deg": 3.174,
+     "min_nr_pct": 91.767,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.456,
-       "touchdown_ground_speed_ms": 0.352,
-       "max_tilt_after_deg": 2.985,
-       "min_nr_pct": 91.771
+       "touchdown_sink_ms": 0.321,
+       "touchdown_ground_speed_ms": 0.351,
+       "max_tilt_after_deg": 3.174,
+       "min_nr_pct": 91.767
       }
      ]
     },
@@ -3119,19 +3119,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.244,
-     "touchdown_ground_speed_ms": 0.26,
-     "max_tilt_after_deg": 4.297,
-     "min_nr_pct": 90.92,
+     "touchdown_sink_ms": 0.454,
+     "touchdown_ground_speed_ms": 0.245,
+     "max_tilt_after_deg": 4.039,
+     "min_nr_pct": 90.852,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.244,
-       "touchdown_ground_speed_ms": 0.26,
-       "max_tilt_after_deg": 4.297,
-       "min_nr_pct": 90.92
+       "touchdown_sink_ms": 0.454,
+       "touchdown_ground_speed_ms": 0.245,
+       "max_tilt_after_deg": 4.039,
+       "min_nr_pct": 90.852
       }
      ]
     },
@@ -3142,19 +3142,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.39,
-     "touchdown_ground_speed_ms": 0.24,
-     "max_tilt_after_deg": 3.192,
-     "min_nr_pct": 90.748,
+     "touchdown_sink_ms": 0.278,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.32,
+     "min_nr_pct": 91.121,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.39,
-       "touchdown_ground_speed_ms": 0.24,
-       "max_tilt_after_deg": 3.192,
-       "min_nr_pct": 90.748
+       "touchdown_sink_ms": 0.278,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.32,
+       "min_nr_pct": 91.121
       }
      ]
     },
@@ -3165,9 +3165,9 @@
      "technique": "vertical",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.298,
-     "touchdown_ground_speed_ms": 0.411,
-     "max_tilt_after_deg": 4.349,
+     "touchdown_sink_ms": 0.305,
+     "touchdown_ground_speed_ms": 0.415,
+     "max_tilt_after_deg": 4.352,
      "min_nr_pct": 81.409,
      "tries": [
       {
@@ -3175,17 +3175,17 @@
        "safe": false,
        "landed": true,
        "touchdown_sink_ms": 2.538,
-       "touchdown_ground_speed_ms": 5.503,
+       "touchdown_ground_speed_ms": 5.502,
        "max_tilt_after_deg": 5.677,
-       "min_nr_pct": 93.061
+       "min_nr_pct": 93.065
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.298,
-       "touchdown_ground_speed_ms": 0.411,
-       "max_tilt_after_deg": 4.349,
+       "touchdown_sink_ms": 0.305,
+       "touchdown_ground_speed_ms": 0.415,
+       "max_tilt_after_deg": 4.352,
        "min_nr_pct": 81.409
       }
      ]
@@ -3197,28 +3197,28 @@
      "technique": "vertical",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.342,
-     "touchdown_ground_speed_ms": 1.273,
-     "max_tilt_after_deg": 5.238,
-     "min_nr_pct": 86.628,
+     "touchdown_sink_ms": 0.474,
+     "touchdown_ground_speed_ms": 1.218,
+     "max_tilt_after_deg": 5.091,
+     "min_nr_pct": 86.653,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 0.81,
-       "touchdown_ground_speed_ms": 10.914,
-       "max_tilt_after_deg": 11.815,
-       "min_nr_pct": 84.088
+       "touchdown_sink_ms": 0.792,
+       "touchdown_ground_speed_ms": 10.976,
+       "max_tilt_after_deg": 11.744,
+       "min_nr_pct": 84.068
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.342,
-       "touchdown_ground_speed_ms": 1.273,
-       "max_tilt_after_deg": 5.238,
-       "min_nr_pct": 86.628
+       "touchdown_sink_ms": 0.474,
+       "touchdown_ground_speed_ms": 1.218,
+       "max_tilt_after_deg": 5.091,
+       "min_nr_pct": 86.653
       }
      ]
     },
@@ -3229,28 +3229,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.319,
-     "touchdown_ground_speed_ms": 0.263,
-     "max_tilt_after_deg": 2.67,
-     "min_nr_pct": 88.438,
+     "touchdown_sink_ms": 0.381,
+     "touchdown_ground_speed_ms": 0.249,
+     "max_tilt_after_deg": 2.599,
+     "min_nr_pct": 88.431,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.319,
-       "touchdown_ground_speed_ms": 0.263,
-       "max_tilt_after_deg": 2.67,
-       "min_nr_pct": 88.438
+       "touchdown_sink_ms": 0.381,
+       "touchdown_ground_speed_ms": 0.249,
+       "max_tilt_after_deg": 2.599,
+       "min_nr_pct": 88.431
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.446,
-       "touchdown_ground_speed_ms": 0.137,
-       "max_tilt_after_deg": 3.009,
-       "min_nr_pct": 83.325
+       "touchdown_sink_ms": 0.273,
+       "touchdown_ground_speed_ms": 0.173,
+       "max_tilt_after_deg": 3.19,
+       "min_nr_pct": 83.173
       }
      ]
     },
@@ -3261,19 +3261,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.345,
-     "touchdown_ground_speed_ms": 0.289,
-     "max_tilt_after_deg": 3.961,
-     "min_nr_pct": 89.97,
+     "touchdown_sink_ms": 0.347,
+     "touchdown_ground_speed_ms": 0.323,
+     "max_tilt_after_deg": 3.778,
+     "min_nr_pct": 89.626,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.345,
-       "touchdown_ground_speed_ms": 0.289,
-       "max_tilt_after_deg": 3.961,
-       "min_nr_pct": 89.97
+       "touchdown_sink_ms": 0.347,
+       "touchdown_ground_speed_ms": 0.323,
+       "max_tilt_after_deg": 3.778,
+       "min_nr_pct": 89.626
       }
      ]
     },
@@ -3284,19 +3284,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.231,
-     "touchdown_ground_speed_ms": 0.265,
-     "max_tilt_after_deg": 4.153,
-     "min_nr_pct": 91.696,
+     "touchdown_sink_ms": 0.416,
+     "touchdown_ground_speed_ms": 0.249,
+     "max_tilt_after_deg": 4.059,
+     "min_nr_pct": 91.747,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.231,
-       "touchdown_ground_speed_ms": 0.265,
-       "max_tilt_after_deg": 4.153,
-       "min_nr_pct": 91.696
+       "touchdown_sink_ms": 0.416,
+       "touchdown_ground_speed_ms": 0.249,
+       "max_tilt_after_deg": 4.059,
+       "min_nr_pct": 91.747
       }
      ]
     },
@@ -3307,19 +3307,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.348,
-     "touchdown_ground_speed_ms": 0.265,
-     "max_tilt_after_deg": 3.04,
-     "min_nr_pct": 91.628,
+     "touchdown_sink_ms": 0.268,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.077,
+     "min_nr_pct": 91.713,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.348,
-       "touchdown_ground_speed_ms": 0.265,
-       "max_tilt_after_deg": 3.04,
-       "min_nr_pct": 91.628
+       "touchdown_sink_ms": 0.268,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.077,
+       "min_nr_pct": 91.713
       }
      ]
     },
@@ -3339,10 +3339,10 @@
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 3.999,
-       "touchdown_ground_speed_ms": 7.336,
-       "max_tilt_after_deg": 11.368,
-       "min_nr_pct": 92.001
+       "touchdown_sink_ms": 3.997,
+       "touchdown_ground_speed_ms": 7.335,
+       "max_tilt_after_deg": 11.367,
+       "min_nr_pct": 92.037
       },
       {
        "technique": "vertical",
@@ -3362,28 +3362,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.247,
-     "touchdown_ground_speed_ms": 0.336,
-     "max_tilt_after_deg": 3.17,
-     "min_nr_pct": 85.934,
+     "touchdown_sink_ms": 0.255,
+     "touchdown_ground_speed_ms": 0.328,
+     "max_tilt_after_deg": 2.942,
+     "min_nr_pct": 86.768,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.247,
-       "touchdown_ground_speed_ms": 0.336,
-       "max_tilt_after_deg": 3.17,
-       "min_nr_pct": 85.934
+       "touchdown_sink_ms": 0.255,
+       "touchdown_ground_speed_ms": 0.328,
+       "max_tilt_after_deg": 2.942,
+       "min_nr_pct": 86.768
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.27,
-       "touchdown_ground_speed_ms": 0.311,
-       "max_tilt_after_deg": 4.544,
-       "min_nr_pct": 81.348
+       "touchdown_sink_ms": 0.272,
+       "touchdown_ground_speed_ms": 0.349,
+       "max_tilt_after_deg": 4.513,
+       "min_nr_pct": 81.288
       }
      ]
     },
@@ -3394,28 +3394,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.313,
-     "touchdown_ground_speed_ms": 0.352,
-     "max_tilt_after_deg": 3.172,
-     "min_nr_pct": 88.147,
+     "touchdown_sink_ms": 0.453,
+     "touchdown_ground_speed_ms": 0.349,
+     "max_tilt_after_deg": 2.908,
+     "min_nr_pct": 88.177,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.313,
-       "touchdown_ground_speed_ms": 0.352,
-       "max_tilt_after_deg": 3.172,
-       "min_nr_pct": 88.147
+       "touchdown_sink_ms": 0.453,
+       "touchdown_ground_speed_ms": 0.349,
+       "max_tilt_after_deg": 2.908,
+       "min_nr_pct": 88.177
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.381,
-       "touchdown_ground_speed_ms": 0.148,
-       "max_tilt_after_deg": 3.027,
-       "min_nr_pct": 81.458
+       "touchdown_sink_ms": 0.297,
+       "touchdown_ground_speed_ms": 0.158,
+       "max_tilt_after_deg": 3.217,
+       "min_nr_pct": 81.545
       }
      ]
     },
@@ -3426,19 +3426,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.399,
-     "touchdown_ground_speed_ms": 0.278,
-     "max_tilt_after_deg": 3.822,
-     "min_nr_pct": 88.145,
+     "touchdown_sink_ms": 0.453,
+     "touchdown_ground_speed_ms": 0.288,
+     "max_tilt_after_deg": 3.653,
+     "min_nr_pct": 87.959,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.399,
-       "touchdown_ground_speed_ms": 0.278,
-       "max_tilt_after_deg": 3.822,
-       "min_nr_pct": 88.145
+       "touchdown_sink_ms": 0.453,
+       "touchdown_ground_speed_ms": 0.288,
+       "max_tilt_after_deg": 3.653,
+       "min_nr_pct": 87.959
       }
      ]
     },
@@ -3449,19 +3449,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.258,
-     "touchdown_ground_speed_ms": 0.273,
-     "max_tilt_after_deg": 4.002,
-     "min_nr_pct": 91.501,
+     "touchdown_sink_ms": 0.266,
+     "touchdown_ground_speed_ms": 0.268,
+     "max_tilt_after_deg": 3.986,
+     "min_nr_pct": 91.174,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.258,
-       "touchdown_ground_speed_ms": 0.273,
-       "max_tilt_after_deg": 4.002,
-       "min_nr_pct": 91.501
+       "touchdown_sink_ms": 0.266,
+       "touchdown_ground_speed_ms": 0.268,
+       "max_tilt_after_deg": 3.986,
+       "min_nr_pct": 91.174
       }
      ]
     },
@@ -3472,19 +3472,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.432,
-     "touchdown_ground_speed_ms": 0.233,
-     "max_tilt_after_deg": 2.693,
-     "min_nr_pct": 91.389,
+     "touchdown_sink_ms": 0.344,
+     "touchdown_ground_speed_ms": 0.244,
+     "max_tilt_after_deg": 2.947,
+     "min_nr_pct": 90.451,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.432,
-       "touchdown_ground_speed_ms": 0.233,
-       "max_tilt_after_deg": 2.693,
-       "min_nr_pct": 91.389
+       "touchdown_sink_ms": 0.344,
+       "touchdown_ground_speed_ms": 0.244,
+       "max_tilt_after_deg": 2.947,
+       "min_nr_pct": 90.451
       }
      ]
     },
@@ -3504,10 +3504,10 @@
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 3.704,
-       "touchdown_ground_speed_ms": 10.303,
-       "max_tilt_after_deg": 10.589,
-       "min_nr_pct": 84.626
+       "touchdown_sink_ms": 3.695,
+       "touchdown_ground_speed_ms": 10.315,
+       "max_tilt_after_deg": 10.601,
+       "min_nr_pct": 84.536
       },
       {
        "technique": "vertical",
@@ -3527,28 +3527,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.222,
-     "touchdown_ground_speed_ms": 0.363,
-     "max_tilt_after_deg": 4.495,
-     "min_nr_pct": 88.18,
+     "touchdown_sink_ms": 0.215,
+     "touchdown_ground_speed_ms": 0.393,
+     "max_tilt_after_deg": 4.403,
+     "min_nr_pct": 88.273,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.222,
-       "touchdown_ground_speed_ms": 0.363,
-       "max_tilt_after_deg": 4.495,
-       "min_nr_pct": 88.18
+       "touchdown_sink_ms": 0.215,
+       "touchdown_ground_speed_ms": 0.393,
+       "max_tilt_after_deg": 4.403,
+       "min_nr_pct": 88.273
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 0.211,
-       "touchdown_ground_speed_ms": 0.298,
+       "touchdown_ground_speed_ms": 0.307,
        "max_tilt_after_deg": 4.648,
-       "min_nr_pct": 81.111
+       "min_nr_pct": 81.241
       }
      ]
     },
@@ -3559,28 +3559,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.455,
-     "touchdown_ground_speed_ms": 0.387,
-     "max_tilt_after_deg": 3.878,
-     "min_nr_pct": 87.976,
+     "touchdown_sink_ms": 0.305,
+     "touchdown_ground_speed_ms": 0.383,
+     "max_tilt_after_deg": 4.066,
+     "min_nr_pct": 87.969,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.455,
-       "touchdown_ground_speed_ms": 0.387,
-       "max_tilt_after_deg": 3.878,
-       "min_nr_pct": 87.976
+       "touchdown_sink_ms": 0.305,
+       "touchdown_ground_speed_ms": 0.383,
+       "max_tilt_after_deg": 4.066,
+       "min_nr_pct": 87.969
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.35,
-       "touchdown_ground_speed_ms": 0.255,
-       "max_tilt_after_deg": 3.173,
-       "min_nr_pct": 81.106
+       "touchdown_sink_ms": 0.346,
+       "touchdown_ground_speed_ms": 0.261,
+       "max_tilt_after_deg": 3.181,
+       "min_nr_pct": 81.209
       }
      ]
     },
@@ -3591,19 +3591,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.414,
-     "touchdown_ground_speed_ms": 0.197,
-     "max_tilt_after_deg": 3.828,
-     "min_nr_pct": 85.625,
+     "touchdown_sink_ms": 0.309,
+     "touchdown_ground_speed_ms": 0.252,
+     "max_tilt_after_deg": 4.113,
+     "min_nr_pct": 85.909,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.414,
-       "touchdown_ground_speed_ms": 0.197,
-       "max_tilt_after_deg": 3.828,
-       "min_nr_pct": 85.625
+       "touchdown_sink_ms": 0.309,
+       "touchdown_ground_speed_ms": 0.252,
+       "max_tilt_after_deg": 4.113,
+       "min_nr_pct": 85.909
       }
      ]
     },
@@ -3614,19 +3614,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.252,
-     "touchdown_ground_speed_ms": 0.287,
-     "max_tilt_after_deg": 3.711,
-     "min_nr_pct": 90.176,
+     "touchdown_sink_ms": 0.269,
+     "touchdown_ground_speed_ms": 0.258,
+     "max_tilt_after_deg": 3.604,
+     "min_nr_pct": 89.737,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.252,
-       "touchdown_ground_speed_ms": 0.287,
-       "max_tilt_after_deg": 3.711,
-       "min_nr_pct": 90.176
+       "touchdown_sink_ms": 0.269,
+       "touchdown_ground_speed_ms": 0.258,
+       "max_tilt_after_deg": 3.604,
+       "min_nr_pct": 89.737
       }
      ]
     },
@@ -3637,19 +3637,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.275,
-     "touchdown_ground_speed_ms": 0.285,
-     "max_tilt_after_deg": 3.35,
-     "min_nr_pct": 89.764,
+     "touchdown_sink_ms": 0.349,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.589,
+     "min_nr_pct": 86.841,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.275,
-       "touchdown_ground_speed_ms": 0.285,
-       "max_tilt_after_deg": 3.35,
-       "min_nr_pct": 89.764
+       "touchdown_sink_ms": 0.349,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.589,
+       "min_nr_pct": 86.841
       }
      ]
     },
@@ -3669,10 +3669,10 @@
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 1.64,
-       "touchdown_ground_speed_ms": 12.658,
-       "max_tilt_after_deg": 11.546,
-       "min_nr_pct": 85.972
+       "touchdown_sink_ms": 1.525,
+       "touchdown_ground_speed_ms": 12.584,
+       "max_tilt_after_deg": 11.581,
+       "min_nr_pct": 85.962
       },
       {
        "technique": "vertical",
@@ -3692,28 +3692,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.359,
-     "touchdown_ground_speed_ms": 0.31,
-     "max_tilt_after_deg": 4.487,
-     "min_nr_pct": 88.918,
+     "touchdown_sink_ms": 0.369,
+     "touchdown_ground_speed_ms": 0.327,
+     "max_tilt_after_deg": 4.582,
+     "min_nr_pct": 88.859,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.359,
-       "touchdown_ground_speed_ms": 0.31,
-       "max_tilt_after_deg": 4.487,
-       "min_nr_pct": 88.918
+       "touchdown_sink_ms": 0.369,
+       "touchdown_ground_speed_ms": 0.327,
+       "max_tilt_after_deg": 4.582,
+       "min_nr_pct": 88.859
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.759,
-       "touchdown_ground_speed_ms": 1.23,
-       "max_tilt_after_deg": 3.446,
-       "min_nr_pct": 80.959
+       "touchdown_sink_ms": 0.771,
+       "touchdown_ground_speed_ms": 1.257,
+       "max_tilt_after_deg": 3.563,
+       "min_nr_pct": 81.094
       }
      ]
     },
@@ -3725,27 +3725,27 @@
      "safe": true,
      "landed": true,
      "touchdown_sink_ms": 0.226,
-     "touchdown_ground_speed_ms": 0.288,
-     "max_tilt_after_deg": 4.68,
-     "min_nr_pct": 88.099,
+     "touchdown_ground_speed_ms": 0.297,
+     "max_tilt_after_deg": 4.717,
+     "min_nr_pct": 88.087,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 0.226,
-       "touchdown_ground_speed_ms": 0.288,
-       "max_tilt_after_deg": 4.68,
-       "min_nr_pct": 88.099
+       "touchdown_ground_speed_ms": 0.297,
+       "max_tilt_after_deg": 4.717,
+       "min_nr_pct": 88.087
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.229,
-       "touchdown_ground_speed_ms": 0.708,
-       "max_tilt_after_deg": 3.471,
-       "min_nr_pct": 80.759
+       "touchdown_sink_ms": 0.344,
+       "touchdown_ground_speed_ms": 0.715,
+       "max_tilt_after_deg": 3.296,
+       "min_nr_pct": 80.877
       }
      ]
     },
@@ -3756,19 +3756,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.459,
-     "touchdown_ground_speed_ms": 0.237,
-     "max_tilt_after_deg": 3.869,
-     "min_nr_pct": 86.471,
+     "touchdown_sink_ms": 0.271,
+     "touchdown_ground_speed_ms": 0.293,
+     "max_tilt_after_deg": 3.992,
+     "min_nr_pct": 86.504,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.459,
-       "touchdown_ground_speed_ms": 0.237,
-       "max_tilt_after_deg": 3.869,
-       "min_nr_pct": 86.471
+       "touchdown_sink_ms": 0.271,
+       "touchdown_ground_speed_ms": 0.293,
+       "max_tilt_after_deg": 3.992,
+       "min_nr_pct": 86.504
       }
      ]
     },
@@ -3779,19 +3779,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.487,
-     "touchdown_ground_speed_ms": 0.22,
-     "max_tilt_after_deg": 2.94,
-     "min_nr_pct": 86.963,
+     "touchdown_sink_ms": 0.374,
+     "touchdown_ground_speed_ms": 0.291,
+     "max_tilt_after_deg": 3.246,
+     "min_nr_pct": 86.86,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.487,
-       "touchdown_ground_speed_ms": 0.22,
-       "max_tilt_after_deg": 2.94,
-       "min_nr_pct": 86.963
+       "touchdown_sink_ms": 0.374,
+       "touchdown_ground_speed_ms": 0.291,
+       "max_tilt_after_deg": 3.246,
+       "min_nr_pct": 86.86
       }
      ]
     },
@@ -3802,19 +3802,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.279,
-     "touchdown_ground_speed_ms": 0.304,
-     "max_tilt_after_deg": 3.556,
-     "min_nr_pct": 86.091,
+     "touchdown_sink_ms": 0.427,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.427,
+     "min_nr_pct": 86.099,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.279,
-       "touchdown_ground_speed_ms": 0.304,
-       "max_tilt_after_deg": 3.556,
-       "min_nr_pct": 86.091
+       "touchdown_sink_ms": 0.427,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.427,
+       "min_nr_pct": 86.099
       }
      ]
     },
@@ -3825,19 +3825,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.467,
-     "touchdown_ground_speed_ms": 0.537,
-     "max_tilt_after_deg": 2.853,
-     "min_nr_pct": 88.885,
+     "touchdown_sink_ms": 0.314,
+     "touchdown_ground_speed_ms": 0.562,
+     "max_tilt_after_deg": 3.134,
+     "min_nr_pct": 88.995,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.467,
-       "touchdown_ground_speed_ms": 0.537,
-       "max_tilt_after_deg": 2.853,
-       "min_nr_pct": 88.885
+       "touchdown_sink_ms": 0.314,
+       "touchdown_ground_speed_ms": 0.562,
+       "max_tilt_after_deg": 3.134,
+       "min_nr_pct": 88.995
       },
       {
        "technique": "vertical",
@@ -3857,28 +3857,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.216,
-     "touchdown_ground_speed_ms": 0.323,
-     "max_tilt_after_deg": 4.648,
-     "min_nr_pct": 89.112,
+     "touchdown_sink_ms": 0.215,
+     "touchdown_ground_speed_ms": 0.292,
+     "max_tilt_after_deg": 4.645,
+     "min_nr_pct": 89.117,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.216,
-       "touchdown_ground_speed_ms": 0.323,
-       "max_tilt_after_deg": 4.648,
-       "min_nr_pct": 89.112
+       "touchdown_sink_ms": 0.215,
+       "touchdown_ground_speed_ms": 0.292,
+       "max_tilt_after_deg": 4.645,
+       "min_nr_pct": 89.117
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.292,
-       "touchdown_ground_speed_ms": 1.064,
-       "max_tilt_after_deg": 3.027,
-       "min_nr_pct": 81.196
+       "touchdown_sink_ms": 1.217,
+       "touchdown_ground_speed_ms": 1.0,
+       "max_tilt_after_deg": 2.918,
+       "min_nr_pct": 80.941
       }
      ]
     },
@@ -3889,28 +3889,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.26,
-     "touchdown_ground_speed_ms": 0.334,
-     "max_tilt_after_deg": 4.432,
-     "min_nr_pct": 88.239,
+     "touchdown_sink_ms": 0.24,
+     "touchdown_ground_speed_ms": 0.344,
+     "max_tilt_after_deg": 4.446,
+     "min_nr_pct": 88.214,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.26,
-       "touchdown_ground_speed_ms": 0.334,
-       "max_tilt_after_deg": 4.432,
-       "min_nr_pct": 88.239
+       "touchdown_sink_ms": 0.24,
+       "touchdown_ground_speed_ms": 0.344,
+       "max_tilt_after_deg": 4.446,
+       "min_nr_pct": 88.214
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.946,
-       "touchdown_ground_speed_ms": 0.691,
-       "max_tilt_after_deg": 3.169,
-       "min_nr_pct": 80.615
+       "touchdown_sink_ms": 0.965,
+       "touchdown_ground_speed_ms": 0.647,
+       "max_tilt_after_deg": 2.56,
+       "min_nr_pct": 80.778
       }
      ]
     },
@@ -3921,19 +3921,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.253,
-     "touchdown_ground_speed_ms": 0.346,
-     "max_tilt_after_deg": 3.811,
-     "min_nr_pct": 87.621,
+     "touchdown_sink_ms": 0.321,
+     "touchdown_ground_speed_ms": 0.31,
+     "max_tilt_after_deg": 3.761,
+     "min_nr_pct": 87.569,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.253,
-       "touchdown_ground_speed_ms": 0.346,
-       "max_tilt_after_deg": 3.811,
-       "min_nr_pct": 87.621
+       "touchdown_sink_ms": 0.321,
+       "touchdown_ground_speed_ms": 0.31,
+       "max_tilt_after_deg": 3.761,
+       "min_nr_pct": 87.569
       }
      ]
     },
@@ -3944,19 +3944,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.258,
-     "touchdown_ground_speed_ms": 0.276,
-     "max_tilt_after_deg": 3.225,
-     "min_nr_pct": 87.922,
+     "touchdown_sink_ms": 0.24,
+     "touchdown_ground_speed_ms": 0.293,
+     "max_tilt_after_deg": 3.276,
+     "min_nr_pct": 87.83,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.258,
-       "touchdown_ground_speed_ms": 0.276,
-       "max_tilt_after_deg": 3.225,
-       "min_nr_pct": 87.922
+       "touchdown_sink_ms": 0.24,
+       "touchdown_ground_speed_ms": 0.293,
+       "max_tilt_after_deg": 3.276,
+       "min_nr_pct": 87.83
       }
      ]
     },
@@ -3969,8 +3969,8 @@
      "landed": true,
      "touchdown_sink_ms": 0.229,
      "touchdown_ground_speed_ms": 0.314,
-     "max_tilt_after_deg": 4.075,
-     "min_nr_pct": 86.395,
+     "max_tilt_after_deg": 4.081,
+     "min_nr_pct": 86.301,
      "tries": [
       {
        "technique": "frente",
@@ -3978,8 +3978,8 @@
        "landed": true,
        "touchdown_sink_ms": 0.229,
        "touchdown_ground_speed_ms": 0.314,
-       "max_tilt_after_deg": 4.075,
-       "min_nr_pct": 86.395
+       "max_tilt_after_deg": 4.081,
+       "min_nr_pct": 86.301
       }
      ]
     },
@@ -3990,19 +3990,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.229,
-     "touchdown_ground_speed_ms": 0.434,
-     "max_tilt_after_deg": 3.118,
-     "min_nr_pct": 88.808,
+     "touchdown_sink_ms": 0.235,
+     "touchdown_ground_speed_ms": 0.438,
+     "max_tilt_after_deg": 3.131,
+     "min_nr_pct": 88.74,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.229,
-       "touchdown_ground_speed_ms": 0.434,
-       "max_tilt_after_deg": 3.118,
-       "min_nr_pct": 88.808
+       "touchdown_sink_ms": 0.235,
+       "touchdown_ground_speed_ms": 0.438,
+       "max_tilt_after_deg": 3.131,
+       "min_nr_pct": 88.74
       },
       {
        "technique": "vertical",
@@ -4022,28 +4022,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.226,
-     "touchdown_ground_speed_ms": 0.316,
-     "max_tilt_after_deg": 2.77,
-     "min_nr_pct": 88.341,
+     "touchdown_sink_ms": 0.29,
+     "touchdown_ground_speed_ms": 0.286,
+     "max_tilt_after_deg": 2.661,
+     "min_nr_pct": 88.385,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.226,
-       "touchdown_ground_speed_ms": 0.316,
-       "max_tilt_after_deg": 2.77,
-       "min_nr_pct": 88.341
+       "touchdown_sink_ms": 0.29,
+       "touchdown_ground_speed_ms": 0.286,
+       "max_tilt_after_deg": 2.661,
+       "min_nr_pct": 88.385
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.318,
-       "touchdown_ground_speed_ms": 0.659,
-       "max_tilt_after_deg": 2.703,
-       "min_nr_pct": 81.065
+       "touchdown_sink_ms": 2.337,
+       "touchdown_ground_speed_ms": 0.574,
+       "max_tilt_after_deg": 2.387,
+       "min_nr_pct": 81.37
       }
      ]
     },
@@ -4054,28 +4054,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.425,
-     "touchdown_ground_speed_ms": 0.237,
-     "max_tilt_after_deg": 2.678,
-     "min_nr_pct": 87.795,
+     "touchdown_sink_ms": 0.233,
+     "touchdown_ground_speed_ms": 0.3,
+     "max_tilt_after_deg": 2.968,
+     "min_nr_pct": 87.883,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.425,
-       "touchdown_ground_speed_ms": 0.237,
-       "max_tilt_after_deg": 2.678,
-       "min_nr_pct": 87.795
+       "touchdown_sink_ms": 0.233,
+       "touchdown_ground_speed_ms": 0.3,
+       "max_tilt_after_deg": 2.968,
+       "min_nr_pct": 87.883
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.157,
-       "touchdown_ground_speed_ms": 0.496,
-       "max_tilt_after_deg": 3.265,
-       "min_nr_pct": 80.599
+       "touchdown_sink_ms": 2.193,
+       "touchdown_ground_speed_ms": 0.51,
+       "max_tilt_after_deg": 3.193,
+       "min_nr_pct": 80.969
       }
      ]
     },
@@ -4086,19 +4086,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.326,
+     "touchdown_sink_ms": 0.327,
      "touchdown_ground_speed_ms": 0.264,
-     "max_tilt_after_deg": 3.373,
-     "min_nr_pct": 86.52,
+     "max_tilt_after_deg": 3.372,
+     "min_nr_pct": 86.493,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.326,
+       "touchdown_sink_ms": 0.327,
        "touchdown_ground_speed_ms": 0.264,
-       "max_tilt_after_deg": 3.373,
-       "min_nr_pct": 86.52
+       "max_tilt_after_deg": 3.372,
+       "min_nr_pct": 86.493
       }
      ]
     },
@@ -4109,19 +4109,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.434,
-     "touchdown_ground_speed_ms": 0.244,
-     "max_tilt_after_deg": 3.782,
-     "min_nr_pct": 85.412,
+     "touchdown_sink_ms": 0.428,
+     "touchdown_ground_speed_ms": 0.243,
+     "max_tilt_after_deg": 3.743,
+     "min_nr_pct": 85.33,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.434,
-       "touchdown_ground_speed_ms": 0.244,
-       "max_tilt_after_deg": 3.782,
-       "min_nr_pct": 85.412
+       "touchdown_sink_ms": 0.428,
+       "touchdown_ground_speed_ms": 0.243,
+       "max_tilt_after_deg": 3.743,
+       "min_nr_pct": 85.33
       }
      ]
     },
@@ -4132,19 +4132,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.234,
-     "touchdown_ground_speed_ms": 0.342,
-     "max_tilt_after_deg": 3.779,
-     "min_nr_pct": 85.533,
+     "touchdown_sink_ms": 0.401,
+     "touchdown_ground_speed_ms": 0.268,
+     "max_tilt_after_deg": 3.542,
+     "min_nr_pct": 85.482,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.234,
-       "touchdown_ground_speed_ms": 0.342,
-       "max_tilt_after_deg": 3.779,
-       "min_nr_pct": 85.533
+       "touchdown_sink_ms": 0.401,
+       "touchdown_ground_speed_ms": 0.268,
+       "max_tilt_after_deg": 3.542,
+       "min_nr_pct": 85.482
       }
      ]
     },
@@ -4155,19 +4155,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.217,
-     "touchdown_ground_speed_ms": 0.315,
-     "max_tilt_after_deg": 3.167,
-     "min_nr_pct": 85.803,
+     "touchdown_sink_ms": 0.368,
+     "touchdown_ground_speed_ms": 0.3,
+     "max_tilt_after_deg": 2.853,
+     "min_nr_pct": 85.793,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.217,
-       "touchdown_ground_speed_ms": 0.315,
-       "max_tilt_after_deg": 3.167,
-       "min_nr_pct": 85.803
+       "touchdown_sink_ms": 0.368,
+       "touchdown_ground_speed_ms": 0.3,
+       "max_tilt_after_deg": 2.853,
+       "min_nr_pct": 85.793
       },
       {
        "technique": "vertical",
@@ -4187,28 +4187,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.296,
-     "touchdown_ground_speed_ms": 0.308,
-     "max_tilt_after_deg": 3.922,
-     "min_nr_pct": 85.651,
+     "touchdown_sink_ms": 0.434,
+     "touchdown_ground_speed_ms": 0.31,
+     "max_tilt_after_deg": 3.691,
+     "min_nr_pct": 85.741,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.296,
-       "touchdown_ground_speed_ms": 0.308,
-       "max_tilt_after_deg": 3.922,
-       "min_nr_pct": 85.651
+       "touchdown_sink_ms": 0.434,
+       "touchdown_ground_speed_ms": 0.31,
+       "max_tilt_after_deg": 3.691,
+       "min_nr_pct": 85.741
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 3.114,
-       "touchdown_ground_speed_ms": 0.621,
-       "max_tilt_after_deg": 0.943,
-       "min_nr_pct": 81.745
+       "touchdown_sink_ms": 3.111,
+       "touchdown_ground_speed_ms": 0.624,
+       "max_tilt_after_deg": 0.869,
+       "min_nr_pct": 81.751
       }
      ]
     },
@@ -4219,28 +4219,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.427,
-     "touchdown_ground_speed_ms": 0.264,
-     "max_tilt_after_deg": 3.892,
-     "min_nr_pct": 85.425,
+     "touchdown_sink_ms": 0.227,
+     "touchdown_ground_speed_ms": 0.277,
+     "max_tilt_after_deg": 4.172,
+     "min_nr_pct": 85.449,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.427,
-       "touchdown_ground_speed_ms": 0.264,
-       "max_tilt_after_deg": 3.892,
-       "min_nr_pct": 85.425
+       "touchdown_sink_ms": 0.227,
+       "touchdown_ground_speed_ms": 0.277,
+       "max_tilt_after_deg": 4.172,
+       "min_nr_pct": 85.449
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 3.117,
-       "touchdown_ground_speed_ms": 0.908,
-       "max_tilt_after_deg": 1.169,
-       "min_nr_pct": 81.82
+       "touchdown_sink_ms": 3.137,
+       "touchdown_ground_speed_ms": 0.539,
+       "max_tilt_after_deg": 3.296,
+       "min_nr_pct": 81.626
       }
      ]
     },
@@ -4252,18 +4252,18 @@
      "safe": true,
      "landed": true,
      "touchdown_sink_ms": 0.233,
-     "touchdown_ground_speed_ms": 0.283,
-     "max_tilt_after_deg": 4.12,
-     "min_nr_pct": 84.878,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 4.135,
+     "min_nr_pct": 84.858,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 0.233,
-       "touchdown_ground_speed_ms": 0.283,
-       "max_tilt_after_deg": 4.12,
-       "min_nr_pct": 84.878
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 4.135,
+       "min_nr_pct": 84.858
       }
      ]
     },
@@ -4274,19 +4274,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.238,
-     "touchdown_ground_speed_ms": 0.308,
-     "max_tilt_after_deg": 3.569,
-     "min_nr_pct": 86.403,
+     "touchdown_sink_ms": 0.248,
+     "touchdown_ground_speed_ms": 0.313,
+     "max_tilt_after_deg": 3.577,
+     "min_nr_pct": 86.372,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.238,
-       "touchdown_ground_speed_ms": 0.308,
-       "max_tilt_after_deg": 3.569,
-       "min_nr_pct": 86.403
+       "touchdown_sink_ms": 0.248,
+       "touchdown_ground_speed_ms": 0.313,
+       "max_tilt_after_deg": 3.577,
+       "min_nr_pct": 86.372
       }
      ]
     },
@@ -4297,19 +4297,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.26,
-     "touchdown_ground_speed_ms": 0.273,
-     "max_tilt_after_deg": 3.01,
-     "min_nr_pct": 89.579,
+     "touchdown_sink_ms": 0.169,
+     "touchdown_ground_speed_ms": 0.294,
+     "max_tilt_after_deg": 3.129,
+     "min_nr_pct": 89.345,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.26,
-       "touchdown_ground_speed_ms": 0.273,
-       "max_tilt_after_deg": 3.01,
-       "min_nr_pct": 89.579
+       "touchdown_sink_ms": 0.169,
+       "touchdown_ground_speed_ms": 0.294,
+       "max_tilt_after_deg": 3.129,
+       "min_nr_pct": 89.345
       }
      ]
     },
@@ -4320,19 +4320,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.22,
-     "touchdown_ground_speed_ms": 0.315,
-     "max_tilt_after_deg": 3.039,
-     "min_nr_pct": 88.869,
+     "touchdown_sink_ms": 0.227,
+     "touchdown_ground_speed_ms": 0.326,
+     "max_tilt_after_deg": 3.071,
+     "min_nr_pct": 88.643,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.22,
-       "touchdown_ground_speed_ms": 0.315,
-       "max_tilt_after_deg": 3.039,
-       "min_nr_pct": 88.869
+       "touchdown_sink_ms": 0.227,
+       "touchdown_ground_speed_ms": 0.326,
+       "max_tilt_after_deg": 3.071,
+       "min_nr_pct": 88.643
       },
       {
        "technique": "vertical",
@@ -4352,28 +4352,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.344,
-     "touchdown_ground_speed_ms": 0.265,
-     "max_tilt_after_deg": 2.946,
-     "min_nr_pct": 88.858,
+     "touchdown_sink_ms": 0.276,
+     "touchdown_ground_speed_ms": 0.272,
+     "max_tilt_after_deg": 3.047,
+     "min_nr_pct": 88.643,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.344,
-       "touchdown_ground_speed_ms": 0.265,
-       "max_tilt_after_deg": 2.946,
-       "min_nr_pct": 88.858
+       "touchdown_sink_ms": 0.276,
+       "touchdown_ground_speed_ms": 0.272,
+       "max_tilt_after_deg": 3.047,
+       "min_nr_pct": 88.643
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 4.455,
-       "touchdown_ground_speed_ms": 0.988,
-       "max_tilt_after_deg": 1.113,
-       "min_nr_pct": 83.163
+       "touchdown_sink_ms": 4.453,
+       "touchdown_ground_speed_ms": 0.958,
+       "max_tilt_after_deg": 1.146,
+       "min_nr_pct": 83.167
       }
      ]
     },
@@ -4384,28 +4384,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.405,
-     "touchdown_ground_speed_ms": 0.264,
-     "max_tilt_after_deg": 2.99,
-     "min_nr_pct": 88.988,
+     "touchdown_sink_ms": 0.363,
+     "touchdown_ground_speed_ms": 0.272,
+     "max_tilt_after_deg": 3.255,
+     "min_nr_pct": 88.78,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.405,
-       "touchdown_ground_speed_ms": 0.264,
-       "max_tilt_after_deg": 2.99,
-       "min_nr_pct": 88.988
+       "touchdown_sink_ms": 0.363,
+       "touchdown_ground_speed_ms": 0.272,
+       "max_tilt_after_deg": 3.255,
+       "min_nr_pct": 88.78
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 4.565,
-       "touchdown_ground_speed_ms": 0.288,
-       "max_tilt_after_deg": 4.518,
-       "min_nr_pct": 83.099
+       "touchdown_sink_ms": 4.451,
+       "touchdown_ground_speed_ms": 0.757,
+       "max_tilt_after_deg": 1.194,
+       "min_nr_pct": 83.292
       }
      ]
     },
@@ -4416,19 +4416,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.18,
-     "touchdown_ground_speed_ms": 0.299,
-     "max_tilt_after_deg": 3.462,
-     "min_nr_pct": 89.009,
+     "touchdown_sink_ms": 0.356,
+     "touchdown_ground_speed_ms": 0.263,
+     "max_tilt_after_deg": 3.353,
+     "min_nr_pct": 88.805,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.18,
-       "touchdown_ground_speed_ms": 0.299,
-       "max_tilt_after_deg": 3.462,
-       "min_nr_pct": 89.009
+       "touchdown_sink_ms": 0.356,
+       "touchdown_ground_speed_ms": 0.263,
+       "max_tilt_after_deg": 3.353,
+       "min_nr_pct": 88.805
       }
      ]
     },
@@ -4439,19 +4439,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.191,
-     "touchdown_ground_speed_ms": 0.278,
-     "max_tilt_after_deg": 3.483,
-     "min_nr_pct": 89.074,
+     "touchdown_sink_ms": 0.276,
+     "touchdown_ground_speed_ms": 0.265,
+     "max_tilt_after_deg": 3.455,
+     "min_nr_pct": 88.894,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.191,
-       "touchdown_ground_speed_ms": 0.278,
-       "max_tilt_after_deg": 3.483,
-       "min_nr_pct": 89.074
+       "touchdown_sink_ms": 0.276,
+       "touchdown_ground_speed_ms": 0.265,
+       "max_tilt_after_deg": 3.455,
+       "min_nr_pct": 88.894
       }
      ]
     },
@@ -4462,19 +4462,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.286,
-     "touchdown_ground_speed_ms": 0.28,
-     "max_tilt_after_deg": 3.232,
-     "min_nr_pct": 89.146,
+     "touchdown_sink_ms": 0.403,
+     "touchdown_ground_speed_ms": 0.243,
+     "max_tilt_after_deg": 3.035,
+     "min_nr_pct": 88.895,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.286,
-       "touchdown_ground_speed_ms": 0.28,
-       "max_tilt_after_deg": 3.232,
-       "min_nr_pct": 89.146
+       "touchdown_sink_ms": 0.403,
+       "touchdown_ground_speed_ms": 0.243,
+       "max_tilt_after_deg": 3.035,
+       "min_nr_pct": 88.895
       }
      ]
     }
@@ -4529,27 +4529,27 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.323,
-     "touchdown_ground_speed_ms": 4.993,
-     "max_tilt_after_deg": 5.491,
+     "touchdown_sink_ms": 1.325,
+     "touchdown_ground_speed_ms": 4.992,
+     "max_tilt_after_deg": 5.487,
      "min_nr_pct": 98.068,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.323,
-       "touchdown_ground_speed_ms": 4.993,
-       "max_tilt_after_deg": 5.491,
+       "touchdown_sink_ms": 1.325,
+       "touchdown_ground_speed_ms": 4.992,
+       "max_tilt_after_deg": 5.487,
        "min_nr_pct": 98.068
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.323,
-       "touchdown_ground_speed_ms": 4.993,
-       "max_tilt_after_deg": 5.491,
+       "touchdown_sink_ms": 1.325,
+       "touchdown_ground_speed_ms": 4.992,
+       "max_tilt_after_deg": 5.487,
        "min_nr_pct": 98.068
       }
      ]
@@ -4561,28 +4561,28 @@
      "technique": "frente",
      "safe": false,
      "landed": true,
-     "touchdown_sink_ms": 0.383,
-     "touchdown_ground_speed_ms": 9.249,
-     "max_tilt_after_deg": 11.823,
-     "min_nr_pct": 91.291,
+     "touchdown_sink_ms": 0.402,
+     "touchdown_ground_speed_ms": 9.348,
+     "max_tilt_after_deg": 11.817,
+     "min_nr_pct": 91.191,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 0.383,
-       "touchdown_ground_speed_ms": 9.249,
-       "max_tilt_after_deg": 11.823,
-       "min_nr_pct": 91.291
+       "touchdown_sink_ms": 0.402,
+       "touchdown_ground_speed_ms": 9.348,
+       "max_tilt_after_deg": 11.817,
+       "min_nr_pct": 91.191
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 0.383,
-       "touchdown_ground_speed_ms": 9.249,
-       "max_tilt_after_deg": 11.823,
-       "min_nr_pct": 91.291
+       "touchdown_sink_ms": 0.402,
+       "touchdown_ground_speed_ms": 9.348,
+       "max_tilt_after_deg": 11.817,
+       "min_nr_pct": 91.191
       }
      ]
     },
@@ -4593,19 +4593,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.278,
-     "touchdown_ground_speed_ms": 1.281,
-     "max_tilt_after_deg": 3.32,
-     "min_nr_pct": 88.649,
+     "touchdown_sink_ms": 0.405,
+     "touchdown_ground_speed_ms": 1.29,
+     "max_tilt_after_deg": 3.207,
+     "min_nr_pct": 88.543,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.278,
-       "touchdown_ground_speed_ms": 1.281,
-       "max_tilt_after_deg": 3.32,
-       "min_nr_pct": 88.649
+       "touchdown_sink_ms": 0.405,
+       "touchdown_ground_speed_ms": 1.29,
+       "max_tilt_after_deg": 3.207,
+       "min_nr_pct": 88.543
       }
      ]
     },
@@ -4616,19 +4616,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.434,
-     "touchdown_ground_speed_ms": 0.701,
-     "max_tilt_after_deg": 9.645,
-     "min_nr_pct": 90.018,
+     "touchdown_sink_ms": 0.537,
+     "touchdown_ground_speed_ms": 0.785,
+     "max_tilt_after_deg": 9.682,
+     "min_nr_pct": 90.137,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.434,
-       "touchdown_ground_speed_ms": 0.701,
-       "max_tilt_after_deg": 9.645,
-       "min_nr_pct": 90.018
+       "touchdown_sink_ms": 0.537,
+       "touchdown_ground_speed_ms": 0.785,
+       "max_tilt_after_deg": 9.682,
+       "min_nr_pct": 90.137
       }
      ]
     },
@@ -4639,19 +4639,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.257,
-     "touchdown_ground_speed_ms": 0.539,
-     "max_tilt_after_deg": 8.589,
-     "min_nr_pct": 90.152,
+     "touchdown_sink_ms": 0.244,
+     "touchdown_ground_speed_ms": 0.54,
+     "max_tilt_after_deg": 8.286,
+     "min_nr_pct": 90.071,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.257,
-       "touchdown_ground_speed_ms": 0.539,
-       "max_tilt_after_deg": 8.589,
-       "min_nr_pct": 90.152
+       "touchdown_sink_ms": 0.244,
+       "touchdown_ground_speed_ms": 0.54,
+       "max_tilt_after_deg": 8.286,
+       "min_nr_pct": 90.071
       }
      ]
     },
@@ -4695,27 +4695,27 @@
      "safe": true,
      "landed": true,
      "touchdown_sink_ms": 0.305,
-     "touchdown_ground_speed_ms": 2.597,
-     "max_tilt_after_deg": 9.941,
-     "min_nr_pct": 90.882,
+     "touchdown_ground_speed_ms": 2.586,
+     "max_tilt_after_deg": 9.889,
+     "min_nr_pct": 90.893,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 0.305,
-       "touchdown_ground_speed_ms": 2.597,
-       "max_tilt_after_deg": 9.941,
-       "min_nr_pct": 90.882
+       "touchdown_ground_speed_ms": 2.586,
+       "max_tilt_after_deg": 9.889,
+       "min_nr_pct": 90.893
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 0.305,
-       "touchdown_ground_speed_ms": 2.597,
-       "max_tilt_after_deg": 9.941,
-       "min_nr_pct": 90.882
+       "touchdown_ground_speed_ms": 2.586,
+       "max_tilt_after_deg": 9.889,
+       "min_nr_pct": 90.893
       }
      ]
     },
@@ -4726,28 +4726,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.018,
-     "touchdown_ground_speed_ms": 5.706,
-     "max_tilt_after_deg": 9.046,
-     "min_nr_pct": 98.065,
+     "touchdown_sink_ms": 1.01,
+     "touchdown_ground_speed_ms": 5.731,
+     "max_tilt_after_deg": 9.412,
+     "min_nr_pct": 98.066,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.018,
-       "touchdown_ground_speed_ms": 5.706,
-       "max_tilt_after_deg": 9.046,
-       "min_nr_pct": 98.065
+       "touchdown_sink_ms": 1.01,
+       "touchdown_ground_speed_ms": 5.731,
+       "max_tilt_after_deg": 9.412,
+       "min_nr_pct": 98.066
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.018,
-       "touchdown_ground_speed_ms": 5.706,
-       "max_tilt_after_deg": 9.046,
-       "min_nr_pct": 98.065
+       "touchdown_sink_ms": 1.01,
+       "touchdown_ground_speed_ms": 5.731,
+       "max_tilt_after_deg": 9.412,
+       "min_nr_pct": 98.066
       }
      ]
     },
@@ -4758,19 +4758,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.567,
-     "touchdown_ground_speed_ms": 0.413,
-     "max_tilt_after_deg": 8.708,
-     "min_nr_pct": 90.734,
+     "touchdown_sink_ms": 0.581,
+     "touchdown_ground_speed_ms": 0.428,
+     "max_tilt_after_deg": 8.772,
+     "min_nr_pct": 90.692,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.567,
-       "touchdown_ground_speed_ms": 0.413,
-       "max_tilt_after_deg": 8.708,
-       "min_nr_pct": 90.734
+       "touchdown_sink_ms": 0.581,
+       "touchdown_ground_speed_ms": 0.428,
+       "max_tilt_after_deg": 8.772,
+       "min_nr_pct": 90.692
       }
      ]
     },
@@ -4781,19 +4781,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.337,
-     "touchdown_ground_speed_ms": 0.26,
-     "max_tilt_after_deg": 2.767,
-     "min_nr_pct": 89.486,
+     "touchdown_sink_ms": 0.205,
+     "touchdown_ground_speed_ms": 0.302,
+     "max_tilt_after_deg": 2.863,
+     "min_nr_pct": 89.562,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.337,
-       "touchdown_ground_speed_ms": 0.26,
-       "max_tilt_after_deg": 2.767,
-       "min_nr_pct": 89.486
+       "touchdown_sink_ms": 0.205,
+       "touchdown_ground_speed_ms": 0.302,
+       "max_tilt_after_deg": 2.863,
+       "min_nr_pct": 89.562
       }
      ]
     },
@@ -4804,19 +4804,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.364,
-     "touchdown_ground_speed_ms": 0.55,
-     "max_tilt_after_deg": 8.938,
-     "min_nr_pct": 90.227,
+     "touchdown_sink_ms": 0.353,
+     "touchdown_ground_speed_ms": 0.513,
+     "max_tilt_after_deg": 8.662,
+     "min_nr_pct": 90.127,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.364,
-       "touchdown_ground_speed_ms": 0.55,
-       "max_tilt_after_deg": 8.938,
-       "min_nr_pct": 90.227
+       "touchdown_sink_ms": 0.353,
+       "touchdown_ground_speed_ms": 0.513,
+       "max_tilt_after_deg": 8.662,
+       "min_nr_pct": 90.127
       }
      ]
     },
@@ -4828,8 +4828,8 @@
      "safe": true,
      "landed": true,
      "touchdown_sink_ms": 0.719,
-     "touchdown_ground_speed_ms": 0.498,
-     "max_tilt_after_deg": 2.499,
+     "touchdown_ground_speed_ms": 0.501,
+     "max_tilt_after_deg": 2.526,
      "min_nr_pct": 78.197,
      "tries": [
       {
@@ -4837,8 +4837,8 @@
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 0.719,
-       "touchdown_ground_speed_ms": 0.498,
-       "max_tilt_after_deg": 2.499,
+       "touchdown_ground_speed_ms": 0.501,
+       "max_tilt_after_deg": 2.526,
        "min_nr_pct": 78.197
       },
       {
@@ -4860,27 +4860,27 @@
      "safe": true,
      "landed": true,
      "touchdown_sink_ms": 1.45,
-     "touchdown_ground_speed_ms": 1.928,
-     "max_tilt_after_deg": 9.622,
-     "min_nr_pct": 91.923,
+     "touchdown_ground_speed_ms": 1.913,
+     "max_tilt_after_deg": 9.505,
+     "min_nr_pct": 91.933,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.528,
-       "touchdown_ground_speed_ms": 6.807,
-       "max_tilt_after_deg": 11.256,
-       "min_nr_pct": 89.299
+       "touchdown_sink_ms": 2.546,
+       "touchdown_ground_speed_ms": 7.118,
+       "max_tilt_after_deg": 11.29,
+       "min_nr_pct": 89.323
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 1.45,
-       "touchdown_ground_speed_ms": 1.928,
-       "max_tilt_after_deg": 9.622,
-       "min_nr_pct": 91.923
+       "touchdown_ground_speed_ms": 1.913,
+       "max_tilt_after_deg": 9.505,
+       "min_nr_pct": 91.933
       }
      ]
     },
@@ -4891,28 +4891,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.991,
-     "touchdown_ground_speed_ms": 0.5,
-     "max_tilt_after_deg": 7.858,
-     "min_nr_pct": 91.3,
+     "touchdown_sink_ms": 0.819,
+     "touchdown_ground_speed_ms": 0.573,
+     "max_tilt_after_deg": 6.859,
+     "min_nr_pct": 90.332,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.991,
-       "touchdown_ground_speed_ms": 0.5,
-       "max_tilt_after_deg": 7.858,
-       "min_nr_pct": 91.3
+       "touchdown_sink_ms": 0.819,
+       "touchdown_ground_speed_ms": 0.573,
+       "max_tilt_after_deg": 6.859,
+       "min_nr_pct": 90.332
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.493,
-       "touchdown_ground_speed_ms": 2.42,
-       "max_tilt_after_deg": 10.609,
-       "min_nr_pct": 91.223
+       "touchdown_sink_ms": 0.431,
+       "touchdown_ground_speed_ms": 2.335,
+       "max_tilt_after_deg": 10.677,
+       "min_nr_pct": 91.107
       }
      ]
     },
@@ -4923,19 +4923,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.616,
-     "touchdown_ground_speed_ms": 0.389,
-     "max_tilt_after_deg": 8.187,
-     "min_nr_pct": 90.811,
+     "touchdown_sink_ms": 0.668,
+     "touchdown_ground_speed_ms": 0.401,
+     "max_tilt_after_deg": 7.976,
+     "min_nr_pct": 91.074,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.616,
-       "touchdown_ground_speed_ms": 0.389,
-       "max_tilt_after_deg": 8.187,
-       "min_nr_pct": 90.811
+       "touchdown_sink_ms": 0.668,
+       "touchdown_ground_speed_ms": 0.401,
+       "max_tilt_after_deg": 7.976,
+       "min_nr_pct": 91.074
       }
      ]
     },
@@ -4946,19 +4946,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.222,
-     "touchdown_ground_speed_ms": 0.369,
-     "max_tilt_after_deg": 4.223,
-     "min_nr_pct": 83.972,
+     "touchdown_sink_ms": 0.242,
+     "touchdown_ground_speed_ms": 0.364,
+     "max_tilt_after_deg": 4.115,
+     "min_nr_pct": 84.593,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.222,
-       "touchdown_ground_speed_ms": 0.369,
-       "max_tilt_after_deg": 4.223,
-       "min_nr_pct": 83.972
+       "touchdown_sink_ms": 0.242,
+       "touchdown_ground_speed_ms": 0.364,
+       "max_tilt_after_deg": 4.115,
+       "min_nr_pct": 84.593
       }
      ]
     },
@@ -4969,19 +4969,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.306,
-     "touchdown_ground_speed_ms": 0.298,
-     "max_tilt_after_deg": 4.195,
-     "min_nr_pct": 85.648,
+     "touchdown_sink_ms": 0.397,
+     "touchdown_ground_speed_ms": 0.247,
+     "max_tilt_after_deg": 4.014,
+     "min_nr_pct": 85.689,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.306,
-       "touchdown_ground_speed_ms": 0.298,
-       "max_tilt_after_deg": 4.195,
-       "min_nr_pct": 85.648
+       "touchdown_sink_ms": 0.397,
+       "touchdown_ground_speed_ms": 0.247,
+       "max_tilt_after_deg": 4.014,
+       "min_nr_pct": 85.689
       }
      ]
     },
@@ -4992,18 +4992,18 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.368,
+     "touchdown_sink_ms": 0.058,
      "touchdown_ground_speed_ms": 0.727,
-     "max_tilt_after_deg": 3.883,
+     "max_tilt_after_deg": 4.02,
      "min_nr_pct": 78.431,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.368,
+       "touchdown_sink_ms": 0.058,
        "touchdown_ground_speed_ms": 0.727,
-       "max_tilt_after_deg": 3.883,
+       "max_tilt_after_deg": 4.02,
        "min_nr_pct": 78.431
       },
       {
@@ -5025,27 +5025,27 @@
      "safe": false,
      "landed": true,
      "touchdown_sink_ms": 2.032,
-     "touchdown_ground_speed_ms": 1.215,
-     "max_tilt_after_deg": 9.496,
-     "min_nr_pct": 91.994,
+     "touchdown_ground_speed_ms": 1.203,
+     "max_tilt_after_deg": 9.397,
+     "min_nr_pct": 92.003,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.663,
-       "touchdown_ground_speed_ms": 9.125,
-       "max_tilt_after_deg": 10.621,
-       "min_nr_pct": 83.704
+       "touchdown_sink_ms": 2.653,
+       "touchdown_ground_speed_ms": 9.07,
+       "max_tilt_after_deg": 10.638,
+       "min_nr_pct": 84.191
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
        "touchdown_sink_ms": 2.032,
-       "touchdown_ground_speed_ms": 1.215,
-       "max_tilt_after_deg": 9.496,
-       "min_nr_pct": 91.994
+       "touchdown_ground_speed_ms": 1.203,
+       "max_tilt_after_deg": 9.397,
+       "min_nr_pct": 92.003
       }
      ]
     },
@@ -5056,28 +5056,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.644,
-     "touchdown_ground_speed_ms": 0.765,
-     "max_tilt_after_deg": 9.929,
-     "min_nr_pct": 90.747,
+     "touchdown_sink_ms": 0.716,
+     "touchdown_ground_speed_ms": 0.73,
+     "max_tilt_after_deg": 9.589,
+     "min_nr_pct": 90.779,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.644,
-       "touchdown_ground_speed_ms": 0.765,
-       "max_tilt_after_deg": 9.929,
-       "min_nr_pct": 90.747
+       "touchdown_sink_ms": 0.716,
+       "touchdown_ground_speed_ms": 0.73,
+       "max_tilt_after_deg": 9.589,
+       "min_nr_pct": 90.779
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.225,
-       "touchdown_ground_speed_ms": 1.819,
-       "max_tilt_after_deg": 9.786,
-       "min_nr_pct": 91.664
+       "touchdown_sink_ms": 1.221,
+       "touchdown_ground_speed_ms": 1.855,
+       "max_tilt_after_deg": 10.296,
+       "min_nr_pct": 91.586
       }
      ]
     },
@@ -5088,19 +5088,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.772,
-     "touchdown_ground_speed_ms": 0.34,
-     "max_tilt_after_deg": 8.405,
-     "min_nr_pct": 91.286,
+     "touchdown_sink_ms": 0.799,
+     "touchdown_ground_speed_ms": 0.343,
+     "max_tilt_after_deg": 8.242,
+     "min_nr_pct": 91.357,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.772,
-       "touchdown_ground_speed_ms": 0.34,
-       "max_tilt_after_deg": 8.405,
-       "min_nr_pct": 91.286
+       "touchdown_sink_ms": 0.799,
+       "touchdown_ground_speed_ms": 0.343,
+       "max_tilt_after_deg": 8.242,
+       "min_nr_pct": 91.357
       }
      ]
     },
@@ -5111,19 +5111,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.372,
-     "touchdown_ground_speed_ms": 0.601,
-     "max_tilt_after_deg": 6.553,
-     "min_nr_pct": 89.841,
+     "touchdown_sink_ms": 0.285,
+     "touchdown_ground_speed_ms": 0.365,
+     "max_tilt_after_deg": 7.544,
+     "min_nr_pct": 90.081,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.372,
-       "touchdown_ground_speed_ms": 0.601,
-       "max_tilt_after_deg": 6.553,
-       "min_nr_pct": 89.841
+       "touchdown_sink_ms": 0.285,
+       "touchdown_ground_speed_ms": 0.365,
+       "max_tilt_after_deg": 7.544,
+       "min_nr_pct": 90.081
       }
      ]
     },
@@ -5134,19 +5134,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.603,
-     "touchdown_ground_speed_ms": 0.083,
-     "max_tilt_after_deg": 7.193,
-     "min_nr_pct": 90.385,
+     "touchdown_sink_ms": 0.454,
+     "touchdown_ground_speed_ms": 0.118,
+     "max_tilt_after_deg": 7.545,
+     "min_nr_pct": 90.491,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.603,
-       "touchdown_ground_speed_ms": 0.083,
-       "max_tilt_after_deg": 7.193,
-       "min_nr_pct": 90.385
+       "touchdown_sink_ms": 0.454,
+       "touchdown_ground_speed_ms": 0.118,
+       "max_tilt_after_deg": 7.545,
+       "min_nr_pct": 90.491
       }
      ]
     },
@@ -5166,10 +5166,10 @@
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 3.037,
-       "touchdown_ground_speed_ms": 4.892,
-       "max_tilt_after_deg": 4.072,
-       "min_nr_pct": 92.951
+       "touchdown_sink_ms": 3.038,
+       "touchdown_ground_speed_ms": 4.891,
+       "max_tilt_after_deg": 4.068,
+       "min_nr_pct": 92.952
       },
       {
        "technique": "vertical",
@@ -5190,27 +5190,27 @@
      "safe": true,
      "landed": true,
      "touchdown_sink_ms": 1.924,
-     "touchdown_ground_speed_ms": 0.506,
-     "max_tilt_after_deg": 8.68,
-     "min_nr_pct": 89.739,
+     "touchdown_ground_speed_ms": 0.502,
+     "max_tilt_after_deg": 8.603,
+     "min_nr_pct": 89.748,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.623,
-       "touchdown_ground_speed_ms": 11.03,
-       "max_tilt_after_deg": 10.185,
-       "min_nr_pct": 82.235
+       "touchdown_sink_ms": 2.614,
+       "touchdown_ground_speed_ms": 11.038,
+       "max_tilt_after_deg": 10.16,
+       "min_nr_pct": 82.619
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
        "touchdown_sink_ms": 1.924,
-       "touchdown_ground_speed_ms": 0.506,
-       "max_tilt_after_deg": 8.68,
-       "min_nr_pct": 89.739
+       "touchdown_ground_speed_ms": 0.502,
+       "max_tilt_after_deg": 8.603,
+       "min_nr_pct": 89.748
       }
      ]
     },
@@ -5221,28 +5221,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.734,
-     "touchdown_ground_speed_ms": 0.413,
-     "max_tilt_after_deg": 9.759,
-     "min_nr_pct": 90.924,
+     "touchdown_sink_ms": 0.748,
+     "touchdown_ground_speed_ms": 0.437,
+     "max_tilt_after_deg": 9.804,
+     "min_nr_pct": 90.984,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.734,
-       "touchdown_ground_speed_ms": 0.413,
-       "max_tilt_after_deg": 9.759,
-       "min_nr_pct": 90.924
+       "touchdown_sink_ms": 0.748,
+       "touchdown_ground_speed_ms": 0.437,
+       "max_tilt_after_deg": 9.804,
+       "min_nr_pct": 90.984
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.94,
-       "touchdown_ground_speed_ms": 1.317,
-       "max_tilt_after_deg": 9.952,
-       "min_nr_pct": 92.041
+       "touchdown_sink_ms": 1.975,
+       "touchdown_ground_speed_ms": 1.3,
+       "max_tilt_after_deg": 9.899,
+       "min_nr_pct": 92.197
       }
      ]
     },
@@ -5253,19 +5253,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.835,
-     "touchdown_ground_speed_ms": 0.26,
-     "max_tilt_after_deg": 8.237,
-     "min_nr_pct": 91.356,
+     "touchdown_sink_ms": 0.842,
+     "touchdown_ground_speed_ms": 0.258,
+     "max_tilt_after_deg": 8.266,
+     "min_nr_pct": 91.353,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.835,
-       "touchdown_ground_speed_ms": 0.26,
-       "max_tilt_after_deg": 8.237,
-       "min_nr_pct": 91.356
+       "touchdown_sink_ms": 0.842,
+       "touchdown_ground_speed_ms": 0.258,
+       "max_tilt_after_deg": 8.266,
+       "min_nr_pct": 91.353
       }
      ]
     },
@@ -5276,19 +5276,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.809,
-     "touchdown_ground_speed_ms": 0.23,
-     "max_tilt_after_deg": 8.138,
-     "min_nr_pct": 91.154,
+     "touchdown_sink_ms": 0.849,
+     "touchdown_ground_speed_ms": 0.178,
+     "max_tilt_after_deg": 8.087,
+     "min_nr_pct": 91.407,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.809,
-       "touchdown_ground_speed_ms": 0.23,
-       "max_tilt_after_deg": 8.138,
-       "min_nr_pct": 91.154
+       "touchdown_sink_ms": 0.849,
+       "touchdown_ground_speed_ms": 0.178,
+       "max_tilt_after_deg": 8.087,
+       "min_nr_pct": 91.407
       }
      ]
     },
@@ -5299,19 +5299,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.835,
-     "touchdown_ground_speed_ms": 0.15,
-     "max_tilt_after_deg": 7.532,
-     "min_nr_pct": 91.424,
+     "touchdown_sink_ms": 0.799,
+     "touchdown_ground_speed_ms": 0.209,
+     "max_tilt_after_deg": 7.356,
+     "min_nr_pct": 91.15,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.835,
-       "touchdown_ground_speed_ms": 0.15,
-       "max_tilt_after_deg": 7.532,
-       "min_nr_pct": 91.424
+       "touchdown_sink_ms": 0.799,
+       "touchdown_ground_speed_ms": 0.209,
+       "max_tilt_after_deg": 7.356,
+       "min_nr_pct": 91.15
       }
      ]
     },
@@ -5332,8 +5332,8 @@
        "safe": false,
        "landed": true,
        "touchdown_sink_ms": 4.74,
-       "touchdown_ground_speed_ms": 6.242,
-       "max_tilt_after_deg": 4.709,
+       "touchdown_ground_speed_ms": 6.24,
+       "max_tilt_after_deg": 4.71,
        "min_nr_pct": 97.575
       },
       {
@@ -5354,28 +5354,28 @@
      "technique": "vertical",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.286,
-     "touchdown_ground_speed_ms": 0.409,
-     "max_tilt_after_deg": 4.743,
-     "min_nr_pct": 79.191,
+     "touchdown_sink_ms": 0.284,
+     "touchdown_ground_speed_ms": 0.408,
+     "max_tilt_after_deg": 4.733,
+     "min_nr_pct": 79.197,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 1.92,
-       "touchdown_ground_speed_ms": 13.428,
-       "max_tilt_after_deg": 11.155,
-       "min_nr_pct": 85.047
+       "touchdown_sink_ms": 1.822,
+       "touchdown_ground_speed_ms": 13.17,
+       "max_tilt_after_deg": 11.211,
+       "min_nr_pct": 84.629
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.286,
-       "touchdown_ground_speed_ms": 0.409,
-       "max_tilt_after_deg": 4.743,
-       "min_nr_pct": 79.191
+       "touchdown_sink_ms": 0.284,
+       "touchdown_ground_speed_ms": 0.408,
+       "max_tilt_after_deg": 4.733,
+       "min_nr_pct": 79.197
       }
      ]
     },
@@ -5386,28 +5386,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.853,
-     "touchdown_ground_speed_ms": 0.362,
-     "max_tilt_after_deg": 9.579,
-     "min_nr_pct": 91.35,
+     "touchdown_sink_ms": 0.852,
+     "touchdown_ground_speed_ms": 0.357,
+     "max_tilt_after_deg": 9.633,
+     "min_nr_pct": 91.221,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.853,
-       "touchdown_ground_speed_ms": 0.362,
-       "max_tilt_after_deg": 9.579,
-       "min_nr_pct": 91.35
+       "touchdown_sink_ms": 0.852,
+       "touchdown_ground_speed_ms": 0.357,
+       "max_tilt_after_deg": 9.633,
+       "min_nr_pct": 91.221
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.309,
-       "touchdown_ground_speed_ms": 0.737,
-       "max_tilt_after_deg": 6.803,
-       "min_nr_pct": 86.334
+       "touchdown_sink_ms": 1.25,
+       "touchdown_ground_speed_ms": 0.702,
+       "max_tilt_after_deg": 6.5,
+       "min_nr_pct": 86.256
       }
      ]
     },
@@ -5418,19 +5418,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.875,
-     "touchdown_ground_speed_ms": 0.052,
-     "max_tilt_after_deg": 8.735,
-     "min_nr_pct": 91.381,
+     "touchdown_sink_ms": 0.866,
+     "touchdown_ground_speed_ms": 0.14,
+     "max_tilt_after_deg": 8.207,
+     "min_nr_pct": 91.255,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.875,
-       "touchdown_ground_speed_ms": 0.052,
-       "max_tilt_after_deg": 8.735,
-       "min_nr_pct": 91.381
+       "touchdown_sink_ms": 0.866,
+       "touchdown_ground_speed_ms": 0.14,
+       "max_tilt_after_deg": 8.207,
+       "min_nr_pct": 91.255
       }
      ]
     },
@@ -5441,19 +5441,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.933,
-     "touchdown_ground_speed_ms": 0.164,
-     "max_tilt_after_deg": 7.866,
-     "min_nr_pct": 91.512,
+     "touchdown_sink_ms": 0.908,
+     "touchdown_ground_speed_ms": 0.142,
+     "max_tilt_after_deg": 7.709,
+     "min_nr_pct": 91.422,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.933,
-       "touchdown_ground_speed_ms": 0.164,
-       "max_tilt_after_deg": 7.866,
-       "min_nr_pct": 91.512
+       "touchdown_sink_ms": 0.908,
+       "touchdown_ground_speed_ms": 0.142,
+       "max_tilt_after_deg": 7.709,
+       "min_nr_pct": 91.422
       }
      ]
     },
@@ -5464,19 +5464,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.818,
-     "touchdown_ground_speed_ms": 0.28,
-     "max_tilt_after_deg": 7.592,
-     "min_nr_pct": 91.25,
+     "touchdown_sink_ms": 0.804,
+     "touchdown_ground_speed_ms": 0.301,
+     "max_tilt_after_deg": 7.352,
+     "min_nr_pct": 91.096,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.818,
-       "touchdown_ground_speed_ms": 0.28,
-       "max_tilt_after_deg": 7.592,
-       "min_nr_pct": 91.25
+       "touchdown_sink_ms": 0.804,
+       "touchdown_ground_speed_ms": 0.301,
+       "max_tilt_after_deg": 7.352,
+       "min_nr_pct": 91.096
       }
      ]
     },
@@ -5496,10 +5496,10 @@
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 5.073,
-       "touchdown_ground_speed_ms": 9.706,
-       "max_tilt_after_deg": 10.639,
-       "min_nr_pct": 84.45
+       "touchdown_sink_ms": 5.068,
+       "touchdown_ground_speed_ms": 9.705,
+       "max_tilt_after_deg": 10.651,
+       "min_nr_pct": 84.426
       },
       {
        "technique": "vertical",
@@ -5519,28 +5519,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.013,
-     "touchdown_ground_speed_ms": 0.824,
-     "max_tilt_after_deg": 9.892,
-     "min_nr_pct": 91.257,
+     "touchdown_sink_ms": 1.042,
+     "touchdown_ground_speed_ms": 0.823,
+     "max_tilt_after_deg": 9.321,
+     "min_nr_pct": 91.297,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.013,
-       "touchdown_ground_speed_ms": 0.824,
-       "max_tilt_after_deg": 9.892,
-       "min_nr_pct": 91.257
+       "touchdown_sink_ms": 1.042,
+       "touchdown_ground_speed_ms": 0.823,
+       "max_tilt_after_deg": 9.321,
+       "min_nr_pct": 91.297
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.438,
-       "touchdown_ground_speed_ms": 1.296,
-       "max_tilt_after_deg": 4.783,
-       "min_nr_pct": 81.414
+       "touchdown_sink_ms": 1.435,
+       "touchdown_ground_speed_ms": 1.281,
+       "max_tilt_after_deg": 4.777,
+       "min_nr_pct": 81.547
       }
      ]
     },
@@ -5551,28 +5551,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.872,
-     "touchdown_ground_speed_ms": 0.504,
-     "max_tilt_after_deg": 9.109,
-     "min_nr_pct": 91.306,
+     "touchdown_sink_ms": 0.89,
+     "touchdown_ground_speed_ms": 0.46,
+     "max_tilt_after_deg": 8.828,
+     "min_nr_pct": 91.418,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.872,
-       "touchdown_ground_speed_ms": 0.504,
-       "max_tilt_after_deg": 9.109,
-       "min_nr_pct": 91.306
+       "touchdown_sink_ms": 0.89,
+       "touchdown_ground_speed_ms": 0.46,
+       "max_tilt_after_deg": 8.828,
+       "min_nr_pct": 91.418
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.86,
-       "touchdown_ground_speed_ms": 1.189,
-       "max_tilt_after_deg": 2.576,
-       "min_nr_pct": 80.323
+       "touchdown_sink_ms": 0.839,
+       "touchdown_ground_speed_ms": 1.138,
+       "max_tilt_after_deg": 2.375,
+       "min_nr_pct": 80.242
       }
      ]
     },
@@ -5583,19 +5583,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.922,
-     "touchdown_ground_speed_ms": 0.228,
-     "max_tilt_after_deg": 8.663,
-     "min_nr_pct": 91.467,
+     "touchdown_sink_ms": 0.898,
+     "touchdown_ground_speed_ms": 0.196,
+     "max_tilt_after_deg": 8.502,
+     "min_nr_pct": 91.382,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.922,
-       "touchdown_ground_speed_ms": 0.228,
-       "max_tilt_after_deg": 8.663,
-       "min_nr_pct": 91.467
+       "touchdown_sink_ms": 0.898,
+       "touchdown_ground_speed_ms": 0.196,
+       "max_tilt_after_deg": 8.502,
+       "min_nr_pct": 91.382
       }
      ]
     },
@@ -5606,19 +5606,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.952,
-     "touchdown_ground_speed_ms": 0.07,
-     "max_tilt_after_deg": 7.573,
-     "min_nr_pct": 91.226,
+     "touchdown_sink_ms": 0.948,
+     "touchdown_ground_speed_ms": 0.081,
+     "max_tilt_after_deg": 7.691,
+     "min_nr_pct": 91.378,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.952,
-       "touchdown_ground_speed_ms": 0.07,
-       "max_tilt_after_deg": 7.573,
-       "min_nr_pct": 91.226
+       "touchdown_sink_ms": 0.948,
+       "touchdown_ground_speed_ms": 0.081,
+       "max_tilt_after_deg": 7.691,
+       "min_nr_pct": 91.378
       }
      ]
     },
@@ -5629,19 +5629,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.875,
-     "touchdown_ground_speed_ms": 0.313,
-     "max_tilt_after_deg": 7.976,
-     "min_nr_pct": 91.06,
+     "touchdown_sink_ms": 0.927,
+     "touchdown_ground_speed_ms": 0.343,
+     "max_tilt_after_deg": 7.79,
+     "min_nr_pct": 91.283,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.875,
-       "touchdown_ground_speed_ms": 0.313,
-       "max_tilt_after_deg": 7.976,
-       "min_nr_pct": 91.06
+       "touchdown_sink_ms": 0.927,
+       "touchdown_ground_speed_ms": 0.343,
+       "max_tilt_after_deg": 7.79,
+       "min_nr_pct": 91.283
       }
      ]
     },
@@ -5661,10 +5661,10 @@
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 4.603,
-       "touchdown_ground_speed_ms": 12.268,
-       "max_tilt_after_deg": 9.966,
-       "min_nr_pct": 85.235
+       "touchdown_sink_ms": 4.593,
+       "touchdown_ground_speed_ms": 12.317,
+       "max_tilt_after_deg": 9.962,
+       "min_nr_pct": 85.457
       },
       {
        "technique": "vertical",
@@ -5684,28 +5684,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.834,
-     "touchdown_ground_speed_ms": 0.67,
-     "max_tilt_after_deg": 10.066,
-     "min_nr_pct": 91.032,
+     "touchdown_sink_ms": 0.833,
+     "touchdown_ground_speed_ms": 0.675,
+     "max_tilt_after_deg": 10.023,
+     "min_nr_pct": 91.052,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.834,
-       "touchdown_ground_speed_ms": 0.67,
-       "max_tilt_after_deg": 10.066,
-       "min_nr_pct": 91.032
+       "touchdown_sink_ms": 0.833,
+       "touchdown_ground_speed_ms": 0.675,
+       "max_tilt_after_deg": 10.023,
+       "min_nr_pct": 91.052
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.283,
-       "touchdown_ground_speed_ms": 1.093,
-       "max_tilt_after_deg": 3.97,
-       "min_nr_pct": 82.828
+       "touchdown_sink_ms": 2.281,
+       "touchdown_ground_speed_ms": 1.019,
+       "max_tilt_after_deg": 3.892,
+       "min_nr_pct": 82.887
       }
      ]
     },
@@ -5716,28 +5716,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.836,
-     "touchdown_ground_speed_ms": 0.566,
-     "max_tilt_after_deg": 8.782,
-     "min_nr_pct": 91.111,
+     "touchdown_sink_ms": 0.853,
+     "touchdown_ground_speed_ms": 0.545,
+     "max_tilt_after_deg": 8.725,
+     "min_nr_pct": 91.318,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.836,
-       "touchdown_ground_speed_ms": 0.566,
-       "max_tilt_after_deg": 8.782,
-       "min_nr_pct": 91.111
+       "touchdown_sink_ms": 0.853,
+       "touchdown_ground_speed_ms": 0.545,
+       "max_tilt_after_deg": 8.725,
+       "min_nr_pct": 91.318
       },
       {
        "technique": "vertical",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.848,
-       "touchdown_ground_speed_ms": 1.011,
-       "max_tilt_after_deg": 2.581,
-       "min_nr_pct": 82.17
+       "touchdown_sink_ms": 1.855,
+       "touchdown_ground_speed_ms": 0.95,
+       "max_tilt_after_deg": 2.242,
+       "min_nr_pct": 82.265
       }
      ]
     },
@@ -5748,19 +5748,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.934,
-     "touchdown_ground_speed_ms": 0.254,
-     "max_tilt_after_deg": 8.215,
-     "min_nr_pct": 91.365,
+     "touchdown_sink_ms": 0.892,
+     "touchdown_ground_speed_ms": 0.294,
+     "max_tilt_after_deg": 8.453,
+     "min_nr_pct": 91.22,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.934,
-       "touchdown_ground_speed_ms": 0.254,
-       "max_tilt_after_deg": 8.215,
-       "min_nr_pct": 91.365
+       "touchdown_sink_ms": 0.892,
+       "touchdown_ground_speed_ms": 0.294,
+       "max_tilt_after_deg": 8.453,
+       "min_nr_pct": 91.22
       }
      ]
     },
@@ -5771,19 +5771,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.88,
-     "touchdown_ground_speed_ms": 0.176,
-     "max_tilt_after_deg": 7.713,
-     "min_nr_pct": 91.282,
+     "touchdown_sink_ms": 0.878,
+     "touchdown_ground_speed_ms": 0.08,
+     "max_tilt_after_deg": 7.97,
+     "min_nr_pct": 91.251,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.88,
-       "touchdown_ground_speed_ms": 0.176,
-       "max_tilt_after_deg": 7.713,
-       "min_nr_pct": 91.282
+       "touchdown_sink_ms": 0.878,
+       "touchdown_ground_speed_ms": 0.08,
+       "max_tilt_after_deg": 7.97,
+       "min_nr_pct": 91.251
       }
      ]
     },
@@ -5794,19 +5794,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.875,
-     "touchdown_ground_speed_ms": 0.214,
-     "max_tilt_after_deg": 8.315,
-     "min_nr_pct": 91.216,
+     "touchdown_sink_ms": 1.005,
+     "touchdown_ground_speed_ms": 0.344,
+     "max_tilt_after_deg": 7.787,
+     "min_nr_pct": 91.342,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.875,
-       "touchdown_ground_speed_ms": 0.214,
-       "max_tilt_after_deg": 8.315,
-       "min_nr_pct": 91.216
+       "touchdown_sink_ms": 1.005,
+       "touchdown_ground_speed_ms": 0.344,
+       "max_tilt_after_deg": 7.787,
+       "min_nr_pct": 91.342
       }
      ]
     },
@@ -5817,19 +5817,19 @@
      "technique": "frente",
      "safe": false,
      "landed": true,
-     "touchdown_sink_ms": 2.8,
-     "touchdown_ground_speed_ms": 14.132,
-     "max_tilt_after_deg": 10.778,
-     "min_nr_pct": 87.234,
+     "touchdown_sink_ms": 2.776,
+     "touchdown_ground_speed_ms": 14.226,
+     "max_tilt_after_deg": 10.769,
+     "min_nr_pct": 87.391,
      "tries": [
       {
        "technique": "frente",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.8,
-       "touchdown_ground_speed_ms": 14.132,
-       "max_tilt_after_deg": 10.778,
-       "min_nr_pct": 87.234
+       "touchdown_sink_ms": 2.776,
+       "touchdown_ground_speed_ms": 14.226,
+       "max_tilt_after_deg": 10.769,
+       "min_nr_pct": 87.391
       },
       {
        "technique": "vertical",
@@ -5849,28 +5849,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.717,
-     "touchdown_ground_speed_ms": 0.562,
-     "max_tilt_after_deg": 8.637,
-     "min_nr_pct": 90.953,
+     "touchdown_sink_ms": 0.739,
+     "touchdown_ground_speed_ms": 0.637,
+     "max_tilt_after_deg": 9.029,
+     "min_nr_pct": 90.979,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.717,
-       "touchdown_ground_speed_ms": 0.562,
-       "max_tilt_after_deg": 8.637,
-       "min_nr_pct": 90.953
+       "touchdown_sink_ms": 0.739,
+       "touchdown_ground_speed_ms": 0.637,
+       "max_tilt_after_deg": 9.029,
+       "min_nr_pct": 90.979
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 3.078,
-       "touchdown_ground_speed_ms": 1.207,
-       "max_tilt_after_deg": 3.944,
-       "min_nr_pct": 84.03
+       "touchdown_sink_ms": 2.961,
+       "touchdown_ground_speed_ms": 0.751,
+       "max_tilt_after_deg": 2.721,
+       "min_nr_pct": 83.893
       }
      ]
     },
@@ -5881,28 +5881,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.886,
-     "touchdown_ground_speed_ms": 0.369,
-     "max_tilt_after_deg": 8.08,
-     "min_nr_pct": 90.995,
+     "touchdown_sink_ms": 0.896,
+     "touchdown_ground_speed_ms": 0.372,
+     "max_tilt_after_deg": 8.074,
+     "min_nr_pct": 91.07,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.886,
-       "touchdown_ground_speed_ms": 0.369,
-       "max_tilt_after_deg": 8.08,
-       "min_nr_pct": 90.995
+       "touchdown_sink_ms": 0.896,
+       "touchdown_ground_speed_ms": 0.372,
+       "max_tilt_after_deg": 8.074,
+       "min_nr_pct": 91.07
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 2.706,
-       "touchdown_ground_speed_ms": 1.095,
-       "max_tilt_after_deg": 2.844,
-       "min_nr_pct": 83.42
+       "touchdown_sink_ms": 2.625,
+       "touchdown_ground_speed_ms": 0.798,
+       "max_tilt_after_deg": 1.865,
+       "min_nr_pct": 83.395
       }
      ]
     },
@@ -5913,19 +5913,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.864,
-     "touchdown_ground_speed_ms": 0.206,
-     "max_tilt_after_deg": 7.898,
-     "min_nr_pct": 91.17,
+     "touchdown_sink_ms": 0.885,
+     "touchdown_ground_speed_ms": 0.241,
+     "max_tilt_after_deg": 8.405,
+     "min_nr_pct": 91.373,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.864,
-       "touchdown_ground_speed_ms": 0.206,
-       "max_tilt_after_deg": 7.898,
-       "min_nr_pct": 91.17
+       "touchdown_sink_ms": 0.885,
+       "touchdown_ground_speed_ms": 0.241,
+       "max_tilt_after_deg": 8.405,
+       "min_nr_pct": 91.373
       }
      ]
     },
@@ -5936,19 +5936,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.902,
-     "touchdown_ground_speed_ms": 0.194,
-     "max_tilt_after_deg": 8.318,
-     "min_nr_pct": 91.283,
+     "touchdown_sink_ms": 0.861,
+     "touchdown_ground_speed_ms": 0.212,
+     "max_tilt_after_deg": 7.998,
+     "min_nr_pct": 91.258,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.902,
-       "touchdown_ground_speed_ms": 0.194,
-       "max_tilt_after_deg": 8.318,
-       "min_nr_pct": 91.283
+       "touchdown_sink_ms": 0.861,
+       "touchdown_ground_speed_ms": 0.212,
+       "max_tilt_after_deg": 7.998,
+       "min_nr_pct": 91.258
       }
      ]
     },
@@ -5959,19 +5959,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.97,
-     "touchdown_ground_speed_ms": 0.141,
-     "max_tilt_after_deg": 7.931,
-     "min_nr_pct": 91.208,
+     "touchdown_sink_ms": 0.977,
+     "touchdown_ground_speed_ms": 0.148,
+     "max_tilt_after_deg": 8.233,
+     "min_nr_pct": 91.455,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.97,
-       "touchdown_ground_speed_ms": 0.141,
-       "max_tilt_after_deg": 7.931,
-       "min_nr_pct": 91.208
+       "touchdown_sink_ms": 0.977,
+       "touchdown_ground_speed_ms": 0.148,
+       "max_tilt_after_deg": 8.233,
+       "min_nr_pct": 91.455
       }
      ]
     },
@@ -5982,19 +5982,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.656,
-     "touchdown_ground_speed_ms": 0.495,
-     "max_tilt_after_deg": 8.775,
-     "min_nr_pct": 90.711,
+     "touchdown_sink_ms": 0.664,
+     "touchdown_ground_speed_ms": 0.471,
+     "max_tilt_after_deg": 8.705,
+     "min_nr_pct": 90.853,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.656,
-       "touchdown_ground_speed_ms": 0.495,
-       "max_tilt_after_deg": 8.775,
-       "min_nr_pct": 90.711
+       "touchdown_sink_ms": 0.664,
+       "touchdown_ground_speed_ms": 0.471,
+       "max_tilt_after_deg": 8.705,
+       "min_nr_pct": 90.853
       },
       {
        "technique": "vertical",
@@ -6014,28 +6014,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.72,
-     "touchdown_ground_speed_ms": 0.587,
-     "max_tilt_after_deg": 8.941,
-     "min_nr_pct": 90.961,
+     "touchdown_sink_ms": 0.758,
+     "touchdown_ground_speed_ms": 0.558,
+     "max_tilt_after_deg": 8.622,
+     "min_nr_pct": 90.819,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.72,
-       "touchdown_ground_speed_ms": 0.587,
-       "max_tilt_after_deg": 8.941,
-       "min_nr_pct": 90.961
+       "touchdown_sink_ms": 0.758,
+       "touchdown_ground_speed_ms": 0.558,
+       "max_tilt_after_deg": 8.622,
+       "min_nr_pct": 90.819
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 4.53,
-       "touchdown_ground_speed_ms": 0.673,
-       "max_tilt_after_deg": 1.717,
-       "min_nr_pct": 85.889
+       "touchdown_sink_ms": 4.528,
+       "touchdown_ground_speed_ms": 0.645,
+       "max_tilt_after_deg": 1.617,
+       "min_nr_pct": 85.892
       }
      ]
     },
@@ -6046,28 +6046,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.799,
-     "touchdown_ground_speed_ms": 0.459,
-     "max_tilt_after_deg": 9.043,
-     "min_nr_pct": 91.045,
+     "touchdown_sink_ms": 0.958,
+     "touchdown_ground_speed_ms": 0.514,
+     "max_tilt_after_deg": 8.429,
+     "min_nr_pct": 91.024,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.799,
-       "touchdown_ground_speed_ms": 0.459,
-       "max_tilt_after_deg": 9.043,
-       "min_nr_pct": 91.045
+       "touchdown_sink_ms": 0.958,
+       "touchdown_ground_speed_ms": 0.514,
+       "max_tilt_after_deg": 8.429,
+       "min_nr_pct": 91.024
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 4.406,
-       "touchdown_ground_speed_ms": 0.824,
-       "max_tilt_after_deg": 1.754,
-       "min_nr_pct": 85.685
+       "touchdown_sink_ms": 4.416,
+       "touchdown_ground_speed_ms": 0.798,
+       "max_tilt_after_deg": 2.875,
+       "min_nr_pct": 85.658
       }
      ]
     },
@@ -6078,19 +6078,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.828,
-     "touchdown_ground_speed_ms": 0.325,
-     "max_tilt_after_deg": 8.76,
-     "min_nr_pct": 91.051,
+     "touchdown_sink_ms": 0.79,
+     "touchdown_ground_speed_ms": 0.312,
+     "max_tilt_after_deg": 8.404,
+     "min_nr_pct": 91.029,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.828,
-       "touchdown_ground_speed_ms": 0.325,
-       "max_tilt_after_deg": 8.76,
-       "min_nr_pct": 91.051
+       "touchdown_sink_ms": 0.79,
+       "touchdown_ground_speed_ms": 0.312,
+       "max_tilt_after_deg": 8.404,
+       "min_nr_pct": 91.029
       }
      ]
     },
@@ -6101,19 +6101,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.898,
-     "touchdown_ground_speed_ms": 0.186,
-     "max_tilt_after_deg": 8.438,
-     "min_nr_pct": 91.372,
+     "touchdown_sink_ms": 0.897,
+     "touchdown_ground_speed_ms": 0.145,
+     "max_tilt_after_deg": 8.603,
+     "min_nr_pct": 91.229,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.898,
-       "touchdown_ground_speed_ms": 0.186,
-       "max_tilt_after_deg": 8.438,
-       "min_nr_pct": 91.372
+       "touchdown_sink_ms": 0.897,
+       "touchdown_ground_speed_ms": 0.145,
+       "max_tilt_after_deg": 8.603,
+       "min_nr_pct": 91.229
       }
      ]
     },
@@ -6124,19 +6124,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.008,
-     "touchdown_ground_speed_ms": 0.493,
-     "max_tilt_after_deg": 8.97,
-     "min_nr_pct": 90.756,
+     "touchdown_sink_ms": 1.05,
+     "touchdown_ground_speed_ms": 0.526,
+     "max_tilt_after_deg": 9.027,
+     "min_nr_pct": 90.943,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.008,
-       "touchdown_ground_speed_ms": 0.493,
-       "max_tilt_after_deg": 8.97,
-       "min_nr_pct": 90.756
+       "touchdown_sink_ms": 1.05,
+       "touchdown_ground_speed_ms": 0.526,
+       "max_tilt_after_deg": 9.027,
+       "min_nr_pct": 90.943
       }
      ]
     },
@@ -6147,19 +6147,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.704,
-     "touchdown_ground_speed_ms": 0.557,
-     "max_tilt_after_deg": 8.927,
-     "min_nr_pct": 90.672,
+     "touchdown_sink_ms": 0.703,
+     "touchdown_ground_speed_ms": 0.551,
+     "max_tilt_after_deg": 9.111,
+     "min_nr_pct": 90.53,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.704,
-       "touchdown_ground_speed_ms": 0.557,
-       "max_tilt_after_deg": 8.927,
-       "min_nr_pct": 90.672
+       "touchdown_sink_ms": 0.703,
+       "touchdown_ground_speed_ms": 0.551,
+       "max_tilt_after_deg": 9.111,
+       "min_nr_pct": 90.53
       },
       {
        "technique": "vertical",
@@ -6179,28 +6179,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.919,
-     "touchdown_ground_speed_ms": 0.454,
-     "max_tilt_after_deg": 9.155,
-     "min_nr_pct": 90.837,
+     "touchdown_sink_ms": 0.918,
+     "touchdown_ground_speed_ms": 0.43,
+     "max_tilt_after_deg": 9.343,
+     "min_nr_pct": 90.788,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.919,
-       "touchdown_ground_speed_ms": 0.454,
-       "max_tilt_after_deg": 9.155,
-       "min_nr_pct": 90.837
+       "touchdown_sink_ms": 0.918,
+       "touchdown_ground_speed_ms": 0.43,
+       "max_tilt_after_deg": 9.343,
+       "min_nr_pct": 90.788
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 5.624,
-       "touchdown_ground_speed_ms": 0.607,
-       "max_tilt_after_deg": 1.125,
-       "min_nr_pct": 86.869
+       "touchdown_sink_ms": 5.623,
+       "touchdown_ground_speed_ms": 0.608,
+       "max_tilt_after_deg": 0.854,
+       "min_nr_pct": 86.871
       }
      ]
     },
@@ -6211,28 +6211,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.867,
-     "touchdown_ground_speed_ms": 0.357,
-     "max_tilt_after_deg": 8.875,
-     "min_nr_pct": 90.679,
+     "touchdown_sink_ms": 0.97,
+     "touchdown_ground_speed_ms": 0.408,
+     "max_tilt_after_deg": 8.49,
+     "min_nr_pct": 90.816,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.867,
-       "touchdown_ground_speed_ms": 0.357,
-       "max_tilt_after_deg": 8.875,
-       "min_nr_pct": 90.679
+       "touchdown_sink_ms": 0.97,
+       "touchdown_ground_speed_ms": 0.408,
+       "max_tilt_after_deg": 8.49,
+       "min_nr_pct": 90.816
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 5.557,
-       "touchdown_ground_speed_ms": 0.984,
-       "max_tilt_after_deg": 0.896,
-       "min_nr_pct": 86.843
+       "touchdown_sink_ms": 5.61,
+       "touchdown_ground_speed_ms": 1.029,
+       "max_tilt_after_deg": 1.141,
+       "min_nr_pct": 87.031
       }
      ]
     },
@@ -6243,19 +6243,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.893,
-     "touchdown_ground_speed_ms": 0.287,
-     "max_tilt_after_deg": 8.853,
-     "min_nr_pct": 90.726,
+     "touchdown_sink_ms": 0.855,
+     "touchdown_ground_speed_ms": 0.25,
+     "max_tilt_after_deg": 8.513,
+     "min_nr_pct": 90.702,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.893,
-       "touchdown_ground_speed_ms": 0.287,
-       "max_tilt_after_deg": 8.853,
-       "min_nr_pct": 90.726
+       "touchdown_sink_ms": 0.855,
+       "touchdown_ground_speed_ms": 0.25,
+       "max_tilt_after_deg": 8.513,
+       "min_nr_pct": 90.702
       }
      ]
     },
@@ -6266,19 +6266,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.991,
-     "touchdown_ground_speed_ms": 0.681,
-     "max_tilt_after_deg": 9.239,
-     "min_nr_pct": 90.67,
+     "touchdown_sink_ms": 1.097,
+     "touchdown_ground_speed_ms": 0.713,
+     "max_tilt_after_deg": 8.767,
+     "min_nr_pct": 90.794,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.991,
-       "touchdown_ground_speed_ms": 0.681,
-       "max_tilt_after_deg": 9.239,
-       "min_nr_pct": 90.67
+       "touchdown_sink_ms": 1.097,
+       "touchdown_ground_speed_ms": 0.713,
+       "max_tilt_after_deg": 8.767,
+       "min_nr_pct": 90.794
       }
      ]
     },
@@ -6289,19 +6289,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.94,
-     "touchdown_ground_speed_ms": 0.882,
-     "max_tilt_after_deg": 9.561,
-     "min_nr_pct": 90.591,
+     "touchdown_sink_ms": 0.93,
+     "touchdown_ground_speed_ms": 0.881,
+     "max_tilt_after_deg": 9.792,
+     "min_nr_pct": 90.531,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.94,
-       "touchdown_ground_speed_ms": 0.882,
-       "max_tilt_after_deg": 9.561,
-       "min_nr_pct": 90.591
+       "touchdown_sink_ms": 0.93,
+       "touchdown_ground_speed_ms": 0.881,
+       "max_tilt_after_deg": 9.792,
+       "min_nr_pct": 90.531
       }
      ]
     },
@@ -6312,19 +6312,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.89,
-     "touchdown_ground_speed_ms": 1.114,
-     "max_tilt_after_deg": 9.833,
-     "min_nr_pct": 90.551,
+     "touchdown_sink_ms": 0.845,
+     "touchdown_ground_speed_ms": 1.022,
+     "max_tilt_after_deg": 9.662,
+     "min_nr_pct": 90.39,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.89,
-       "touchdown_ground_speed_ms": 1.114,
-       "max_tilt_after_deg": 9.833,
-       "min_nr_pct": 90.551
+       "touchdown_sink_ms": 0.845,
+       "touchdown_ground_speed_ms": 1.022,
+       "max_tilt_after_deg": 9.662,
+       "min_nr_pct": 90.39
       },
       {
        "technique": "vertical",
@@ -6344,28 +6344,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.89,
-     "touchdown_ground_speed_ms": 1.036,
-     "max_tilt_after_deg": 9.934,
-     "min_nr_pct": 90.497,
+     "touchdown_sink_ms": 0.888,
+     "touchdown_ground_speed_ms": 1.082,
+     "max_tilt_after_deg": 10.089,
+     "min_nr_pct": 90.355,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.89,
-       "touchdown_ground_speed_ms": 1.036,
-       "max_tilt_after_deg": 9.934,
-       "min_nr_pct": 90.497
+       "touchdown_sink_ms": 0.888,
+       "touchdown_ground_speed_ms": 1.082,
+       "max_tilt_after_deg": 10.089,
+       "min_nr_pct": 90.355
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 7.489,
-       "touchdown_ground_speed_ms": 0.845,
-       "max_tilt_after_deg": 1.124,
-       "min_nr_pct": 88.411
+       "touchdown_sink_ms": 7.488,
+       "touchdown_ground_speed_ms": 0.872,
+       "max_tilt_after_deg": 1.033,
+       "min_nr_pct": 88.413
       }
      ]
     },
@@ -6376,28 +6376,28 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.941,
-     "touchdown_ground_speed_ms": 1.011,
-     "max_tilt_after_deg": 9.726,
-     "min_nr_pct": 90.717,
+     "touchdown_sink_ms": 0.939,
+     "touchdown_ground_speed_ms": 1.012,
+     "max_tilt_after_deg": 10.007,
+     "min_nr_pct": 90.652,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.941,
-       "touchdown_ground_speed_ms": 1.011,
-       "max_tilt_after_deg": 9.726,
-       "min_nr_pct": 90.717
+       "touchdown_sink_ms": 0.939,
+       "touchdown_ground_speed_ms": 1.012,
+       "max_tilt_after_deg": 10.007,
+       "min_nr_pct": 90.652
       },
       {
        "technique": "vertical",
        "safe": false,
        "landed": true,
-       "touchdown_sink_ms": 7.54,
-       "touchdown_ground_speed_ms": 0.729,
-       "max_tilt_after_deg": 3.002,
-       "min_nr_pct": 88.143
+       "touchdown_sink_ms": 7.549,
+       "touchdown_ground_speed_ms": 0.464,
+       "max_tilt_after_deg": 4.106,
+       "min_nr_pct": 88.109
       }
      ]
     },
@@ -6408,19 +6408,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 1.065,
-     "touchdown_ground_speed_ms": 0.954,
-     "max_tilt_after_deg": 9.335,
-     "min_nr_pct": 90.632,
+     "touchdown_sink_ms": 0.94,
+     "touchdown_ground_speed_ms": 0.95,
+     "max_tilt_after_deg": 9.717,
+     "min_nr_pct": 90.615,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 1.065,
-       "touchdown_ground_speed_ms": 0.954,
-       "max_tilt_after_deg": 9.335,
-       "min_nr_pct": 90.632
+       "touchdown_sink_ms": 0.94,
+       "touchdown_ground_speed_ms": 0.95,
+       "max_tilt_after_deg": 9.717,
+       "min_nr_pct": 90.615
       }
      ]
     },
@@ -6431,19 +6431,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.948,
-     "touchdown_ground_speed_ms": 0.996,
-     "max_tilt_after_deg": 9.942,
-     "min_nr_pct": 90.51,
+     "touchdown_sink_ms": 0.903,
+     "touchdown_ground_speed_ms": 0.867,
+     "max_tilt_after_deg": 9.589,
+     "min_nr_pct": 90.488,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.948,
-       "touchdown_ground_speed_ms": 0.996,
-       "max_tilt_after_deg": 9.942,
-       "min_nr_pct": 90.51
+       "touchdown_sink_ms": 0.903,
+       "touchdown_ground_speed_ms": 0.867,
+       "max_tilt_after_deg": 9.589,
+       "min_nr_pct": 90.488
       }
      ]
     },
@@ -6454,19 +6454,19 @@
      "technique": "frente",
      "safe": true,
      "landed": true,
-     "touchdown_sink_ms": 0.934,
-     "touchdown_ground_speed_ms": 0.955,
-     "max_tilt_after_deg": 9.816,
-     "min_nr_pct": 90.488,
+     "touchdown_sink_ms": 0.889,
+     "touchdown_ground_speed_ms": 0.873,
+     "max_tilt_after_deg": 9.363,
+     "min_nr_pct": 90.464,
      "tries": [
       {
        "technique": "frente",
        "safe": true,
        "landed": true,
-       "touchdown_sink_ms": 0.934,
-       "touchdown_ground_speed_ms": 0.955,
-       "max_tilt_after_deg": 9.816,
-       "min_nr_pct": 90.488
+       "touchdown_sink_ms": 0.889,
+       "touchdown_ground_speed_ms": 0.873,
+       "max_tilt_after_deg": 9.363,
+       "min_nr_pct": 90.464
       }
      ]
     }

@@ -162,9 +162,24 @@ def tail_rotor_max_thrust(p: HeliParams, rho: float, omega: float) -> float:
 def tail_rotor_power(p: HeliParams, thrust: float, rho: float, omega: float) -> float:
     A = math.pi * p.tr_R ** 2
     vt = p.tr_vt * omega / p.omega100
-    p_ind = p.kappa * abs(thrust) ** 1.5 / math.sqrt(4.0 * rho * A) if rho > 0 else 0.0
+    # ideal ducted fan (Leishman): P = T^1.5 / sqrt(4 sigma_d rho A); sigma_d = 1 -> 1/sqrt(2) of an open rotor
+    p_ind = p.kappa * abs(thrust) ** 1.5 / math.sqrt(4.0 * p.tr_sigma_d * rho * A) if rho > 0 else 0.0
     p_prof = p.tr_sigma * p.cd0 / 8.0 * rho * A * vt ** 3
     return p_ind + p_prof
+
+
+def fin_side_force(p: HeliParams, rho: float, u: float, v: float) -> float:
+    """Side force of the vertical fin (N, + = to the left, the same sense as the anti-torque thrust).
+
+    u, v: forward and lateral air-relative velocity of the aircraft in body axes. Thin-surface lift with an
+    effective incidence (camber) alpha0 and the sideslip: CL = a (alpha0 - v/u), limited to +-CL_max; zero in
+    hover and rearward flight. The fin yaw damping (r x omega) is left in the lumped yaw damping parameter.
+    """
+    if u <= 1.0:
+        return 0.0
+    q = 0.5 * rho * (u * u + v * v)
+    cl = float(np.clip(p.fin_a * (p.fin_alpha0 - math.atan2(v, u)), -p.fin_clmax, p.fin_clmax))
+    return q * p.fin_S * cl
 
 
 # ------------------------------------------------------------------------------------------------
@@ -184,6 +199,8 @@ class TrimPoint:
     p_parasite: float
     p_induced: float
     p_profile: float
+    t_tail: float = 0.0  # N, Fenestron thrust
+    f_fin: float = 0.0  # N, fin side force
 
 
 def level_flight(p: HeliParams, V: float, rho: float, mass: float | None = None, z_hub: float = math.inf,
@@ -205,18 +222,20 @@ def level_flight(p: HeliParams, V: float, rho: float, mass: float | None = None,
     th = collective_for_thrust(p, T, v_tpp, v_in, rho, om, z_hub)
     rs = main_rotor(p, th, v_tpp, v_in, rho, om, z_hub)
     q_main = rs.power / om
-    t_tr = q_main / p.tr_arm
+    f_fin = fin_side_force(p, rho, V, 0.0)
+    t_tr = q_main / p.tr_arm - f_fin  # the fin, at the same arm, unloads the Fenestron in forward flight
     p_tr = tail_rotor_power(p, t_tr, rho, om)
     p_acc = p.p_acc_kw * 1e3
     p_eng = (rs.power + p_tr + p_acc) / p.eta_tr
     return TrimPoint(V, T, math.degrees(alpha), rs.power, p_tr, p_acc, p_eng, rs.k_ge, rs.v_i, rs.p_axial,
-                     rs.p_induced, rs.p_profile)
+                     rs.p_induced, rs.p_profile, t_tr, f_fin)
 
 
 def calibrate_drag_area(p: HeliParams, v_kt: float = 136.0, p_kw: float | None = None, rho: float = 1.225) -> float:
     """f such that level flight at the published fast cruise speed needs the AEO max-continuous power.
 
-    Fast cruise 136 kt (Airbus H135 data) is assumed to be flown at sea level ISA, MTOW, AEO MCP
+    Fast cruise 136 kt (Airbus H135 brochure, Feb. 2022; no conditions stated) is assumed to be flown at sea level
+    ISA, MTOW, AEO MCP
     (2 x 69 % torque). The result is CALIBRADO and documented as such.
     """
     target = (p_kw if p_kw is not None else p.gearbox_limit_kw("MCP")) * 1e3
