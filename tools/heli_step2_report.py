@@ -44,12 +44,15 @@ def _max_mass(c):
 def main():
     os.makedirs(OUT, exist_ok=True)
     res = {}
-    with Pool(2) as pool:
-        res["cat_a_max_mass"] = pool.map(_max_mass, CAT_A_CONFIGS)
+    # the Category A masses are computed by tools/heli_step2b_report.py (both clearance criteria); run it first
+    with open(os.path.join(OUT, "passo2b_resultados.json"), encoding="utf-8") as f:
+        b = json.load(f)
+    res["cat_a_max_mass"] = "ver passo2b_resultados.json"
     hh = CatAConfig(elevation_m=1500.0, delta_t=25.0)
-    m_lim = next(r["mass_kg"] for r in res["cat_a_max_mass"] if r["elevation_m"] == 1500.0 and r["headwind_ms"] == 0)
+    m_lim = next(r["mass_kg"] for r in b["cat_a_max_mass"] if r["criterion"] == "elevado_29_60"
+                 and r["elevation_m"] == 1500.0 and r["headwind_ms"] == 0)
     demo = {}
-    for label, m in (("no_limite", m_lim), ("acima_do_limite", 2700.0)):
+    for label, m in (("no_limite", m_lim), ("acima_do_limite", m_lim + 100.0)):
         demo[label] = {b: cat_a_run(m, b, hh) for b in ("reject", "continue")}
     res["cat_a_demo_1500m_isa25"] = {k: {b: _clean(v) for b, v in d.items()} for k, d in demo.items()}
     auto = {m: autorotation(m, height=300.0) for m in ("forward", "vertical")}
@@ -100,7 +103,7 @@ def main():
     fig.suptitle("Categoria A em heliponto elevado, 1.500 m ISA+25, sem vento (modelo conceitual)")
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "categoria_a.png"), dpi=120)
-    print(json.dumps({k: v for k, v in res.items() if k == "cat_a_max_mass"}, ensure_ascii=False, indent=1)[:3000])
+    print(json.dumps(_clean({k: v for k, v in res.items() if k != "transfer_20km"}), ensure_ascii=False)[:4000])
 
 
 if __name__ == "__main__":

@@ -29,8 +29,8 @@ from .isa import HeliAtmosphere
 from .model import Terrain, engine_limit_w
 from .params import HeliParams
 from .rotor import level_flight
-from .procedures import (KT, AutorotationLanding, CatATakeoff, PointToPoint, evaluate_cat_a, evaluate_landing,
-                         min_descent_speed, vtoss)
+from .procedures import (KT, AutorotationLanding, CatATakeoff, OeiLanding, PointToPoint, evaluate_cat_a,
+                         evaluate_landing, min_descent_speed, vtoss)
 from .simulator import EngineFault, HelicopterSimulator
 
 
@@ -98,22 +98,32 @@ class CatAConfig:
     fail_margin_m: float = 3.0  # pre-TDP failure this far below the TDP, so that it is RECOGNISED before the TDP
     # (detection ~0.7 s + pilot reaction 1 s at 1.5 m/s climb); the decision is taken at recognition
     fail_after_tdp_s: float = 0.5  # post-TDP failure this long after the TDP
+    criterion: str = "elevado_29_60"  # or "literal_29_59c" (see procedures.evaluate_cat_a)
 
 
 def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = None, seed: int = 0,
-              duration: float = 45.0) -> Dict[str, object]:
-    """branch: "reject" (failure at TDP - margin), "continue" (failure after the TDP) or "none" (AEO)."""
+              duration: float = 45.0, fail_rel_tdp_m: Optional[float] = None,
+              force_action: Optional[str] = None) -> Dict[str, object]:
+    """branch: "reject" (failure at TDP - margin), "continue" (failure after the TDP) or "none" (AEO).
+
+    fail_rel_tdp_m: if given, the engine fails when the skids reach TDP + fail_rel_tdp_m (negative = below the
+    TDP), whatever the branch; the branch flown is then the SADPF recommendation, or `force_action`
+    ("abortar" / "prosseguir") to fly a given branch, and it is judged as that branch.
+    """
     cfg = cfg or CatAConfig()
     atm = _atm(cfg.elevation_m, cfg.delta_t, cfg.headwind_ms)
     p = HeliParams(mass=mass)
     terrain = Terrain(pad_half_size=cfg.deck_half_size_m, pad_height=cfg.deck_height_m)
     sim = HelicopterSimulator(p, atm, seed=seed, wind=cfg.headwind_ms > 0, terrain=terrain, sadpf=True)
     v_toss = vtoss(sim.p, atm, 0.0, mass)
-    proc = CatATakeoff(sim, tdp_height=cfg.tdp_height_m, vtoss_kt=v_toss or 60.0)
+    proc = CatATakeoff(sim, tdp_height=cfg.tdp_height_m, vtoss_kt=v_toss or 60.0, force_action=force_action)
 
     def guidance(t, x):
         if not any(sim.dyn.engine_failed):
-            if branch == "reject" and proc.phase == "vertical" and \
+            if fail_rel_tdp_m is not None:
+                if proc.skid_height(x) >= cfg.tdp_height_m + fail_rel_tdp_m:
+                    sim.fail_engine(0)
+            elif branch == "reject" and proc.phase == "vertical" and \
                     proc.skid_height(x) >= cfg.tdp_height_m - cfg.fail_margin_m:
                 sim.fail_engine(0)
             elif branch == "continue" and proc.tdp_t is not None and t >= proc.tdp_t + cfg.fail_after_tdp_s:
@@ -121,7 +131,10 @@ def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = N
         return proc(t, x)
 
     tel = sim.run(duration, guidance, 0.1)
-    ev = evaluate_cat_a(tel, sim, v_toss, branch if branch != "none" else "continue")
+    if fail_rel_tdp_m is not None:
+        flown = next((e["phase"] for e in proc.log if e["phase"] in ("reject", "continue")), "continue")
+        branch = flown
+    ev = evaluate_cat_a(tel, sim, v_toss, branch if branch != "none" else "continue", cfg.criterion)
     if branch != "none" and sim.fail_time is None:
         ev["safe"] = False
         ev["reason"] = ("não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
@@ -134,6 +147,10 @@ def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = N
         ev["max_height_loss_m"] = float(np.max(np.maximum.accumulate(za) - za))  # largest drop after the failure
         ev["oei30_used_s"] = float(np.sum(tel.column("rating") == 1) * 0.1)
     ev.update(mass_kg=mass, sadpf=_sadpf_summary(sim) if any(sim.dyn.engine_failed) else None,
+              action_skid_h_m=next((e.get("skid_h") for e in proc.log if e["phase"] in ("reject", "continue")), None),
+              detect_skid_h_m=(float(np.interp(sim.sadpf.detect_t, t, z)) - sim.p.cg_h)
+              if sim.sadpf.detect_t is not None else None,
+              fail_skid_h_m=(float(np.interp(sim.fail_time, t, z)) - sim.p.cg_h) if sim.fail_time is not None else None,
               phases=proc.log, max_oei_rating=int(tel.column("rating").max()))
     # power margins computed from the physics (HUD): OEI 30 s available vs hover OGE required at the deck,
     # and OEI 2 min available vs required at VTOSS
@@ -145,6 +162,9 @@ def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = N
                                       - level_flight(sim.p, v_toss * KT, rho, mass).p_engines) / 1e3
     ev["telemetry"], ev["sim"] = tel, sim
     return ev
+
+
+GAP_FAILURES = (-1.0, -0.5, 0.0)  # m relative to the TDP
 
 
 def cat_a_max_mass(cfg: Optional[CatAConfig] = None, lo: float = 2200.0, hi: Optional[float] = None,
@@ -159,11 +179,19 @@ def cat_a_max_mass(cfg: Optional[CatAConfig] = None, lo: float = 2200.0, hi: Opt
     log: List[dict] = []
 
     def safe(m):
+        # reject: failure recognised before the TDP. Then failures just below and at the TDP, flown as the SADPF
+        # recommends: they are recognised around the TDP (detection ~0.7 s), so this covers the gap where the
+        # failure happens before the TDP but is recognised after it (continue from a lower height and speed).
         r = cat_a_run(m, "reject", cfg, seed)
-        c = cat_a_run(m, "continue", cfg, seed)
-        log.append({"mass_kg": m, "reject": r["safe"], "reject_reason": r["reason"], "continue": c["safe"],
-                    "continue_reason": c["reason"]})
-        return r["safe"] and c["safe"]
+        gap = [cat_a_run(m, cfg=cfg, seed=seed, fail_rel_tdp_m=dh) for dh in GAP_FAILURES]
+        bad_c = [g for g in gap if not g["safe"] and g["branch"] == "continue"]
+        bad_r = [g for g in gap if not g["safe"] and g["branch"] == "reject"]
+        log.append({"mass_kg": m, "reject": r["safe"] and not bad_r,
+                    "reject_reason": r["reason"] if not r["safe"] else (bad_r[0]["reason"] if bad_r else "ok"),
+                    "continue": not bad_c, "continue_reason": bad_c[0]["reason"] if bad_c else "ok",
+                    "gap": [{"fail_rel_tdp_m": dh, "branch": g["branch"], "safe": g["safe"], "reason": g["reason"]}
+                            for dh, g in zip(GAP_FAILURES, gap)]})
+        return log[-1]["reject"] and log[-1]["continue"]
 
     if safe(hi):
         return {"mass_kg": hi, "limited_by": "MTOW", "log": log, "config": cfg}
@@ -179,6 +207,109 @@ def cat_a_max_mass(cfg: Optional[CatAConfig] = None, lo: float = 2200.0, hi: Opt
         next(e for e in reversed(log) if not (e["reject"] and e["continue"]))
     which = "abortar" if not failing["reject"] else "prosseguir"
     return {"mass_kg": lo, "limited_by": which, "log": log, "config": cfg}
+
+
+def failure_height_sweep(mass: float, cfg: Optional[CatAConfig] = None,
+                         rel_heights=tuple(np.arange(-6.0, 6.01, 1.0)), seed: int = 0) -> List[dict]:
+    """For each failure height relative to the TDP: what the SADPF recommends, and whether flying the reject
+    branch and the continue branch (forced) is safe."""
+    cfg = cfg or CatAConfig()
+    out = []
+    for dh in rel_heights:
+        row = {"fail_rel_tdp_m": float(dh)}
+        for act, key in (("abortar", "reject"), ("prosseguir", "continue")):
+            r = cat_a_run(mass, cfg=cfg, seed=seed, fail_rel_tdp_m=float(dh), force_action=act)
+            row[key] = {"safe": r["safe"], "reason": r["reason"],
+                        "recommended": (r["sadpf"] or {}).get("recommendation"),
+                        "detect_rel_tdp_m": (r["detect_skid_h_m"] - cfg.tdp_height_m)
+                        if r.get("detect_skid_h_m") is not None else None,
+                        "action_rel_tdp_m": (r["action_skid_h_m"] - cfg.tdp_height_m)
+                        if r.get("action_skid_h_m") is not None else None,
+                        "touchdown_sink_ms": r.get("touchdown_sink_ms"),
+                        "max_height_loss_m": r.get("max_height_loss_m")}
+        row["recommended"] = row["reject"]["recommended"]
+        out.append(row)
+    return out
+
+
+# ------------------------------------------------------------------------------------------------
+HV_SINK_MAX = 2.0  # m/s: free fall from the 8 in drop height of 14 CFR 29.725(a), sqrt(2 g 0.203 m) (DERIVADO)
+HV_GS_MAX = 15 * KT  # m/s, run-on ground speed accepted (ESTIMADO, same as the autorotation goal)
+HV_TILT_MAX = 15.0  # deg after touchdown (no roll-over) (ESTIMADO)
+
+
+def v_oei_level(p, atm, mass) -> float:
+    """Lowest speed (m/s) at which OEI 30 s power holds level flight out of ground effect (DERIVADO)."""
+    rho = atm.density(0.0)
+    p_av = engine_limit_w(p, atm, 0.0, "OEI30", 1)
+    for v in np.arange(0.0, 60.0, 0.5):
+        if level_flight(p, v, rho, mass).p_engines <= p_av:
+            return float(v)
+    return 30.0
+
+
+def _hv_try(height_m, speed_kt, p, atm, seed, fail_at, technique):
+    v = speed_kt * KT
+    sim = HelicopterSimulator(p, atm, seed=seed, wind=False, sadpf=True,
+                              start_position=(0.0, 0.0, height_m + p.cg_h), start_velocity=(v, 0.0, 0.0))
+    if technique == "frente":
+        proc = OeiLanding(sim, v_oei=v_oei_level(sim.p, atm, sim.p.mass))
+    else:  # "vertical": no acceleration, slow descent straight down into ground effect, then cushion
+        proc = OeiLanding(sim, v_oei=0.0, v_margin=0.0, sink_max=1.0)
+    sim.faults = [EngineFault(0, fail_at)]
+    tel = sim.run(40.0 + height_m / 2.0, proc, 0.05)
+    land = evaluate_landing(tel)
+    safe = bool(land.get("landed") and land["touchdown_sink_ms"] <= HV_SINK_MAX
+                and land["touchdown_ground_speed_ms"] <= HV_GS_MAX and land["max_tilt_after_deg"] <= HV_TILT_MAX)
+    return {"technique": technique, "safe": safe, **{k: land.get(k) for k in (
+        "landed", "touchdown_sink_ms", "touchdown_ground_speed_ms", "max_tilt_after_deg")},
+        "min_nr_pct": float(tel.column("nr_pct").min())}
+
+
+def hv_point(height_m: float, speed_kt: float, mass: Optional[float] = None, atm: Optional[HeliAtmosphere] = None,
+             seed: int = 0, fail_at: float = 1.0) -> Dict[str, object]:
+    """Engine failure at skid height `height_m` and airspeed `speed_kt` in level flight, then an OEI landing
+    straight ahead. Two techniques are tried, "frente" (approach at v_oei + margin, flare) and, from 20 kt or
+    less, "vertical" (straight slow descent); the point is safe if either gives a safe landing."""
+    atm = atm or _atm()
+    p = HelicopterSimulator(HeliParams(mass=mass) if mass else HeliParams(), atm, wind=False).p
+    tries = [_hv_try(height_m, speed_kt, p, atm, seed, fail_at, "frente")]
+    if speed_kt <= 20.0:
+        tries.append(_hv_try(height_m, speed_kt, p, atm, seed, fail_at, "vertical"))
+    best = next((r for r in tries if r["safe"]), min(tries, key=lambda r: r.get("touchdown_sink_ms") or 99.0))
+    return {"height_m": height_m, "speed_kt": speed_kt, **best, "tries": tries}
+
+
+def hv_boundary(points: List[dict]) -> Dict[float, Optional[tuple]]:
+    """Per speed, the unsafe height band (lowest unsafe, highest unsafe) from the grid; None if all safe."""
+    out = {}
+    for v in sorted({p["speed_kt"] for p in points}):
+        bad = sorted(p["height_m"] for p in points if p["speed_kt"] == v and not p["safe"])
+        out[v] = (bad[0], bad[-1]) if bad else None
+    return out
+
+
+def path_in_hv(path_v_kt, path_h_m, points: List[dict], mode: str = "inside") -> List[int]:
+    """Indices of path samples in the unsafe region of the grid.
+
+    mode "inside": the 4 grid points around the sample are all unsafe; "touches": at least one is unsafe
+    (the sample lies in a cell crossed by the H-V boundary, i.e. within one grid step of it).
+    """
+    vs = np.array(sorted({p["speed_kt"] for p in points}))
+    hs = np.array(sorted({p["height_m"] for p in points}))
+    safe = {(p["speed_kt"], p["height_m"]): p["safe"] for p in points}
+    idx = []
+    for i, (v, h) in enumerate(zip(path_v_kt, path_h_m)):
+        if h < hs[0] or h > hs[-1] or v > vs[-1]:
+            continue
+        # bilinear neighbourhood: inside if the 4 surrounding grid points are all unsafe (conservative = not
+        # flagged on the boundary) -- report also "touches" (any of the 4 unsafe)
+        iv = int(np.clip(np.searchsorted(vs, v) - 1, 0, len(vs) - 2))
+        ih = int(np.clip(np.searchsorted(hs, h) - 1, 0, len(hs) - 2))
+        corners = [safe[(vs[a], hs[b])] for a in (iv, iv + 1) for b in (ih, ih + 1)]
+        if (not any(corners)) if mode == "inside" else (not all(corners)):
+            idx.append(i)
+    return idx
 
 
 # ------------------------------------------------------------------------------------------------

@@ -89,7 +89,7 @@ class HeliSadpf:
         a = dt / (0.1 + dt)
         self._p_f += a * (meas - self._p_f)
         pf = np.maximum(self._p_f, 0.0)
-        demand = float(sum(sim.u.p_cmd))
+        demand = float(sim.p_need_w)  # governor demand (not the commands, which include compensation)
         nr = sim.x[13] / sim.p.omega100
         running = [i for i in range(2) if not self.failed[i]]
         # single failure: torque split while both believed running
@@ -106,7 +106,7 @@ class HeliSadpf:
                             f"{100 * split:.0f} %). {msg}", engine=lo + 1, action=code)
         # dual failure
         total = float(sum(pf[i] for i in running))
-        ref = demand if len(running) == 2 else float(sim.u.p_cmd[running[0]]) if running else 0.0
+        ref = demand if running else 0.0
         low = ref > 100e3 and total < DUAL_FRAC * ref and nr < 0.99
         if running and low:
             self._dual_t += dt

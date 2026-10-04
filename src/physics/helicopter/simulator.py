@@ -61,6 +61,9 @@ class SasGains:
     autorotation_collective: float = math.radians(3.0)  # collective lowered to this, then NR loop trims it
 
 
+COMP_BAND = 0.25  # fraction of its share an engine may lag before the other compensates (ESTIMADO)
+
+
 class HelicopterSimulator(SimulationLoop):
     def __init__(self, params: Optional[HeliParams] = None, atmosphere: Optional[HeliAtmosphere] = None,
                  dt: float = 0.005, control_rate_hz: float = 50.0, seed: int = 0, wind: bool = True,
@@ -94,6 +97,8 @@ class HelicopterSimulator(SimulationLoop):
         self.faults = list(engine_faults)
         self.fail_time: Optional[float] = None
         self.autorotation = False
+        self.p_need_w = 0.0  # governor power demand (W), read by the SADPF
+        self.nr_ref = 1.0  # NR reference of the autorotation collective loop (fraction of 100 %)
         self.collective_hold: Optional[float] = None  # set to freeze the collective (no pilot action)
         theta0 = math.radians(2.0)
         if airborne:  # start trimmed: collective for the level-flight thrust at that speed
@@ -225,7 +230,7 @@ class HelicopterSimulator(SimulationLoop):
         if self.collective_hold is not None:
             collective = self.collective_hold
         elif self.autorotation:
-            e_nr = (x[13] - p.omega100) / p.omega100
+            e_nr = (x[13] - self.nr_ref * p.omega100) / p.omega100
             self._nr_int = float(np.clip(self._nr_int + e_nr * dt, -0.5, 0.5))
             collective = self._theta_auto + g.nr_kp * e_nr + g.nr_ki * self._nr_int
         if self.collective_hold is None and not self.autorotation:
@@ -251,7 +256,19 @@ class HelicopterSimulator(SimulationLoop):
         self.rating = rating_for(max(n_run, 1), t_fail)
         lim_w = engine_limit_w(p, self.atm, pos[2], self.rating, max(n_run, 1))
         each = max(p_need, 0.0) / max(n_run, 1)
-        p_cmd = tuple(min(each, lim_w) if i in running else 0.0 for i in range(2))
+        # each engine control unit also governs NR: when the other engine falls clearly behind its share
+        # (more than COMP_BAND of it, e.g. a flame-out not yet declared failed), this one picks up the missing
+        # power, up to its current rating limit (the OEI ratings are armed only after the SADPF declares it)
+        self.p_need_w = max(p_need, 0.0)
+        cmd = []
+        for i in range(2):
+            if i not in running:
+                cmd.append(0.0)
+                continue
+            others = [j for j in running if j != i]
+            miss = sum(max(each - max(self.x[16 + j], 0.0) - COMP_BAND * each, 0.0) for j in others)
+            cmd.append(min(each + miss, lim_w))
+        p_cmd = tuple(cmd)
         return Controls(collective, cyc_lon, cyc_lat, pedal, p_cmd)
 
     def step(self, setpoint) -> None:

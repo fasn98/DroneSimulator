@@ -26,12 +26,17 @@ Todas as URLs foram abertas e conferidas em 04/10/2026. Valores sem fonte públi
 
 ## Regulação
 
-Os dois itens do 14 CFR abaixo foram usados como **critérios do modelo** na demonstração Categoria A (Passo 2). Isso não é verificação de conformidade. Os demais documentos são só referências.
+Os itens do 14 CFR e do CAT.POL.H.205 abaixo foram usados como **critérios do modelo** na demonstração Categoria A e no diagrama H-V (Passo 2). Isso não é verificação de conformidade. Os demais documentos são só referências.
 
 | Documento | URL |
 |---|---|
 | 14 CFR 29.67(a)(1) — subida OEI ≥ 100 ft/min na VTOSS, potência OEI 2 min, fora do efeito solo (texto vigente no eCFR, conferido em 04/10/2026) | https://www.ecfr.gov/current/title-14/section-29.67 |
-| 14 CFR 29.59(c) — na decolagem continuada, não descer abaixo de 15 ft acima da superfície de decolagem quando o TDP está acima de 15 ft (eCFR, conferido em 04/10/2026) | https://www.ecfr.gov/current/title-14/section-29.59 |
+| 14 CFR 29.59(a)(1) e (c) — a trajetória de decolagem Cat A deve ficar fora do envelope H-V do § 29.87; na decolagem continuada, não descer abaixo de 15 ft acima da superfície de decolagem quando o TDP está acima de 15 ft (eCFR, conferido em 04/10/2026) | https://www.ecfr.gov/current/title-14/section-29.59 |
+| 14 CFR 29.60(a)(2) e (a)(3) — heliponto elevado, Cat A: ao buscar a VTOSS a aeronave pode descer abaixo do nível da superfície de decolagem se, ao cruzar a borda do heliponto elevado, todas as partes passarem a pelo menos 15 ft de todos os obstáculos; a magnitude da descida deve ser determinada (eCFR, conferido em 04/10/2026) | https://www.ecfr.gov/current/title-14/section-29.60 |
+| 14 CFR 29.87(a) — envelope altura-velocidade: combinações de altura e velocidade (inclusive pairado) em que não se consegue pouso seguro após a falha do motor crítico (eCFR, conferido em 04/10/2026) | https://www.ecfr.gov/current/title-14/section-29.87 |
+| 14 CFR 29.725 — ensaio de queda do trem: altura de queda de pelo menos 8 in (eCFR, conferido em 04/10/2026); usada para derivar o limite de 2,0 m/s de toque do critério de pouso seguro do H-V | https://www.ecfr.gov/current/title-14/section-29.725 |
+| Regulamento (UE) 965/2012, Anexo IV, CAT.POL.H.205(b)(4) — na decolagem continuada (classe de performance 1), margem vertical de pelo menos 10,7 m (35 ft) sobre os obstáculos até o fim da TODRH. Texto conferido na Regulatory Library da UK CAA (versão retida do mesmo regulamento), em 04/10/2026; o texto consolidado da UE no EUR-Lex não pôde ser aberto pela ferramenta | https://regulatorylibrary.caa.co.uk/965-2012/Content/Document%20Structure/04%20CAT/2%20Regs/08610_CAT.POL.H.205.htm |
+| Mesma regra, texto oficial da UE (EUR-Lex, não conferido por mim) | https://eur-lex.europa.eu/eli/reg/2012/965/oj |
 | ANAC — índice dos RBAC | https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac |
 | RBAC 27 (helicópteros categoria normal) | https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac/rbac-27 |
 | RBAC 29 (helicópteros categoria transporte) | https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac/rbac-29 |

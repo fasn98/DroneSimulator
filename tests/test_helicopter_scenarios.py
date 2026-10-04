@@ -10,8 +10,9 @@ import unittest
 import numpy as np
 
 from src.physics.helicopter import HelicopterSimulator
-from src.physics.helicopter.procedures import KT, min_descent_speed, vtoss
-from src.physics.helicopter.scenarios import CatAConfig, autorotation, cat_a_run, rescue, transfer
+from src.physics.helicopter.procedures import KT, evaluate_cat_a, min_descent_speed, vtoss
+from src.physics.helicopter.scenarios import (HV_SINK_MAX, CatAConfig, autorotation, cat_a_run,
+                                              failure_height_sweep, hv_point, path_in_hv, rescue, transfer)
 
 HOT_HIGH = CatAConfig(elevation_m=1500.0, delta_t=25.0)
 
@@ -75,6 +76,44 @@ class TestCategoryA(unittest.TestCase):
         a = cat_a_run(2500.0, "continue", seed=3)
         b = cat_a_run(2500.0, "continue", seed=3)
         np.testing.assert_array_equal(a["telemetry"].column("z"), b["telemetry"].column("z"))
+
+
+class TestCategoryAClearanceCriteria(unittest.TestCase):
+    def test_literal_is_stricter_than_elevated(self):
+        # same flight judged with both criteria: a continued take-off that drops below the deck level after
+        # clearing the edge passes 29.60 (elevated heliport) but not the literal 29.59(c)
+        r = cat_a_run(2610.0, "continue", HOT_HIGH)
+        self.assertTrue(r["safe"], r["reason"])
+        self.assertGreater(r["max_drop_below_deck_m"], 0.0)
+        lit = evaluate_cat_a(r["telemetry"], r["sim"], r["vtoss_kt"], "continue", "literal_29_59c")
+        self.assertFalse(lit["safe"])
+        self.assertIn("29.59(c)", lit["reason"])
+
+
+class TestFailureHeight(unittest.TestCase):
+    def test_decision_is_taken_at_recognition(self):
+        rows = {r["fail_rel_tdp_m"]: r for r in failure_height_sweep(2980.0, CatAConfig(), (-3.0, -1.0))}
+        early, late = rows[-3.0], rows[-1.0]
+        self.assertEqual(early["recommended"], "abortar")  # recognised before the TDP
+        self.assertLess(early["reject"]["detect_rel_tdp_m"], 0.0)
+        self.assertTrue(early["reject"]["safe"], early["reject"]["reason"])
+        self.assertEqual(late["recommended"], "prosseguir")  # failed below, recognised just after the TDP
+        self.assertGreater(late["continue"]["detect_rel_tdp_m"], 0.0)
+        self.assertTrue(late["continue"]["safe"], late["continue"]["reason"])
+
+
+class TestHeightVelocity(unittest.TestCase):
+    def test_hover_low_oei_landing_is_safe_and_criterion_derived(self):
+        self.assertAlmostEqual(HV_SINK_MAX, (2 * 9.80665 * 8 * 0.0254) ** 0.5, delta=0.01)  # 29.725: 8 in drop
+        r = hv_point(10.0, 0.0)
+        self.assertTrue(r["safe"], r)
+
+    def test_path_check(self):
+        pts = [{"speed_kt": v, "height_m": h, "safe": not (v == 0.0 and h >= 20.0)}
+               for v in (0.0, 20.0) for h in (5.0, 20.0, 40.0)]
+        self.assertEqual(path_in_hv([0.0, 0.0], [10.0, 30.0], pts), [])  # corner rule: needs all 4 unsafe
+        pts = [dict(p, safe=p["height_m"] < 20.0) for p in pts]
+        self.assertEqual(path_in_hv([5.0], [30.0], pts), [0])
 
 
 class TestAutorotation(unittest.TestCase):

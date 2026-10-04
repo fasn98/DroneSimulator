@@ -4,16 +4,18 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0 e 1 aprovados; Passo 2 (cenários, falhas e SADPF) concluído e aguardando aval.** Os passos seguintes (interior UTI, HUD e documentação final) ainda não foram feitos.
+Estado atual: **Passos 0 e 1 aprovados; Passo 2 aprovado com ajustes; os ajustes (flare, critérios de 15 ft, falha em torno do TDP, diagrama H-V) estão concluídos e aguardando aval.** Os passos seguintes (interior UTI, HUD e documentação final) ainda não foram feitos.
 
 ## Como rodar
 
 ```bash
 python -m unittest tests.test_helicopter_physics -v   # validação do Passo 1 (13 testes)
-python -m unittest tests.test_helicopter_scenarios -v # validação do Passo 2 (11 testes, ~4 min)
+python -m unittest tests.test_helicopter_scenarios -v # validação do Passo 2 (15 testes, ~5 min)
 python -m unittest tests.test_template_regression      # drone de Marte idêntico ao de antes
 python tools/heli_step1_report.py                      # números-chave e figura da curva de potência
-python -m tools.heli_step2_report                      # cenários do Passo 2 (~11 min em 2 núcleos)
+python -m tools.heli_step2b_report                     # massas Cat A (2 critérios), falha × TDP, H-V (~70 min)
+python -m tools.heli_step2_report                      # demais cenários do Passo 2 (~5 min; usa o JSON acima)
+python -m tools.heli_flare_sweep 110 2                 # varredura do flare (~15 min por rodada)
 python tools/heli_docs.py                              # regenera a tabela de parâmetros deste documento
 ```
 
@@ -162,7 +164,11 @@ Tudo o que segue é **calculado pela física**. Nenhum cenário tem a falha ou a
 - o SADPF a detecta só pelo que a cabine mede;
 - o "piloto" (`procedures.py`) segue a ação que o SADPF recomendou, depois de um tempo de reação.
 
-O governador também não sabe da falha injetada: ele só exclui um motor depois que o SADPF o declara em falha.
+O controle dos motores também não sabe da falha injetada:
+- cada motor governa o NR, e quando o outro fica mais de 25 % abaixo da sua parcela (ESTIMADO), ele assume a potência que falta, até o limite do regime em vigor;
+- os regimes OEI (30 s, 2 min) só são armados quando o SADPF declara a falha.
+
+Essa compensação entre motores entrou nos ajustes do Passo 2. Antes, o motor bom só recebia metade da demanda até a detecção.
 
 ### SADPF do helicóptero (`sadpf.py`)
 
@@ -170,7 +176,7 @@ O governador também não sabe da falha injetada: ele só exclui um motor depois
 |---|---|---|
 | Medidas | potência de cada motor (torque × NR) com ruído de 1 % (1σ), demanda do governador, NR | ruído ESTIMADO |
 | Falha de um motor | divergência de torque (P_alto − P_baixo)/P_alto > 35 % por 0,15 s; o motor de menor torque é o isolado | limiares ESTIMADOS |
-| Falha dupla | potência total < 40 % da demanda, com NR < 99 %, por 0,15 s | limiares ESTIMADOS |
+| Falha dupla | potência total < 40 % da demanda do governador, com NR < 99 %, por 0,15 s | limiares ESTIMADOS |
 | Nível | 3 (Crítico), mesmo formato de evento do SADPF do drone | — |
 | Ação recomendada | falha dupla → **AUTORROTAÇÃO**; Categoria A antes do TDP → **ABORTAR**; depois do TDP → **PROSSEGUIR**; outras fases → compara a potência OEI 2 min com a potência mínima requerida: **PROSSEGUIR EM OEI** (mostra a margem) ou **POUSO IMEDIATO** | DERIVADO da física |
 | Tempo de reação do piloto após o alerta | 1,0 s | ESTIMADO |
@@ -179,7 +185,7 @@ Tempos de detecção medidos: **~0,7 s** para falha de um motor e **~1,7–2,0 s
 
 ### Cenário 1: transferência inter-hospitalar
 - Percurso: decolagem, subida, cruzeiro a 300 m e 110 kt, aproximação em rampa de 8°, pairado e pouso vertical. Vento de 5 m/s com rajadas.
-- Resultado em 20 km: voo de **7 min**, consumo de **24 kg** (consumo específico ESTIMADO), toque a 1,0 m/s, erro de posição de 2,9 m.
+- Resultado em 20 km: voo de **7 min**, consumo de **24 kg** (consumo específico ESTIMADO), toque a 1,2 m/s, erro de posição de 2,9 m.
 - O SADPF fica no nível 0, sem alarme falso.
 
 ### Cenário 2: resgate em área restrita
@@ -208,34 +214,49 @@ Tempos de detecção medidos: **~0,7 s** para falha de um motor e **~1,7–2,0 s
 | Prosseguir | sem contato com o deck ou o solo | — |
 | Prosseguir | atinge a VTOSS | — |
 | Prosseguir | razão de subida OEI 2 min na VTOSS, fora do efeito solo, ≥ **100 ft/min** | [14 CFR 29.67(a)(1)](https://www.ecfr.gov/current/title-14/section-29.67) |
-| Prosseguir | esquis ≥ **15 ft** acima do deck enquanto sobre ele e até 10 m além da borda | [14 CFR 29.59(c)](https://www.ecfr.gov/current/title-14/section-29.59) (o texto vale para toda a decolagem continuada; aqui só perto do deck) |
-| Prosseguir | depois disso, ≥ 35 ft acima da rua | ESTIMADO, por analogia com a separação de obstáculos de 35 ft; não conferido em texto oficial |
+| Prosseguir | separação vertical: depende do modo de critério escolhido (abaixo) | FONTE |
+
+**Dois modos de critério de separação vertical** (`CatAConfig.criterion`):
+
+| Modo | Regra aplicada aos esquis depois da falha | Fonte |
+|---|---|---|
+| `literal_29_59c` | nunca abaixo de **15 ft** acima do nível do deck, em toda a decolagem continuada (conservador) | [14 CFR 29.59(c)](https://www.ecfr.gov/current/title-14/section-29.59) |
+| `elevado_29_60` (padrão) | ≥ **15 ft** acima do deck enquanto sobre ele e ao cruzar a borda; depois disso, pode descer abaixo do nível do deck, mantendo ≥ **35 ft (10,7 m)** acima do solo (tratado como obstáculo) | [14 CFR 29.60(a)(2)](https://www.ecfr.gov/current/title-14/section-29.60) para os 15 ft e a descida abaixo do deck; [CAT.POL.H.205(b)(4)](https://regulatorylibrary.caa.co.uk/965-2012/Content/Document%20Structure/04%20CAT/2%20Regs/08610_CAT.POL.H.205.htm) (Reg. UE 965/2012) para os 35 ft |
+
+- O modo (b) agora tem fonte. O 14 CFR 29.60 é a regra própria de heliponto elevado da Part 29: *"the rotorcraft may descend below the level of the takeoff surface if, in so doing and when clearing the elevated heliport edge, every part of the rotorcraft clears all obstacles by at least 15 feet"*. O 29.60(a)(3) pede que a magnitude da descida abaixo do deck seja determinada, e ela é reportada (`max_drop_below_deck_m`).
+- O valor de 35 ft não vem da Part 29, que é de certificação. Ele vem da regra **operacional** europeia de classe de performance 1, que exige margem vertical de 10,7 m (35 ft) sobre os obstáculos na decolagem continuada.
+- A AC 29-2C não foi consultada: não encontrei um texto público dela que eu pudesse abrir.
+- Simplificações do modelo: o "obstáculo" além do deck é o solo plano a 30 m abaixo; a parte mais baixa da aeronave é o esqui (a atitude não é considerada).
 
 **VTOSS**: a menor velocidade (≥ 25 kt) em que a subida OEI 2 min atinge 100 ft/min, pelo método de energia (DERIVADO). O piso de 25 kt é ESTIMADO.
 
-**Massa máxima Categoria A**: a maior massa em que os **dois** ramos são seguros. É calculada por bisseção em massa (tolerância de 25 kg), com uma falha logo antes do TDP e outra logo depois:
+**Massa máxima Categoria A**: a maior massa em que os **dois** ramos são seguros. É calculada por bisseção em massa (tolerância de 25 kg). Em cada massa são feitos quatro voos:
+- uma falha reconhecida antes do TDP (3 m abaixo), voando **abortar**;
+- falhas a 1,0 m e 0,5 m abaixo do TDP e no TDP, voando o que o SADPF recomendar. Esses três casos cobrem a falha que ocorre antes do TDP mas só é reconhecida depois dele.
 
-| Heliponto | ΔT ISA | Vento de proa | Massa máx. Cat A | Limitada por |
-|---|---|---|---|---|
-| nível do mar | 0 | 0 | **2.980 kg** | MTOW |
-| nível do mar | +20 °C | 0 | **2.931 kg** | prosseguir |
-| 1.000 m | +20 °C | 0 | **2.761 kg** | prosseguir |
-| 1.500 m | +25 °C | 0 | **2.614 kg** | prosseguir |
-| 1.500 m | +25 °C | 8 m/s | **2.785 kg** | prosseguir |
+| Heliponto | ΔT ISA | Vento de proa | Massa máx. Cat A — `elevado_29_60` | Massa máx. Cat A — `literal_29_59c` | Limitada por |
+|---|---|---|---|---|---|
+| nível do mar | 0 | 0 | **2.980 kg** (MTOW) | **2.907 kg** | prosseguir |
+| nível do mar | +20 °C | 0 | **2.931 kg** | **2.834 kg** | prosseguir |
+| 1.000 m | +20 °C | 0 | **2.761 kg** | **2.663 kg** | prosseguir |
+| 1.500 m | +25 °C | 0 | **2.614 kg** | **2.517 kg** | prosseguir |
+| 1.500 m | +25 °C | 8 m/s | **2.809 kg** | **2.736 kg** | prosseguir |
+
+- O modo literal custa de 70 a 100 kg em todas as condições: ele proíbe a descida abaixo do nível do deck que o 29.60 permite depois da borda.
 
 - O vento de proa aumenta a massa admissível, como esperado.
 - Nesses casos o limite é sempre o ramo **prosseguir**. Abortar continua seguro até o MTOW enquanto a aeronave consegue chegar ao TDP.
 - Com 1.000 m ISA+20 ou 1.500 m ISA+25 no MTOW, a aeronave **nem chega ao TDP** com os dois motores: falta potência para pairar fora do efeito solo.
 - Esses valores são do **modelo**. Como o teto de pairado é pessimista em 11,7 %, as massas em altitude tendem a ficar abaixo das reais.
 
-**Demonstração do limite** (1.500 m, ISA+25, sem vento):
+**Demonstração do limite** (1.500 m, ISA+25, sem vento, modo `elevado_29_60`):
 
-| | No limite (2.614 kg) | Acima do limite (2.700 kg) |
+| | No limite (2.614 kg) | Acima do limite (2.714 kg) |
 |---|---|---|
-| Abortar | seguro: toque a 0,17 m/s no deck | seguro: toque a 0,12 m/s |
-| Prosseguir | **seguro**: mínimo de 5,3 m acima do deck perto da borda; desce 6,6 m abaixo do nível do deck já longe dele; perda máxima de altura de **21,8 m** | **inseguro**: passa 5,1 m **abaixo** do nível do deck a menos de 10 m da borda; perda de altura de **36,8 m**; passa a 6,2 m da rua |
-| Margem OEI 30 s no pairado OGE | −80 kW (não paira com um motor: precisa trocar altura por velocidade) | −103 kW |
-| Margem OEI 2 min na VTOSS | +15,9 kW (VTOSS 25 kt) | +15,5 kW (VTOSS 28 kt) |
+| Abortar | seguro: toque a 0,20 m/s no deck | seguro: toque a 0,13 m/s |
+| Prosseguir | **seguro**: cruza a borda a 10,4 m acima do deck; desce 6,0 m abaixo do nível do deck já longe dele (29.60(a)(3)); perda máxima de altura de **21,2 m**; passa a 24,0 m da rua | **inseguro**: toca o heliponto/solo; perda de altura de **32,6 m**; desce 19,9 m abaixo do nível do deck |
+| Margem OEI 30 s no pairado OGE | −80 kW (não paira com um motor: precisa trocar altura por velocidade) | −107 kW |
+| Margem OEI 2 min na VTOSS | +15,9 kW (VTOSS 25 kt) | +18,8 kW (VTOSS 29 kt) |
 | Detecção pelo SADPF | 0,69 s, recomenda ABORTAR / PROSSEGUIR conforme o TDP | igual |
 
 ![Categoria A](helicoptero/categoria_a.png)
@@ -260,21 +281,107 @@ Os dois motores param em t = 2 s, a 300 m, MTOW, ISA. O piloto só reage depois 
 | Velocidade de mínima razão de descida (método de energia, DERIVADO) | 70 kt | — |
 | Razão de descida estabilizada, simulada | **9,7 m/s** | **22,6 m/s** |
 | Razão de descida prevista | 10,4 m/s (energia: W·V_z = P_rotor + P_cauda + P_acess.) | 19,9 m/s (momento ideal); a teoria da curva empírica dá ≈ 1,7–1,8·v_h |
-| NR antes do amortecimento | 94,9–104,8 % (limites sem motor do TCDS: 85–106 %) | 94,1–102,0 % |
-| Toque | **1,4 m/s** vertical, **14,3 m/s** (28 kt) de velocidade no solo: pouso corrido | **19,6 m/s**: impacto |
+| NR antes do amortecimento | 94,7–104,8 % (limites sem motor do TCDS: 85–106 %) | 94,1–102,0 % |
+| Toque | **1,1 m/s** vertical, **13,9 m/s** (27 kt) de velocidade no solo, 10,5° nariz acima: pouso corrido | **19,6 m/s**: impacto |
 
 - A comparação mostra por que a autorrotação se faz com velocidade à frente: a razão de descida cai para menos da metade, e a energia cinética permite o flare.
-- A vertical a partir de 300 m termina em impacto. Esse é o comportamento esperado da região a evitar do diagrama altura-velocidade; o diagrama H-V completo (opcional no roteiro) não foi gerado.
-- **Flare** (piloto do modelo, parâmetros ESTIMADOS e ajustados no modelo):
-  - começa a 45 m;
-  - desaceleração de até 4 m/s², modulada pela razão de descida (alvo de 0,3·(h − 6 m), entre 1,5 e 6 m/s);
-  - atitude máxima de 25° nariz acima;
-  - amortecimento com o coletivo abaixo de ~6 m.
-- **Limitação**: o pouso termina corrido a ~28 kt. Varrendo os parâmetros do flare, este "piloto" simples consegue toque suave **ou** baixa velocidade no solo, mas não os dois ao mesmo tempo. Um flare melhor (por exemplo, otimizado ou com cíclico e coletivo coordenados) fica como melhoria.
+- A vertical a partir de 300 m termina em impacto. Esse é o comportamento esperado da região a evitar do diagrama altura-velocidade para falha total.
+- **Flare**: parâmetros ESTIMADOS, escolhidos pela varredura descrita abaixo:
+  - começa a 40 m;
+  - desaceleração de até 4 m/s², modulada pela razão de descida (alvo de 0,2·(h − 6 m), entre 1,5 e 6 m/s);
+  - atitude máxima de 30° nariz acima no flare e de 15° depois dele;
+  - amortecimento com o coletivo abaixo de ~6 m, segurando 0,3 m/s de descida.
+
+#### Varredura do flare (ajuste 1)
+
+- **Meta**: toque ≤ 1,5 m/s **e** velocidade no solo ≤ 15 kt, ao mesmo tempo.
+- **Prazo**: duas rodadas, **287 combinações**, falha dupla a 150 m.
+- **Parâmetros varridos**:
+  - altura de início (30–60 m), atitude de cabrar (20–35°), desaceleração do flare (4–8 m/s²) e modulação pela razão de descida;
+  - desaceleração e atitude depois do flare;
+  - altura, atitude e razão de descida segurada pelo coletivo no amortecimento;
+  - referência de NR na planagem (100 % ou 104 %).
+- **Resultado: a meta não foi atingida.** Com velocidade vertical ≤ 1,5 m/s, nenhuma combinação válida tocou abaixo de **27,5 kt**. As únicas que tocaram a ≤ 15 kt chegaram ao solo a 9–10 m/s de velocidade vertical.
+  - Melhor combinação (novo padrão): **1,44 m/s e 27,5 kt** a partir de 150 m (1,12 m/s e 27 kt a partir de 300 m), com 10,5–11,9° de nariz acima no toque.
+  - O gráfico mostra a fronteira de compromisso: quando a velocidade no solo cai, a velocidade vertical sobe.
+- **Achado da varredura**: subir a referência de NR para 104 % na planagem leva o rotor a **115 %** na entrada da autorrotação, acima do limite sem motor de 106 % do TCDS.
+  - Todas as 164 combinações com 104 % passaram do limite; o padrão ficou em 100 %.
+  - Outras 13 combinações passaram levemente de 106 % (106,2–107,1 %) e também foram descartadas.
+  - No total, 110 combinações válidas.
+- **Limitação documentada**: o "piloto" do modelo comanda a desaceleração pelo vetor de empuxo e o coletivo pelo NR ou pela razão de descida, de forma desacoplada. Atingir a meta provavelmente exige coordenar cíclico e coletivo no flare (por exemplo, por otimização de trajetória), e isso fica como melhoria.
+- Dados: `docs/helicoptero/flare_varredura_r1.json` e `flare_varredura_r2.json`; ferramenta: `tools/heli_flare_sweep.py`.
+
+![Varredura do flare](helicoptero/flare_varredura.png)
 
 ![Autorrotação](helicoptero/autorrotacao.png)
 
-### Validação (Passo 2): `tests/test_helicopter_scenarios.py`, 11 testes
+### Falha em torno do TDP (ajuste 3)
+
+**Convenção padrão (mantida)**:
+- a decisão vale no instante em que o SADPF **reconhece** a falha;
+- reconhecida antes do TDP: abortar; depois do TDP: prosseguir.
+
+A altura da falha agora é um parâmetro (`cat_a_run(..., fail_rel_tdp_m=...)`), e o ramo pode ser forçado (`force_action`).
+
+**Varredura de −6 m a +6 m em relação ao TDP**, voando os dois ramos em cada altura, nas massas Cat A máximas:
+
+| Falha (m em relação ao TDP) | Nível do mar, ISA, 2.980 kg | 1.500 m, ISA+25, 2.614 kg |
+|---|---|---|
+| −6 a −2 | SADPF: abortar · abortar seguro · prosseguir inseguro (toca o deck ou cruza a borda < 15 ft) | igual |
+| −1,5 | SADPF: abortar (reconhecida 0,3 m antes do TDP) · os dois seguros | SADPF: abortar (0,1 m antes) · abortar seguro · prosseguir inseguro |
+| −1,0 e −0,5 | **reconhecida logo após o TDP** (+0,2 e +0,7 m) · SADPF: prosseguir · os dois seguros | reconhecida +0,4 e +0,8 m · SADPF: prosseguir · os dois seguros |
+| 0 a +4 | SADPF: prosseguir · os dois seguros | igual |
+| +5 e +6 | SADPF: prosseguir · prosseguir seguro · abortar inseguro (tomba ao voltar ao deck com velocidade) | +6: abortar inseguro |
+
+- Nas duas condições, **a ação que o SADPF recomenda é sempre um ramo seguro**.
+- Os dois ramos são seguros de −1,5 m a +4 m (nível do mar) e de −1,0 m a +5 m (1.500 m, ISA+25) em relação ao TDP.
+- O caso "falha antes do TDP, reconhecida logo depois" (−1,0 e −0,5 m) está coberto e entra no cálculo da massa máxima.
+- O tempo entre a falha e o reconhecimento é de ~0,7 s. A 1,5 m/s de subida, isso desloca o ponto de reconhecimento ~1,1 m para cima.
+
+![Falha em torno do TDP](helicoptero/falha_tdp.png)
+
+### Diagrama altura-velocidade (ajuste 5)
+
+O [14 CFR 29.59(a)(1)](https://www.ecfr.gov/current/title-14/section-29.59) exige que a trajetória de decolagem Categoria A fique fora do envelope H-V do [§ 29.87](https://www.ecfr.gov/current/title-14/section-29.87). Esse envelope é formado pelas combinações de altura e velocidade, inclusive o pairado, em que não se consegue pouso seguro após a falha do motor crítico.
+
+**Como o modelo levanta o H-V**:
+- **Varredura**: 12 alturas (2 a 90 m, altura dos esquis) × 6 velocidades (0 a 60 kt), em voo nivelado.
+- **Falha**: o motor 1 apaga em t = 1 s. O SADPF detecta, e o piloto reage 1 s depois do alerta.
+- **Manobra**: pouso à frente com um motor (`OeiLanding`).
+  - Técnica **"frente"**: aproxima a v_OEI + 3 m/s descendo, depois faz o flare para o efeito solo e amortece com o coletivo. v_OEI é a menor velocidade em que a potência OEI 30 s sustenta voo nivelado (DERIVADO: 9 m/s ao nível do mar no MTOW).
+  - Técnica **"vertical"**, a 20 kt ou menos: descida lenta (≤ 1 m/s) direto para o efeito solo e amortecimento.
+  - O ponto é seguro se **qualquer** das duas técnicas pousar com segurança.
+- **Critério de "pouso seguro"**:
+
+| Grandeza no toque | Limite | Status |
+|---|---|---|
+| Velocidade vertical | ≤ **2,0 m/s** | DERIVADO: queda livre da altura de 8 in do ensaio de queda do trem, [14 CFR 29.725](https://www.ecfr.gov/current/title-14/section-29.725) (√(2·g·0,203 m) = 2,0 m/s) |
+| Velocidade no solo | ≤ 15 kt | ESTIMADO (mesmo valor da meta do flare) |
+| Atitude depois do toque | < 15° (sem tombamento) | ESTIMADO |
+
+**Resultado**:
+
+| Condição | Pontos inseguros |
+|---|---|
+| Nível do mar, ISA, 2.980 kg | **nenhum** (com um motor, a potência OEI 30 s permite pairar dentro do efeito solo) |
+| 1.500 m, ISA+25, 2.614 kg (massa Cat A) | **pairado de 25 a 30 m**: alto demais para pairar no efeito solo com um motor e baixo demais para ganhar velocidade (45 m já é seguro). Dois pontos isolados no limite: 10 m a 10 kt (2,03 m/s contra 2,0 m/s) e 2 m a 20 kt (toca a 18 kt antes da reação do piloto) |
+
+**Trajetórias Cat A AEO sobrepostas** (velocidade horizontal × altura dos esquis acima da superfície abaixo):
+
+| Trajetória | Fora do H-V? |
+|---|---|
+| Heliponto no solo, nível do mar, 2.980 kg | **sim** |
+| Heliponto elevado de 30 m, nível do mar, 2.980 kg | **sim** |
+| Heliponto elevado de 30 m, 1.500 m ISA+25, 2.614 kg | **sim**; passa a uma célula da grade do ponto isolado de 10 m a 10 kt (entre 8 e 10 m de altura, a ~1 kt) |
+
+- A subida vertical até o TDP de 12 m fica abaixo da faixa insegura do pairado (25 a 30 m).
+- Ao cruzar a borda do heliponto elevado, a altura sobre a rua salta para mais de 50 m, acima da faixa.
+- A grade é grossa: o contorno do H-V tem a resolução de um passo da grade.
+- O diagrama depende da técnica de pouso do "piloto" do modelo, cujos parâmetros são ESTIMADOS. Uma técnica melhor só reduziria a região insegura.
+
+![Diagrama H-V](helicoptero/hv_diagrama.png)
+
+### Validação (Passo 2): `tests/test_helicopter_scenarios.py`, 15 testes
 
 | Teste | Critério |
 |---|---|
@@ -288,8 +395,12 @@ Os dois motores param em t = 2 s, a 300 m, MTOW, ISA. O piloto só reage depois 
 | Vertical × à frente | razão de descida > 1,8× e toque > 3× mais forte |
 | Velocidade de mínima razão de descida | entre 55 e 85 kt |
 | Resgate | pousa a < 5 m; toque ≤ 1,5 m/s; fator de efeito solo < 1; potência menor que fora do efeito solo |
+| Critérios de separação | o mesmo voo (2.610 kg, 1.500 m ISA+25) passa no modo `elevado_29_60` e falha no `literal_29_59c` |
+| Falha em torno do TDP | falha 3 m abaixo → reconhecida antes → ABORTAR seguro; falha 1 m abaixo → reconhecida depois → PROSSEGUIR seguro |
+| H-V | limite de 2,0 m/s conferido com o 29.725; pairado a 10 m com um motor, ao nível do mar → pouso seguro |
+| Verificação de trajetória × H-V | regra de célula (dentro só se os 4 vizinhos da grade forem inseguros) |
 
-Números completos em `docs/helicoptero/passo2_resultados.json` (gerado por `tools/heli_step2_report.py`).
+Números completos em `docs/helicoptero/passo2_resultados.json` e `passo2b_resultados.json` (gerados por `tools/heli_step2_report.py` e `tools/heli_step2b_report.py`).
 
 ## Limitações conhecidas (não implementadas)
 - **Teto de pairado OGE pessimista em 11,7 %** em relação ao valor publicado de 7.200 ft (decisão 1 acima). Isso também deixa conservadoras as massas Categoria A em altitude.

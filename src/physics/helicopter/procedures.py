@@ -89,6 +89,7 @@ class CatATakeoff:
     vtoss_kt: float = 40.0  # set by the caller from vtoss()
     climb_rate: float = 1.5
     accel: float = 1.5  # m/s^2 AEO acceleration after the TDP
+    force_action: Optional[str] = None  # "abortar"/"prosseguir": fly this branch whatever the SADPF recommends
     phase: str = "vertical"
     tdp_t: Optional[float] = None
     _v: float = 0.0
@@ -103,6 +104,8 @@ class CatATakeoff:
         dt = max(t - self._last_t, 0.0)
         self._last_t = t
         action = _sadpf_action(sim, t)
+        if action in ("abortar", "prosseguir") and self.force_action:
+            action = self.force_action
         pad = sim.dyn.terrain
         h = self.skid_height(x)
         wind_x = float(sim.dyn.wind[0])
@@ -136,14 +139,24 @@ class CatATakeoff:
         return np.array([x[0], pad.pad_y, x[2] + vz]), np.array([self._v + wind_x, 0.0, vz]), 0.0
 
 
-def evaluate_cat_a(tel, sim, vtoss_kt: Optional[float], branch: str) -> Dict[str, object]:
+CRITERIA = ("elevado_29_60", "literal_29_59c")
+CLEAR_EDGE = 15 * FT  # 14 CFR 29.60(a)(2): every part clears all obstacles by >= 15 ft when clearing the edge
+CLEAR_OBST = 35 * FT  # EASA CAT.POL.H.205(b)(4): obstacles cleared by >= 10,7 m (35 ft) in the continued take-off
+CLEAR_LITERAL = 15 * FT  # 14 CFR 29.59(c): not below 15 ft above the take-off surface (TDP above 15 ft)
+
+
+def evaluate_cat_a(tel, sim, vtoss_kt: Optional[float], branch: str,
+                   criterion: str = "elevado_29_60") -> Dict[str, object]:
     """Model safety criteria of each branch (see docs/helicoptero-uti.md, Categoria A).
 
     reject:   back on the deck (1 m inside the edge), touchdown sink <= 1.5 m/s, no roll-over (ESTIMADO limits)
-    continue: VTOSS reached, no contact, skids >= 15 ft above the deck while over/near it (14 CFR 29.59(c)
-              uses 15 ft above the take-off surface), >= 35 ft above the ground beyond it (ESTIMADO, by analogy
-              with the 35 ft end of the take-off path), steady OEI 2-min climb at VTOSS >= 100 ft/min (29.67(a)(1))
+    continue: VTOSS reached, no contact, steady OEI 2-min climb at VTOSS >= 100 ft/min (29.67(a)(1)), and
+      criterion "literal_29_59c":  skids never below 15 ft above the deck level after the failure (29.59(c));
+      criterion "elevado_29_60":   skids >= 15 ft above the deck while over it and when crossing its edge
+                                   (29.60(a)(2), descent below the deck allowed after that), then >= 35 ft
+                                   above the ground below, treated as the obstacle (CAT.POL.H.205(b)(4)).
     """
+    assert criterion in CRITERIA, criterion
     pad = sim.dyn.terrain
     cg_h = sim.p.cg_h
     t, x, y, z, vz = (tel.column(k) for k in ("t", "x", "y", "z", "vz"))
@@ -171,34 +184,109 @@ def evaluate_cat_a(tel, sim, vtoss_kt: Optional[float], branch: str) -> Dict[str
         return res
     edge = pad.pad_x + pad.pad_half_size
     t0 = sim.fail_time if sim.fail_time is not None else t[airborne[0]]
-    after_lift = (idx > airborne[0]) & (t >= t0)  # judged from the engine failure on
-    near = (x <= edge + 10.0) & after_lift & ~ground
-    min_over_deck = float(np.min(h_skid[near])) if np.any(near) else float("nan")
-    beyond = x > edge + 10.0
+    after = (idx > airborne[0]) & (t >= t0) & ~ground  # judged from the engine failure on
+    over = after & (x <= edge)  # over the deck, up to the edge crossing
+    beyond = after & (x > edge)
+    min_over_deck = float(np.min(h_skid[over])) if np.any(over) else float("nan")
     min_agl_beyond = float(np.min(agl_skid[beyond])) if np.any(beyond) else float("nan")
+    min_rel_deck = float(np.min(h_skid[after])) if np.any(after) else float("nan")
     tas = tel.column("tas_ms")
-    reached = bool(vtoss_kt is not None and np.any(tas[after_lift] >= 0.95 * vtoss_kt * KT))
-    touched = bool(np.any(ground & after_lift))
+    reached = bool(vtoss_kt is not None and np.any(tas[after] >= 0.95 * vtoss_kt * KT))
+    touched = bool(np.any(ground & (idx > airborne[0]) & (t >= t0)))
     roc = oei_climb_rate(sim.p, sim.atm, 0.0, sim.dyn.mass(sim.x), vtoss_kt * KT) if vtoss_kt else -1.0
-    res.update(min_height_near_deck_m=min_over_deck, min_agl_beyond_m=min_agl_beyond, reached_vtoss=reached,
-               touched_down=touched, oei_roc_at_vtoss_fpm=roc / FT * 60, vtoss_kt=vtoss_kt,
-               max_drop_below_deck_m=float(max(0.0, -np.min(h_skid[after_lift]))))
-    ok = (vtoss_kt is not None and reached and not touched and min_over_deck >= 15 * FT and
-          (math.isnan(min_agl_beyond) or min_agl_beyond >= 35 * FT) and roc >= ROC_CAT_A)
-    res["safe"] = bool(ok)
+    res.update(criterion=criterion, min_height_over_deck_m=min_over_deck, min_agl_beyond_m=min_agl_beyond,
+               min_height_rel_deck_m=min_rel_deck, reached_vtoss=reached, touched_down=touched,
+               oei_roc_at_vtoss_fpm=roc / FT * 60, vtoss_kt=vtoss_kt,
+               max_drop_below_deck_m=float(max(0.0, -min_rel_deck)) if np.any(after) else 0.0)  # 29.60(a)(3)
     if vtoss_kt is None:
-        res["reason"] = "nenhuma velocidade atinge 100 ft/min OEI"
+        res.update(safe=False, reason="nenhuma velocidade atinge 100 ft/min OEI")
     elif touched:
-        res["reason"] = "tocou o heliponto ou o solo"
-    elif min_over_deck < 15 * FT:
-        res["reason"] = f"passou a {min_over_deck:.1f} m do deck (< 15 ft)"
-    elif not math.isnan(min_agl_beyond) and min_agl_beyond < 35 * FT:
-        res["reason"] = f"passou a {min_agl_beyond:.1f} m do solo (< 35 ft)"
+        res.update(safe=False, reason="tocou o heliponto ou o solo")
+    elif criterion == "literal_29_59c" and min_rel_deck < CLEAR_LITERAL:
+        res.update(safe=False, reason=f"desceu a {min_rel_deck:.1f} m do nível do deck (< 15 ft, 29.59(c))")
+    elif criterion == "elevado_29_60" and not math.isnan(min_over_deck) and min_over_deck < CLEAR_EDGE:
+        res.update(safe=False, reason=f"cruzou a borda a {min_over_deck:.1f} m acima do deck (< 15 ft, 29.60)")
+    elif criterion == "elevado_29_60" and not math.isnan(min_agl_beyond) and min_agl_beyond < CLEAR_OBST:
+        res.update(safe=False, reason=f"passou a {min_agl_beyond:.1f} m do solo (< 35 ft)")
     elif not reached:
-        res["reason"] = "não atingiu VTOSS"
+        res.update(safe=False, reason="não atingiu VTOSS")
+    elif roc < ROC_CAT_A:
+        res.update(safe=False, reason="subida OEI na VTOSS < 100 ft/min")
     else:
-        res["reason"] = "ok"
+        res.update(safe=True, reason="ok")
     return res
+
+
+# ------------------------------------------------------------------------------------------------
+@dataclass
+class OeiLanding:
+    """One engine out, land straight ahead (the manoeuvre that defines the height-velocity envelope, 29.87(a)).
+
+    After the SADPF alert and the pilot delay (technique of the model, constants ESTIMADO):
+      approach: fly at v_app = v_oei + margin (v_oei = lowest speed at which OEI 30 s power holds level flight;
+                faster: decelerate level first; slower and high enough: trade height for speed), descending on a
+                height-scheduled sink rate down to flare_h;
+      flare:    decelerate at flare_decel holding a slow sink into ground effect;
+      cushion:  below cushion_h the collective controls the sink rate and may spend rotor energy (no NR droop
+                protection), until touchdown.
+    """
+    sim: object
+    v_oei: float = 9.0  # m/s, set by the caller
+    v_margin: float = 3.0  # m/s above v_oei for the approach (ESTIMADO)
+    sink_k: float = 0.15  # 1/s, sink-rate schedule (ESTIMADO)
+    sink_max: float = 3.0  # m/s (ESTIMADO)
+    flare_h: float = 5.0  # m skid height where the final deceleration starts (ESTIMADO)
+    flare_decel: float = 1.5  # m/s^2 (ESTIMADO)
+    flare_slow: float = 5.0  # m/s: above it the flare holds flare_h instead of descending (ESTIMADO)
+    cushion_h: float = 2.0  # m skid height (ESTIMADO)
+    phase: str = "cruise"
+    hold: Optional[np.ndarray] = None
+    log: List[dict] = field(default_factory=list)
+
+    def __call__(self, t: float, x: np.ndarray):
+        sim = self.sim
+        h = float(x[2]) - sim.dyn.terrain.height(x[0], x[1]) - sim.p.cg_h
+        v = float(x[3])
+        if self.hold is None:
+            self.hold = x[0:3].copy()
+            self._v0 = v
+        if self.phase == "cruise":
+            if _sadpf_action(sim, t) is not None:
+                self.phase = "approach" if h > self.flare_h else "flare"
+                self.log.append({"t": t, "phase": self.phase, "skid_h": h})
+            return np.array([x[0], self.hold[1], self.hold[2]]), np.array([self._v0, 0.0, 0.0]), 0.0
+        if self.phase == "approach":
+            v_app = self.v_oei + self.v_margin
+            if v > v_app + 2.0:  # decelerate level first
+                v_ref = max(v - 2.0 / _kv(sim), v_app)
+                vz = 0.0
+            else:  # at (or accelerating to) the approach speed, descending
+                v_ref = v_app
+                vz = -float(np.clip(self.sink_k * h, 0.5, self.sink_max))
+            if h <= self.flare_h:
+                self.phase = "flare"
+                self.log.append({"t": t, "phase": "flare", "skid_h": h})
+            return np.array([x[0], self.hold[1], x[2]]), np.array([v_ref, 0.0, vz]), 0.0
+        if self.phase == "flare":
+            v_ref = max(v - self.flare_decel / _kv(sim), 0.0)
+            if v > self.flare_slow:  # still fast: hold (or regain) flare_h while decelerating
+                vz = float(np.clip(0.5 * (self.flare_h - h), -0.5, 1.0))
+            else:
+                vz = -float(np.clip(0.2 * (h - self.cushion_h) + 0.3, 0.3, 1.0))
+            if (h <= self.cushion_h and v <= self.flare_slow) or (v < 2.0 and h < self.flare_h):
+                self.phase = "cushion"
+                sim.set_cushion(True)
+                self.log.append({"t": t, "phase": "cushion", "skid_h": h})
+            return np.array([x[0], self.hold[1], x[2]]), np.array([v_ref, 0.0, vz]), 0.0
+        if self.phase == "cushion":
+            if sim.dyn.aero(x, sim.u)[3].on_ground:
+                self.phase = "landed"
+                sim.set_cushion(False)
+                sim.collective_hold = sim.p.theta_min
+                self.log.append({"t": t, "phase": "landed"})
+            v_ref = max(v - self.flare_decel / _kv(sim), 0.0)
+            return np.array([x[0], self.hold[1], x[2]]), np.array([v_ref, 0.0, -0.3]), 0.0
+        return np.array([x[0], x[1], x[2]]), np.zeros(3), 0.0
 
 
 # ------------------------------------------------------------------------------------------------
@@ -208,16 +296,20 @@ class AutorotationLanding:
     sim: object
     mode: str = "forward"  # "forward" or "vertical"
     v_glide_kt: float = 65.0  # set from min_descent_speed()
-    flare_agl: float = 45.0  # m (ESTIMADO, tuned in the model)
+    flare_agl: float = 40.0  # m (ESTIMADO; best of the flare sweep, docs/helicoptero/flare_varredura_*.json)
     cushion_agl: float = 4.0  # m (ESTIMADO); vertical mode starts the cushion higher
     level_agl: float = 6.0  # m (ESTIMADO): stop the flare at the latest here
     level_speed: float = 8.0  # m/s (ESTIMADO): flare ends when the ground speed is this low
     flare_decel: float = 4.0  # m/s^2 max deceleration commanded in the flare (ESTIMADO)
-    flare_tilt: float = 25.0  # deg, max nose-up attitude in the flare (ESTIMADO)
+    flare_tilt: float = 30.0  # deg, max nose-up attitude in the flare (ESTIMADO, sweep)
     level_decel: float = 1.5  # m/s^2 kept while levelling the attitude (ESTIMADO)
     flare_k: float = 2.0  # m/s: sink-rate error for full flare deceleration (ESTIMADO)
-    flare_sink_k: float = 0.3  # 1/s: sink-rate target = k * height above level_agl, 1.5..6 m/s (ESTIMADO)
+    flare_sink_k: float = 0.2  # 1/s: sink-rate target = k * height above level_agl, 1.5..6 m/s (ESTIMADO)
     cushion_agl_vertical: float = 15.0
+    level_tilt: float = 15.0  # deg, attitude limit after the flare (ESTIMADO, sweep)
+    cushion_tilt: float = 15.0  # deg, attitude limit while cushioning (ESTIMADO, sweep)
+    cushion_sink: float = 0.3  # m/s, sink rate the collective holds in the cushion (ESTIMADO, sweep)
+    nr_flare: float = 1.0  # NR reference in glide/flare; 1.04 was tried and overspeeds the rotor on entry (115 %)
     phase: str = "cruise"
     hold: Optional[np.ndarray] = None
     _v: float = 0.0
@@ -236,6 +328,7 @@ class AutorotationLanding:
             if _sadpf_action(sim, t) == "autorrotacao":
                 self.phase = "glide"
                 sim.set_autorotation(True)
+                sim.nr_ref = self.nr_flare
                 self.log.append({"t": t, "phase": "glide"})
             v = self._v
             return np.array([x[0], self.hold[1], self.hold[2]]), np.array([v, 0.0, 0.0]), 0.0
@@ -262,7 +355,7 @@ class AutorotationLanding:
             self._v = max(float(x[3]) - decel / _kv(sim), 0.0)  # velocity reference that yields `decel`
             if x[3] < self.level_speed or agl <= self.level_agl:
                 self.phase = "level"
-                sim.g.max_tilt_deg = 8.0
+                sim.g.max_tilt_deg = self.level_tilt
                 self.log.append({"t": t, "phase": "level", "agl": agl})
             return np.array([x[0], self.hold[1], x[2]]), np.array([self._v, 0.0, float(x[5])]), 0.0
         if self.phase == "level":
@@ -271,6 +364,7 @@ class AutorotationLanding:
             if agl <= self.cushion_agl or (x[5] < -3.0 and agl < 15.0):
                 self.phase = "cushion"
                 sim.set_cushion(True)
+                sim.g.max_tilt_deg = self.cushion_tilt
                 self.log.append({"t": t, "phase": "cushion", "agl": agl})
             return np.array([x[0], self.hold[1], x[2]]), np.array([self._v, 0.0, float(x[5])]), 0.0
         if self.phase == "cushion":
@@ -280,7 +374,8 @@ class AutorotationLanding:
                 sim.collective_hold = sim.p.theta_min
                 self.log.append({"t": t, "phase": "landed"})
             self._v = max(float(x[3]) - self.level_decel / _kv(sim), 0.0)
-            return np.array([x[0], self.hold[1], x[2] - 0.5]), np.array([self._v, 0.0, -0.5]), 0.0
+            return (np.array([x[0], self.hold[1], x[2] - self.cushion_sink]),
+                    np.array([self._v, 0.0, -self.cushion_sink]), 0.0)
         return np.array([x[0], x[1], x[2]]), np.zeros(3), 0.0
 
 
@@ -293,6 +388,7 @@ def evaluate_landing(tel) -> Dict[str, float]:
         return {"landed": False}
     k = after[0]
     return {"landed": True, "touchdown_t": float(t[k]), "touchdown_sink_ms": float(-min(vz[max(k - 2, 0):k + 1])),
+            "touchdown_pitch_up_deg": float(-tel.column("pitch_deg")[k]),
             "touchdown_ground_speed_ms": float(np.hypot(vx[k], vy[k])),
             "max_tilt_after_deg": float(np.max(np.hypot(tel.column("roll_deg"), tel.column("pitch_deg"))[k:]))}
 
