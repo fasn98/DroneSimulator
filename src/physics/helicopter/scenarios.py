@@ -324,7 +324,8 @@ def transfer(distance_m: float = 20_000.0, cruise_alt: float = 300.0, cruise_kt:
     land = evaluate_landing(tel)
     fuel = tel.column("fuel_kg")
     landed_t = next((e["t"] for e in proc.log if e["phase"] == "landed"), None)
-    return {"landing": land, "phases": proc.log, "flight_time_s": landed_t, "fuel_used_kg": float(fuel[0] - fuel[-1]),
+    fuel_end = float(np.interp(landed_t, tel.column("t"), fuel)) if landed_t else float(fuel[-1])  # at touchdown
+    return {"landing": land, "phases": proc.log, "flight_time_s": landed_t, "fuel_used_kg": float(fuel[0] - fuel_end),
             "final_position_error_m": float(np.hypot(tel.column("x")[-1] - distance_m, tel.column("y")[-1])),
             "telemetry": tel, "sim": sim}
 

@@ -14,6 +14,19 @@ Todas as URLs foram abertas e conferidas em 04/10/2026. Valores sem fonte públi
 | Kampa et al., ERF 1997 (projeto do EC135) | corda equivalente de 0,288 m; velocidade de ponta de 211 m/s; corda (0,05 m) e velocidade de ponta (188 m/s) do rotor de cauda; deriva "small fin (0.9 m²)" da configuração básica VFR; "Vcruise 141 kts" e "Vne 155 kts" (EC135 de 1997, massa não informada) | https://dspace-erf.nlr.nl/bitstreams/8af39742-be07-4807-b1f4-d15ac616f12b/download |
 | Doleschel & Emmerling, ERF 2007 | 395 rpm a 100 % NR; 100 % de torque = 665 N·m a 5.898 rpm | https://dspace-erf.nlr.nl/bitstreams/02b3ce46-b124-4c27-892e-b3cd0d2021cf/download |
 
+## Passo 3: interior UTI, massa e CG, consumo e raio de ação
+
+| Fonte | O que foi usado | URL |
+|---|---|---|
+| Airbus Helicopters — H135 technical information | carga útil 1.418 kg (→ massa vazia 1.562 kg, DERIVADO); "Max range (with std. fuel tank) 633 km / 342 NM" e "Max endurance (with std fuel tank) 3h 36 min", condições não informadas, usados na calibração do consumo (conferido em 04/10/2026) | https://www.airbus.com/en/products-services/helicopters/civil-helicopters/h135/h135-technical-information |
+| Folheto Airbus H135 (fev. 2022) | combustível "Standard 560kg, with auxiliary 730kg" | https://pdf.aeroexpo.online/pdf/airbus-helicopters/h135/173989-29487.html |
+| EASA TCDS R.009, seção 18 (EC135 T3H) | envelope de CG: dianteiro 4.180 mm a 1.840 kg e 4.237,5 mm a 3.175 kg; traseiro 4.570 mm a 1.500 kg e 4.349 mm a 3.175 kg; lateral ±100 mm; plano de referência 2.160 mm à frente do ponto de nivelamento | https://www.easa.europa.eu/en/downloads/7943/en |
+| EASA AMC2 CAT.POL.MAB.100(d) (Regulatory Library da UK CAA, versão retida do Reg. UE 965/2012) | "85 kg for flight crew/technical crew members" | https://regulatorylibrary.caa.co.uk/965-2012/Content/Document%20Structure/04%20CAT/3%20AMC/AMC2%20CAT%20POL%20MAB%20100%20d%20Mass.htm |
+| Hamilton Medical — HAMILTON-T1 | ventilador de transporte, 6,5 kg (unidade de ventilação) | https://www.hamilton-medical.com/en_US/Products/Mechanical-ventilators/HAMILTON-T1.html |
+| ZOLL — X Series | monitor/desfibrilador, "less than 5.5 kilograms" | https://www.zoll.com/en-gb/products/defibrillators/x-series-for-hospital |
+| Portaria GM/MS nº 2.048/2002 | lista de equipamentos da aeronave de transporte médico de asa rotativa (vigência a conferir) | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html |
+| 14 CFR 135.209(b) (texto via LII/Cornell; o eCFR recusou a conexão) | reserva VFR de helicóptero: 20 min no consumo normal de cruzeiro | https://www.law.cornell.edu/cfr/text/14/135.209 |
+
 ## Teoria e critérios
 
 | Fonte | Uso | URL |

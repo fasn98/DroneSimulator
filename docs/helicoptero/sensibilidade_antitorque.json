@@ -40,5 +40,197 @@
    "tail_power_136kt_kw": 16.884916749831056,
    "fin_cl_136kt": 0.4684939560148685
   }
+ ],
+ "duct_gain": [
+  {
+   "duct_gain": 1.1,
+   "tail_power_hover_kw": 69.2679118846466,
+   "hover_oge_total_kw": 606.3744815579065,
+   "aeo_margin_hover_kw": 9.71854134860746,
+   "f_drag_m2": 1.474522750099402
+  },
+  {
+   "duct_gain": 1.15,
+   "tail_power_hover_kw": 64.96397873142656,
+   "hover_oge_total_kw": 601.9374370700508,
+   "aeo_margin_hover_kw": 14.15558583646316,
+   "f_drag_m2": 1.4825197769053948
+  },
+  {
+   "duct_gain": 1.2,
+   "tail_power_hover_kw": 61.1036339691171,
+   "hover_oge_total_kw": 597.9577002016905,
+   "aeo_margin_hover_kw": 18.135322704823466,
+   "f_drag_m2": 1.4898067760931848
+  },
+  {
+   "duct_gain": 1.26,
+   "tail_power_hover_kw": 56.970977264452685,
+   "hover_oge_total_kw": 593.6972293721395,
+   "aeo_margin_hover_kw": 22.395793534374434,
+   "f_drag_m2": 1.4977308458955452
+  }
+ ],
+ "duct_gain_cat_a": [
+  {
+   "duct_gain": 1.1,
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2882.5,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.1,
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2931.25,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.1,
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2711.875,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.1,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2565.625,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.15,
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2980.0,
+   "limited_by": "MTOW"
+  },
+  {
+   "duct_gain": 1.1,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "mass_kg": 2760.625,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.15,
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2906.875,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.15,
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2736.25,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.15,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2590.0,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.2,
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2980.0,
+   "limited_by": "MTOW"
+  },
+  {
+   "duct_gain": 1.15,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "mass_kg": 2760.625,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.2,
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2906.875,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.2,
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2736.25,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.2,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2590.0,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.26,
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2980.0,
+   "limited_by": "MTOW"
+  },
+  {
+   "duct_gain": 1.2,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "mass_kg": 2760.625,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.26,
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2931.25,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.26,
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2760.625,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.26,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2614.375,
+   "limited_by": "prosseguir"
+  },
+  {
+   "duct_gain": 1.26,
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "mass_kg": 2809.375,
+   "limited_by": "prosseguir"
+  }
  ]
 }

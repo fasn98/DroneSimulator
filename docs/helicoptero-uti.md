@@ -4,7 +4,7 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0, 1 e 2 aprovados.** As verificações pedidas no aval do Passo 2 (H-V, base de certificação, Fenestron e deriva, 2ª validação de velocidade, gráficos de potência) estão concluídas e aguardam aval antes do Passo 3. Os passos seguintes (interior UTI, HUD e documentação final) ainda não foram feitos.
+Estado atual: **Passos 0, 1 e 2 aprovados e encerrados. Passo 3 (interior UTI, massa e CG, combustível e raio de ação) concluído e aguardando aval**, junto com as duas análises de sensibilidade do antitorque pedidas no aval do Passo 2. Os passos seguintes (HUD e documentação final) ainda não foram feitos.
 
 ## Como rodar
 
@@ -14,6 +14,10 @@ python -m unittest tests.test_helicopter_scenarios -v # validação do Passo 2 (
 python -m unittest tests.test_template_regression      # drone de Marte idêntico ao de antes
 python tools/heli_step1_report.py                      # números-chave e figuras das curvas de potência
 python -m tools.heli_hv_refine                         # pior margem do H-V e grade refinada (~35 min)
+python -m tools.heli_antitorque_sensitivity A          # sensibilidade da deriva (~1 min)
+python -m tools.heli_antitorque_sensitivity B          # sensibilidade do duto, com massas Cat A (~40 min, retomável)
+python -m unittest tests.test_helicopter_mission -v   # validação do Passo 3
+python -m tools.heli_step3_report                      # massa, CG, combustível e raio de ação (~2 min)
 python -m tools.heli_step2b_report                     # massas Cat A (2 critérios), falha × TDP, H-V (~70 min)
 python -m tools.heli_step2_report                      # demais cenários do Passo 2 (~5 min; usa o JSON acima)
 python -m tools.heli_flare_sweep 110 2                 # varredura do flare (~15 min por rodada)
@@ -208,7 +212,7 @@ Tempos de detecção medidos: **~0,7 s** para falha de um motor e **~1,7–2,0 s
 
 ### Cenário 1: transferência inter-hospitalar
 - Percurso: decolagem, subida, cruzeiro a 300 m e 110 kt, aproximação em rampa de 8°, pairado e pouso vertical. Vento de 5 m/s com rajadas.
-- Resultado em 20 km: voo de **7 min**, consumo de **24 kg** (consumo específico ESTIMADO), toque a 1,0 m/s, erro de posição de 2,9 m.
+- Resultado em 20 km: voo de **7 min**, consumo de **20 kg** (modelo de consumo CALIBRADO do Passo 3; era 24 kg com o consumo constante), toque a 1,0 m/s, erro de posição de 2,9 m.
 - O SADPF fica no nível 0, sem alarme falso.
 
 ### Cenário 2: resgate em área restrita
@@ -464,6 +468,193 @@ A deriva mudou a física em voo à frente, então a validação e os cenários f
 
 - A decolagem Categoria A acontece a baixa velocidade, onde a deriva quase não atua. Por isso as massas não mudaram.
 
+## Sensibilidade do antitorque (decisões 1 e 3 do aval do Passo 2)
+
+**Deriva (decisão 1)**:
+- A incidência de 6° foi aprovada como ESTIMADO. A área é a da "small fin" do EC135 original (Kampa et al., ERF 1997).
+- Variei a parcela do antitorque que a deriva assume a 136 kt de 20 % a 60 %. Em cada caso a incidência foi resolvida para essa parcela e a área de arrasto foi **recalibrada pelo mesmo critério** (136 kt na potência máxima contínua AEO).
+
+| Parcela da deriva a 136 kt | Incidência efetiva | Arrasto calibrado f | V máx. na potência de decolagem | Potência do Fenestron a 136 kt |
+|---|---|---|---|---|
+| 20 % | 2,8° | 1,44 m² | 142,0 kt | 40,4 kW |
+| 30 % | 4,3° | 1,47 m² | 142,0 kt | 34,1 kW |
+| 40 % (padrão, 6°) | 5,8° | 1,49 m² | 142,0 kt | 28,1 kW |
+| 50 % | 7,4° | 1,52 m² | 142,0 kt | 22,3 kW |
+| 60 % | 8,9° | 1,55 m² | 142,0 kt | 16,9 kW |
+
+- A velocidade máxima não muda (142,0 kt em todos os casos): a recalibração de f absorve a diferença.
+- Por isso a parcela da deriva **não pode ser identificada** pelos dados de velocidade publicados. Ela só redistribui a potência entre o Fenestron e o arrasto.
+- Ela também não afeta as massas Categoria A, porque a decolagem é lenta e a deriva quase não atua.
+
+**Duto do Fenestron (decisão 3)**:
+- O ganho de empuxo G = 1,26 = 2^(1/3) é o **máximo teórico** do duto ideal, portanto otimista. Agora G é um parâmetro explícito (ESTIMADO): P_ind = κ·(T/G)^1,5/√(2ρA).
+- Valores no MTOW, ISA, nível do mar, com f recalibrada em cada caso:
+
+| G | Fenestron no pairado | Pairado OGE total | Margem AEO de decolagem (616 kW) |
+|---|---|---|---|
+| 1,10 | 69,3 kW | 606,4 kW | +9,7 kW |
+| 1,15 | 65,0 kW | 601,9 kW | +14,2 kW |
+| 1,20 | 61,1 kW | 598,0 kW | +18,1 kW |
+| 1,26 (ideal) | 57,0 kW | 593,7 kW | +22,4 kW |
+
+- Massas Categoria A (modo 29.60, bisseção de 25 kg), em kg:
+
+| Condição | G = 1,10 | G = 1,15 | G = 1,20 | G = 1,26 | Variação máx. |
+|---|---|---|---|---|---|
+| nível do mar, ISA | 2.931 | 2.980 | 2.980 | 2.980 | −1,6 % |
+| nível do mar, ISA+20 | 2.883 | 2.907 | 2.907 | 2.931 | −1,7 % |
+| 1.000 m, ISA+20 | 2.712 | 2.736 | 2.736 | 2.761 | −1,8 % |
+| 1.500 m, ISA+25 | 2.566 | 2.590 | 2.590 | 2.614 | −1,9 % |
+| 1.500 m, ISA+25, proa 8 m/s | 2.761 | 2.761 | 2.761 | 2.809 | −1,7 % |
+
+- **A variação máxima é de 1,9 %, abaixo do limite de 2 % definido no aval. Pela regra, o padrão continua G = 1,26.**
+- As massas com G = 1,26 recalculadas aqui (com a deriva e o novo modelo de consumo) são idênticas às do Passo 2.
+- **Ressalva**: a bisseção tem resolução de 25 kg (~0,9 %), então a variação real fica entre ~1 % e ~2,8 %. O resultado está perto do limite: ver decisão pendente no fim do Passo 3.
+
+![Sensibilidade do antitorque](helicoptero/sensibilidade_antitorque.png)
+
+## Modelo de consumo (novo no Passo 3)
+
+O raio de ação depende diretamente do consumo, então conferi o consumo constante usado até aqui (0,36 kg/kWh, ESTIMADO) contra os dados publicados pela Airbus para o tanque padrão. Ele era **otimista**:
+
+| | Publicado (Airbus) | Consumo constante 0,36 kg/kWh | Linha de Willans calibrada |
+|---|---|---|---|
+| Autonomia máxima, 560 kg | 3 h 36 min | 5 h 30 min (+53 %) | 3 h 36 min |
+| Alcance máximo, 560 kg | 342 NM | 448 NM (+31 %) | 342 NM |
+
+- **Causa**: o consumo específico de uma turbina piora em potência parcial, e o modelo constante não representa isso.
+- **Novo modelo**: linha de Willans, consumo = 2 × (vazão a potência zero) + (consumo marginal) × potência.
+  - Os dois coeficientes são **CALIBRADOS** para reproduzir a autonomia (na velocidade de máxima autonomia) e o alcance (na velocidade de máximo alcance) publicados.
+  - Hipóteses da calibração: a partir do MTOW, ISA, nível do mar, sem reserva. A Airbus não informa as condições.
+  - **Resultado**: 64,7 kg/h por motor a potência zero e 0,092 kg/kWh de consumo marginal. Isso dá 0,32 kg/kWh na potência máxima contínua e 0,44 kg/kWh no cruzeiro de máximo alcance.
+- **Ressalva**: as duas velocidades de calibração têm potências próximas (312 e 373 kW), então a **divisão** entre os dois coeficientes é mal determinada. O consumo **no cruzeiro**, que governa o raio de ação, fica bem determinado pelo alcance publicado.
+- O consumo constante (0,36 kg/kWh) deixa de existir na tabela de parâmetros.
+- **Efeito no Passo 2**: as massas Categoria A não mudam (os voos são curtos). O consumo da transferência de 20 km foi recalculado.
+
+## Passo 3: interior UTI, massa e CG, combustível e raio de ação
+
+Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_report.py`. Testes: `tests/test_helicopter_mission.py`.
+
+> O orçamento de massa e o CG são do **modelo** e não substituem a pesagem nem o manual de massa e balanceamento de uma aeronave real.
+
+### Configuração UTI padrão
+
+- **Pessoas**: 1 paciente, piloto, médico e enfermeiro.
+- **Equipamentos**: lista da Portaria GM/MS nº 2.048/2002 para aeronave de transporte médico de asa rotativa:
+  - fixos: respirador mecânico, monitor cardioversor com bateria, oxímetro portátil, bomba de infusão e prancha longa;
+  - conjunto aeromédico: maca, ar comprimido e oxigênio para pelo menos 2 h;
+  - materiais móveis.
+  - A vigência atual da portaria (consolidação de 2017) ainda não foi conferida.
+- **Massas dos equipamentos**: ESTIMADO, exceto as duas com dado público de fabricante:
+  - ventilador de transporte classe Hamilton-T1, 6,5 kg (só a unidade);
+  - monitor/desfibrilador classe ZOLL X Series, "less than 5.5 kilograms" (usado 5,5 kg).
+- **Tripulação**: massa-padrão de tripulante de 85 kg (EASA AMC2 CAT.POL.MAB.100(d), "85 kg for flight crew/technical crew members"). O paciente tem 80 kg (ESTIMADO).
+- **Massa vazia**: 1.562 kg, DERIVADA da Airbus (MTOW 2.980 kg − carga útil 1.418 kg).
+- **Posições** (STA/BL), CG vazio e posição do tanque: **todos ESTIMADOS**, sem dado público.
+
+<!-- MASSA:BEGIN (gerado por tools/heli_step3_report.py) -->
+| Item | Massa (kg) | STA (mm) | BL (mm, + dir.) | Status da massa | Fonte / justificativa |
+|---|---|---|---|---|---|
+| Massa vazia básica (MTOW 2.980 kg − carga útil 1.418 kg) | 1.562,0 | 4.400 | 0 | **DERIVADO** | https://www.airbus.com/en/products-services/helicopters/civil-helicopters/h135/h135-technical-information (carga útil 1.418 kg); CG vazio ESTIMADO (sem dado público) |
+| Piloto (assento dianteiro direito) | 85,0 | 2.450 | 350 | **FONTE** | massa padrão de tripulante técnico/de voo, 85 kg (https://regulatorylibrary.caa.co.uk/965-2012/Content/Document%20Structure/04%20CAT/3%20AMC/AMC2%20CAT%20POL%20MAB%20100%20d%20Mass.htm) |
+| Médico (assento de cabine voltado para trás, à direita) | 85,0 | 3.350 | 400 | **FONTE** | massa padrão de tripulante técnico, 85 kg (https://regulatorylibrary.caa.co.uk/965-2012/Content/Document%20Structure/04%20CAT/3%20AMC/AMC2%20CAT%20POL%20MAB%20100%20d%20Mass.htm) |
+| Enfermeiro (assento de cabine, à direita, junto à cabeceira) | 85,0 | 3.950 | 400 | **FONTE** | massa padrão de tripulante técnico, 85 kg (https://regulatorylibrary.caa.co.uk/965-2012/Content/Document%20Structure/04%20CAT/3%20AMC/AMC2%20CAT%20POL%20MAB%20100%20d%20Mass.htm) |
+| Paciente adulto (na maca, lado esquerdo) | 80,0 | 4.150 | -300 | **ESTIMADO** | adulto de referência; não há massa-padrão de paciente em norma conferida |
+| Maca aeromédica com sistema de fixação e embarque (kit aeromédico) | 45,0 | 4.150 | -300 | **ESTIMADO** | item exigido (https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html); massa sem dado público de fabricante |
+| Plataforma/trilho médico e piso da cabine UTI | 40,0 | 3.900 | 0 | **ESTIMADO** | estrutura do interior aeromédico; sem dado público |
+| Ventilador mecânico de transporte (classe Hamilton-T1, só a unidade) | 6,5 | 3.700 | 350 | **FONTE** | 6,5 kg, unidade de ventilação (https://www.hamilton-medical.com/en_US/Products/Mechanical-ventilators/HAMILTON-T1.html) |
+| Suporte do ventilador e circuito | 4,0 | 3.700 | 350 | **ESTIMADO** | sem dado público |
+| Monitor cardioversor/desfibrilador (classe ZOLL X Series) | 5,5 | 3.800 | 350 | **FONTE** | "less than 5.5 kilograms" — usado o limite de 5,5 kg (https://www.zoll.com/en-gb/products/defibrillators/x-series-for-hospital) |
+| Oxímetro portátil | 0,5 | 3.800 | 350 | **ESTIMADO** | item exigido (https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html) |
+| Bombas de infusão (2) | 4,0 | 3.800 | 350 | **ESTIMADO** | item exigido (https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html) |
+| Prancha longa | 7,0 | 4.600 | -300 | **ESTIMADO** | item exigido (https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html) |
+| Oxigênio e ar comprimido (cilindros para ≥ 2 h, reguladores, rede) | 30,0 | 4.700 | 200 | **ESTIMADO** | autonomia de pelo menos 2 h exigida (https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html); massa sem dado público |
+| Aspirador portátil | 3,0 | 3.800 | 350 | **ESTIMADO** | sem dado público |
+| Mochilas/kits de via aérea, acesso venoso, drenagem, parto, EPI | 20,0 | 4.700 | 300 | **ESTIMADO** | materiais exigidos (https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html); massa sem dado público |
+| Inversor/tomadas 230 V AC e iluminação médica | 6,0 | 4.600 | 0 | **ESTIMADO** | sem dado público |
+| **Massa sem combustível** | **2.068,5** | | | | |
+| Combustível utilizável, tanque padrão (máx.) | 560 | 4.300 | 0 | **FONTE** (massa) | folheto Airbus; posição do tanque ESTIMADA |
+<!-- MASSA:END -->
+
+![Interior UTI](helicoptero/interior_uti.png)
+
+### Envelope de CG e verificação no início e no fim do voo
+
+- **Envelope**: [TCDS EASA R.009](https://www.easa.europa.eu/en/downloads/7943/en), seção do EC135 T3H.
+  - Dianteiro: 4.180 mm a 1.840 kg → 4.237,5 mm a 3.175 kg.
+  - Traseiro: 4.570 mm a 1.500 kg → 4.349 mm a 3.175 kg.
+  - Lateral: ±100 mm.
+  - Plano de referência (STA 0): 2.160 mm à frente do ponto de nivelamento no batente da porta dianteira.
+  - Usei retas entre os pontos publicados (o TCDS pode ter mais pontos intermediários) e limite dianteiro constante abaixo de 1.840 kg (suposição).
+- **Verificação**: CG com o combustível máximo de cada condição (decolagem) e só com a reserva de 20 min (fim do voo). **Todos dentro do envelope**:
+
+| Estado | Massa | CG longitudinal | Margem até o limite dianteiro | Margem até o limite traseiro | CG lateral |
+|---|---|---|---|---|---|
+| Decolagem, 560 kg de combustível | 2.629 kg | 4.249 mm | 35 mm | 173 mm | 30 mm à direita (limite 100) |
+| Decolagem, tanque auxiliar com 730 kg | 2.798 kg | 4.252 mm | 30 mm | 147 mm | 28 mm à direita |
+| Fim do voo, só reserva (~52 kg) | 2.120 kg | 4.236 mm | 44 mm | 252 mm | 37 mm à direita |
+
+- **Ponto crítico**: o limite **dianteiro**, com 30–35 mm de folga. A tripulação vai na frente; o paciente e a maca ficam perto do eixo do rotor.
+- **Robustez**: como o CG vazio é ESTIMADO (4.400 mm), calculei a faixa de CG vazio em que todos os estados ficam dentro do envelope: **4.345 a 4.690 mm**. Abaixo de 4.345 mm a configuração UTI passaria do limite dianteiro.
+
+![Envelope de CG](helicoptero/cg_envelope.png)
+
+### Combustível máximo e raio de ação em cada condição Categoria A
+
+**Regra**:
+- **Combustível embarcável** = menor entre (massa máxima Cat A da condição − massa sem combustível) e a capacidade do tanque.
+- **Massa sem combustível**: 2.068,5 kg.
+
+**Missão para o raio de ação**:
+- partida e táxi: 8 kg (ESTIMADO);
+- decolagem e pouso em cada ponta: 3 min na potência de pairado cada (ESTIMADO);
+- cruzeiro a 300 m acima do heliponto, na velocidade de máximo alcance da massa atual;
+- ida e volta com o **paciente a bordo nos dois trechos** (conservador), sem vento em cruzeiro;
+- reserva VFR de **20 min** no consumo de cruzeiro, conforme [14 CFR 135.209(b)](https://www.law.cornell.edu/cfr/text/14/135.209): *"enough fuel to fly to the first point of intended landing and, assuming normal cruising fuel consumption, to fly after that for at least 20 minutes"*. O RBAC 135 da ANAC tem requisito correspondente, que não conferi.
+
+| Condição de decolagem | Massa máx. Cat A (29.60) | Combustível (tanque padrão) | Limitado por | Raio de ação | Tempo de voo | Com tanque auxiliar (730 kg) |
+|---|---|---|---|---|---|---|
+| nível do mar, ISA | 2.980 kg | 560 kg | tanque | **140 NM (260 km)** | 2 h 58 min | 193 NM, 730 kg (tanque) |
+| nível do mar, ISA+20 | 2.931 kg | 560 kg | tanque | **144 NM (266 km)** | 2 h 58 min | 198 NM, 730 kg (tanque) |
+| 1.000 m, ISA+20 | 2.761 kg | 560 kg | tanque | **149 NM (276 km)** | 2 h 58 min | 193 NM, 692 kg (massa Cat A) |
+| 1.500 m, ISA+25 | 2.614 kg | **546 kg** | **massa Cat A** | **148 NM (275 km)** | 2 h 53 min | 148 NM, 546 kg (massa Cat A) |
+| 1.500 m, ISA+25, proa 8 m/s | 2.809 kg | 560 kg | tanque | **153 NM (283 km)** | 2 h 58 min | 210 NM, 730 kg (tanque) |
+
+- **Tanque padrão**: só na condição mais quente e alta (1.500 m, ISA+25, sem vento) a massa Categoria A limita o combustível (14 kg a menos). Nas outras, o limite é o tanque: a configuração UTI pesa 2.629 kg com tanque cheio, abaixo das massas Cat A.
+- **Tanque auxiliar** (730 kg, folheto Airbus): a massa Cat A passa a limitar também a 1.000 m ISA+20.
+  - A 1.500 m ISA+25 sem vento, o tanque auxiliar **não acrescenta nada**: 148 NM nos dois casos.
+  - O vento de proa de 8 m/s na decolagem libera o tanque cheio (210 NM).
+- **Por que o raio cresce em altitude**: o cruzeiro a 1.500 m ISA+25 é feito em ar menos denso, onde a velocidade verdadeira de máximo alcance é maior (99 kt contra 91 kt ao nível do mar).
+  - O modelo de consumo não tem efeito de altitude e temperatura, e isso deve deixar esses raios **otimistas** em altitude.
+  - O raio também não considera vento em cruzeiro.
+
+![Raio de ação × condição de decolagem](helicoptero/raio_acao.png)
+
+### O que é ESTIMADO no Passo 3
+
+- **Posições**: CG vazio, tanque e posição de todos os itens.
+- **Massas**: dos equipamentos (exceto ventilador e monitor), da maca e do interior, do paciente.
+- **Missão**: táxi, tempo de decolagem/pouso e altura de cruzeiro.
+- **Envelope de CG**: forma linear entre os pontos publicados do TCDS.
+
+### Validação (Passo 3): `tests/test_helicopter_mission.py`, 5 testes
+
+| Teste | Critério |
+|---|---|
+| Modelo de consumo | reproduz 3,6 h e 342 NM publicados (±0,05 h, ±4 NM) |
+| Orçamento e envelope | soma das massas; CG dentro com 0, 50 e 560 kg; pontos do TCDS reproduzidos |
+| Fontes dos itens FONTE | todos com link |
+| Combustível limitado pela massa Cat A | combustível = massa Cat A − massa sem combustível; raio cresce com o combustível; CG dentro |
+| Reserva | 20 min (135.209(b)); raio positivo |
+
+### Decisões que precisam do seu aval
+
+1. **Modelo de consumo**: substituir o consumo constante (que superestimava a autonomia em 53 %) pela linha de Willans calibrada na autonomia e no alcance publicados, sob as hipóteses acima.
+2. **Ganho do duto**: a variação de 1,9 % ficou abaixo do limite de 2 %, então mantive G = 1,26 como padrão, como manda a regra. Mas o resultado está dentro da resolução da bisseção. Se preferir conservadorismo, G = 1,15 reduz as massas em 0,8–1,7 % (entre 24 e 49 kg).
+3. **Paciente a bordo nos dois trechos** (conservador) e tanque auxiliar como segunda série. Alternativa: ida sem paciente (resgate) ou volta sem paciente (transferência).
+4. **CG vazio estimado em 4.400 mm**: a configuração fica a 30–35 mm do limite dianteiro. Se houver acesso à pesagem real, esse é o primeiro número a substituir.
+5. **Modelo 3D do interior**: neste passo entreguei a planta 2D (vista de cima). O modelo 3D genérico do interior entra na cena do Passo 4.
+
 ## Base de certificação: por que usar os §§ 29.59, 29.60, 29.67 e 29.87 numa aeronave classe H135
 
 - O EC135/H135 é certificado como helicóptero **pequeno**: base JAR-27 / CS-27, e não CS-29.
@@ -495,7 +686,7 @@ A deriva mudou a física em voo à frente, então a validação e os cenários f
 - **Rotor**: inflow uniforme, sem pá elástica, sem *blowback* e sem acoplamentos de *flapping* com a velocidade. A estabilidade estática em voo à frente vem só do SAS.
 - **Aerodinâmica**: compressibilidade e estol de pá recuante não são modelados, então o modelo não prevê V_NE. Faltam a sustentação da fuselagem, a deriva e o estabilizador horizontal.
 - **Antitorque**: duto ideal (sem perdas de difusor), deriva sem esteira do rotor principal nem interferência com o Fenestron; a incidência efetiva da deriva é ESTIMADA.
-- **Motores**: modelo de 1ª ordem com consumo específico estimado (sem dado público). Não há modelo de Ng.
+- **Motores**: modelo de 1ª ordem, sem modelo de Ng. Consumo em linha de Willans CALIBRADA na autonomia e no alcance publicados, sem efeito de altitude ou temperatura sobre o consumo.
 - **Pouso**: esquis mola-amortecedor simples, sem modelo de dano. Os limites de toque usados nos critérios são ESTIMADOS.
 
 ## Parâmetros (status: FONTE / DERIVADO / CALIBRADO / ESTIMADO)
@@ -528,7 +719,7 @@ A deriva mudou a física em voo à frente, então a validação e os cenários f
 | Velocidade de ponta do rotor de cauda | 188 | m/s | **FONTE** | EC135 (Kampa et al., 1997) | [link](https://dspace-erf.nlr.nl/bitstreams/8af39742-be07-4807-b1f4-d15ac616f12b/download) |
 | Braço do rotor de cauda | 6 | m | **ESTIMADO** | classe H135 (estimativa do modelo) | distância eixo do rotor principal → rotor de cauda, geometria da classe |
 | Empuxo máximo do rotor de cauda (100 % NR, nível do mar) | 4.500 | N | **ESTIMADO** | classe H135 (estimativa do modelo) | margem ~2× o empuxo de equilíbrio em pairado no MTOW |
-| Razão de expansão do duto do Fenestron σd | 1 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | teoria do ventilador carenado ideal (Leishman): P = κ·T^1,5/√(4·σd·ρ·A); com σd = 1 o duto carrega metade do empuxo; mesma tração → potência induzida 1/√2 da de um rotor aberto; mesma potência → empuxo 2^(1/3) ≈ 1,26×; sem dado público do difusor do Fenestron |
+| Ganho de empuxo do duto do Fenestron G | 1,26 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | ganho de empuxo do duto na mesma potência (Fenestron × rotor aberto de mesmo diâmetro); 1,26 = 2^(1/3) é o máximo teórico do duto ideal com razão de expansão 1 (Leishman); P_ind = κ·(T/G)^1,5/√(2ρA); sem dado público do Fenestron (sensibilidade 1,10–1,26 no Passo 3) |
 | Área da deriva vertical ("small fin", configuração básica VFR do EC135 em 1997; a deriva do H135 atual pode diferir) | 0,9 | m² | **FONTE** | EC135 (Kampa et al., 1997) | [link](https://dspace-erf.nlr.nl/bitstreams/8af39742-be07-4807-b1f4-d15ac616f12b/download) |
 | Inclinação da curva de sustentação da deriva | 3 | 1/rad | **ESTIMADO** | classe H135 (estimativa do modelo) | superfície de baixo alongamento (~1,5), ordem de grandeza de 2πA/(2+A) |
 | Incidência efetiva da deriva | 6 | ° | **ESTIMADO** | classe H135 (estimativa do modelo) | incidência/arqueamento efetivo da deriva; escolhido para a deriva assumir cerca de metade do antitorque no cruzeiro rápido (o princípio de projeto da deriva arqueada que alivia o Fenestron é público, o valor não) |
@@ -548,7 +739,8 @@ A deriva mudou a física em voo à frente, então a validação e os cenários f
 | Constante de tempo da queda de potência | 1 | s | **ESTIMADO** | classe H135 (estimativa do modelo) | desaceleração após apagamento |
 | Rendimento da transmissão | 0,97 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | valor típico de caixa principal |
 | Potência de acessórios | 10 | kW | **ESTIMADO** | classe H135 (estimativa do modelo) | geradores, bombas, ar-condicionado médico |
-| Consumo específico | 0,36 | kg/kWh | **ESTIMADO** | classe H135 (estimativa do modelo) | consumo específico típico de turboeixo da classe (sem dado público) |
+| Autonomia máxima com tanque padrão (3 h 36 min; condições não informadas) | 3,6 | h | **FONTE** | H135 (dados Airbus) | [link](https://www.airbus.com/en/products-services/helicopters/civil-helicopters/h135/h135-technical-information) |
+| Alcance máximo com tanque padrão (633 km; condições não informadas) | 342 | NM | **FONTE** | H135 (dados Airbus) | [link](https://www.airbus.com/en/products-services/helicopters/civil-helicopters/h135/h135-technical-information) |
 | Download | 0,03 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | arrasto vertical da fuselagem na esteira, típico 2–5 % |
 | Área de arrasto lateral | 5 | m² | **ESTIMADO** | classe H135 (estimativa do modelo) | área lateral da fuselagem × Cd |
 | Área de arrasto vertical | 6 | m² | **ESTIMADO** | classe H135 (estimativa do modelo) | área em planta da fuselagem × Cd |

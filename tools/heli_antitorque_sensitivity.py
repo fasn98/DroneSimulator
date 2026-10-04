@@ -73,18 +73,65 @@ def mass_case(args):
             "limited_by": r["limited_by"]}
 
 
+def plot(res):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    ink2, grid = "#52514e", "#e4e3df"
+    cols = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]
+    fig, ax = plt.subplots(1, 2, figsize=(12, 4.4), dpi=150)
+    fs = res["fin_share"]
+    x = [100 * r["fin_share_136kt"] for r in fs]
+    ax[0].plot(x, [r["tail_power_136kt_kw"] for r in fs], color=cols[0], lw=2, marker="o")
+    for xi, r in zip(x, fs):
+        ax[0].annotate(f"f = {r['f_drag_m2']:.2f} m²\nV_máx = {r['v_max_at_aeo_to_kt']:.1f} kt", (xi, r["tail_power_136kt_kw"]),
+                       xytext=(0, 10), textcoords="offset points", ha="center", fontsize=6.5, color=ink2)
+    ax[0].set_ylabel("potência do Fenestron a 136 kt (kW)")
+    ax[0].set_ylim(0, 50)
+    ax[0].set_xlabel("parcela do antitorque assumida pela deriva a 136 kt (%)")
+    ax[0].set_title("Deriva: sensibilidade (f recalibrada em cada caso)", fontsize=9.5, loc="left")
+    ax[0].grid(color=grid)
+    conds = [(0.0, 0.0, 0.0), (0.0, 20.0, 0.0), (1000.0, 20.0, 0.0), (1500.0, 25.0, 0.0), (1500.0, 25.0, 8.0)]
+    names = ["nível do mar, ISA", "nível do mar, ISA+20", "1.000 m, ISA+20", "1.500 m, ISA+25", "1.500 m, ISA+25, proa 8 m/s"]
+    m = {(r["duct_gain"], r["elevation_m"], r["delta_t"], r["headwind_ms"]): r["mass_kg"] for r in res["duct_gain_cat_a"]}
+    gs = sorted({r["duct_gain"] for r in res["duct_gain_cat_a"]})
+    for c, n, col in zip(conds, names, cols):
+        ax[1].plot(gs, [m[(g, *c)] for g in gs], color=col, lw=2, marker="o", label=n)
+    ax[1].set_xlabel("ganho de empuxo do duto G (1,26 = duto ideal)")
+    ax[1].set_ylabel("massa máx. Categoria A, modo 29.60 (kg)")
+    ax[1].set_title("Duto do Fenestron: massas Cat A (bisseção de 25 kg)", fontsize=9.5, loc="left")
+    ax[1].grid(color=grid), ax[1].legend(fontsize=7, frameon=False, loc="lower right")
+    fig.text(0.01, 0.01, "Simulador conceitual e educacional. Não é um simulador certificado (FSTD) nem substitui dados do fabricante.",
+             fontsize=6, color=ink2)
+    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    fig.savefig(os.path.join(OUT, "sensibilidade_antitorque.png"))
+
+
 def main():
     what = sys.argv[1] if len(sys.argv) > 1 else "AB"
     path = os.path.join(OUT, "sensibilidade_antitorque.json")
     res = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {}
+    if what == "P":
+        plot(res)
+        return
     if "A" in what:
         res["fin_share"] = [fin_case(s) for s in SHARES]
+    def save():
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(res, f, ensure_ascii=False, indent=1, default=float)
+
     if "B" in what:
         res["duct_gain"] = [duct_case(g) for g in GAINS]
-        with Pool(2) as pool:
-            res["duct_gain_cat_a"] = pool.map(mass_case, [(g, c) for g in GAINS for c in CONDS])
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(res, f, ensure_ascii=False, indent=1, default=float)
+        done = {(r["duct_gain"], r["elevation_m"], r["delta_t"], r["headwind_ms"])
+                for r in res.get("duct_gain_cat_a", [])}
+        res.setdefault("duct_gain_cat_a", [])
+        todo = [(g, c) for g in GAINS for c in CONDS if (g, *c) not in done]
+        save()
+        with Pool(2) as pool:  # resumable: every finished case is saved at once
+            for r in pool.imap_unordered(mass_case, todo):
+                res["duct_gain_cat_a"].append(r)
+                save()
+    save()
     print(json.dumps(res, ensure_ascii=False, indent=1, default=float))
 
 
