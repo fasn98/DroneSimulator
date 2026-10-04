@@ -34,6 +34,28 @@ N_STATE = 19
 
 
 @dataclass
+class Terrain:
+    """Ground height below a point (m, relative to the take-off surface, z = 0).
+
+    Flat ground by default. With `pad_half_size` and `pad_height` it is an elevated heliport: a square
+    deck at z = 0 centred on (pad_x, pad_y), and the street `pad_height` metres below everywhere else.
+    """
+    pad_x: float = 0.0
+    pad_y: float = 0.0
+    pad_half_size: float = math.inf
+    pad_height: float = 0.0
+
+    def height(self, x: float, y: float) -> float:
+        if abs(x - self.pad_x) <= self.pad_half_size and abs(y - self.pad_y) <= self.pad_half_size:
+            return 0.0
+        return -self.pad_height
+
+    def on_pad(self, x: float, y: float, margin: float = 0.0) -> bool:
+        return (abs(x - self.pad_x) <= self.pad_half_size - margin and
+                abs(y - self.pad_y) <= self.pad_half_size - margin)
+
+
+@dataclass
 class Controls:
     collective: float = 0.0  # theta_75, rad
     cyc_lon: float = 0.0  # commanded forward disk tilt, rad
@@ -60,8 +82,9 @@ class HelicopterDynamics:
     GROUND_DAMPING_RATIO = 0.9
     GROUND_FRICTION = 0.5
 
-    def __init__(self, params: HeliParams, atmosphere: HeliAtmosphere):
+    def __init__(self, params: HeliParams, atmosphere: HeliAtmosphere, terrain: Optional[Terrain] = None):
         self.p = params
+        self.terrain = terrain or Terrain()
         self.atm = atmosphere
         self.inertia = np.diag(params.inertia)
         self.inertia_inv = np.linalg.inv(self.inertia)
@@ -99,12 +122,12 @@ class HelicopterDynamics:
         n = np.array([math.sin(bl) * math.cos(bt), -math.sin(bt), math.cos(bl) * math.cos(bt)])
         v_tpp = float(v_rel_b @ n)
         v_in = float(np.linalg.norm(v_rel_b - v_tpp * n))
-        z_hub = pos[2] + p.hub_h
+        z_hub = pos[2] + p.hub_h - self.terrain.height(pos[0], pos[1])  # rotor height above the surface below
         rs = main_rotor(p, u.collective, v_tpp, v_in, rho, omega, z_hub, lam_i0=self._lam_i, iters=12)
         self._lam_i = rs.lam_i
         t_tr = float(np.clip(u.pedal, -1.0, 1.0)) * tail_rotor_max_thrust(p, rho, omega)
         p_tr = tail_rotor_power(p, t_tr, rho, omega)
-        on_ground = any((pos + R @ f)[2] < 0.0 for f in self.feet)
+        on_ground = any((pf := pos + R @ f)[2] < self.terrain.height(pf[0], pf[1]) for f in self.feet)
         return R, n, v_rel_b, Aero(rho, rs, t_tr, p_tr, p.p_acc_kw * 1e3, float(np.linalg.norm(v_rel_b)), z_hub,
                                    on_ground)
 
@@ -138,9 +161,10 @@ class HelicopterDynamics:
         c = 2.0 * self.GROUND_DAMPING_RATIO * math.sqrt(k * m / len(self.feet))
         for foot in self.feet:
             pf = pos + R @ foot
-            if pf[2] < 0.0:
+            hg = self.terrain.height(pf[0], pf[1])
+            if pf[2] < hg:
                 vf = vel + R @ cross3(w, foot)
-                fzg = max(k * (-pf[2]) - c * vf[2], 0.0)
+                fzg = max(k * (hg - pf[2]) - c * vf[2], 0.0)
                 ft = -c * vf[:2]
                 cap = self.GROUND_FRICTION * fzg
                 nt = np.linalg.norm(ft)
@@ -156,6 +180,8 @@ class HelicopterDynamics:
         dx[6:10] = quat_derivative(x[6:10], w)
         dx[10:13] = self.inertia_inv @ (m_b - cross3(w, self.inertia @ w))
         dx[13] = (p_eng - rs.power - a.p_tail - a.p_acc) / (p.I_rotor * omega)
+        if x[13] <= 0.02 * p.omega100 and dx[13] < 0.0:  # rotor stopped (no reverse rotation)
+            dx[13] = 0.0
         tau_f = 16.0 / (p.lock * omega)
         dx[14] = (u.cyc_lon - x[14]) / tau_f - w[1]
         dx[15] = (u.cyc_lat - x[15]) / tau_f - w[0]
@@ -174,6 +200,7 @@ class HelicopterDynamics:
         xn = x + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
         xn[6:10] /= np.linalg.norm(xn[6:10])
         xn[18] = max(xn[18], 0.0)
+        xn[13] = max(xn[13], 0.0)
         return xn
 
 

@@ -40,11 +40,29 @@ class P:
     status: str
     source: str
     label: str
+    variant: str  # which aircraft / document the number belongs to (shown in docs and HUD)
 
 
-def _p(value, unit, status, source, label) -> P:
+VARIANT_RULES = (
+    ("airbus", "H135 (dados Airbus)"),
+    ("7943", "EC135 T3/P3/T3H/P3H, TCDS EASA R.009"),
+    ("R.009", "EC135 P2/P3, TCDS EASA R.009"),
+    ("caa.co.uk", "PW206B3 (motor do EC135 P3), TCDS IM.E.017"),
+    ("8af39742", "EC135 (Kampa et al., 1997)"),
+    ("02b3ce46", "EC135 (Doleschel & Emmerling, 2007)"),
+)
+
+
+def _variant(source: str, status: str) -> str:
+    for key, name in VARIANT_RULES:
+        if key in source:
+            return name
+    return "classe H135 (estimativa do modelo)" if status in ("ESTIMADO", "CALIBRADO") else "derivado"
+
+
+def _p(value, unit, status, source, label, variant: str | None = None) -> P:
     assert status in ("FONTE", "DERIVADO", "CALIBRADO", "ESTIMADO"), status
-    return P(float(value), unit, status, source, label)
+    return P(float(value), unit, status, source, label, variant or _variant(source, status))
 
 
 # 100 % engine torque (Doleschel & Emmerling, ERF 2007): 665 N m at the gearbox input, 5,898 rpm
@@ -58,15 +76,16 @@ TABLE: Dict[str, P] = {
     "fuel_capacity": _p(560, "kg", "FONTE", SRC["airbus_brochure"], "Combustível, tanque padrão"),
     # main rotor
     "rotor_radius": _p(5.10, "m", "FONTE", SRC["tcds_r009"],
-                       "Raio do rotor principal (TCDS EC135: Ø 10,20 m; o site Airbus do H135 informa Ø 10,40 m)"),
+                       "Raio do rotor principal (TCDS: Ø 10,20 m para EC135 T3, P3, T3H e P3H; o site Airbus do H135 "
+                       "informa Ø 10,40 m, não confirmado no TCDS)"),
     "n_blades": _p(4, "-", "FONTE", SRC["tcds_r009"], "Número de pás (rotor sem articulação, bearingless)"),
     "chord": _p(0.288, "m", "FONTE", SRC["kampa1997"], "Corda equivalente da pá (Kampa et al., ERF 1997)"),
     "rpm_100": _p(395, "rpm", "FONTE", SRC["doleschel2007"], "Rotação do rotor a 100 % NR"),
     "tip_speed_ref": _p(211, "m/s", "FONTE", SRC["kampa1997"], "Velocidade de ponta publicada"),
-    "nr_power_on_min": _p(97, "%", "FONTE", SRC["tcds_r009"], "NR mínimo com motor (EC135 P2/P3)"),
-    "nr_power_on_max": _p(104, "%", "FONTE", SRC["tcds_r009"], "NR máximo com motor (EC135 P2/P3)"),
-    "nr_power_off_min": _p(85, "%", "FONTE", SRC["tcds_r009"], "NR mínimo sem motor, massa > 1.900 kg (EC135 P1/P2)"),
-    "nr_power_off_max": _p(106, "%", "FONTE", SRC["tcds_r009"], "NR máximo sem motor (EC135 P1/P2)"),
+    "nr_power_on_min": _p(97, "%", "FONTE", SRC["tcds_r009_05"], "NR mínimo com motor (EC135 P2/P3)"),
+    "nr_power_on_max": _p(104, "%", "FONTE", SRC["tcds_r009_05"], "NR máximo com motor (EC135 P2/P3)"),
+    "nr_power_off_min": _p(85, "%", "FONTE", SRC["tcds_r009_05"], "NR mínimo sem motor, massa > 1.900 kg (EC135 P1/P2)", "EC135 P1/P2, TCDS EASA R.009"),
+    "nr_power_off_max": _p(106, "%", "FONTE", SRC["tcds_r009_05"], "NR máximo sem motor (EC135 P1/P2)", "EC135 P1/P2, TCDS EASA R.009"),
     "lift_slope": _p(5.73, "1/rad", "ESTIMADO", "valor típico de perfil de pá (≈ 0,91·2π)", "Inclinação da curva de sustentação"),
     "cd0": _p(0.010, "-", "ESTIMADO", "faixa típica 0,008–0,012 para pás de rotor", "Arrasto de perfil médio da pá"),
     "kappa": _p(1.15, "-", "ESTIMADO", "fator típico de perdas induzidas (Leishman, Principles of Helicopter Aerodynamics)",
@@ -92,12 +111,12 @@ TABLE: Dict[str, P] = {
                         "Empuxo máximo do rotor de cauda (100 % NR, nível do mar)"),
     # engines and transmission (per engine; power limits from torque limits x 100 % torque power)
     "p100": _p(P100_KW, "kW", "DERIVADO", f"665 N·m × 5.898 rpm ({SRC['doleschel2007']})",
-               "Potência a 100 % de torque, por motor"),
-    "tq_aeo_to": _p(75, "%", "FONTE", SRC["tcds_r009"], "Torque de decolagem, dois motores (2 × 75 %)"),
-    "tq_aeo_mcp": _p(69, "%", "FONTE", SRC["tcds_r009"], "Torque máximo contínuo, dois motores (2 × 69 %)"),
-    "tq_oei_30s": _p(128, "%", "FONTE", SRC["tcds_r009"], "Torque OEI 30 s (1 × 128 %)"),
-    "tq_oei_2min": _p(125, "%", "FONTE", SRC["tcds_r009"], "Torque OEI 2 min (1 × 125 %)"),
-    "tq_oei_mcp": _p(86, "%", "FONTE", SRC["tcds_r009"], "Torque OEI contínuo (1 × 86 %)"),
+               "Potência a 100 % de torque, por motor", "EC135 (Doleschel & Emmerling, 2007)"),
+    "tq_aeo_to": _p(75, "%", "FONTE", SRC["tcds_r009_05"], "Torque de decolagem, dois motores (2 × 75 %)"),
+    "tq_aeo_mcp": _p(69, "%", "FONTE", SRC["tcds_r009_05"], "Torque máximo contínuo, dois motores (2 × 69 %)"),
+    "tq_oei_30s": _p(128, "%", "FONTE", SRC["tcds_r009_05"], "Torque OEI 30 s (1 × 128 %)"),
+    "tq_oei_2min": _p(125, "%", "FONTE", SRC["tcds_r009_05"], "Torque OEI 2 min (1 × 125 %)"),
+    "tq_oei_mcp": _p(86, "%", "FONTE", SRC["tcds_r009_05"], "Torque OEI contínuo (1 × 86 %)"),
     "eng_to": _p(336, "kW", "FONTE", SRC["tcds_pw206"], "Turboeixo classe PW206B3: decolagem (nível do mar)"),
     "eng_mcp": _p(324, "kW", "FONTE", SRC["tcds_pw206"], "Turboeixo: máximo contínuo"),
     "eng_oei_30s": _p(547, "kW", "FONTE", SRC["tcds_pw206"], "Turboeixo: OEI 30 s"),

@@ -24,10 +24,14 @@ Todas as URLs foram abertas e conferidas em 04/10/2026. Valores sem fonte públi
 | G. D. Padfield, *Helicopter Flight Dynamics*, 2ª ed., Blackwell, 2007 | constante de tempo do *flapping* 16/(γΩ); dados do Bo105 como ordem de grandeza (inércia, número de Lock) | livro, sem URL |
 | ICAO Doc 7488 / ISO 2533 | atmosfera padrão | norma |
 
-## Regulação (somente links; nada foi citado como requisito do simulador)
+## Regulação
+
+Os dois itens do 14 CFR abaixo foram usados como **critérios do modelo** na demonstração Categoria A (Passo 2). Isso não é verificação de conformidade. Os demais documentos são só referências.
 
 | Documento | URL |
 |---|---|
+| 14 CFR 29.67(a)(1) — subida OEI ≥ 100 ft/min na VTOSS, potência OEI 2 min, fora do efeito solo (texto vigente no eCFR, conferido em 04/10/2026) | https://www.ecfr.gov/current/title-14/section-29.67 |
+| 14 CFR 29.59(c) — na decolagem continuada, não descer abaixo de 15 ft acima da superfície de decolagem quando o TDP está acima de 15 ft (eCFR, conferido em 04/10/2026) | https://www.ecfr.gov/current/title-14/section-29.59 |
 | ANAC — índice dos RBAC | https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac |
 | RBAC 27 (helicópteros categoria normal) | https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac/rbac-27 |
 | RBAC 29 (helicópteros categoria transporte) | https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac/rbac-29 |

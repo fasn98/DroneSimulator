@@ -27,7 +27,7 @@ from ..control import _vee
 from ..dynamics import euler_from_quat, quat_to_rot
 from ..simloop import SimulationLoop, Telemetry, WindModel
 from .isa import HeliAtmosphere, RHO0
-from .model import Controls, HelicopterDynamics, engine_limit_w, rating_for
+from .model import Controls, HelicopterDynamics, Terrain, engine_limit_w, rating_for
 from .params import HeliParams
 from .rotor import calibrate_drag_area, tail_rotor_max_thrust
 
@@ -65,14 +65,15 @@ class HelicopterSimulator(SimulationLoop):
     def __init__(self, params: Optional[HeliParams] = None, atmosphere: Optional[HeliAtmosphere] = None,
                  dt: float = 0.005, control_rate_hz: float = 50.0, seed: int = 0, wind: bool = True,
                  engine_faults: Sequence[EngineFault] = (), gains: Optional[SasGains] = None,
-                 start_position=(0.0, 0.0, None), start_velocity=(0.0, 0.0, 0.0), start_yaw: float = 0.0):
+                 start_position=(0.0, 0.0, None), start_velocity=(0.0, 0.0, 0.0), start_yaw: float = 0.0,
+                 terrain: Optional[Terrain] = None, sadpf: bool = False):
         self.p = copy.deepcopy(params) if params is not None else HeliParams()
         if self.p.f_drag <= 0.0:
             self.p.f_drag = calibrate_drag_area(self.p)
         self.atm = atmosphere or HeliAtmosphere()
         self.dt = dt
         self.g = gains or SasGains()
-        self.dyn = HelicopterDynamics(self.p, self.atm)
+        self.dyn = HelicopterDynamics(self.p, self.atm, terrain)
         self.ctrl_every = max(int(round(1.0 / (control_rate_hz * dt))), 1)
         self.rng = np.random.default_rng(seed)
         self.wind = WindModel(self.atm.as_body(), self.rng) if wind else None
@@ -109,6 +110,12 @@ class HelicopterSimulator(SimulationLoop):
         self._last_aero = None
         self.rating = "TO"
         self.events: List[dict] = []
+        self.cushion = False  # collective follows the vertical-speed loop with no power (flare / landing)
+        self.flight_phase: Optional[str] = None  # set by procedures (e.g. "catA_pre_tdp"), read by the SADPF
+        self.sadpf = None
+        if sadpf:
+            from .sadpf import HeliSadpf
+            self.sadpf = HeliSadpf(np.random.default_rng(seed + 7919))
 
     # ------------------------------------------------------------------------------------------
     def observe(self) -> np.ndarray:
@@ -120,6 +127,30 @@ class HelicopterSimulator(SimulationLoop):
 
     def n_running(self) -> int:
         return sum(1 for f in self.dyn.engine_failed if not f)
+
+    def believed_running(self) -> list:
+        """Engines the governor/FADEC treats as running: with the SADPF on, only what it has detected as failed
+        is excluded (the control system does not know the injected fault); without it, the true state."""
+        if self.sadpf is not None:
+            return [i for i in range(2) if not self.sadpf.failed[i]]
+        return [i for i in range(2) if not self.dyn.engine_failed[i]]
+
+    def fail_engine(self, index: int):
+        """Flame-out of engine `index` now (used by scenarios that fail an engine on a condition, e.g. at the TDP)."""
+        if not self.dyn.engine_failed[index]:
+            self.dyn.engine_failed[index] = True
+            if self.fail_time is None:
+                self.fail_time = self.t
+            self.events.append({"t": self.t, "code": "engine_failure_injected", "engine": index + 1,
+                                "message": f"Falha do motor {index + 1} (injetada)"})
+
+    def set_cushion(self, on: bool = True):
+        """Flare/landing in autorotation: collective now controls sink rate, spending rotor energy."""
+        if on and not self.cushion:
+            self.events.append({"t": self.t, "code": "cushion", "message": "Coletivo de amortecimento (pouso)"})
+        self.cushion = on
+        if on:
+            self.autorotation = False
 
     def set_autorotation(self, on: bool = True):
         if on and not self.autorotation:
@@ -202,20 +233,25 @@ class HelicopterSimulator(SimulationLoop):
             ct = t_req / (aero.rho * p.area * vt * vt)
             mu = rs.mu
             collective = 3.0 * (2.0 * ct / (p.sigma * p.a) + rs.lam / 2.0) / (1.0 + 1.5 * mu * mu)
-            # NR droop protection (power limit): give back collective when the rotor slows below 98.5 %
-            droop = max(0.0, 0.985 - x[13] / p.omega100)
-            collective -= 6.0 * droop
+            if not self.cushion:
+                # NR droop protection (power limit): give back collective when the rotor slows below 98.5 %
+                droop = max(0.0, 0.985 - x[13] / p.omega100)
+                collective -= 6.0 * droop
         collective = float(np.clip(collective, p.theta_min, p.theta_max))
 
         # governor
         p_need = (rs.power + aero.p_tail + aero.p_acc) / p.eta_tr
         p_need += p.I_rotor * omega * (p.omega100 - x[13]) / g.gov_tau / p.eta_tr
-        n_run = self.n_running()
-        t_fail = None if self.fail_time is None else self.t - self.fail_time
-        self.rating = rating_for(n_run, t_fail)
-        lim_w = engine_limit_w(p, self.atm, pos[2], self.rating, n_run)
+        running = self.believed_running()
+        n_run = len(running)
+        if self.sadpf is not None:
+            t_fail = None if self.sadpf.detect_t is None else self.t - self.sadpf.detect_t
+        else:
+            t_fail = None if self.fail_time is None else self.t - self.fail_time
+        self.rating = rating_for(max(n_run, 1), t_fail)
+        lim_w = engine_limit_w(p, self.atm, pos[2], self.rating, max(n_run, 1))
         each = max(p_need, 0.0) / max(n_run, 1)
-        p_cmd = tuple(0.0 if self.dyn.engine_failed[i] else min(each, lim_w) for i in range(2))
+        p_cmd = tuple(min(each, lim_w) if i in running else 0.0 for i in range(2))
         return Controls(collective, cyc_lon, cyc_lat, pedal, p_cmd)
 
     def step(self, setpoint) -> None:
@@ -230,6 +266,8 @@ class HelicopterSimulator(SimulationLoop):
             cdt = self.ctrl_every * self.dt
             if self.wind is not None:
                 self.dyn.wind = self.wind.step(cdt)
+            if self.sadpf is not None:
+                self.sadpf.update(self, cdt)
             self.u = self._sas(setpoint, cdt)
         self.x = self.dyn.rk4_step(self.x, self.u, self.dt)
         self.t += self.dt
@@ -243,13 +281,15 @@ class HelicopterSimulator(SimulationLoop):
         self.telemetry.rows.append({
             "t": self.t, "x": x[0], "y": x[1], "z": x[2], "vx": x[3], "vy": x[4], "vz": x[5],
             "roll_deg": math.degrees(roll), "pitch_deg": math.degrees(pitch), "yaw_deg": math.degrees(yaw),
-            "nr_pct": self.nr_pct, "ias_kt": a.airspeed * math.sqrt(a.rho / RHO0) / KT,
+            "nr_pct": self.nr_pct, "ias_kt": a.airspeed * math.sqrt(a.rho / RHO0) / KT, "tas_ms": a.airspeed,
             "p_main_kw": a.rotor.power / 1e3, "p_tail_kw": a.p_tail / 1e3,
             "p_eng1_kw": x[16] / 1e3, "p_eng2_kw": x[17] / 1e3, "p_avail_kw": p_avail / 1e3,
             "collective_deg": math.degrees(self.u.collective), "pedal": self.u.pedal,
             "k_ge": a.rotor.k_ge, "vrs": float(a.rotor.vrs), "v_h": a.rotor.v_h,
             "mass_kg": self.dyn.mass(x), "fuel_kg": x[18], "on_ground": float(a.on_ground),
             "rating": {"TO": 0, "OEI30": 1, "OEI2": 2, "OEIC": 3}[self.rating], "autorotation": float(self.autorotation),
+            "cushion": float(self.cushion), "sadpf_level": float(self.sadpf.level) if self.sadpf else 0.0,
+            "agl": x[2] - self.dyn.terrain.height(x[0], x[1]),
         })
 
 

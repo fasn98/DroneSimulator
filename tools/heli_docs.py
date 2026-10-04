@@ -22,13 +22,14 @@ def fmt(v: float) -> str:
 
 
 def table() -> str:
-    rows = ["| Parâmetro | Valor | Unid. | Status | Fonte / justificativa |", "|---|---|---|---|---|"]
+    rows = ["| Parâmetro | Valor | Unid. | Status | Variante / documento | Fonte / justificativa |",
+            "|---|---|---|---|---|---|"]
     for p in TABLE.values():
         src = p.source if not p.source.startswith("http") else f"[link]({p.source})"
         if "http" in p.source and not p.source.startswith("http"):
             head, _, url = p.source.rpartition("(")
             src = f"{head}([link]({url.rstrip(')')}))" if url.startswith("http") else p.source
-        rows.append(f"| {p.label} | {fmt(p.value)} | {p.unit} | **{p.status}** | {src} |")
+        rows.append(f"| {p.label} | {fmt(p.value)} | {p.unit} | **{p.status}** | {p.variant} | {src} |")
     return "\n".join(rows)
 
 
