@@ -38,7 +38,7 @@ class VehicleTemplate(ABC):
     telemetry_fields: Tuple[str, ...]
 
     @abstractmethod
-    def default_body(self) -> Body:
+    def default_body(self) -> Any:
         """Environment the template flies in when none is given."""
 
     @abstractmethod
@@ -74,6 +74,31 @@ class MarsDroneTemplate(VehicleTemplate):
         return hover_at([0.0, 0.0, 10.0])
 
 
+class HelicopterUTITemplate(VehicleTemplate):
+    """Light twin EMS helicopter, "classe H135" (generic, no manufacturer branding), on Earth (ISA)."""
+
+    id = "helicoptero_uti"
+    label = "Helicóptero UTI (bimotor leve, classe H135)"
+    description = ("Helicóptero bimotor de transporte aeromédico na Terra: rotor principal por elemento de pá + "
+                   "momento, efeito solo, rotor de cauda carenado, dinâmica de NR, dois turboeixos com regimes OEI. "
+                   + CONCEPTUAL_DISCLAIMER)
+    telemetry_fields = ("t", "x", "y", "z", "vx", "vy", "vz", "roll_deg", "pitch_deg", "yaw_deg", "nr_pct", "ias_kt",
+                        "p_main_kw", "p_tail_kw", "p_eng1_kw", "p_eng2_kw", "p_avail_kw", "collective_deg", "k_ge",
+                        "vrs", "mass_kg", "fuel_kg")
+
+    def default_body(self):
+        from .helicopter.isa import HeliAtmosphere
+        return HeliAtmosphere()
+
+    def build(self, body=None, seed: int = 0, **options: Any) -> SimulationLoop:
+        from .helicopter.simulator import HelicopterSimulator
+        return HelicopterSimulator(atmosphere=body or self.default_body(), seed=seed, **options)
+
+    def default_guidance(self):
+        from .simulator import hover_at
+        return hover_at([0.0, 0.0, 15.0], climb_rate=2.0)
+
+
 _REGISTRY: Dict[str, VehicleTemplate] = {}
 
 
@@ -83,6 +108,7 @@ def register(template: VehicleTemplate) -> VehicleTemplate:
 
 
 register(MarsDroneTemplate())
+register(HelicopterUTITemplate())
 
 
 def get_template(template_id: str) -> VehicleTemplate:

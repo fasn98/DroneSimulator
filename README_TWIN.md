@@ -1,5 +1,11 @@
 # Twin v2/v3: physics core, navigation and fault diagnosis
 
+> **Templates de veículo.** O Twin agora tem dois templates sobre o mesmo motor de simulação (`src/physics/templates.py`):
+> `drone_marte` (hexacóptero classe NASA MSH, inalterado) e `helicoptero_uti` (helicóptero bimotor leve de
+> transporte aeromédico, classe H135 — ver [docs/helicoptero-uti.md](docs/helicoptero-uti.md)).
+>
+> **Simulador conceitual e educacional. Não é um simulador certificado (FSTD) nem substitui dados do fabricante.**
+
 Twin v2 replaces the kinematic motion of the original Twin with a 6-DoF physics model. In that model, gravity, air density and actuator limits decide whether and how the drone flies. The code lives in `src/physics/` and depends only on `numpy` and `scipy`.
 
 Phase 1 delivered the physics core, the thesis vehicles, the verification tests and the validation figures. Phase 2 (below) connects the web interface (`simulation_server.py`) to that core, replacing the old kinematic loop.
