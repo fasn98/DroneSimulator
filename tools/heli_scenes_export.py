@@ -23,7 +23,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.physics.helicopter.mission import catA_fuel_and_radius, loading_for  # noqa: E402
 from src.physics.helicopter.model import engine_limit_w  # noqa: E402
-from src.physics.helicopter.procedures import evaluate_cat_a  # noqa: E402
+from src.physics.helicopter.params import v as param  # noqa: E402
+from src.physics.helicopter.procedures import (TD_LIMIT_MS, TD_RESERVE_MS, TD_SEAT_MS,  # noqa: E402
+                                               evaluate_cat_a, evaluate_landing)
 from src.physics.helicopter.scenarios import (CatAConfig, autorotation, cat_a_run,  # noqa: E402
                                               rescue_site_config)
 
@@ -38,7 +40,7 @@ RATING_CODES = ["TO", "OEI30", "OEI2", "OEIC"]
 COLS = {"t": 2, "x": 2, "y": 2, "z": 2, "vx": 2, "vy": 2, "vz": 2, "roll_deg": 2, "pitch_deg": 2, "yaw_deg": 2,
         "nr_pct": 1, "ias_kt": 1, "tas_ms": 2, "p_eng1_kw": 1, "p_eng2_kw": 1, "p_avail_kw": 1, "p_main_kw": 1, "p_tail_kw": 1,
         "mass_kg": 1, "fuel_kg": 2, "on_ground": 0, "rating": 0, "vrs": 0, "agl": 2, "sadpf_level": 0,
-        "collective_deg": 2}
+        "collective_deg": 2, "n_eng": 0}
 
 
 def _r(v, nd):
@@ -84,6 +86,36 @@ def frames(tel, sim) -> Dict[str, list]:
     return cols
 
 
+NR_LIMITS = {"power_on": [param("nr_power_on_min"), param("nr_power_on_max")],
+             "power_off": [param("nr_power_off_min"), param("nr_power_off_max")],
+             "source": "TCDS EASA R.009 (limites de NR com e sem motor; ver docs/fontes.md)"}
+TOUCHDOWN = {"limit_29_725_ms": TD_LIMIT_MS, "reserve_29_727_ms": TD_RESERVE_MS, "seat_29_562_ms": TD_SEAT_MS}
+
+
+def nr_exceedances(tel) -> List[dict]:
+    """Episodes outside the NR limits: power-on limits while an engine runs, power-off limits after both failed.
+    The lower limit is checked only in flight (on the ground the rotor is expected to slow down)."""
+    t, nr = tel.column("t"), tel.column("nr_pct")
+    n_eng, ground = tel.column("n_eng"), tel.column("on_ground") > 0
+    eps, cur = [], None
+    for i in range(len(t)):
+        lo, hi = NR_LIMITS["power_on"] if n_eng[i] >= 1 else NR_LIMITS["power_off"]
+        regime = "com motor" if n_eng[i] >= 1 else "sem motor"
+        kind = "acima" if nr[i] > hi else ("abaixo" if (nr[i] < lo and not ground[i]) else None)
+        if kind and cur and cur["kind"] == kind and cur["regime"] == regime:
+            cur["t1"] = float(t[i])
+            cur["peak"] = float(max(cur["peak"], nr[i]) if kind == "acima" else min(cur["peak"], nr[i]))
+        elif kind:
+            cur = {"kind": kind, "regime": regime, "limit": float(hi if kind == "acima" else lo), "t0": float(t[i]),
+                   "t1": float(t[i]), "peak": float(nr[i]), "on_ground": bool(ground[i])}
+            eps.append(cur)
+        else:
+            cur = None
+    for e in eps:
+        e["duration_s"] = round(e["t1"] - e["t0"] + 0.1, 2)  # 0,1 s per telemetry record
+    return eps
+
+
 def torque_limits(sim) -> Dict[str, float]:
     """Per-engine torque limit (% of 100 % torque) of each rating at the scene's density altitude (DERIVADO from
     the TCDS torque limits and the engine ratings, see docs/helicoptero-uti.md)."""
@@ -117,6 +149,8 @@ def _run_view(r: dict, cfg: CatAConfig, name: str, extra: Optional[dict] = None)
     sim, tel = r["sim"], r["telemetry"]
     ev = {k: v for k, v in r.items() if k not in ("telemetry", "sim", "advisory", "phases")}
     out = {"name": name, "frames": frames(tel, sim), "events": events_of(sim), "phases": _clean(r["phases"]),
+           "landing": _clean(evaluate_landing(tel, t_from=sim.fail_time, min_air_s=1.0)),
+           "nr_exceedances": nr_exceedances(tel),
            "evaluation": _clean(ev), "advisory": _advisory_view(r.get("advisory")),
            "fail_time": sim.fail_time, "torque_limits_pct": torque_limits(sim),
            "omega100": sim.p.omega100, "rotor_radius_m": sim.p.R, "cg_h": sim.p.cg_h}
@@ -163,7 +197,8 @@ def scene_cat_a() -> dict:
             "cg": cg, "runs": runs,
             "hv": {"condition": "1.500 m, ISA+25, 2.614 kg (decolagem do solo)",
                    "points": [{"h": p["height_m"], "v": p["speed_kt"], "safe": p["safe"]} for p in hv["points"]]},
-            "rating_names": RATING_NAMES, "rating_codes": RATING_CODES}
+            "rating_names": RATING_NAMES, "rating_codes": RATING_CODES, "nr_limits": NR_LIMITS,
+            "touchdown_thresholds": TOUCHDOWN}
 
 
 def _vtoss_of(r: dict) -> Optional[float]:
@@ -201,7 +236,8 @@ def scene_advisory() -> dict:
             "note": (f"Caso de demonstração: {mass:.0f} kg está acima da massa máxima do local "
                      f"({site_limit:.0f} kg, TDP 12 m). Com a limitação padrão este caso não ocorre."),
             "sweep_summary": _clean(sweep), "runs": runs,
-            "rating_names": RATING_NAMES, "rating_codes": RATING_CODES}
+            "rating_names": RATING_NAMES, "rating_codes": RATING_CODES, "nr_limits": NR_LIMITS,
+            "touchdown_thresholds": TOUCHDOWN}
 
 
 def scene_autorotation() -> dict:
@@ -212,6 +248,7 @@ def scene_autorotation() -> dict:
         sim, tel = r["sim"], r["telemetry"]
         out[mode] = {"name": mode, "frames": frames(tel, sim), "events": events_of(sim),
                      "phases": _clean(r["phases"]), "landing": _clean(r["landing"]),
+                     "nr_exceedances": nr_exceedances(tel),
                      "rod_steady_ms": r["rod_steady_ms"], "rod_predicted_ms": r["rod_predicted_ms"],
                      "v_glide_kt": r["v_glide_kt"], "min_nr_pct": r["min_nr_pct"], "sadpf": _clean(r["sadpf"]),
                      "torque_limits_pct": torque_limits(sim), "omega100": sim.p.omega100,
@@ -225,7 +262,8 @@ def scene_autorotation() -> dict:
             "flare_limitation": ("Limitação conhecida: o flare usa uma lei simples de cíclico e coletivo; a varredura "
                                  "do Passo 2 não atingiu toque ≤ 1,5 m/s com ≤ 15 kt (melhor: 1,44 m/s e 27,5 kt). "
                                  "Flare coordenado está no backlog."),
-            "runs": out, "rating_names": RATING_NAMES, "rating_codes": RATING_CODES}
+            "runs": out, "rating_names": RATING_NAMES, "rating_codes": RATING_CODES, "nr_limits": NR_LIMITS,
+            "touchdown_thresholds": TOUCHDOWN}
 
 
 def mission_panel() -> dict:

@@ -64,6 +64,9 @@ class SasGains:
 COMP_BAND = 0.25  # fraction of its share an engine may lag before the other compensates (ESTIMADO)
 
 
+COLLECTIVE_LOWER_RATE = math.radians(1.5)  # rad/s, collective lowered after touchdown (ESTIMADO)
+
+
 class HelicopterSimulator(SimulationLoop):
     def __init__(self, params: Optional[HeliParams] = None, atmosphere: Optional[HeliAtmosphere] = None,
                  dt: float = 0.005, control_rate_hz: float = 50.0, seed: int = 0, wind: bool = True,
@@ -231,7 +234,11 @@ class HelicopterSimulator(SimulationLoop):
         # collective
         vt = omega * p.R
         if self.collective_hold is not None:
-            collective = self.collective_hold
+            # the pilot lowers the collective at a finite rate after touchdown (not a step): a step unloads the
+            # rotor faster than the engines can spool down (tau_e) and overspeeds it
+            prev = float(self.u.collective)
+            step = COLLECTIVE_LOWER_RATE * dt
+            collective = prev + float(np.clip(self.collective_hold - prev, -step, step))
         elif self.autorotation:
             e_nr = (x[13] - self.nr_ref * p.omega100) / p.omega100
             self._nr_int = float(np.clip(self._nr_int + e_nr * dt, -0.5, 0.5))
@@ -310,6 +317,7 @@ class HelicopterSimulator(SimulationLoop):
             "rating": {"TO": 0, "OEI30": 1, "OEI2": 2, "OEIC": 3}[self.rating], "autorotation": float(self.autorotation),
             "cushion": float(self.cushion), "sadpf_level": float(self.sadpf.level) if self.sadpf else 0.0,
             "agl": x[2] - self.dyn.terrain.height(x[0], x[1]),
+            "n_eng": float(2 - sum(bool(f) for f in self.dyn.engine_failed)),  # engines physically running
         })
 
 

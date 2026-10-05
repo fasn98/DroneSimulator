@@ -11,7 +11,7 @@ Este documento descreve o repositório como ele está no commit `c401cb4` (fase 
 | Sessão web | `WebSession`: missão, telemetria em dicionário JSON estrito e injeção de falhas; testável sem Flask | `src/physics/web_session.py` |
 | Front-end / HUD | HTML + JS puro (Three.js para a cena 3D), HUD em português | `web/index.html`, `web/script.js`, `web/style.css`; helicóptero UTI: `web/heli/` (rota `/heli/`) |
 | Configuração | Veículos, ambientes (Terra, Marte, Lua) e missões em JSON | `config/drone_models.json`, `config/environments.json`, `config/missions.json` |
-| Testes | `unittest` (também rodam com pytest); CI no GitHub Actions (última execução verde: #13; ver o estado do CI no `README_TWIN.md`) | `tests/`, `.github/workflows/twin-tests.yml` |
+| Testes | `unittest` (também rodam com pytest); CI no GitHub Actions: suíte completa e teste de fumaça do HUD (ver `README_TWIN.md`) | `tests/`, `.github/workflows/twin-tests.yml` |
 
 Os módulos antigos da raiz e de `src/` (`physics_engine.py`, `drone_controller.py`, vídeos e marketing) são da versão cinemática. O Twin v2/v3 não depende deles.
 

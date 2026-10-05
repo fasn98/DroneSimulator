@@ -416,7 +416,7 @@ function phaseT(run, name) { const p = (run.phases || []).find(p => p.phase === 
 function setTelemetry(run, d, opts = {}) {
   const lim = run.torque_limits_pct;
   const code = ['TO', 'OEI30', 'OEI2', 'OEIC'][Math.round(d.rating)];
-  $('nr').textContent = `${fmt(d.nr_pct, 1)} %`;
+  if (opts.lims) setNR(opts.lims, run, d, d.t);
   const failed = run.fail_time !== null && run.fail_time !== undefined && d.t >= run.fail_time;
   for (let i = 0; i < 2; i++) {
     const v = d[`tq${i + 1}_pct`];
@@ -486,6 +486,35 @@ function setAdvisory(run, t) {
   $('advT').innerHTML = `Tempo de cálculo <b>${fmt(a.wall_time_s, 2)} s</b> · limite 1 s (reação do piloto) · ${a.mode === 'paralelo' ? 'ramos em paralelo' : 'ramos em sequência'} (abortar ${fmt(each[0], 2)} s, prosseguir ${fmt(each[1], 2)} s)<br>Medido em ambiente de desenvolvimento; não representa hardware embarcado.`;
 }
 
+
+// ---- NR limits (TCDS) and touchdown outcome (classified by the Twin, see procedures.classify_touchdown)
+function nrLimitsAt(lims, d) { return d.n_eng >= 1 ? { lo: lims.power_on[0], hi: lims.power_on[1], regime: 'com motor' } : { lo: lims.power_off[0], hi: lims.power_off[1], regime: 'sem motor' }; }
+function nrEpisodes(run, t) {
+  return (run.nr_exceedances || []).filter(e => e.t0 <= t + 1e-6).map(e => {
+    const ongoing = t <= e.t1 + 0.05, dur = Math.min(t, e.t1) - e.t0 + 0.1;
+    return `<div class="ep ${ongoing ? '' : 'past'}">${ongoing ? '▲ ' : ''}NR ${e.kind} do limite ${e.regime} (${fmt(e.limit, 0)} %)${e.on_ground ? ', no solo' : ''}: ${e.kind === 'acima' ? 'máx.' : 'mín.'} ${fmt(e.peak, 1)} % · ${fmt(dur, 1)} s</div>`;
+  }).join('');
+}
+function setNR(lims, run, d, t) {
+  const L = nrLimitsAt(lims, d), el = $('nr');
+  const out = d.nr_pct > L.hi || (d.nr_pct < L.lo && d.on_ground < 0.5);
+  el.textContent = `${fmt(d.nr_pct, 1)} %${out ? (d.nr_pct > L.hi ? ' ▲ ACIMA DO LIMITE' : ' ▼ ABAIXO DO LIMITE') : ''}`;
+  el.classList.toggle('nrbad', out);
+  $('nrLimL').textContent = `Limites de NR ${L.regime} (TCDS)`;
+  $('nrLim').textContent = `${fmt(L.lo, 0)}–${fmt(L.hi, 0)} %`;
+  $('nrEx').innerHTML = nrEpisodes(run, t);
+}
+function showTouchdown(box, landing, t, thr, extra = '') {
+  if (!landing || !landing.landed || t < landing.touchdown_t || !landing.outcome) { box.style.display = 'none'; return null; }
+  const o = landing.outcome;
+  box.className = `hud tdbox lv${o.level}${box.classList.contains('half') ? ' half' : ''}`;
+  box.style.display = 'block';
+  box.querySelector('.tdl').textContent = o.label;
+  box.querySelector('.tdm').innerHTML = `Toque a <b>${fmt(o.sink_ms, 1)} m/s</b> na vertical${extra}. ${o.why.charAt(0).toUpperCase() + o.why.slice(1)}.<br><span style="opacity:.85">Faixas: ≤ ${fmt(thr.limit_29_725_ms, 1)} pouso · ≤ ${fmt(thr.reserve_29_727_ms, 2)} pouso duro · ≤ ${fmt(thr.seat_29_562_ms, 1)} m/s dano provável · acima: impacto (ESTIMADO)</span>`;
+  return o;
+}
+function tint(on, x0 = 0, w = W) { const e = $('impactTint'); e.style.display = on ? 'block' : 'none'; e.style.left = `${x0}px`; e.style.width = `${w}px`; }
+
 // H-V mini diagram (points from the Twin's H-V sweep) with the current position
 function drawHV(hv, d, hRel) {
   const c = $('hv'), x = c.getContext('2d'), w = c.width, h = c.height;
@@ -551,7 +580,8 @@ function renderCatA(runName, t) {
   $('sadpf').style.display = ''; $('cata').style.display = ''; $('mission').style.display = 'none'; $('hvBox').style.display = '';
   setSadpf(run, t);
   setAdvisory(run, t);
-  setTelemetry(run, d, { deck: true, cg: DA.cg });
+  setTelemetry(run, d, { deck: true, cg: DA.cg, lims: DA.nr_limits });
+  { const o = showTouchdown($('tdBox'), run.landing, t, DA.touchdown_thresholds); tint(o && o.level === 3); $('tdBoxL').style.display = 'none'; $('tdBoxR').style.display = 'none'; }
   // Category A panel
   const M = DA.cat_a_mass, ev = run.evaluation, lit = run.literal_29_59c;
   $('m2960').innerHTML = `máx. <b>${fmt(M.g115_kg, 0)}–${fmt(M.g126_kg, 0)} kg</b><br><span style="font-size:13px;opacity:.75">faixa pelo duto G 1,15–1,26</span>`;
@@ -607,7 +637,8 @@ function renderAdvisory(runName, t) {
   $('sadpf').style.display = ''; $('cata').style.display = 'none'; $('mission').style.display = 'none'; $('hvBox').style.display = '';
   setSadpf(run, t);
   setAdvisory(run, t);
-  setTelemetry(run, d, { cg: DB.cg });
+  setTelemetry(run, d, { cg: DB.cg, lims: DB.nr_limits });
+  { const o = showTouchdown($('tdBox'), run.landing, t, DB.touchdown_thresholds, run.name === 'procedimento' ? ' (contato durante a aceleração do prosseguir)' : ''); tint(o && o.level === 3); $('tdBoxL').style.display = 'none'; $('tdBoxR').style.display = 'none'; }
   drawHV(DA.hv, d, Math.max(0, d.agl_skid));
   $('hvT').textContent = 'DIAGRAMA ALTURA-VELOCIDADE (H-V)';
   $('hvN').textContent = `Pontos do Twin: ${DA.hv.condition}. Marcador: IAS e altura sobre o solo.`;
@@ -630,17 +661,19 @@ function renderAdvisory(runName, t) {
 function autoPanel(el, run, d, t) {
   const L = run.landing, det = detectT(run);
   const landed = L.landed && t >= L.touchdown_t;
-  const goal = DC.goal;
+  const goal = DC.goal, lim = nrLimitsAt(DC.nr_limits, d);
+  const nrOut = d.nr_pct > lim.hi || (d.nr_pct < lim.lo && d.on_ground < 0.5);
   let h = `<div class="row"><span>Altura</span><b>${fmt(Math.max(0, d.agl_skid), 0)} m</b></div>
     <div class="row"><span>Razão de descida</span><b class="big">${fmt(Math.max(0, -d.vz), 1)} m/s</b></div>
     <div class="row"><span>Velocidade horizontal</span><b>${fmt(Math.hypot(d.vx, d.vy) / 0.514444, 0)} kt</b></div>
-    <div class="row"><span>NR (rotor)</span><b>${fmt(d.nr_pct, 1)} %</b></div>
+    <div class="row"><span>NR (rotor) · limites ${lim.regime} ${fmt(lim.lo, 0)}–${fmt(lim.hi, 0)} %</span><b class="${nrOut ? 'nrbad' : ''}">${fmt(d.nr_pct, 1)} %${nrOut ? (d.nr_pct > lim.hi ? ' ▲' : ' ▼') : ''}</b></div>
+    <div class="nrex">${nrEpisodes(run, t)}</div>
     <div class="row"><span>Razão em regime: Twin · teoria</span><b>${fmt(run.rod_steady_ms, 1)} · ${fmt(run.rod_predicted_ms, 1)} m/s</b></div>`;
   if (det !== null && t >= det) h += `<div class="row"><span>SADPF</span><b class="badc">falha dupla detectada em ${fmt(run.sadpf.detection_delay_s, 2)} s</b></div>`;
   if (landed) {
-    const sink = L.touchdown_sink_ms, gs = L.touchdown_ground_speed_ms / 0.514444;
-    const ok = sink <= goal.sink_ms && gs <= goal.ground_speed_kt;
-    h += `<div class="result ${ok ? 'good' : 'bad'}">Toque: <b>${fmt(sink, 1)} m/s</b> na vertical, <b>${fmt(gs, 0)} kt</b> no solo<br>Meta (ESTIMADA): ≤ ${fmt(goal.sink_ms, 1)} m/s e ≤ ${fmt(goal.ground_speed_kt, 0)} kt → ${ok ? 'atingida' : (sink > goal.sink_ms ? '<b>impacto vertical</b>' : '<b>velocidade no solo acima da meta</b>')}</div>`;
+    const gs = L.touchdown_ground_speed_ms / 0.514444, o = L.outcome;
+    const ok = o.level === 0 && gs <= goal.ground_speed_kt;
+    h += `<div class="result ${ok ? 'good' : 'bad'}">Toque: <b>${fmt(L.touchdown_sink_ms, 1)} m/s</b> na vertical, <b>${fmt(gs, 0)} kt</b> no solo → <b>${o.label}</b>${o.level === 0 && gs > goal.ground_speed_kt ? `<br>velocidade no solo acima da meta de ${fmt(goal.ground_speed_kt, 0)} kt (ESTIMADA): limitação do flare` : ''}</div>`;
   }
   el.innerHTML = h;
 }
@@ -653,6 +686,10 @@ function renderAuto(t) {
   autoPanel($('hLb'), V, dv, t);
   autoPanel($('hRb'), F, df, t);
   $('flareNote').textContent = DC.flare_limitation;
+  $('tdBox').style.display = 'none';
+  const oV = showTouchdown($('tdBoxL'), V.landing, t, DC.touchdown_thresholds);
+  const oF = showTouchdown($('tdBoxR'), F.landing, t, DC.touchdown_thresholds);
+  if (oV && oV.level === 3) tint(true, 0, W / 2); else if (oF && oF.level === 3) tint(true, W / 2, W / 2); else tint(false);
   const detV = detectT(V), detF = detectT(F);
   poseHeli(heliCV, { ...dv, y: dv.y + C_OFFSET_Y }, t, detV, detV, Math.floor(t * 4) % 2 === 0);
   poseHeli(heliCF, df, t, detF, detF, Math.floor(t * 4) % 2 === 0);
@@ -669,8 +706,8 @@ function renderAuto(t) {
   if (t < 2.0) cap = `Pairado (esquerda) e voo a ${fmt(F.v_glide_kt, 0)} kt (direita), a 300 m`;
   else if (t < Math.max(detV ?? 0, detF ?? 0) + 2) cap = 'Falha dos dois motores aos 2 s · SADPF: AUTORROTAÇÃO';
   else if (!(V.landing.landed && t >= V.landing.touchdown_t)) cap = `Em regime: ${fmt(V.rod_steady_ms, 1)} m/s na vertical × ${fmt(F.rod_steady_ms, 1)} m/s com velocidade à frente`;
-  else if (!(F.landing.landed && t >= F.landing.touchdown_t)) cap = `A autorrotação vertical toca o solo a ${fmt(V.landing.touchdown_sink_ms, 1)} m/s · a com velocidade à frente segue planando`;
-  else cap = `Com velocidade à frente: toque a ${fmt(F.landing.touchdown_sink_ms, 1)} m/s, mas a ${fmt(F.landing.touchdown_ground_speed_ms / 0.514444, 0)} kt no solo (limitação do flare)`;
+  else if (!(F.landing.landed && t >= F.landing.touchdown_t)) cap = `Autorrotação vertical: ${V.landing.outcome.label.toLowerCase()} a ${fmt(V.landing.touchdown_sink_ms, 1)} m/s · a com velocidade à frente segue planando`;
+  else cap = `Vertical: ${V.landing.outcome.label.toLowerCase()} (${fmt(V.landing.touchdown_sink_ms, 1)} m/s) × à frente: ${F.landing.outcome.label.toLowerCase()} (${fmt(F.landing.touchdown_sink_ms, 1)} m/s), a ${fmt(F.landing.touchdown_ground_speed_ms / 0.514444, 0)} kt no solo (limitação do flare)`;
   caption(cap);
   clock(t);
 }
@@ -679,7 +716,8 @@ let missionCond = 3; // 1.500 m, ISA+25 (the binding case) by default
 function renderMission(profile) {
   showCols(true, true, false);
   $('tlM').textContent = 'Painel de missão'; $('tlC').textContent = 'Configuração UTI padrão · tanque padrão (560 kg) · valores calculados pelo Twin';
-  for (const id of ['sadpf', 'advisory', 'cata']) $(id).style.display = 'none';
+  for (const id of ['sadpf', 'advisory', 'cata', 'tdBox', 'tdBoxL', 'tdBoxR']) $(id).style.display = 'none';
+  tint(false);
   $('mission').style.display = 'block'; $('hvBox').style.display = 'none';
   const rows = DM.conditions, c = rows[missionCond], p = c.profiles[profile];
   $('profSel').innerHTML = Object.entries(DM.profiles).map(([k, v]) => `<button data-p="${k}" class="${k === profile ? 'on' : ''}">${v.split(' (')[0]}</button>`).join('');

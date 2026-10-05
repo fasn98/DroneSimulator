@@ -13,7 +13,31 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install physics-core dependencies
-        run: pip install "numpy>=2.0" "scipy>=1.11" pytest
+      - name: Install physics-core and web-server dependencies
+        run: |
+          pip install "numpy>=2.0" "scipy>=1.11" pytest
+          pip install flask flask-socketio flask-sqlalchemy opencv-python-headless pillow playwright
+          python -m playwright install --with-deps chromium
       - name: Run verification tests
-        run: python -m pytest tests/ -v
+        env:
+          DATABASE_URL: "sqlite://"
+        run: python -m pytest tests/ -v -rs --junitxml=junit.xml
+      - name: Report test count
+        if: always()
+        run: |
+          python - <<'EOF'
+          import xml.etree.ElementTree as ET
+          r = ET.parse("junit.xml").getroot()
+          s = r if r.tag == "testsuite" else r.find("testsuite")
+          n, f, e, sk = (int(s.get(k, 0)) for k in ("tests", "failures", "errors", "skipped"))
+          print(f"::notice title=Resultado dos testes::{n - f - e - sk} passaram, {f} falharam, {e} erros, {sk} pulados (total {n})")
+          EOF
+      - name: HUD smoke test against the full Flask server (/heli/)
+        env:
+          DATABASE_URL: "sqlite:////tmp/twin.db"
+        run: |
+          python simulation_server.py > server.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:5000/heli/ > /dev/null && break; sleep 2; done
+          curl -sf http://127.0.0.1:5000/heli/data/cat_a.json > /dev/null
+          python -m tools.heli_hud_smoke --url http://127.0.0.1:5000/heli/ | tee smoke.txt
+          echo "::notice title=Teste de fumaça do HUD::$(tail -1 smoke.txt)"

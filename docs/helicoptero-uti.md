@@ -6,7 +6,7 @@
 
 Estado atual: **Passos 0 a 3 aprovados. O Passo 4 (HUD e cenas do Template A) está concluído e aguarda aval.** Depois dele vem o Template B (classe UH-60), conforme o roteiro.
 
-> **Estado do CI.** A última execução verde do GitHub Actions é a [#13](https://github.com/fasn98/DroneSimulator/actions/runs/37230157317). Da #14 em diante o GitHub não inicia os jobs por pendência de cobrança da conta (não é falha de código). Suíte local: **92/92 na entrega do Passo 3**; **100/100** na entrega do Passo 4.
+> **CI.** A suíte completa e o teste de fumaça do HUD rodam no GitHub Actions a cada PR (ver o README_TWIN.md). [#20 (PR #6)](https://github.com/fasn98/DroneSimulator/actions/runs/37259802968) e [#21 (PR #7)](https://github.com/fasn98/DroneSimulator/actions/runs/37307459563) passaram depois que o repositório ficou público.
 
 ## Como rodar
 
@@ -902,6 +902,62 @@ python simulation_server.py            # e abra http://localhost:5000/heli/ (cen
 1. **Tempo da previsão em paralelo**: máximo medido de 0,94 s, contra a estimativa de 0,72 s (ver acima). Cabe em 1 s nos 130 casos, mas com só ~6 % de folga no pior caso. Se quiser mais folga, o caminho é limitar o horizonte do ramo que o procedimento não indica, ou usar passo adaptativo na descida longa do abortar.
 2. **Capturas**: 8 imagens em `docs/screenshots/`, incluindo duas a mais que o pedido (a3 e d). Diga se quer outros instantes ou enquadramentos.
 3. **Próximo passo**: Template B (classe UH-60), conforme o roteiro.
+
+## Correções do aval do Passo 4 (em andamento)
+
+### Achado: o toque do ramo abortar era medido no contato errado (erro de código, corrigido)
+
+- **O erro.** Em `procedures.evaluate_cat_a`, o toque do ramo abortar era o *primeiro contato com o solo depois de a aeronave sair do chão*. Na decolagem, os esquis quicam uma vez (≈ 0,3 s). Esse quique era tomado como o "toque", com ~0,2 m/s. O toque real, de volta ao deck depois da falha, nunca era avaliado.
+- **Correção.** O toque passa a ser o primeiro contato depois de a aeronave ficar 1 s no ar e depois da falha do motor.
+- **Efeito.** Com a correção, o ramo abortar **na massa máxima Cat A** toca o deck a **3,3 a 4,0 m/s** nas 5 condições, acima do critério do modelo (≤ 1,5 m/s).
+  - Avaliação rápida (`tools/heli_reject_touchdown_check.py`, 4 massas por condição): o abortar volta a ser seguro só **150 a 300 kg abaixo** das massas aprovadas.
+  - Nível do mar ISA: seguro a 2.680 kg, inseguro a 2.830 kg.
+  - 1.500 m ISA+25: seguro a 2.314 kg, inseguro a 2.464 kg.
+- **O que fica invalidado até o recálculo**: as massas máximas Cat A (Passo 2b), a faixa G 1,15–1,26, a massa máxima no local de resgate, o combustível e o raio limitados por massa, as varreduras em torno do TDP e a "verdade" da varredura da previsão de ramos. Todos usaram o mesmo avaliador.
+- **4 testes** (`test_mass_limit_hot_and_high`, `test_decision_is_taken_at_recognition` e dois da previsão de ramos) falham com o avaliador corrigido, porque conferem números antigos.
+- **Decisão pendente**: ver o resumo da entrega.
+
+### Toque: pouso, pouso duro, dano provável ou impacto
+
+`procedures.classify_touchdown`, pela velocidade vertical no toque:
+
+| Faixa | Classe | Base |
+|---|---|---|
+| ≤ 2,0 m/s | POUSO | queda livre de 8 in do ensaio de queda-limite, [14 CFR 29.725(a)](https://www.ecfr.gov/current/title-14/section-29.725) ("at least 8 inches"): √(2·g·0,203 m) = 2,0 m/s (DERIVADO; é um mínimo regulatório) |
+| 2,0–2,45 m/s | POUSO DURO (inspeção) | reserva de energia: queda de 1,5 × a do 29.725(a), [14 CFR 29.727](https://www.ecfr.gov/current/title-14/section-29.727) (DERIVADO) |
+| 2,45–9,14 m/s | POUSO DURO — DANO ESTRUTURAL PROVÁVEL | acima da reserva de energia do trem (ESTIMADO) |
+| > 9,14 m/s | IMPACTO — NÃO SOBREVIVÍVEL | acima de 30 ft/s, o pulso vertical mínimo dos ensaios dinâmicos de assento, [14 CFR 29.562(b)(1)](https://www.ecfr.gov/current/title-14/section-29.562). A classificação é ESTIMADA: o 29.562 é uma condição mínima de projeto dos assentos, não um limite medido de sobrevivência |
+
+- Na cena, o desfecho aparece num quadro com a cor da classe. O impacto tem quadro e tela vermelhos.
+- A autorrotação vertical (19,6 m/s) aparece como **IMPACTO — NÃO SOBREVIVÍVEL**; a com velocidade à frente (1,2 m/s), como POUSO.
+
+### NR: limites no HUD e pouso sem sobrevelocidade
+
+- **Limites (TCDS R.009)**: com motor, 97–104 %; sem motor, 85–106 %.
+  - O HUD mostra o limite do regime atual e pinta o NR de vermelho fora dele.
+  - Cada ultrapassagem aparece listada com o tipo (acima/abaixo), o limite, o valor extremo e a duração (`nr_exceedances` nos dados das cenas).
+  - O limite inferior só é verificado em voo.
+- **Causa dos 107 %**: depois do toque, o coletivo ia ao mínimo num degrau. O rotor descarregava mais rápido do que os motores (constante de tempo 0,8 s) reduziam a potência.
+- **Correção**: o coletivo agora desce a 1,5°/s (ESTIMADO, ~8 s até o mínimo), como um piloto faz.
+- **Resultado**: NR máximo depois do pouso de 102,8–103,3 %, dentro de 104 %, nos pousos testados. A "verdade" dos 130 casos da varredura não mudou com essa alteração (`n_truth_changed_vs_previous` = 0).
+- **Autorrotação**: no amortecimento antes do toque, o NR cai abaixo de 85 %, e o HUD sinaliza: mínimo de 71,9 % por 0,7 s à frente; 72,1 % e 46,3 % na vertical.
+
+### Previsão de ramos: parada assim que o desfecho está definido
+
+- **Abortar**: para 0,5 s depois do primeiro contato com o solo. Antes era 1 s depois de assentar.
+- **Prosseguir**: para no toque, na VTOSS subindo, ou em subida estabilizada. Subida estabilizada é Vz > 0,5 m/s por 1 s, acima de 10,7 m (35 ft) e com pelo menos 80 % da VTOSS; nesse caso a VTOSS é dada como atingida.
+- O horizonte completo (25 s) continua valendo para os dois ramos.
+- **Tempos**, nos 130 casos, em paralelo, medidos em ambiente de desenvolvimento (não representam hardware embarcado): média **0,45 s**, p95 **0,60 s**, máximo **0,72 s**. Antes eram 0,49 / 0,70 / 0,94 s.
+- **Previsões corretas**: 130 de 130, **mas contra a "verdade" do avaliador antigo**. A varredura precisa ser refeita depois da correção acima.
+
+### Repositório público
+
+- **Segredos**: o histórico completo (23 commits) não tem chaves de API, tokens, senhas, chaves privadas nem `.env`. A chave de sessão do Flask fixa no código (`'drone-sim-secret-key'`, desde o commit 3d1165e, em `simulation_server.py` e `web_server.py`) foi trocada por `SECRET_KEY` do ambiente ou aleatória.
+- **Arquivos de terceiros removidos** (continuam no histórico, que não foi reescrito):
+  - `empire_state_satellite.jpg`, `empire_state_background_test.png` e `central_park_final_frame.png`: imagens de satélite com a marca "Google" e "Imagery ©2025 Airbus, Maxar Technologies, Vexcel Imaging US, Inc.";
+  - três vídeos em `video_exports/` (`..._214450.mp4`, `..._214639.mp4`, `..._215148.mp4`) com a mesma imagem.
+  - Não havia PDFs da Airbus, EASA, ERF ou NASA no repositório nem no histórico. Os três PDFs em `attached_assets/` são exportações do Google Docs com textos do próprio projeto.
+- **LICENSE**: não existe. Nenhuma foi criada.
 
 ## Base de certificação: por que usar os §§ 29.59, 29.60, 29.67 e 29.87 numa aeronave classe H135
 

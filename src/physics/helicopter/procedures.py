@@ -178,14 +178,20 @@ def evaluate_cat_a(tel, sim, vtoss_kt: Optional[float], branch: str,
     if len(airborne) == 0:
         return {**res, "safe": False, "reason": "não decolou"}
     if branch == "reject":
-        after = np.where(ground & (idx > airborne[0]))[0]
+        # the touchdown back on the deck: the first contact after the aircraft has been airborne for 1 s (skid
+        # bounces at lift-off are not the touchdown) and after the engine failure
+        dt_rec = float(np.median(np.diff(t))) if len(t) > 1 else 0.1
+        n1 = max(int(round(1.0 / dt_rec)), 1)
+        flying = np.array([i >= n1 and not ground[i - n1:i].any() for i in idx])
+        first_fly = int(np.argmax(flying)) if flying.any() else len(t)
+        after = np.where(ground & (idx >= first_fly) & (t >= (sim.fail_time if sim.fail_time is not None else 0.0)))[0]
         if len(after) == 0:
             return {**res, "safe": False, "reason": "não pousou"}
         k = after[0]
         sink = float(-min(vz[max(k - 2, 0):k + 1]))
         on_pad = pad.on_pad(x[k], y[k], margin=1.0) and abs(h_skid[k]) < 1.0
         tilt = float(np.max(np.hypot(tel.column("roll_deg"), tel.column("pitch_deg"))[k:]))
-        res.update(touchdown_sink_ms=sink, on_pad=bool(on_pad), max_tilt_after_deg=tilt,
+        res.update(touchdown_sink_ms=sink, on_pad=bool(on_pad), max_tilt_after_deg=tilt, outcome=classify_touchdown(sink),
                    min_nr_pct=float(tel.column("nr_pct")[airborne[0]:].min()))
         res["safe"] = bool(on_pad and sink <= 1.5 and tilt < 15.0)
         res["reason"] = "ok" if res["safe"] else ("fora do heliponto" if not on_pad else
@@ -388,15 +394,52 @@ class AutorotationLanding:
         return np.array([x[0], x[1], x[2]]), np.zeros(3), 0.0
 
 
-def evaluate_landing(tel) -> Dict[str, float]:
+# Touchdown outcome by vertical speed (Passo 4 approval). Thresholds:
+#  * 14 CFR 29.725(a): limit drop test from "at least 8 inches" -> sqrt(2 g 0.2032 m) = 2.0 m/s (DERIVADO; a
+#    regulatory minimum, the real gear may be designed for more)
+#  * 14 CFR 29.727: reserve energy drop "1.5 times that specified in 29.725(a)" -> 2.45 m/s (DERIVADO)
+#  * 14 CFR 29.562(b)(1): seat dynamic test, "change in downward velocity of not less than 30 feet per second"
+#    -> 9.14 m/s (DERIVADO). Treating a touchdown above it as non-survivable is ESTIMADO: 29.562 is a minimum
+#    design condition for seats, not a measured survivability limit.
+TD_LIMIT_MS = math.sqrt(2 * G0 * 8 * 0.0254)
+TD_RESERVE_MS = math.sqrt(1.5) * TD_LIMIT_MS
+TD_SEAT_MS = 30 * FT
+TOUCHDOWN_CLASSES = (
+    ("pouso", "POUSO", "dentro da queda-limite do trem (29.725(a), 8 in)"),
+    ("pouso_duro", "POUSO DURO", "acima da queda-limite, dentro da reserva de energia do trem (29.727): inspeção obrigatória"),
+    ("dano_provavel", "POUSO DURO — DANO ESTRUTURAL PROVÁVEL", "acima da reserva de energia do trem (29.727)"),
+    ("impacto", "IMPACTO — NÃO SOBREVIVÍVEL", "acima de 30 ft/s, o pulso vertical dos ensaios de assento (29.562(b)(1)); classificação ESTIMADA"),
+)
+
+
+def classify_touchdown(sink_ms: float) -> Dict[str, object]:
+    i = 0 if sink_ms <= TD_LIMIT_MS else 1 if sink_ms <= TD_RESERVE_MS else 2 if sink_ms <= TD_SEAT_MS else 3
+    code, label, why = TOUCHDOWN_CLASSES[i]
+    return {"class": code, "label": label, "why": why, "level": i, "sink_ms": float(sink_ms),
+            "thresholds_ms": {"limit_29_725": TD_LIMIT_MS, "reserve_29_727": TD_RESERVE_MS, "seat_29_562": TD_SEAT_MS}}
+
+
+def evaluate_landing(tel, t_from: Optional[float] = None, min_air_s: float = 0.0) -> Dict[str, float]:
+    """First touchdown. `t_from`: only contacts after this time (e.g. the engine failure); `min_air_s`: the
+    aircraft must have been airborne this long before the contact (ignores skid bounces at lift-off)."""
     t, vz, vx, vy = (tel.column(k) for k in ("t", "vz", "vx", "vy"))
     ground = tel.column("on_ground") > 0
+    idx = np.arange(len(t))
     air = np.where(~ground)[0]
-    after = np.where(ground & (np.arange(len(t)) > (air[0] if len(air) else 0)))[0]
+    ok = ground & (idx > (air[0] if len(air) else 0))
+    if t_from is not None:
+        ok &= t >= t_from
+    if min_air_s > 0.0:
+        # airborne for at least min_air_s just before the contact
+        n_air = int(round(min_air_s / max(float(np.median(np.diff(t))) if len(t) > 1 else 0.1, 1e-6)))
+        prev_air = np.array([i >= n_air and not ground[i - n_air:i].any() for i in idx])
+        ok &= prev_air
+    after = np.where(ok)[0]
     if len(after) == 0:
         return {"landed": False}
     k = after[0]
-    return {"landed": True, "touchdown_t": float(t[k]), "touchdown_sink_ms": float(-min(vz[max(k - 2, 0):k + 1])),
+    sink = float(-min(vz[max(k - 2, 0):k + 1]))
+    return {"landed": True, "touchdown_t": float(t[k]), "touchdown_sink_ms": sink, "outcome": classify_touchdown(sink),
             "touchdown_pitch_up_deg": float(-tel.column("pitch_deg")[k]),
             "touchdown_ground_speed_ms": float(np.hypot(vx[k], vy[k])),
             "max_tilt_after_deg": float(np.max(np.hypot(tel.column("roll_deg"), tel.column("pitch_deg"))[k:]))}

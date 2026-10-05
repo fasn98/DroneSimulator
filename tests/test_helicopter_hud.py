@@ -103,6 +103,43 @@ class TestSceneData(unittest.TestCase):
         self.assertEqual(sl["profiles"]["resgate"]["site_min_radius_full_fuel_nm"], 0.0)
 
 
+class TestTouchdownAndNR(unittest.TestCase):
+    def test_touchdown_classes(self):
+        from src.physics.helicopter.procedures import (TD_LIMIT_MS, TD_RESERVE_MS, TD_SEAT_MS,
+                                                       classify_touchdown)
+        self.assertAlmostEqual(TD_LIMIT_MS, 2.0, delta=0.01)      # 8 in free drop, 14 CFR 29.725(a)
+        self.assertAlmostEqual(TD_RESERVE_MS, 2.45, delta=0.01)   # 1.5 x the drop height, 29.727
+        self.assertAlmostEqual(TD_SEAT_MS, 9.144, delta=0.001)    # 30 ft/s, 29.562(b)(1)
+        self.assertEqual([classify_touchdown(v)["class"] for v in (0.2, 2.2, 5.0, 19.6)],
+                         ["pouso", "pouso_duro", "dano_provavel", "impacto"])
+
+    def test_scene_outcomes(self):
+        c = data("autorotation")["runs"]
+        self.assertEqual(c["vertical"]["landing"]["outcome"]["class"], "impacto")
+        self.assertIn("NÃO SOBREVIVÍVEL", c["vertical"]["landing"]["outcome"]["label"])
+        self.assertEqual(c["forward"]["landing"]["outcome"]["class"], "pouso")
+        a = data("cat_a")["runs"]["reject"]
+        self.assertEqual(a["landing"]["outcome"]["class"], "pouso")
+        js = open(os.path.join(WEB, "heli.js"), encoding="utf-8").read()
+        self.assertIn("tdbox lv${o.level}", js)  # outcome box with level colour (lv3 = red impact)
+
+    def test_nr_limits_and_exceedances(self):
+        for name in ("cat_a", "advisory"):
+            d = data(name)
+            self.assertEqual(d["nr_limits"]["power_on"], [97.0, 104.0])
+            self.assertEqual(d["nr_limits"]["power_off"], [85.0, 106.0])
+            for rn, r in d["runs"].items():
+                # with the collective lowered at a finite rate after touchdown, no NR overspeed on the deck
+                self.assertLessEqual(max(r["frames"]["nr_pct"]), 104.0, f"{name}/{rn}")
+                self.assertFalse([e for e in r["nr_exceedances"] if e["kind"] == "acima"], f"{name}/{rn}")
+        # every flagged episode carries value and duration
+        for r in data("autorotation")["runs"].values():
+            for e in r["nr_exceedances"]:
+                self.assertIn(e["kind"], ("acima", "abaixo"))
+                self.assertGreater(e["duration_s"], 0.0)
+                self.assertTrue(e["peak"] < e["limit"] if e["kind"] == "abaixo" else e["peak"] > e["limit"])
+
+
 class TestParallelPrediction(unittest.TestCase):
     def test_parallel_equals_sequential(self):
         from src.physics.helicopter.scenarios import cat_a_run, rescue_site_config

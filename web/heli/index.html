@@ -10,7 +10,7 @@
 <div id="frame">
 <div id="stage">
   <div id="viewport"></div>
-  <div id="shadeT"></div><div id="shadeB"></div>
+  <div id="shadeT"></div><div id="shadeB"></div><div id="impactTint"></div>
   <!-- top -->
   <div class="hud" id="tl"><div class="k" id="tlK">GÊMEO DIGITAL · TERRA · HELICÓPTERO UTI (bimotor classe H135, genérico)</div><div class="m" id="tlM"></div><div class="c" id="tlC"></div></div>
   <div class="hud" id="tr"><div class="clock" id="clock">T+00:00.0</div><div class="s">física 6-DoF · RK4 a 200 Hz · controle a 50 Hz</div></div>
@@ -54,6 +54,8 @@
   <div class="hud col" id="right">
     <div class="box" id="panel">
       <div class="row"><span>NR (rotor)</span><b id="nr">—</b></div>
+      <div class="row small" id="nrLimRow"><span id="nrLimL">Limites de NR</span><b id="nrLim">—</b></div>
+      <div class="nrex" id="nrEx"></div>
       <div class="sec">TORQUE POR MOTOR (% do torque 100 %)</div>
       <div id="tqBars"></div>
       <div class="row dim"><span>Ng</span><b>não modelado</b></div>
@@ -82,6 +84,9 @@
   </div>
   <div class="hud" id="flareNote"></div>
 
+  <div class="hud tdbox" id="tdBox"><div class="tdl" id="tdL"></div><div class="tdm" id="tdM"></div></div>
+  <div class="hud tdbox half" id="tdBoxL"><div class="tdl"></div><div class="tdm"></div></div>
+  <div class="hud tdbox half" id="tdBoxR"><div class="tdl"></div><div class="tdm"></div></div>
   <div class="hud" id="caption"><span id="capText"></span></div>
   <div class="hud" id="foot">Terreno ilustrativo · voo, falha e respostas calculados pelo Twin (não é animação)</div>
 </div>
