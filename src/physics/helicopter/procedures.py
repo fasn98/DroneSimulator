@@ -24,6 +24,8 @@ from .model import engine_limit_w
 KT = 0.514444
 FT = 0.3048
 DEFAULT_REJECT_PROCEDURE = "v1"  # reject branch of CatATakeoff (see docs/helicoptero/procedimento_abortar_v2.md)
+REJECT_V2_NR_MIN = 0.97  # fraction of 100 % NR: lower end of the band of the source and TCDS power-on minimum
+REJECT_V2_CUSHION_H = 5.0  # m of skid height where the cushion starts (ESTIMADO, ~ one rotor radius)
 PILOT_DELAY = 1.0  # s, recognition + reaction after the SADPF alert (ESTIMADO, order used in Cat A analyses)
 ROC_CAT_A = 100 * FT / 60  # 14 CFR 29.67(a)(1): >= 100 ft/min at VTOSS, OEI 2-min power, OGE
 
@@ -136,7 +138,13 @@ class CatATakeoff:
             self._v = min(max(self._v, v_air) + self.accel * dt, 65 * KT)
             return np.array([x[0], pad.pad_y, x[2] + 1.0]), np.array([self._v + wind_x, 0.0, 1.5]), 0.0
         if self.phase == "reject":
-            vz = -1.0 if h > 3.0 else -0.3
+            if self.reject_procedure == "v2":
+                # v2 (docs/helicoptero/procedimento_abortar_v2.md): NR allowed down to 97 % before the collective
+                # is given back, cushion (slower descent command) from 5 m of skid height
+                sim.droop_ref = REJECT_V2_NR_MIN
+                vz = -1.0 if h > REJECT_V2_CUSHION_H else -0.3
+            else:
+                vz = -1.0 if h > 3.0 else -0.3
             if sim.dyn.aero(x, sim.u)[3].on_ground:
                 sim.collective_hold = sim.p.theta_min
                 if self.log[-1]["phase"] != "landed":
