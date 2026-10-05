@@ -144,6 +144,10 @@ TABLE: Dict[str, P] = {
                         "condições não informadas)"),
     "range_std": _p(342, "NM", "FONTE", SRC["airbus"], "Alcance máximo com tanque padrão (633 km; condições não "
                     "informadas)"),
+    "ff_idle_share": _p(0.40, "-", "ESTIMADO", "fração do consumo AEO na potência máxima contínua que a linha de "
+                        "Willans tem em potência zero; 0,4 é o maior valor testado (0,2–0,4) em que o alcance específico "
+                        "ainda cai com a massa, e o que menos erra a autonomia e o alcance publicados",
+                        "Fração do consumo em potência zero (linha de Willans)"),
     # airframe
     "download_frac": _p(0.03, "-", "ESTIMADO", "arrasto vertical da fuselagem na esteira, típico 2–5 %", "Download"),
     "f_side": _p(5.0, "m²", "ESTIMADO", "área lateral da fuselagem × Cd", "Área de arrasto lateral"),

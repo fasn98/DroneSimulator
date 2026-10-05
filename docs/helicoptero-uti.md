@@ -4,7 +4,7 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0, 1 e 2 aprovados e encerrados. Passo 3 (interior UTI, massa e CG, combustível e raio de ação) concluído e aguardando aval**, junto com as duas análises de sensibilidade do antitorque pedidas no aval do Passo 2. Os passos seguintes (HUD e documentação final) ainda não foram feitos.
+Estado atual: **Passos 0, 1 e 2 aprovados e encerrados. Passo 3 aprovado com ajustes; os ajustes (cruzeiro de referência comum, perfis de missão, faixa de massa Cat A, fontes brasileiras) estão concluídos e aguardam aval antes do Passo 4.** Os passos seguintes (HUD e documentação final) ainda não foram feitos.
 
 ## Como rodar
 
@@ -212,7 +212,7 @@ Tempos de detecção medidos: **~0,7 s** para falha de um motor e **~1,7–2,0 s
 
 ### Cenário 1: transferência inter-hospitalar
 - Percurso: decolagem, subida, cruzeiro a 300 m e 110 kt, aproximação em rampa de 8°, pairado e pouso vertical. Vento de 5 m/s com rajadas.
-- Resultado em 20 km: voo de **7 min**, consumo de **20 kg** (modelo de consumo CALIBRADO do Passo 3; era 24 kg com o consumo constante), toque a 1,0 m/s, erro de posição de 2,9 m.
+- Resultado em 20 km: voo de **7 min**, consumo de **22 kg** (modelo de consumo do Passo 3; era 24 kg com o consumo constante), toque a 1,0 m/s, erro de posição de 2,9 m.
 - O SADPF fica no nível 0, sem alarme falso.
 
 ### Cenário 2: resgate em área restrita
@@ -507,7 +507,9 @@ A deriva mudou a física em voo à frente, então a validação e os cenários f
 | 1.500 m, ISA+25 | 2.566 | 2.590 | 2.590 | 2.614 | −1,9 % |
 | 1.500 m, ISA+25, proa 8 m/s | 2.761 | 2.761 | 2.761 | 2.809 | −1,7 % |
 
-- **A variação máxima é de 1,9 %, abaixo do limite de 2 % definido no aval. Pela regra, o padrão continua G = 1,26.**
+- **A variação máxima é de 1,9 %, abaixo do limite de 2 % definido no aval. O padrão continua G = 1,26** (decisão do aval do Passo 3).
+  - Justificativa: o teto de pairado do modelo já é **11,7 % pessimista** em relação ao publicado. Usar também um duto conservador empilharia dois conservadorismos sobre a mesma potência de pairado, que é o que limita a decolagem Categoria A.
+- **A massa Categoria A passa a ser apresentada como faixa**, de G = 1,15 (limite inferior) a G = 1,26 (padrão): na tabela do raio de ação e no HUD do Passo 4.
 - As massas com G = 1,26 recalculadas aqui (com a deriva e o novo modelo de consumo) são idênticas às do Passo 2.
 - **Ressalva**: a bisseção tem resolução de 25 kg (~0,9 %), então a variação real fica entre ~1 % e ~2,8 %. O resultado está perto do limite: ver decisão pendente no fim do Passo 3.
 
@@ -517,19 +519,22 @@ A deriva mudou a física em voo à frente, então a validação e os cenários f
 
 O raio de ação depende diretamente do consumo, então conferi o consumo constante usado até aqui (0,36 kg/kWh, ESTIMADO) contra os dados publicados pela Airbus para o tanque padrão. Ele era **otimista**:
 
-| | Publicado (Airbus) | Consumo constante 0,36 kg/kWh | Linha de Willans calibrada |
+| | Publicado (Airbus) | Consumo constante 0,36 kg/kWh | Linha de Willans (padrão) |
 |---|---|---|---|
-| Autonomia máxima, 560 kg | 3 h 36 min | 5 h 30 min (+53 %) | 3 h 36 min |
-| Alcance máximo, 560 kg | 342 NM | 448 NM (+31 %) | 342 NM |
+| Autonomia máxima, 560 kg | 3 h 36 min | 5 h 30 min (+53 %) | 3 h 42 min (+2,6 %) |
+| Alcance máximo, 560 kg | 342 NM | 448 NM (+31 %) | 333 NM (−2,6 %) |
 
 - **Causa**: o consumo específico de uma turbina piora em potência parcial, e o modelo constante não representa isso.
-- **Novo modelo**: linha de Willans, consumo = 2 × (vazão a potência zero) + (consumo marginal) × potência.
-  - Os dois coeficientes são **CALIBRADOS** para reproduzir a autonomia (na velocidade de máxima autonomia) e o alcance (na velocidade de máximo alcance) publicados.
-  - Hipóteses da calibração: a partir do MTOW, ISA, nível do mar, sem reserva. A Airbus não informa as condições.
-  - **Resultado**: 64,7 kg/h por motor a potência zero e 0,092 kg/kWh de consumo marginal. Isso dá 0,32 kg/kWh na potência máxima contínua e 0,44 kg/kWh no cruzeiro de máximo alcance.
-- **Ressalva**: as duas velocidades de calibração têm potências próximas (312 e 373 kW), então a **divisão** entre os dois coeficientes é mal determinada. O consumo **no cruzeiro**, que governa o raio de ação, fica bem determinado pelo alcance publicado.
+- **Novo modelo**: linha de Willans, consumo = (vazão a potência zero) × motores em funcionamento + (consumo marginal) × potência.
+  - **Forma (ESTIMADO)**: a vazão a potência zero vale 40 % do consumo AEO na potência máxima contínua.
+  - **Escala (CALIBRADO)**: mínimos quadrados sobre a autonomia (na velocidade de máxima autonomia) e o alcance (na velocidade de máximo alcance) publicados. Hipóteses: a partir do MTOW, ISA, nível do mar, sem reserva; a Airbus não informa as condições.
+  - **Resultado**: 43,3 kg/h por motor a potência zero e 0,229 kg/kWh de consumo marginal. Isso dá 0,38 kg/kWh na potência máxima contínua. Os erros ficam em +2,6 % na autonomia e −2,6 % no alcance.
+- **Por que a forma é fixa**: a primeira versão (entregue na revisão anterior) ajustava os dois coeficientes exatamente aos dois números publicados. As duas velocidades de calibração pedem potências próximas (312 e 373 kW), então essa divisão é mal determinada: deu 64,7 kg/h a potência zero e só 0,092 kg/kWh marginal.
+  - Com isso o **alcance específico crescia com a massa**, o que é fisicamente errado.
+  - Também ajudava a fazer o raio de ação crescer com altitude e temperatura.
+  - **Fração 0,4**: o maior valor testado (0,2 a 0,4) em que o alcance específico ainda cai com a massa, e o que menos erra os dois números. Com 0,2 e 0,3 os erros vão a ±3,6–4,6 %.
 - O consumo constante (0,36 kg/kWh) deixa de existir na tabela de parâmetros.
-- **Efeito no Passo 2**: as massas Categoria A não mudam (os voos são curtos). O consumo da transferência de 20 km foi recalculado.
+- **Efeito no Passo 2**: as massas Categoria A não mudam (os voos são curtos). O consumo da transferência de 20 km foi recalculado: 22 kg.
 
 ## Passo 3: interior UTI, massa e CG, combustível e raio de ação
 
@@ -544,7 +549,10 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
   - fixos: respirador mecânico, monitor cardioversor com bateria, oxímetro portátil, bomba de infusão e prancha longa;
   - conjunto aeromédico: maca, ar comprimido e oxigênio para pelo menos 2 h;
   - materiais móveis.
-  - A vigência atual da portaria (consolidação de 2017) ainda não foi conferida.
+  - **Vigência**: a Portaria GM/MS nº 2.048/2002 **continua vigente como ato autônomo**.
+    - A página de legislação do SAMU 192 do Ministério da Saúde (conferida em 04/10/2026) a lista separadamente das Portarias de Consolidação nº 3 e nº 6 de 2017.
+    - A matriz de consolidação da Portaria de Consolidação nº 3/2017 (redes do SUS) não a inclui entre as normas consolidadas ou revogadas.
+    - Não conferi as matrizes das demais portarias de consolidação.
 - **Massas dos equipamentos**: ESTIMADO, exceto as duas com dado público de fabricante:
   - ventilador de transporte classe Hamilton-T1, 6,5 kg (só a unidade);
   - monitor/desfibrilador classe ZOLL X Series, "less than 5.5 kilograms" (usado 5,5 kg).
@@ -586,47 +594,68 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
   - Lateral: ±100 mm.
   - Plano de referência (STA 0): 2.160 mm à frente do ponto de nivelamento no batente da porta dianteira.
   - Usei retas entre os pontos publicados (o TCDS pode ter mais pontos intermediários) e limite dianteiro constante abaixo de 1.840 kg (suposição).
-- **Verificação**: CG com o combustível máximo de cada condição (decolagem) e só com a reserva de 20 min (fim do voo). **Todos dentro do envelope**:
+- **Verificação**: CG na decolagem de origem (combustível máximo), na decolagem de volta (depois da ida, com a troca de carga) e no fim do voo (só a reserva de 20 min), nos três perfis. **Todos dentro do envelope**. Valores na condição ao nível do mar, ISA:
 
-| Estado | Massa | CG longitudinal | Margem até o limite dianteiro | Margem até o limite traseiro | CG lateral |
+| Perfil · estado | Massa | CG longitudinal | Margem dianteira | Margem traseira | CG lateral |
 |---|---|---|---|---|---|
-| Decolagem, 560 kg de combustível | 2.629 kg | 4.249 mm | 35 mm | 173 mm | 30 mm à direita (limite 100) |
-| Decolagem, tanque auxiliar com 730 kg | 2.798 kg | 4.252 mm | 30 mm | 147 mm | 28 mm à direita |
-| Fim do voo, só reserva (~52 kg) | 2.120 kg | 4.236 mm | 44 mm | 252 mm | 37 mm à direita |
+| Resgate · decolagem | 2.548 kg | 4.252 mm | 41 mm | 180 mm | 40 mm dir. |
+| Resgate · decolagem de volta | 2.369 kg | 4.243 mm | 40 mm | 212 mm | 33 mm dir. |
+| Resgate · fim (reserva) | 2.119 kg | 4.236 mm | 44 mm | 252 mm | 37 mm dir. |
+| Transferência · decolagem | 2.628 kg | 4.249 mm | 35 mm | 173 mm | 30 mm dir. |
+| Transferência · decolagem de volta | 2.288 kg | 4.246 mm | 47 mm | 220 mm | 45 mm dir. |
+| Transferência · fim (reserva) | 2.038 kg | 4.240 mm | 51 mm | 259 mm | 50 mm dir. |
+| Conservador · decolagem | 2.628 kg | 4.249 mm | 35 mm | 173 mm | 30 mm dir. |
+| Conservador · fim (reserva) | 2.119 kg | 4.236 mm | 44 mm | 252 mm | 37 mm dir. |
+| Tanque auxiliar (730 kg) · decolagem com paciente | 2.798 kg | 4.252 mm | 30 mm | 147 mm | 28 mm dir. |
 
 - **Ponto crítico**: o limite **dianteiro**, com 30–35 mm de folga. A tripulação vai na frente; o paciente e a maca ficam perto do eixo do rotor.
-- **Robustez**: como o CG vazio é ESTIMADO (4.400 mm), calculei a faixa de CG vazio em que todos os estados ficam dentro do envelope: **4.345 a 4.690 mm**. Abaixo de 4.345 mm a configuração UTI passaria do limite dianteiro.
+- **CG vazio de 4.400 mm**: aprovado como ESTIMADO. Faixa válida: a configuração UTI fica dentro do envelope em todos os estados verificados para qualquer CG vazio entre **4.345 e 4.690 mm**. Abaixo de 4.345 mm ela passaria do limite dianteiro.
 
 ![Envelope de CG](helicoptero/cg_envelope.png)
 
 ### Combustível máximo e raio de ação em cada condição Categoria A
 
-**Regra**:
-- **Combustível embarcável** = menor entre (massa máxima Cat A da condição − massa sem combustível) e a capacidade do tanque.
-- **Massa sem combustível**: 2.068,5 kg.
+**Separação dos efeitos** (decisão do aval do Passo 3):
+- A **condição de decolagem Categoria A** define **só o combustível embarcável**: o menor entre (massa máxima Cat A − massa sem combustível na decolagem) e a capacidade do tanque.
+- O **cruzeiro de todos os casos** é feito numa **condição de referência comum: ISA, 1.000 ft acima do nível do mar**. Os pousos e decolagens das pontas também usam a condição de referência.
+- Antes, o cruzeiro rodava na altitude e temperatura da decolagem: a velocidade sentia a densidade, mas o consumo não. Por isso o raio crescia com a altitude, o que era um artefato do modelo.
+- O efeito de altitude e temperatura no consumo entrou no backlog.
 
-**Missão para o raio de ação**:
+**Perfis de missão** (`mission.PROFILES`), configuração UTI padrão:
+
+| Perfil | Ida | Volta | Massa sem combustível na decolagem de origem |
+|---|---|---|---|
+| **Resgate (padrão)** | sem paciente | com paciente | 1.988,5 kg |
+| Transferência | com paciente | sem paciente | 2.068,5 kg |
+| Conservador | com paciente | com paciente | 2.068,5 kg |
+
+- A restrição Categoria A vale na **decolagem de origem**, na condição configurada.
+- No perfil Resgate, o paciente embarca na outra ponta. A decolagem de volta (2.369 kg) fica abaixo de todas as massas Cat A da tabela, mas a condição Cat A do local do resgate não é modelada.
+
+**Missão**:
 - partida e táxi: 8 kg (ESTIMADO);
 - decolagem e pouso em cada ponta: 3 min na potência de pairado cada (ESTIMADO);
-- cruzeiro a 300 m acima do heliponto, na velocidade de máximo alcance da massa atual;
-- ida e volta com o **paciente a bordo nos dois trechos** (conservador), sem vento em cruzeiro;
-- reserva VFR de **20 min** no consumo de cruzeiro, conforme [14 CFR 135.209(b)](https://www.law.cornell.edu/cfr/text/14/135.209): *"enough fuel to fly to the first point of intended landing and, assuming normal cruising fuel consumption, to fly after that for at least 20 minutes"*. O RBAC 135 da ANAC tem requisito correspondente, que não conferi.
+- cruzeiro na velocidade de máximo alcance da massa atual (91,5 kt na referência), sem vento;
+- **reserva final de 20 min no consumo normal de cruzeiro**, pela [RBAC 91.151(b)](https://pergamum.anac.gov.br/pergamum/vinculos/RBAC91EMD08.pdf) da ANAC (Emenda 08): *"Somente é permitido começar um voo VFR em um helicóptero se, considerando vento e condições meteorológicas conhecidas, houver combustível e óleo suficiente para voar até o local previsto para primeiro pouso e, assumindo consumo normal de cruzeiro, voar mais, pelo menos, 20 minutos."*
+- **Comparação**: a [14 CFR 135.209(b)](https://www.law.cornell.edu/cfr/text/14/135.209) da FAA pede os mesmos 20 min.
+- **Lacuna**: a RBAC 135 (Emenda 15) tem a seção "135.209 Autonomia para voo VFR" no índice, mas não consegui ler o texto dela. Se ela exigir mais que a RBAC 91 para operadores 135, o valor deve ser revisto.
 
-| Condição de decolagem | Massa máx. Cat A (29.60) | Combustível (tanque padrão) | Limitado por | Raio de ação | Tempo de voo | Com tanque auxiliar (730 kg) |
-|---|---|---|---|---|---|---|
-| nível do mar, ISA | 2.980 kg | 560 kg | tanque | **140 NM (260 km)** | 2 h 58 min | 193 NM, 730 kg (tanque) |
-| nível do mar, ISA+20 | 2.931 kg | 560 kg | tanque | **144 NM (266 km)** | 2 h 58 min | 198 NM, 730 kg (tanque) |
-| 1.000 m, ISA+20 | 2.761 kg | 560 kg | tanque | **149 NM (276 km)** | 2 h 58 min | 193 NM, 692 kg (massa Cat A) |
-| 1.500 m, ISA+25 | 2.614 kg | **546 kg** | **massa Cat A** | **148 NM (275 km)** | 2 h 53 min | 148 NM, 546 kg (massa Cat A) |
-| 1.500 m, ISA+25, proa 8 m/s | 2.809 kg | 560 kg | tanque | **153 NM (283 km)** | 2 h 58 min | 210 NM, 730 kg (tanque) |
+**Raio de ação, tanque padrão (560 kg)**. A massa Cat A aparece como faixa G 1,15–1,26; o raio entre parênteses é o do limite inferior quando difere.
 
-- **Tanque padrão**: só na condição mais quente e alta (1.500 m, ISA+25, sem vento) a massa Categoria A limita o combustível (14 kg a menos). Nas outras, o limite é o tanque: a configuração UTI pesa 2.629 kg com tanque cheio, abaixo das massas Cat A.
-- **Tanque auxiliar** (730 kg, folheto Airbus): a massa Cat A passa a limitar também a 1.000 m ISA+20.
-  - A 1.500 m ISA+25 sem vento, o tanque auxiliar **não acrescenta nada**: 148 NM nos dois casos.
-  - O vento de proa de 8 m/s na decolagem libera o tanque cheio (210 NM).
-- **Por que o raio cresce em altitude**: o cruzeiro a 1.500 m ISA+25 é feito em ar menos denso, onde a velocidade verdadeira de máximo alcance é maior (99 kt contra 91 kt ao nível do mar).
-  - O modelo de consumo não tem efeito de altitude e temperatura, e isso deve deixar esses raios **otimistas** em altitude.
-  - O raio também não considera vento em cruzeiro.
+| Condição de decolagem | Massa máx. Cat A (G 1,15–1,26) | Resgate (padrão) | Transferência | Conservador |
+|---|---|---|---|---|
+| nível do mar, ISA | 2.980 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
+| nível do mar, ISA+20 | 2.907–2.931 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
+| 1.000 m, ISA+20 | 2.736–2.761 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
+| 1.500 m, ISA+25 | 2.590–2.614 kg | 141 NM · 560 kg (tanque) | **137 NM** (129) · 546 kg (massa Cat A) | **136 NM** (129) · 546 kg (massa Cat A) |
+| 1.500 m, ISA+25, proa 8 m/s | 2.761–2.809 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
+
+- Tempo de voo de ~2 h 59 min; reserva de ~50 kg.
+- **Com o cruzeiro em condição comum, o raio só muda quando a massa Cat A limita o combustível.** Isso só acontece a 1.500 m ISA+25 sem vento, nos perfis que saem com o paciente.
+  - Com G = 1,15, nesses dois perfis, embarcam 522 kg e o raio cai para 129 NM.
+  - No Resgate, a origem sai 80 kg mais leve e leva o tanque cheio.
+- **O efeito do paciente (80 kg) sobre o raio é pequeno**, de 0,3 NM entre Resgate e Conservador. Ele aparece de verdade quando a massa Cat A limita o combustível.
+- **Com tanque auxiliar** (730 kg, folheto Airbus): Resgate, 192 NM em todas as condições menos 1.500 m ISA+25 sem vento (626 kg, limitado pela massa Cat A, 161 NM). Transferência e Conservador: 192 NM ao nível do mar e com vento de proa; 180 NM a 1.000 m ISA+20 (692 kg); 136–137 NM a 1.500 m ISA+25 (546 kg).
 
 ![Raio de ação × condição de decolagem](helicoptero/raio_acao.png)
 
@@ -634,26 +663,29 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 
 - **Posições**: CG vazio, tanque e posição de todos os itens.
 - **Massas**: dos equipamentos (exceto ventilador e monitor), da maca e do interior, do paciente.
-- **Missão**: táxi, tempo de decolagem/pouso e altura de cruzeiro.
+- **Missão**: táxi e tempo de decolagem/pouso. A condição de referência do cruzeiro (ISA, 1.000 ft) é uma decisão de projeto do aval, não um dado.
+- **Consumo**: forma da linha de Willans (40 % em potência zero).
 - **Envelope de CG**: forma linear entre os pontos publicados do TCDS.
 
-### Validação (Passo 3): `tests/test_helicopter_mission.py`, 5 testes
+### Validação (Passo 3): `tests/test_helicopter_mission.py`, 8 testes
 
 | Teste | Critério |
 |---|---|
-| Modelo de consumo | reproduz 3,6 h e 342 NM publicados (±0,05 h, ±4 NM) |
+| Modelo de consumo | autonomia e alcance publicados dentro de ±3 % |
+| Alcance específico | cai com a massa (300 kg a mais → menos NM por kg) |
 | Orçamento e envelope | soma das massas; CG dentro com 0, 50 e 560 kg; pontos do TCDS reproduzidos |
 | Fontes dos itens FONTE | todos com link |
-| Combustível limitado pela massa Cat A | combustível = massa Cat A − massa sem combustível; raio cresce com o combustível; CG dentro |
-| Reserva | 20 min (135.209(b)); raio positivo |
+| Combustível limitado pela massa Cat A | combustível = massa Cat A − massa sem combustível; raio cresce com o combustível; CG dentro nos três estados |
+| Cruzeiro comum | o mesmo combustível dá o mesmo raio em condições de decolagem diferentes |
+| Perfis | Conservador ≤ Resgate e Transferência; troca de carga no sentido certo |
+| Reserva | 20 min (RBAC 91.151(b) / 14 CFR 135.209(b)); raio positivo |
 
 ### Decisões que precisam do seu aval
 
-1. **Modelo de consumo**: substituir o consumo constante (que superestimava a autonomia em 53 %) pela linha de Willans calibrada na autonomia e no alcance publicados, sob as hipóteses acima.
-2. **Ganho do duto**: a variação de 1,9 % ficou abaixo do limite de 2 %, então mantive G = 1,26 como padrão, como manda a regra. Mas o resultado está dentro da resolução da bisseção. Se preferir conservadorismo, G = 1,15 reduz as massas em 0,8–1,7 % (entre 24 e 49 kg).
-3. **Paciente a bordo nos dois trechos** (conservador) e tanque auxiliar como segunda série. Alternativa: ida sem paciente (resgate) ou volta sem paciente (transferência).
-4. **CG vazio estimado em 4.400 mm**: a configuração fica a 30–35 mm do limite dianteiro. Se houver acesso à pesagem real, esse é o primeiro número a substituir.
-5. **Modelo 3D do interior**: neste passo entreguei a planta 2D (vista de cima). O modelo 3D genérico do interior entra na cena do Passo 4.
+1. **Forma da linha de Willans**: fração de 40 % em potência zero (ESTIMADO), no lugar do ajuste exato de dois coeficientes, que dava alcance específico crescendo com a massa. Erros de ±2,6 % contra a autonomia e o alcance publicados.
+2. **Cruzeiro de referência**: os pousos e decolagens das pontas também foram para a condição de referência, junto com o cruzeiro. Alternativa: fazer a decolagem de origem na condição Cat A (efeito de ~1 kg de combustível).
+3. **Reserva**: RBAC 91.151(b) (20 min) como padrão. O texto da RBAC 135.209 não pôde ser lido; ver a lacuna acima.
+4. **Perfil Resgate**: a decolagem de volta, com o paciente, não é verificada contra uma condição Cat A do local do resgate.
 
 ## Base de certificação: por que usar os §§ 29.59, 29.60, 29.67 e 29.87 numa aeronave classe H135
 
@@ -670,7 +702,8 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 
 - **Disclaimer** sempre visível.
 - **Categoria A**:
-  - **padrão**: modo heliponto elevado ([14 CFR 29.60](https://www.ecfr.gov/current/title-14/section-29.60)), com a massa máxima Cat A da configuração;
+  - **padrão**: modo heliponto elevado ([14 CFR 29.60](https://www.ecfr.gov/current/title-14/section-29.60)), com a massa máxima Cat A da configuração **como faixa**: de G = 1,15 (duto conservador) a G = 1,26 (padrão);
+  - **missão**: perfil (Resgate, Transferência ou Conservador), combustível embarcável e raio de ação, indicando se o limite é o tanque ou a massa Cat A;
   - **comparação**: massa no modo literal ([29.59(c)](https://www.ecfr.gov/current/title-14/section-29.59)), exibida ao lado;
   - **profundidade máxima da descida abaixo do nível do deck**, que o 29.60(a)(3) exige determinar (`max_drop_below_deck_m`);
   - também: ramo e ação recomendada pelo SADPF, cronômetro OEI (30 s → 2 min), margens de potência OEI e perda máxima de altura.
@@ -679,6 +712,7 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 
 ## Backlog (depois do Passo 4)
 
+- **Efeito de altitude e temperatura no consumo**: hoje a linha de Willans não depende da densidade nem da temperatura. Por isso o cruzeiro do raio de ação é feito numa condição de referência comum (ISA, 1.000 ft).
 - **Flare com coordenação cíclico/coletivo**: a varredura do Passo 2 não atingiu toque ≤ 1,5 m/s e ≤ 15 kt (melhor: 1,44 m/s e 27,5 kt). Caminho provável: comandar cíclico e coletivo de forma coordenada no flare, por exemplo com otimização de trajetória.
 
 ## Limitações conhecidas (não implementadas)
@@ -741,6 +775,7 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 | Potência de acessórios | 10 | kW | **ESTIMADO** | classe H135 (estimativa do modelo) | geradores, bombas, ar-condicionado médico |
 | Autonomia máxima com tanque padrão (3 h 36 min; condições não informadas) | 3,6 | h | **FONTE** | H135 (dados Airbus) | [link](https://www.airbus.com/en/products-services/helicopters/civil-helicopters/h135/h135-technical-information) |
 | Alcance máximo com tanque padrão (633 km; condições não informadas) | 342 | NM | **FONTE** | H135 (dados Airbus) | [link](https://www.airbus.com/en/products-services/helicopters/civil-helicopters/h135/h135-technical-information) |
+| Fração do consumo em potência zero (linha de Willans) | 0,4 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | fração do consumo AEO na potência máxima contínua que a linha de Willans tem em potência zero; 0,4 é o maior valor testado (0,2–0,4) em que o alcance específico ainda cai com a massa, e o que menos erra a autonomia e o alcance publicados |
 | Download | 0,03 | - | **ESTIMADO** | classe H135 (estimativa do modelo) | arrasto vertical da fuselagem na esteira, típico 2–5 % |
 | Área de arrasto lateral | 5 | m² | **ESTIMADO** | classe H135 (estimativa do modelo) | área lateral da fuselagem × Cd |
 | Área de arrasto vertical | 6 | m² | **ESTIMADO** | classe H135 (estimativa do modelo) | área em planta da fuselagem × Cd |

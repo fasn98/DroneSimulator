@@ -24,8 +24,12 @@ Todas as URLs foram abertas e conferidas em 04/10/2026. Valores sem fonte públi
 | EASA AMC2 CAT.POL.MAB.100(d) (Regulatory Library da UK CAA, versão retida do Reg. UE 965/2012) | "85 kg for flight crew/technical crew members" | https://regulatorylibrary.caa.co.uk/965-2012/Content/Document%20Structure/04%20CAT/3%20AMC/AMC2%20CAT%20POL%20MAB%20100%20d%20Mass.htm |
 | Hamilton Medical — HAMILTON-T1 | ventilador de transporte, 6,5 kg (unidade de ventilação) | https://www.hamilton-medical.com/en_US/Products/Mechanical-ventilators/HAMILTON-T1.html |
 | ZOLL — X Series | monitor/desfibrilador, "less than 5.5 kilograms" | https://www.zoll.com/en-gb/products/defibrillators/x-series-for-hospital |
-| Portaria GM/MS nº 2.048/2002 | lista de equipamentos da aeronave de transporte médico de asa rotativa (vigência a conferir) | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html |
-| 14 CFR 135.209(b) (texto via LII/Cornell; o eCFR recusou a conexão) | reserva VFR de helicóptero: 20 min no consumo normal de cruzeiro | https://www.law.cornell.edu/cfr/text/14/135.209 |
+| Portaria GM/MS nº 2.048/2002 (vigente como ato próprio; ver abaixo) | lista de equipamentos da aeronave de transporte médico de asa rotativa | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html |
+| ANAC — RBAC nº 91, Emenda 08 (02/10/2026), 91.151(b) | **reserva padrão**: helicóptero VFR, combustível até o primeiro pouso previsto + 20 min no consumo normal de cruzeiro (texto citado em docs/helicoptero-uti.md) | https://pergamum.anac.gov.br/pergamum/vinculos/RBAC91EMD08.pdf |
+| ANAC — RBAC nº 135, Emenda 15 (vigência 09/01/2026) | a seção "135.209 Autonomia para voo VFR" consta do índice, mas o texto não pôde ser lido: **lacuna** | https://pergamum.anac.gov.br/arquivos/RBAC135EMD15.pdf |
+| 14 CFR 135.209(b) (texto via LII/Cornell; o eCFR recusou a conexão) | comparação: reserva VFR de helicóptero de 20 min no consumo normal de cruzeiro | https://www.law.cornell.edu/cfr/text/14/135.209 |
+| Ministério da Saúde — SAMU 192, legislação | Portaria nº 2.048/2002 listada como ato próprio, ao lado das Portarias de Consolidação nº 3 e nº 6/2017 (conferido em 04/10/2026) | https://www.gov.br/saude/pt-br/composicao/saes/samu-192/legislacao |
+| Ministério da Saúde — matriz da Portaria de Consolidação nº 3/2017 | não inclui a Portaria 2.048/2002 entre as normas consolidadas | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2017/MatrizesConsolidacao/Matriz-3-Redes.html |
 
 ## Teoria e critérios
 
@@ -57,4 +61,4 @@ Os itens do 14 CFR e do CAT.POL.H.205 abaixo foram usados como **critérios do m
 | RBAC 135 (operações complementares e por demanda) | https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac/rbac-135 |
 | Portaria GM/MS nº 2.048/2002 (inclui a aeronave de transporte médico; item 3.5.1 trata dos equipamentos de asa rotativa) | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html |
 
-**Observação:** não verifiquei se a Portaria 2.048/2002 foi incorporada à Portaria de Consolidação nº 3/2017. Isso precisa ser conferido antes de citá-la como vigente.
+**Observação:** a Portaria 2.048/2002 continua vigente como ato próprio (ver as duas fontes do Ministério da Saúde na seção do Passo 3); não conferi as matrizes das Portarias de Consolidação além da nº 3.

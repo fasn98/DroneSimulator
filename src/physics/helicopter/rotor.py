@@ -264,24 +264,34 @@ def _fuel_mission(p: HeliParams, idle: float, marg: float, speed: str, fuel_kg: 
 
 
 def calibrate_fuel_flow(p: HeliParams, endurance_h: float | None = None, range_nm: float | None = None,
-                        fuel_kg: float | None = None) -> tuple:
-    """Willans-line fuel flow (idle flow per engine kg/h, marginal SFC kg/kWh) such that the model reproduces the
-    published endurance (at the best-endurance speed) and range (at the best-range speed) with the standard fuel,
-    from MTOW, ISA sea level, no reserve. The published conditions are not stated: these are assumptions, and the
-    result is CALIBRADO."""
+                        fuel_kg: float | None = None, idle_share: float | None = None) -> tuple:
+    """Willans-line fuel flow: per running engine a constant flow plus a marginal SFC times the power.
+
+    The share of the zero-power flow in the AEO max-continuous flow is fixed (ESTIMADO, see params) and the scale
+    is CALIBRADO by least squares on the published endurance (at the best-endurance speed) and range (at the
+    best-range speed) with the standard fuel, from MTOW, ISA sea level, no reserve (assumed conditions).
+    Fitting both coefficients to the two published numbers is ill-conditioned (the two speeds need similar power)
+    and gives a specific range that grows with mass, which is unphysical; hence the fixed share.
+    Returns (idle flow per engine kg/h, marginal SFC kg/kWh)."""
     from dataclasses import replace
-    from scipy.optimize import fsolve
+    from scipy.optimize import minimize_scalar
     from .params import v as table_value
     e = endurance_h or table_value("endurance_std")
     r = range_nm or table_value("range_std")
     fuel = fuel_kg or table_value("fuel_capacity")
+    share = table_value("ff_idle_share") if idle_share is None else idle_share
     p = replace(p, mass=table_value("mtow"), fuel=fuel)  # the published figures are taken at MTOW
+    p_mcp = p.gearbox_limit_kw("MCP")
 
-    def res(x):
-        idle, marg = x
-        return [_fuel_mission(p, idle, marg, "be", fuel, dm=20.0)[0] - e,
-                _fuel_mission(p, idle, marg, "br", fuel, dm=20.0)[1] - r]
-    idle, marg = fsolve(res, [40.0, 0.25], xtol=1e-6)
+    def coef(b):  # 2 a = share (2 a + b P_mcp)
+        return share * b * p_mcp / (2.0 * (1.0 - share)), b
+
+    def err(b):
+        a, b = coef(b)
+        return ((_fuel_mission(p, a, b, "be", fuel, dm=20.0)[0] / e - 1.0) ** 2
+                + (_fuel_mission(p, a, b, "br", fuel, dm=20.0)[1] / r - 1.0) ** 2)
+    b = minimize_scalar(err, bounds=(0.05, 0.8), method="bounded", options={"xatol": 1e-5}).x
+    idle, marg = coef(b)
     return float(idle), float(marg)
 
 

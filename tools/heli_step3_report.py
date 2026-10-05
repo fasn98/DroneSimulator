@@ -19,7 +19,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.physics.helicopter import HeliParams, calibrate_drag_area  # noqa: E402
 from src.physics.helicopter.isa import HeliAtmosphere  # noqa: E402
-from src.physics.helicopter.mission import (EMPTY_MASS, FUEL_CAPACITY_AUX_KG, FUEL_CAPACITY_KG,  # noqa: E402
+from src.physics.helicopter.mission import (EMPTY_MASS, FUEL_CAPACITY_AUX_KG, FUEL_CAPACITY_KG, PROFILE_LABELS,  # noqa: E402
+                                            PROFILES,
                                             FUEL_STA_MM, Loading, catA_fuel_and_radius, cg_limits)
 from src.physics.helicopter.rotor import fuel_flow_params  # noqa: E402
 
@@ -48,22 +49,33 @@ def main():
         b = json.load(f)
     masses = {(r["elevation_m"], r["delta_t"], r["headwind_ms"]): r["mass_kg"] for r in b["cat_a_max_mass"]
               if r["criterion"] == "elevado_29_60"}
+    with open(os.path.join(OUT, "sensibilidade_antitorque.json"), encoding="utf-8") as f:
+        sens = json.load(f)
+    masses_lo = {(r["elevation_m"], r["delta_t"], r["headwind_ms"]): r["mass_kg"] for r in sens["duct_gain_cat_a"]
+                 if abs(r["duct_gain"] - 1.15) < 1e-9}
     p = HeliParams()
     p.f_drag = calibrate_drag_area(p)
     p.ff_idle_kgh, p.sfc_marginal = fuel_flow_params(p)
     loading = Loading()
-    rows, rows_aux = [], []
+    rows = []  # one row per condition, every profile and tank, G = 1.26 (default) and the 1.15 lower bound
     for c in CONDS:
-        atm = HeliAtmosphere(elevation_m=c[0], delta_t=c[1])  # cruise with no wind
-        r = catA_fuel_and_radius(masses[c], atm, loading, replace(p))
-        rows.append({"condition": label(c), "elevation_m": c[0], "delta_t": c[1], "headwind_ms": c[2], **r})
-        ra = catA_fuel_and_radius(masses[c], atm, loading, replace(p), FUEL_CAPACITY_AUX_KG)
-        rows_aux.append({"condition": label(c), "elevation_m": c[0], "delta_t": c[1], "headwind_ms": c[2], **ra})
+        row = {"condition": label(c), "elevation_m": c[0], "delta_t": c[1], "headwind_ms": c[2],
+               "cat_a_mass_kg": masses[c], "cat_a_mass_g115_kg": masses_lo[c], "profiles": {}}
+        for prof in PROFILES:
+            r = catA_fuel_and_radius(masses[c], prof, replace(p))
+            lo = catA_fuel_and_radius(masses_lo[c], prof, replace(p))
+            aux = catA_fuel_and_radius(masses[c], prof, replace(p), FUEL_CAPACITY_AUX_KG)
+            row["profiles"][prof] = {**r, "radius_nm_g115": lo["radius_nm"], "fuel_kg_g115": lo["fuel_kg"],
+                                     "aux_tank": {k: aux[k] for k in ("fuel_kg", "fuel_limited_by", "radius_nm",
+                                                                      "takeoff_mass_kg")},
+                                     "aux_cg_takeoff": aux["cg_takeoff"]}
+        rows.append(row)
     res = {"fuel_model": {"ff_idle_kgh_per_engine": p.ff_idle_kgh, "sfc_marginal_kg_kwh": p.sfc_marginal},
+           "cruise_reference": {"atmosphere": "ISA", "altitude_ft": 1000},
            "zero_fuel_mass_kg": loading.zero_fuel_mass,
            "items": [vars(i) for i in loading.items],
            "empty_cg_range_mm": loading.empty_cg_range([0.0, 50.0, FUEL_CAPACITY_KG]),
-           "conditions": rows, "conditions_aux_tank": rows_aux}
+           "conditions": rows}
     with open(os.path.join(OUT, "passo3_resultados.json"), "w", encoding="utf-8") as f:
         json.dump(res, f, ensure_ascii=False, indent=1, default=float)
 
@@ -74,30 +86,41 @@ def main():
                          "text.color": INK, "axes.facecolor": SURF, "figure.facecolor": SURF})
     disclaimer = "Simulador conceitual e educacional. Não é um simulador certificado (FSTD) nem substitui dados do fabricante."
 
-    # radius of action x take-off condition: two series (standard tank, with auxiliary tank)
-    fig, ax = plt.subplots(figsize=(10, 4.8), dpi=150)
+    # radius of action x take-off condition: three mission profiles (standard tank); the error bar is the
+    # radius with the Cat A mass of the conservative duct gain G = 1.15
+    S3 = "#1baf7a"
+    fig, ax = plt.subplots(figsize=(10.5, 5.4), dpi=150)
     y = np.arange(len(rows))[::-1] * 1.0
-    hgt = 0.36
-    for k, (rr, col, lab) in enumerate(((rows, S1, f"tanque padrão ({FUEL_CAPACITY_KG:.0f} kg)"),
-                                        (rows_aux, S2, f"com tanque auxiliar ({FUEL_CAPACITY_AUX_KG:.0f} kg)"))):
-        yy = y + (0.2 if k == 0 else -0.2)
-        ax.barh(yy, [r["radius_nm"] or 0 for r in rr], height=hgt, color=col, label=lab)
-        for yi, r in zip(yy, rr):
-            ax.text((r["radius_nm"] or 0) + 2, yi, f"{r['radius_nm']:.0f} NM · {r['fuel_kg']:.0f} kg "
-                    f"({r['fuel_limited_by']})", va="center", fontsize=7, color=INK2)
+    hgt = 0.26
+    for k, (prof, col) in enumerate(zip(PROFILES, (S1, S2, S3))):
+        yy = y + (1 - k) * 0.28
+        vals = [r["profiles"][prof]["radius_nm"] or 0 for r in rows]
+        los = [r["profiles"][prof]["radius_nm_g115"] or 0 for r in rows]
+        ax.barh(yy, vals, height=hgt, color=col, label=PROFILE_LABELS[prof])
+        for yi, v, lo, r in zip(yy, vals, los, rows):
+            if lo < v - 0.05:
+                ax.plot([lo, v], [yi, yi], color=INK, lw=1.2)
+                ax.plot([lo, lo], [yi - 0.08, yi + 0.08], color=INK, lw=1.2)
+            pr = r["profiles"][prof]
+            txt = f"{v:.0f} NM · {pr['fuel_kg']:.0f} kg ({pr['fuel_limited_by']})"
+            if lo < v - 0.05:
+                txt += f" · {lo:.0f} NM com G = 1,15"
+            ax.text(v + 2, yi, txt, va="center", fontsize=6.5, color=INK2)
     for yi, r in zip(y, rows):
-        ax.text(-3, yi, f"{r['condition']}\nmassa Cat A {r['cat_a_mass_kg']:.0f} kg", va="center", ha="right",
-                fontsize=7.5, color=INK)
+        mm = (f"{r['cat_a_mass_kg']:.0f}" if abs(r['cat_a_mass_kg'] - r['cat_a_mass_g115_kg']) < 1
+              else f"{r['cat_a_mass_g115_kg']:.0f}–{r['cat_a_mass_kg']:.0f}")
+        ax.text(-3, yi, f"{r['condition']}\nmassa Cat A {mm} kg",
+                va="center", ha="right", fontsize=7.5, color=INK)
     ax.set_yticks([])
-    ax.set_xlim(0, max(r["radius_nm"] for r in rows_aux) * 1.45)
-    ax.set_xlabel("raio de ação, ida e volta, com reserva VFR de 20 min (NM)")
-    ax.set_title("Configuração UTI padrão: raio de ação × condição de decolagem Categoria A (14 CFR 29.60)",
+    ax.set_xlim(0, 240)
+    ax.set_xlabel("raio de ação, ida e volta, reserva VFR de 20 min (RBAC 91.151(b)), cruzeiro em ISA a 1.000 ft (NM)")
+    ax.set_title("Configuração UTI padrão, tanque padrão: raio de ação × condição de decolagem Categoria A (29.60)",
                  fontsize=9.5, loc="left")
     ax.grid(axis="x", color=GRID, lw=0.8)
     ax.set_axisbelow(True)
     for s_ in ("top", "right", "left"):
         ax.spines[s_].set_visible(False)
-    ax.legend(fontsize=7.5, loc="upper right", frameon=False)
+    ax.legend(fontsize=7.5, loc="upper center", bbox_to_anchor=(0.45, -0.13), ncol=3, frameon=False)
     fig.text(0.01, 0.01, disclaimer, fontsize=6, color=INK2)
     fig.tight_layout(rect=(0.2, 0.03, 1, 1))
     fig.savefig(os.path.join(OUT, "raio_acao.png"))
@@ -111,19 +134,19 @@ def main():
     ax.plot(fwd, ms, color=INK2, lw=1.2)
     ax.plot(aft, ms, color=INK2, lw=1.2)
     ax.text(4200, 3120, "envelope TCDS R.009 (EC135 T3H)", fontsize=7, color=INK2)
-    for r in rows:
-        a, z = r["cg_takeoff"], r["cg_reserve_only"]
-        ax.plot([a["sta_mm"], z["sta_mm"]], [a["mass_kg"], z["mass_kg"]], color=INK2, lw=0.8, ls=":")
-    ax.scatter([r["cg_takeoff"]["sta_mm"] for r in rows], [r["cg_takeoff"]["mass_kg"] for r in rows], s=40, color=S1,
-               label="decolagem (combustível máximo da condição)", zorder=3)
-    ax.scatter([r["cg_takeoff"]["sta_mm"] for r in rows_aux], [r["cg_takeoff"]["mass_kg"] for r in rows_aux], s=40,
-               facecolors="none", edgecolors=S1, label="decolagem com tanque auxiliar", zorder=3)
-    ax.scatter([r["cg_reserve_only"]["sta_mm"] for r in rows], [r["cg_reserve_only"]["mass_kg"] for r in rows], s=40,
-               color=S2, marker="s", label="fim do voo (só a reserva de 20 min)", zorder=3)
+    for prof, mk in (("resgate", "o"), ("transferencia", "^"), ("conservador", "D")):
+        st = [r["profiles"][prof] for r in rows]
+        ax.scatter([q["cg_takeoff"]["sta_mm"] for q in st], [q["cg_takeoff"]["mass_kg"] for q in st], s=34, color=S1,
+                   marker=mk, label=f"{PROFILE_LABELS[prof].split(' (')[0]}: decolagem", zorder=3)
+        ax.scatter([q["cg_return_takeoff"]["sta_mm"] for q in st], [q["cg_return_takeoff"]["mass_kg"] for q in st],
+                   s=34, facecolors="none", edgecolors=S1, marker=mk, zorder=3,
+                   label=f"{PROFILE_LABELS[prof].split(' (')[0]}: decolagem de volta")
+        ax.scatter([q["cg_reserve_only"]["sta_mm"] for q in st], [q["cg_reserve_only"]["mass_kg"] for q in st], s=34,
+                   color=S2, marker=mk, zorder=3, label=f"{PROFILE_LABELS[prof].split(' (')[0]}: fim (só reserva)")
     ax.set_xlabel("CG longitudinal (mm atrás do plano de referência, STA)")
     ax.set_ylabel("massa (kg)")
     ax.set_title("CG da configuração UTI nas 5 condições Cat A", fontsize=9.5, loc="left")
-    ax.legend(fontsize=7.5, loc="lower right", frameon=False)
+    ax.legend(fontsize=6.5, loc="lower right", frameon=False, ncol=1)
     ax.grid(color=GRID, lw=0.6)
     fig.text(0.01, 0.01, disclaimer, fontsize=6, color=INK2)
     fig.tight_layout(rect=(0, 0.03, 1, 1))

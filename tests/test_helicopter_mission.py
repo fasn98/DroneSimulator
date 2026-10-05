@@ -5,10 +5,10 @@ Passo 3 validation: UTI interior, mass and balance, fuel model and radius of act
 import unittest
 
 from src.physics.helicopter import HeliParams, calibrate_drag_area
-from src.physics.helicopter.isa import HeliAtmosphere
-from src.physics.helicopter.mission import (EQUIPMENT, FUEL_CAPACITY_KG, RESERVE_MIN, Loading, catA_fuel_and_radius,
-                                            cg_limits, radius_of_action)
-from src.physics.helicopter.rotor import _fuel_mission, fuel_flow_params
+from src.physics.helicopter.mission import (EQUIPMENT, FUEL_CAPACITY_KG, KT, PROFILES, REF_ATM, REF_CRUISE_ALT_M,
+                                            RESERVE_MIN, Loading, catA_fuel_and_radius, cg_limits, fuel_flow_kg_s,
+                                            loading_for, radius_of_action)
+from src.physics.helicopter.rotor import _fuel_mission, best_speeds, fuel_flow_params, level_flight
 
 
 def params():
@@ -19,12 +19,21 @@ def params():
 
 
 class TestFuelModel(unittest.TestCase):
-    def test_reproduces_published_endurance_and_range(self):
+    def test_close_to_published_endurance_and_range(self):
         p = params()
-        self.assertAlmostEqual(_fuel_mission(p, p.ff_idle_kgh, p.sfc_marginal, "be", 560.0)[0], 3.6, delta=0.05)
-        self.assertAlmostEqual(_fuel_mission(p, p.ff_idle_kgh, p.sfc_marginal, "br", 560.0)[1], 342.0, delta=4.0)
-        self.assertGreater(p.ff_idle_kgh, 0.0)
-        self.assertGreater(p.sfc_marginal, 0.0)
+        self.assertAlmostEqual(_fuel_mission(p, p.ff_idle_kgh, p.sfc_marginal, "be", 560.0)[0] / 3.6, 1.0, delta=0.03)
+        self.assertAlmostEqual(_fuel_mission(p, p.ff_idle_kgh, p.sfc_marginal, "br", 560.0)[1] / 342.0, 1.0,
+                               delta=0.03)
+
+    def test_specific_range_falls_with_mass(self):
+        p = params()
+        rho = REF_ATM.density(REF_CRUISE_ALT_M)
+        sr = []
+        for m in (2100.0, 2500.0, 2900.0):
+            v = best_speeds(p, rho, m)["v_br_kt"] * KT
+            sr.append(v / fuel_flow_kg_s(p, level_flight(p, v, rho, m).p_engines))
+        self.assertGreater(sr[0], sr[1])
+        self.assertGreater(sr[1], sr[2])
 
 
 class TestMassAndBalance(unittest.TestCase):
@@ -47,19 +56,34 @@ class TestMassAndBalance(unittest.TestCase):
 class TestRadius(unittest.TestCase):
     def test_fuel_limited_by_cat_a_mass(self):
         p = params()
-        L = Loading()
-        r = catA_fuel_and_radius(L.zero_fuel_mass + 300.0, HeliAtmosphere(), L, p)
+        zfm = loading_for(True).zero_fuel_mass
+        r = catA_fuel_and_radius(zfm + 300.0, "conservador", p)
         self.assertAlmostEqual(r["fuel_kg"], 300.0)
         self.assertEqual(r["fuel_limited_by"], "massa Cat A")
-        full = catA_fuel_and_radius(2980.0, HeliAtmosphere(), L, p)
+        full = catA_fuel_and_radius(2980.0, "conservador", p)
         self.assertEqual(full["fuel_limited_by"], "tanque")
         self.assertGreater(full["radius_nm"], r["radius_nm"])
-        self.assertTrue(full["cg_takeoff"]["inside"] and full["cg_reserve_only"]["inside"])
+        for k in ("cg_takeoff", "cg_return_takeoff", "cg_reserve_only"):
+            self.assertTrue(full[k]["inside"], k)
+
+    def test_cruise_condition_is_common(self):
+        # the take-off condition only sets the fuel: same fuel -> same radius whatever the condition
+        p = params()
+        a = catA_fuel_and_radius(2980.0, "resgate", p)
+        b = catA_fuel_and_radius(2809.0, "resgate", p)  # tank-limited too
+        self.assertAlmostEqual(a["radius_nm"], b["radius_nm"], delta=0.01)
+
+    def test_profiles(self):
+        p = params()
+        r = {k: catA_fuel_and_radius(2980.0, k, p) for k in PROFILES}
+        self.assertLessEqual(r["conservador"]["radius_nm"], r["resgate"]["radius_nm"])
+        self.assertLessEqual(r["conservador"]["radius_nm"], r["transferencia"]["radius_nm"])
+        self.assertLess(r["resgate"]["zero_fuel_mass_out_kg"], r["resgate"]["zero_fuel_mass_back_kg"])
+        self.assertGreater(r["transferencia"]["zero_fuel_mass_out_kg"], r["transferencia"]["zero_fuel_mass_back_kg"])
 
     def test_reserve_is_20_min(self):
-        self.assertEqual(RESERVE_MIN, 20.0)  # 14 CFR 135.209(b)
-        p = params()
-        r = radius_of_action(400.0, Loading().zero_fuel_mass, HeliAtmosphere(), p)
+        self.assertEqual(RESERVE_MIN, 20.0)  # RBAC 91.151(b); 14 CFR 135.209(b)
+        r = radius_of_action(400.0, Loading().zero_fuel_mass, p=params())
         self.assertGreater(r.reserve_kg, 0.0)
         self.assertGreater(r.radius_nm, 0.0)
 

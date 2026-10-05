@@ -10,7 +10,7 @@
     "min_nr_pct": 97.06,
     "safe": true,
     "reason": "ok",
-    "max_height_loss_m": 11.27,
+    "max_height_loss_m": 11.274,
     "oei30_used_s": 30.0,
     "mass_kg": 2614.375,
     "sadpf": {
@@ -19,14 +19,14 @@
      "message": "ABORTAR: falha antes do TDP — pousar no heliponto com potência OEI",
      "detection_delay_s": 0.69
     },
-    "action_skid_h_m": 11.206,
-    "detect_skid_h_m": 10.369,
-    "fail_skid_h_m": 9.005,
+    "action_skid_h_m": 11.208,
+    "detect_skid_h_m": 10.37,
+    "fail_skid_h_m": 9.006,
     "phases": [
      {
       "t": 11.42,
       "phase": "reject",
-      "skid_h": 11.206
+      "skid_h": 11.208
      },
      {
       "t": 16.295,
@@ -40,17 +40,17 @@
    "continue": {
     "branch": "continue",
     "criterion": "elevado_29_60",
-    "min_height_over_deck_m": 10.347,
-    "min_agl_beyond_m": 24.012,
-    "min_height_rel_deck_m": -5.988,
+    "min_height_over_deck_m": 10.355,
+    "min_agl_beyond_m": 24.036,
+    "min_height_rel_deck_m": -5.964,
     "reached_vtoss": true,
     "touched_down": false,
-    "oei_roc_at_vtoss_fpm": 127.0805973191246,
+    "oei_roc_at_vtoss_fpm": 128.1324164402929,
     "vtoss_kt": 25.0,
-    "max_drop_below_deck_m": 5.988,
+    "max_drop_below_deck_m": 5.964,
     "safe": true,
     "reason": "ok",
-    "max_height_loss_m": 21.232,
+    "max_height_loss_m": 21.212,
     "oei30_used_s": 30.0,
     "mass_kg": 2614.375,
     "sadpf": {
@@ -59,19 +59,19 @@
      "message": "PROSSEGUIR: falha após o TDP — baixar o nariz, acelerar até VTOSS com OEI 30 s",
      "detection_delay_s": 0.69
     },
-    "action_skid_h_m": 15.237,
-    "detect_skid_h_m": 14.429,
-    "fail_skid_h_m": 13.078,
+    "action_skid_h_m": 15.241,
+    "detect_skid_h_m": 14.432,
+    "fail_skid_h_m": 13.081,
     "phases": [
      {
       "t": 11.11,
       "phase": "tdp",
-      "skid_h": 12.001
+      "skid_h": 12.002
      },
      {
       "t": 13.3,
       "phase": "continue",
-      "skid_h": 15.237
+      "skid_h": 15.241
      }
     ],
     "max_oei_rating": 2,
@@ -88,26 +88,26 @@
     "min_nr_pct": 96.971,
     "safe": true,
     "reason": "ok",
-    "max_height_loss_m": 9.637,
+    "max_height_loss_m": 9.631,
     "oei30_used_s": 30.0,
     "mass_kg": 2714.375,
     "sadpf": {
      "level": 3,
      "recommendation": "abortar",
      "message": "ABORTAR: falha antes do TDP — pousar no heliponto com potência OEI",
-     "detection_delay_s": 0.68
+     "detection_delay_s": 0.685
     },
-    "action_skid_h_m": 9.108,
+    "action_skid_h_m": 9.098,
     "detect_skid_h_m": 9.525,
-    "fail_skid_h_m": 9.003,
+    "fail_skid_h_m": 9.001,
     "phases": [
      {
       "t": 13.96,
       "phase": "reject",
-      "skid_h": 9.108
+      "skid_h": 9.098
      },
      {
-      "t": 16.925,
+      "t": 16.915,
       "phase": "landed"
      }
     ],
@@ -118,38 +118,38 @@
    "continue": {
     "branch": "continue",
     "criterion": "elevado_29_60",
-    "min_height_over_deck_m": 0.444,
-    "min_agl_beyond_m": 10.182,
-    "min_height_rel_deck_m": -19.818,
+    "min_height_over_deck_m": 0.34,
+    "min_agl_beyond_m": 10.253,
+    "min_height_rel_deck_m": -19.747,
     "reached_vtoss": true,
     "touched_down": true,
-    "oei_roc_at_vtoss_fpm": 144.70267873122896,
+    "oei_roc_at_vtoss_fpm": 145.63214878222658,
     "vtoss_kt": 29.0,
-    "max_drop_below_deck_m": 19.818,
+    "max_drop_below_deck_m": 19.747,
     "safe": false,
     "reason": "tocou o heliponto ou o solo",
-    "max_height_loss_m": 32.459,
+    "max_height_loss_m": 32.39,
     "oei30_used_s": 28.0,
     "mass_kg": 2714.375,
     "sadpf": {
      "level": 3,
      "recommendation": "prosseguir",
      "message": "PROSSEGUIR: falha após o TDP — baixar o nariz, acelerar até VTOSS com OEI 30 s",
-     "detection_delay_s": 0.685
+     "detection_delay_s": 0.695
     },
-    "action_skid_h_m": 11.867,
-    "detect_skid_h_m": 12.639,
+    "action_skid_h_m": 11.847,
+    "detect_skid_h_m": 12.641,
     "fail_skid_h_m": 12.338,
     "phases": [
      {
-      "t": 15.89,
+      "t": 15.88,
       "phase": "tdp",
       "skid_h": 12.001
      },
      {
       "t": 18.085,
       "phase": "continue",
-      "skid_h": 11.867
+      "skid_h": 11.847
      }
     ],
     "max_oei_rating": 1,
@@ -165,7 +165,7 @@
    "v_glide_kt": 70.0,
    "rod_steady_ms": 9.927,
    "rod_predicted_ms": 10.36,
-   "min_nr_pct": 71.853,
+   "min_nr_pct": 71.854,
    "min_nr_before_cushion_pct": 94.635,
    "max_nr_pct": 104.844,
    "sadpf": {
@@ -182,17 +182,17 @@
     {
      "t": 29.38,
      "phase": "flare",
-     "agl": 39.96659391767803
+     "agl": 39.96655654770394
     },
     {
      "t": 35.92,
      "phase": "level",
-     "agl": 5.9888449244122235
+     "agl": 5.988833916025406
     },
     {
      "t": 35.925,
      "phase": "cushion",
-     "agl": 5.967642573626427
+     "agl": 5.967631674286394
     },
     {
      "t": 37.76,
@@ -212,11 +212,11 @@
    "mode": "vertical",
    "height_m": 300.0,
    "v_glide_kt": 0.0,
-   "rod_steady_ms": 22.564,
+   "rod_steady_ms": 22.558,
    "rod_predicted_ms": 19.881,
-   "min_nr_pct": 72.072,
-   "min_nr_before_cushion_pct": 94.086,
-   "max_nr_pct": 102.02,
+   "min_nr_pct": 72.069,
+   "min_nr_before_cushion_pct": 94.087,
+   "max_nr_pct": 102.021,
    "sadpf": {
     "level": 3,
     "recommendation": "autorrotacao",
@@ -231,7 +231,7 @@
     {
      "t": 17.09,
      "phase": "cushion",
-     "agl": 14.914577526766239
+     "agl": 14.922448351711195
     },
     {
      "t": 17.755,
@@ -241,10 +241,10 @@
    "landing": {
     "landed": true,
     "touchdown_t": 17.805,
-    "touchdown_sink_ms": 19.566,
+    "touchdown_sink_ms": 19.564,
     "touchdown_pitch_up_deg": -0.0,
-    "touchdown_ground_speed_ms": 0.102,
-    "max_tilt_after_deg": 0.964
+    "touchdown_ground_speed_ms": 0.337,
+    "max_tilt_after_deg": 1.101
    }
   }
  },
@@ -253,9 +253,9 @@
    "landed": true,
    "touchdown_t": 61.805,
    "touchdown_sink_ms": 0.935,
-   "touchdown_pitch_up_deg": -2.829,
+   "touchdown_pitch_up_deg": -2.828,
    "touchdown_ground_speed_ms": 0.382,
-   "max_tilt_after_deg": 3.141
+   "max_tilt_after_deg": 3.139
   },
   "phases": [
    {
@@ -269,7 +269,7 @@
   ],
   "power_oge_same_wind_kw": 537.042,
   "k_ge_hover": 0.969,
-  "power_hover_kw": 442.171,
+  "power_hover_kw": 442.2,
   "max_pedal": 0.461,
   "max_bank_deg": 3.751,
   "final_position_error_m": 3.031
@@ -298,7 +298,7 @@
    }
   ],
   "flight_time_s": 421.025,
-  "fuel_used_kg": 19.808,
-  "final_position_error_m": 2.864
+  "fuel_used_kg": 21.796,
+  "final_position_error_m": 2.863
  }
 }
