@@ -16,7 +16,7 @@ jobs:
       - name: Install physics-core and web-server dependencies
         run: |
           pip install "numpy>=2.0" "scipy>=1.11" pytest
-          pip install flask flask-socketio flask-sqlalchemy opencv-python-headless pillow playwright
+          pip install flask flask-socketio flask-sqlalchemy opencv-python-headless pillow requests playwright
           python -m playwright install --with-deps chromium
       - name: Run verification tests
         env:
