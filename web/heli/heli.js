@@ -477,7 +477,7 @@ function setAdvisory(run, t) {
   const up = (s) => s.toUpperCase();
   if (a.alert) {
     $('advL').textContent = `ALERTA CONSULTIVO · considerar ${up(a.advise)}`;
-    $('advM').innerHTML = `O procedimento (TDP) indica <b>${up(proc)}</b>, previsto inseguro (${P[proc].reason.replace('tocou o heliponto ou o solo', 'toque no solo durante a aceleração')}). ${up(a.advise)} previsto seguro. O procedimento continua sendo o padrão.`;
+    $('advM').innerHTML = `O procedimento (TDP) indica <b>${up(proc)}</b>, previsto inseguro (${P[proc].reason.replace('tocou o heliponto ou o solo', 'toque no solo durante a aceleração').replace(/(\d)\.(\d)/g, '$1,$2')}). ${up(a.advise)} previsto seguro. O procedimento continua sendo o padrão.`;
   } else {
     $('advL').textContent = `Sem alerta · ${up(proc)} previsto ${P[proc].safe ? 'seguro' : 'inseguro'}`;
     $('advM').innerHTML = '';
@@ -540,7 +540,7 @@ function drawHV(hv, d, hRel) {
 // ------------------------------------------------------------------------------------------------ scenes
 const smooth = (u) => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
 const SCENES = {
-  cat_a: { label: '(a) Categoria A', runs: { reject: 'Abortar', continue: 'Prosseguir' }, tEnd: (r) => DA.runs[r].tEnd },
+  cat_a: { label: '(a) Categoria A', runs: { reject: 'Abortar v2 (padrão)', continue: 'Prosseguir', reject_v1: 'Abortar v1 (referência)' }, tEnd: (r) => DA.runs[r].tEnd },
   advisory: { label: '(b) Previsão de ramos', runs: { procedimento: 'Procedimento (padrão)', consultivo_seguido: 'Seguindo o alerta' }, tEnd: (r) => DB.runs[r].tEnd },
   autorotation: { label: '(c) Autorrotação', runs: { both: 'Vertical × à frente' }, tEnd: () => Math.max(DC.runs.vertical.tEnd, DC.runs.forward.tEnd) },
   missao: { label: '(d) Missão', runs: { resgate: 'Resgate', transferencia: 'Transferência', conservador: 'Conservador' }, tEnd: () => 0 },
@@ -557,7 +557,7 @@ function caption(s) { $('capText').textContent = s; $('caption').style.display =
 // key instants of a Category A run, taken from the telemetry
 function catATimeline(run, vtKt) {
   const f = run.frames, n = run._n, half = DA.condition.deck_size_m / 2, ft = run.fail_time ?? Infinity;
-  const tl = { decision: null, edge: null, below: null, min: null, minH: Infinity, vtoss: null, landed: phaseT(run, 'landed') };
+  const tl = { decision: null, edge: null, below: null, min: null, minH: Infinity, vtoss: null, landed: run.landing && run.landing.landed ? run.landing.touchdown_t : phaseT(run, 'landed') };
   const dec = (run.phases || []).find(p => p.phase === 'reject' || p.phase === 'continue'); tl.decision = dec ? dec.t : null;
   for (let i = 0; i < n; i++) {
     if (f.t[i] < ft) continue;
@@ -566,7 +566,7 @@ function catATimeline(run, vtKt) {
     if (f.skid_h[i] < tl.minH) { tl.minH = f.skid_h[i]; tl.min = f.t[i]; }
     if (tl.vtoss === null && vtKt && f.tas_ms[i] >= 0.95 * vtKt * 0.514444) tl.vtoss = f.t[i];
   }
-  tl.done = run.name === 'reject' ? (tl.landed !== null ? tl.landed + 1.0 : run.tEnd) : Math.max(tl.min ?? 0, tl.vtoss ?? 0) + 1.5;
+  tl.done = run.name.startsWith('reject') ? (tl.landed !== null ? tl.landed + 1.0 : run.tEnd) : Math.max(tl.min ?? 0, tl.vtoss ?? 0) + 1.5;
   return tl;
 }
 const VT = DA.runs.continue.evaluation.vtoss_kt;
@@ -574,9 +574,10 @@ for (const r of Object.values(DA.runs)) r._tl = catATimeline(r, VT);
 
 function renderCatA(runName, t) {
   const run = DA.runs[runName], d = sample(run, t), det = detectT(run), tl = run._tl;
+  const isRej = runName.startsWith('reject'), procV = run.reject_procedure === 'v1' ? 'v1 (sem amortecimento, referência)' : 'v2 (com amortecimento, padrão)';
   showCols(true, true, false);
   $('tlM').textContent = DA.title;
-  $('tlC').textContent = `${DA.condition.label} · deck a ${fmt(DA.condition.deck_height_m, 0)} m da rua · ramo: ${runName === 'reject' ? 'abortar' : 'prosseguir'}`;
+  $('tlC').textContent = `${DA.condition.label} · deck a ${fmt(DA.condition.deck_height_m, 0)} m da rua · ramo: ${isRej ? `abortar ${procV}` : 'prosseguir'}`;
   $('sadpf').style.display = ''; $('cata').style.display = ''; $('mission').style.display = 'none'; $('hvBox').style.display = '';
   setSadpf(run, t);
   setAdvisory(run, t);
@@ -584,18 +585,18 @@ function renderCatA(runName, t) {
   { const o = showTouchdown($('tdBox'), run.landing, t, DA.touchdown_thresholds); tint(o && o.level === 3); $('tdBoxL').style.display = 'none'; $('tdBoxR').style.display = 'none'; }
   // Category A panel
   const M = DA.cat_a_mass, ev = run.evaluation, lit = run.literal_29_59c;
-  $('m2960').innerHTML = `máx. <b>${fmt(M.g115_kg, 0)}–${fmt(M.g126_kg, 0)} kg</b><br><span style="font-size:13px;opacity:.75">faixa pelo duto G 1,15–1,26</span>`;
-  $('m2959').innerHTML = `máx. <b>${fmt(M.literal_29_59c_kg, 0)} kg</b><br><span style="font-size:13px;opacity:.75">nunca abaixo de 15 ft do deck</span>`;
-  $('cMass').textContent = `${fmt(DA.mass_kg, 0)} kg (máx. com G = 1,26)`;
+  $('m2960').innerHTML = `máx. <b>${fmt(M.g115_kg, 0)}–${fmt(M.g126_kg, 0)} kg</b> <span style="font-size:13px;opacity:.75">(abortar v2)</span><br><span style="font-size:13px;opacity:.75">duto G 1,15–1,26 · v1: ${fmt(M.v1.g115_kg, 0)}–${fmt(M.v1.g126_kg, 0)} kg</span>`;
+  $('m2959').innerHTML = `máx. <b>${fmt(M.literal_29_59c_kg, 0)} kg</b> <span style="font-size:13px;opacity:.75">(v2)</span><br><span style="font-size:13px;opacity:.75">15 ft do deck · v1: ${fmt(M.v1.literal_29_59c_kg, 0)} kg</span>`;
+  $('cMass').textContent = `${fmt(DA.mass_kg, 0)} kg (máx. v2 com G = 1,26)`;
   $('cTdp').textContent = `${fmt(DA.condition.tdp_height_m, 0)} m sobre o deck · ${fmt(VT, 0)} kt`;
-  $('cBranch').textContent = tl.decision !== null && t >= tl.decision ? (runName === 'reject' ? 'ABORTAR (falha antes do TDP)' : 'PROSSEGUIR (falha após o TDP)') : (det !== null && t >= det ? 'reação do piloto (1 s)' : '—');
+  $('cBranch').textContent = tl.decision !== null && t >= tl.decision ? (isRej ? `ABORTAR ${run.reject_procedure} (falha antes do TDP)` : 'PROSSEGUIR (falha após o TDP)') : (det !== null && t >= det ? 'reação do piloto (1 s)' : '—');
   let maxDrop = 0; for (let i = 0; i <= d.idx; i++) if (run.frames.t[i] >= (run.fail_time ?? 1e9)) maxDrop = Math.max(maxDrop, -run.frames.skid_h[i]);
   $('cDrop').innerHTML = runName === 'continue' ? `agora ${fmt(Math.max(0, -d.skid_h), 1)} · máx. ${fmt(Math.max(0, maxDrop), 1)} m` : 'não se aplica';
   $('cM30').textContent = `${ev.oei30_margin_hover_kw >= 0 ? '+' : ''}${fmt(ev.oei30_margin_hover_kw, 0)} kW`;
   $('cM30').className = ev.oei30_margin_hover_kw < 0 ? 'warnc' : 'okc';
   $('cM2').textContent = ev.oei2_margin_vtoss_kw !== undefined ? `${ev.oei2_margin_vtoss_kw >= 0 ? '+' : ''}${fmt(ev.oei2_margin_vtoss_kw, 0)} kW` : '—';
   const done = t >= tl.done;
-  const res = (e) => done ? (e.safe ? `<span class="okc">✓ atende</span>` : `<span class="badc">✗ ${e.reason.replace(/^desceu a -?([\d.]+) m do nível do deck.*$/, (m, v) => `desceu ${fmt(+v, 1)} m abaixo do deck`)}</span>`) : '<span style="opacity:.7">em avaliação</span>';
+  const res = (e) => done ? (e.safe ? `<span class="okc">✓ atende</span>` : `<span class="badc">✗ ${e.reason.replace(/^desceu a -?([\d.]+) m do nível do deck.*$/, (m, v) => `desceu ${fmt(+v, 1)} m abaixo do deck`).replace(/(\d)\.(\d)/g, '$1,$2')}</span>`) : '<span style="opacity:.7">em avaliação</span>';
   $('r2960').innerHTML = res(ev); $('r2959').innerHTML = res(lit);
   drawHV(DA.hv, d, Math.max(0, d.skid_h));
   $('hvT').textContent = 'DIAGRAMA ALTURA-VELOCIDADE (H-V)';
@@ -620,8 +621,8 @@ function renderCatA(runName, t) {
   let cap = '';
   if (ft === null || t < ft) cap = t < 3 ? `Decolagem vertical de heliponto elevado · ${fmt(DA.mass_kg, 0)} kg, na massa máxima Cat A` : `Subida vertical com os dois motores até o TDP (${fmt(DA.condition.tdp_height_m, 0)} m acima do deck)`;
   else if (det === null || t < det) cap = `Falha do motor 1 com os esquis a ${fmt(ev.fail_skid_h_m, 1)} m do deck (${ev.fail_skid_h_m < DA.condition.tdp_height_m ? 'antes' : 'depois'} do TDP)`;
-  else if (tl.decision === null || t < tl.decision + 1.2) cap = `SADPF detecta a falha em ${fmt(det - ft, 2)} s pela divergência de torque → ${runName === 'reject' ? 'ABORTAR' : 'PROSSEGUIR'}`;
-  else if (runName === 'reject') cap = tl.landed !== null && t >= tl.landed ? `Pouso no deck a ${fmt(ev.touchdown_sink_ms, 1)} m/s · atende ao critério do modelo (29.60) e ao literal 29.59(c)` : 'Abortar: descida de volta ao deck com potência OEI 30 s';
+  else if (tl.decision === null || t < tl.decision + 1.2) cap = `SADPF detecta a falha em ${fmt(det - ft, 2)} s pela divergência de torque → ${isRej ? 'ABORTAR' : 'PROSSEGUIR'}`;
+  else if (isRej) cap = tl.landed !== null && t >= tl.landed ? `Abortar ${run.reject_procedure}: toque no deck a ${fmt(ev.touchdown_sink_ms, 1)} m/s · ${ev.safe ? 'atende ao critério do modelo (≤ 1,5 m/s)' : `não atende (${ev.reason.replace(/(\d)\.(\d)/g, '$1,$2')})`}` : (run.reject_procedure === 'v2' ? (d.skid_h > 5 ? 'Abortar v2: descida ao deck com potência OEI, NR até 97 %' : 'Abortar v2: amortecimento com o coletivo abaixo de 5 m') : 'Abortar v1: descida ao deck com potência OEI, sem amortecimento');
   else if (tl.edge === null || t < tl.edge) cap = 'Prosseguir: nariz para baixo, acelera com um motor sobre o deck';
   else if (t < tl.min + 1.0) cap = `Cruza a borda e desce abaixo do nível do deck: até ${fmt(-tl.minH, 1)} m (29.60(a)(3) exige determinar essa profundidade)`;
   else cap = `VTOSS (${fmt(VT, 0)} kt) e subida com um motor · 29.60 (modelo): ${ev.safe ? 'atende' : 'não atende'} · 29.59(c) literal: ${lit.safe ? 'atende' : 'não atende'}`;
@@ -633,7 +634,7 @@ function renderAdvisory(runName, t) {
   const run = DB.runs[runName], d = sample(run, t), det = detectT(run);
   showCols(true, true, false);
   $('tlM').textContent = DB.title;
-  $('tlC').textContent = `${DB.condition.label} · ${fmt(DB.mass_kg, 0)} kg, acima do limite do local (${fmt(DB.site_limit_kg, 0)} kg): caso de demonstração`;
+  $('tlC').textContent = `${DB.condition.label} · ${fmt(DB.mass_kg, 0)} kg · falha ${fmt(Math.abs(DB.fail_rel_tdp_m), 1)} m ${DB.fail_rel_tdp_m < 0 ? 'abaixo' : 'acima'} do TDP · abortar v2${DB.site_limit_kg && DB.mass_kg > DB.site_limit_kg ? ` · acima do limite do local (${fmt(DB.site_limit_kg, 0)} kg): caso de demonstração` : ''}`;
   $('sadpf').style.display = ''; $('cata').style.display = 'none'; $('mission').style.display = 'none'; $('hvBox').style.display = '';
   setSadpf(run, t);
   setAdvisory(run, t);
@@ -649,10 +650,10 @@ function renderAdvisory(runName, t) {
   renderer.render(WB.scene, camA);
   const a = run.advisory, ft = run.fail_time, lt = phaseT(run, 'landed');
   let cap;
-  if (ft === null || t < ft) cap = t < 4 ? 'Decolagem do local de resgate com o paciente a bordo' : `Subida vertical até o TDP (${fmt(DB.condition.tdp_height_m, 0)} m)`;
+  if (ft === null || t < ft) cap = t < 4 ? DB.subtitle.replace('Helicóptero UTI · ', '').replace(/^./, (m) => m.toUpperCase()) : `Subida vertical até o TDP (${fmt(DB.condition.tdp_height_m, 0)} m)`;
   else if (det === null || t < det) cap = `Falha do motor 1 com os esquis a ${fmt(run.evaluation.fail_skid_h_m, 1)} m, logo acima do TDP`;
-  else if (a && t < a.t + 3.0) cap = a.alert ? `Previsão em ${fmt(a.wall_time_s, 2)} s: o ramo do procedimento (prosseguir) é previsto inseguro → alerta consultivo` : `Previsão de ramos em ${fmt(a.wall_time_s, 2)} s: procedimento confirmado`;
-  else if (runName === 'procedimento') cap = run.evaluation.touched_down && d.on_ground > 0.5 ? `Procedimento seguido (padrão): ${run.evaluation.reason} durante a aceleração — a previsão estava certa` : 'Procedimento (padrão): prosseguir, nariz para baixo e aceleração com um motor';
+  else if (a && t < a.t + 3.0) cap = a.alert ? `Previsão em ${fmt(a.wall_time_s, 2)} s: o ramo do procedimento (${a.procedure_action}) é previsto inseguro → alerta consultivo` : `Previsão de ramos em ${fmt(a.wall_time_s, 2)} s: procedimento confirmado`;
+  else if (runName === 'procedimento') cap = run.evaluation.touched_down && d.on_ground > 0.5 ? `Procedimento seguido (padrão): ${run.evaluation.reason.replace(/(\d)\.(\d)/g, '$1,$2')} durante a aceleração — a previsão estava certa` : 'Procedimento (padrão): prosseguir, nariz para baixo e aceleração com um motor';
   else cap = lt !== null && t >= lt ? `Seguindo o alerta: abortar, pouso no local a ${fmt(run.evaluation.touchdown_sink_ms, 1)} m/s · seguro pelo critério do modelo` : 'Seguindo o alerta consultivo: abortar, descida de volta ao local';
   caption(cap);
   clock(t);
@@ -724,6 +725,7 @@ function renderMission(profile) {
   $('condSel').innerHTML = rows.map((r, i) => `<button data-c="${i}" class="${i === missionCond ? 'on' : ''}">${r.condition}</button>`).join('');
   let h = `<div class="row" style="opacity:.8"><span>${DM.profiles[profile]}</span></div>
     <div class="row"><span>Massa máx. Cat A na origem (G 1,15–1,26)</span><b>${fmt(c.cat_a_mass_g115_kg, 0)}–${fmt(c.cat_a_mass_kg, 0)} kg</b></div>
+    <div class="row small"><span>abortar v1 (referência conservadora)</span><b>${fmt(c.v1.cat_a_mass_g115_kg, 0)}–${fmt(c.v1.cat_a_mass_kg, 0)} kg · raio ${fmt(c.v1.radius_nm[profile], 0)} NM</b></div>
     <div class="row"><span>Combustível embarcado</span><b>${fmt(p.fuel_kg, 0)} kg · limite: ${p.fuel_limited_by}</b></div>
     <div class="row"><span>Massa de decolagem na origem</span><b>${fmt(p.takeoff_mass_kg, 0)} kg</b></div>
     <div class="row"><span>Raio de ação</span><b style="font-size:24px">${fmt(p.radius_nm, 0)} NM${p.radius_nm_g115 && Math.abs(p.radius_nm_g115 - p.radius_nm) > 0.5 ? ` <span style="font-size:15px;opacity:.75">(G 1,15: ${fmt(p.radius_nm_g115, 0)})</span>` : ''}</b></div>
@@ -732,6 +734,7 @@ function renderMission(profile) {
   if (profile === 'resgate') {
     h += `<div class="sep"></div>
     <div class="row"><span>Massa máx. no local, TDP 12 m (17 m)</span><b>${fmt(c.site_limit_tdp12_kg, 0)} (${fmt(c.site_limit_tdp17_kg, 0)}) kg</b></div>
+    <div class="row small"><span>abortar v1 (referência), TDP 12 m</span><b>${fmt(c.v1.site_limit_tdp12_kg, 0)} kg</b></div>
     <div class="row"><span>Combustível máx. a bordo no local</span><b>${fmt(p.site_fuel_max_kg, 0)} kg</b></div>`;
     if (p.site_min_radius_full_fuel_nm > 0.5) {
       h += `<div class="warnbox"><b>Restrição de distância mínima:</b> com o tanque cheio, o local de resgate tem de estar a pelo menos <b>${fmt(p.site_min_radius_full_fuel_nm, 0)} NM</b> (${fmt(p.tdp17.site_min_radius_full_fuel_nm, 0)} NM com TDP de 17 m). Mais perto, abastecer menos na origem para chegar com no máximo ${fmt(p.site_fuel_max_kg, 0)} kg.</div>`;
@@ -739,7 +742,7 @@ function renderMission(profile) {
       h += `<div class="row"><span>Restrição de distância mínima</span><b class="okc">nenhuma com o tanque padrão</b></div>`;
     }
   }
-  h += `<div class="src">Cruzeiro: ${DM.cruise_reference}. Reserva: ${DM.reserve_source}. Valores do Twin (docs/helicoptero/passo3_resultados.json).</div>`;
+  h += `<div class="src">Cruzeiro: ${DM.cruise_reference}. Reserva: ${DM.reserve_source}. ${DM.reject_procedure}. Valores do Twin (docs/helicoptero/recalculo_abortar_v2.json).</div>`;
   $('missionBody').innerHTML = h;
   // right column: radius in every condition for this profile
   $('panel').innerHTML = `<div class="t">RAIO DE AÇÃO POR CONDIÇÃO · ${DM.profiles[profile].split(' (')[0].toUpperCase()}</div>` + rows.map((r, i) => {
@@ -783,6 +786,7 @@ function rebuildBars() {
 }
 window.sceneInfo = () => ({
   cat_a: { reject: { fail: DA.runs.reject.fail_time, detect: detectT(DA.runs.reject), end: DA.runs.reject.tEnd, phases: DA.runs.reject.phases, timeline: DA.runs.reject._tl },
+           reject_v1: { fail: DA.runs.reject_v1.fail_time, detect: detectT(DA.runs.reject_v1), end: DA.runs.reject_v1.tEnd, phases: DA.runs.reject_v1.phases, timeline: DA.runs.reject_v1._tl },
            continue: { fail: DA.runs.continue.fail_time, detect: detectT(DA.runs.continue), end: DA.runs.continue.tEnd, phases: DA.runs.continue.phases, timeline: DA.runs.continue._tl } },
   advisory: { procedimento: { fail: DB.runs.procedimento.fail_time, detect: detectT(DB.runs.procedimento), advisory_t: DB.runs.procedimento.advisory?.t, end: DB.runs.procedimento.tEnd },
               consultivo_seguido: { fail: DB.runs.consultivo_seguido.fail_time, end: DB.runs.consultivo_seguido.tEnd, phases: DB.runs.consultivo_seguido.phases } },

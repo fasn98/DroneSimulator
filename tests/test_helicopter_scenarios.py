@@ -6,6 +6,7 @@ criteria (100 ft/min at VTOSS, 15 ft above the take-off surface) are linked to t
 """
 
 import unittest
+from dataclasses import replace
 
 import numpy as np
 
@@ -62,7 +63,14 @@ class TestCategoryA(unittest.TestCase):
         heavy = cat_a_run(2700.0, "continue", HOT_HIGH)
         self.assertFalse(heavy["safe"])
         self.assertGreater(heavy["max_height_loss_m"], light["max_height_loss_m"])
-        self.assertTrue(cat_a_run(2700.0, "reject", HOT_HIGH)["safe"])
+        # reject branch (corrected touchdown, aval do Passo 4): with v1 (no cushion) a heavy reject touches the deck
+        # well above 1,5 m/s, a light one does not
+        v1 = replace(HOT_HIGH, reject_procedure="v1")
+        heavy_r = cat_a_run(2700.0, "reject", v1)
+        self.assertFalse(heavy_r["safe"])
+        self.assertGreater(heavy_r["touchdown_sink_ms"], 1.5)
+        light_r = cat_a_run(2200.0, "reject", v1)
+        self.assertTrue(light_r["safe"], light_r["reason"])
         mtow = cat_a_run(2980.0, "continue", HOT_HIGH)
         self.assertFalse(mtow["safe"])
         self.assertIn("TDP", mtow["reason"])
@@ -92,7 +100,8 @@ class TestCategoryAClearanceCriteria(unittest.TestCase):
 
 class TestFailureHeight(unittest.TestCase):
     def test_decision_is_taken_at_recognition(self):
-        rows = {r["fail_rel_tdp_m"]: r for r in failure_height_sweep(2980.0, CatAConfig(), (-3.0, -1.0))}
+        # 2 700 kg: inside the corrected Category A mass at sea level ISA for both reject procedures
+        rows = {r["fail_rel_tdp_m"]: r for r in failure_height_sweep(2700.0, CatAConfig(), (-3.0, -1.0))}
         early, late = rows[-3.0], rows[-1.0]
         self.assertEqual(early["recommended"], "abortar")  # recognised before the TDP
         self.assertLess(early["reject"]["detect_rel_tdp_m"], 0.0)

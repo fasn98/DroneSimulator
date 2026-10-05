@@ -37,7 +37,9 @@ def shots(info):
     tr, tc = a["reject"]["timeline"], a["continue"]["timeline"]
     out = [
         ("heli_a1_categoria_a_abortar.png", "cat_a", "reject", tr["landed"] + 1.2),
-        ("heli_a2_categoria_a_prosseguir_abaixo_do_deck.png", "cat_a", "continue", tc["min"]),
+        ("heli_a1b_categoria_a_abortar_v1_referencia.png", "cat_a", "reject_v1", a["reject_v1"]["timeline"]["landed"] + 1.2),
+        ("heli_a2_categoria_a_prosseguir.png", "cat_a", "continue",
+         (tc["edge"] + 1.5) if tc.get("edge") is not None else tc["done"] - 3.0),
         ("heli_a3_categoria_a_prosseguir_vtoss.png", "cat_a", "continue", tc["done"] + 0.5),
         ("heli_b1_previsao_alerta.png", "advisory", "procedimento", b["procedimento"]["advisory_t"] + 0.8),
         ("heli_b2_previsao_alerta_seguido.png", "advisory", "consultivo_seguido",

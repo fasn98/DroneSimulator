@@ -23,7 +23,7 @@ from .model import engine_limit_w
 
 KT = 0.514444
 FT = 0.3048
-DEFAULT_REJECT_PROCEDURE = "v1"  # reject branch of CatATakeoff (see docs/helicoptero/procedimento_abortar_v2.md)
+DEFAULT_REJECT_PROCEDURE = "v2"  # reject branch of CatATakeoff (see docs/helicoptero/procedimento_abortar_v2.md)
 REJECT_V2_NR_MIN = 0.97  # fraction of 100 % NR: lower end of the band of the source and TCDS power-on minimum
 REJECT_V2_CUSHION_H = 5.0  # m of skid height where the cushion starts (ESTIMADO, ~ one rotor radius)
 PILOT_DELAY = 1.0  # s, recognition + reaction after the SADPF alert (ESTIMADO, order used in Cat A analyses)

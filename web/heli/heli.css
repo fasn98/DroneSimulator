@@ -130,7 +130,7 @@ body.capture #controls { display: none; }
 .nrex .ep.past { color: #ffb0a8; font-weight: 600; }
 .nrbad { color: var(--bad) !important; }
 /* touchdown outcome */
-.tdbox { display: none; left: 50%; transform: translateX(-50%); top: 150px; min-width: 520px; max-width: 840px; text-align: center;
+.tdbox { display: none; left: 1028px; transform: translateX(-50%); top: 150px; min-width: 520px; max-width: 840px; text-align: center;
   padding: 14px 24px; border-radius: 12px; border: 3px solid; }
 .tdbox.half { top: 520px; min-width: 0; width: 760px; }
 #tdBoxL { left: 480px; } #tdBoxR { left: 1440px; }
