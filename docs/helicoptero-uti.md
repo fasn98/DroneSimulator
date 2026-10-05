@@ -4,7 +4,9 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0, 1, 2 e 3 aprovados. Os complementos do aval do Passo 3 (decolagem do local de resgate, regulação HEMS, RBAC 135.209) estão concluídos e aguardam aval antes do Passo 4.** Os passos seguintes (HUD e documentação final) ainda não foram feitos.
+Estado atual: **Passos 0 a 3 aprovados. O Passo 4 (HUD e cenas do Template A) está concluído e aguarda aval.** Depois dele vem o Template B (classe UH-60), conforme o roteiro.
+
+> **Estado do CI.** A última execução verde do GitHub Actions é a [#13](https://github.com/fasn98/DroneSimulator/actions/runs/37230157317). Da #14 em diante o GitHub não inicia os jobs por pendência de cobrança da conta (não é falha de código). Suíte local: **92/92 na entrega do Passo 3**; **100/100** na entrega do Passo 4.
 
 ## Como rodar
 
@@ -687,16 +689,18 @@ Código: `src/physics/helicopter/advisory.py` (`BranchPredictor`), ligado ao `Ca
   - passo de integração de 0,05 s no ar (o cenário usa 0,005 s) e controle a 20 Hz;
   - passo de 0,01 s perto do contato com o solo (abaixo de 0,3 m de altura dos esquis mais 0,3 s da razão de descida atual), porque os esquis são uma mola-amortecedor rígida;
   - a previsão para assim que o ramo está decidido: abortar, 1 s depois de assentar nos esquis; prosseguir, ao tocar o solo ou ao atingir 95 % da VTOSS subindo; no máximo 25 s.
-- **Tempo de cálculo** (medido no relógio, 2 núcleos, um caso por núcleo, os dois ramos em sequência), comparado com o tempo de reação de 1 s:
+- **Cálculo dos dois ramos em paralelo** (decisão do aval do Passo 3): dois processos de trabalho, iniciados e aquecidos antes da decolagem (não na falha). No instante da detecção, o estado da simulação (~74 kB) é copiado para os dois, e cada um voa um ramo. O tempo medido inclui essa cópia. Onde não é possível abrir processos, a previsão roda em sequência e o HUD indica o modo. O teste `test_parallel_equals_sequential` confere que os dois modos dão a mesma previsão.
+- **Tempo de cálculo**, comparado com o tempo de reação de 1 s. Medido no relógio, nos 130 casos da varredura abaixo, um caso de cada vez numa máquina sem outra carga. **Os tempos foram medidos em ambiente de desenvolvimento (contêiner Linux com 2 núcleos) e não representam hardware embarcado.**
 
-| Métrica | Valor |
-|---|---|
-| Média | 0,63 s |
-| p95 | 0,76 s |
-| Máximo | **0,90 s** (dentro de 1 s em 130 de 130 casos) |
-| Estimativa com os dois ramos em paralelo (o mais lento dos dois) | média 0,43 s, máximo 0,72 s |
+| Métrica | Em paralelo (padrão) | Em sequência (Passo 3) |
+|---|---|---|
+| Média | **0,49 s** | 0,63 s |
+| p95 | **0,70 s** | 0,76 s |
+| Máximo | **0,94 s** (130 de 130 casos dentro de 1 s) | 0,90 s |
 
-  - A margem do pior caso é de ~10 %. Ela depende do computador: o HUD do Passo 4 vai mostrar o tempo medido em cada falha.
+  - **O máximo em paralelo ficou acima da estimativa de 0,72 s** feita no Passo 3. Aquela estimativa tomava o ramo mais lento medido sozinho. Com os dois ramos rodando ao mesmo tempo nos 2 núcleos, cada ramo fica mais lento (soma dos dois em paralelo: média 0,71 s, máximo 1,10 s), e a cópia do estado acrescenta ~10 ms.
+  - Os dois casos mais lentos (0,94 e 0,91 s) são falhas a 20 m no local de resgate. Ali o ramo abortar precisa prever ~17 s de descida. A média e o p95 caíram bem; o pior caso continua com folga de só ~6 %.
+  - O HUD mostra, em cada falha, o tempo medido e o modo (paralelo ou sequencial).
   - Uma primeira versão (passo de 0,05 s abaixo de 2 m e verificação a cada 0,5 s) levava até 1,67 s e passava de 1 s em 17 casos. O passo fino só perto do contato resolveu isso sem perder acerto.
 - **Varredura de falhas em torno do TDP com a função**: 130 casos.
   - Heliponto elevado: 2 × 15 alturas de falha (2.980 kg ao nível do mar; 2.614 kg a 1.500 m ISA+25).
@@ -833,6 +837,72 @@ Código: `src/physics/helicopter/advisory.py` (`BranchPredictor`), ligado ao `Ca
 2. **Previsão de ramos**: implementada como consultiva; o procedimento segue sendo o padrão.
 3. **Reserva**: RBAC 91.151(b) (20 min) segue como padrão provisório. A indicação da Emenda 13 (Scribd) está registrada só como indício. **Aguardando o PDF oficial da Emenda 15** para extrair a 135.209 e confirmar.
 
+## Passo 4: HUD e cenas do Template A
+
+Página: `web/heli/` (rota `/heli/` do `simulation_server.py`, ou qualquer servidor estático na pasta). A rota nova do servidor não foi exercitada neste ambiente, que não tem `flask_socketio` nem `flask_sqlalchemy`; a página foi testada com um servidor estático, pelo script de capturas. Telemetria: `tools/heli_scenes_export.py` gera `web/heli/data/*.json`. Capturas: `tools/heli_hud_capture.py` gera `docs/screenshots/heli_*.png` (1920 × 1080).
+
+- **A cena só reproduz o que o Twin calculou.**
+  - Posição, atitude, NR, torque por motor, regime e cronômetro OEI, margem de potência, combustível, eventos do SADPF e a previsão de ramos vêm da simulação física, gravados a cada 0,1 s.
+  - A página interpola entre os registros e desenha.
+  - Os instantes das capturas também saem da telemetria: falha, detecção, previsão, profundidade máxima abaixo do deck e toque.
+  - O rodapé diz isso: *"Terreno ilustrativo · voo, falha e respostas calculados pelo Twin (não é animação)"*, como no drone.
+- **Sempre visível**: o aviso *"Simulador conceitual e educacional. Não é um simulador certificado (FSTD) nem substitui dados do fabricante."*
+- **Helicóptero**: modelo 3D genérico, montado por código, sem logotipo, matrícula nem pintura de fabricante. Tem rotor principal de 4 pás com raio do modelo (5,1 m), rotor de cauda carenado tipo Fenestron com duto de 1,0 m (TCDS) e 10 pás, deriva, estabilizador com placas, carenagem de dois motores e esquis.
+- **Cenário**: ilustrativo. O heliponto elevado tem as dimensões do modelo (deck de 20 m × 20 m a 30 m da rua). Em frente ao deck não há obstáculos, como no modelo: o critério usa o solo como obstáculo. O local de resgate é plano.
+- **Estilo**: o mesmo do vídeo do drone em Marte: título no canto superior esquerdo, relógio T+ no direito, painel SADPF à esquerda, telemetria à direita, legenda inferior e rodapé.
+- **Painel de telemetria**:
+  - NR, torque por motor e regime OEI com o limite, cronômetro OEI (30 s → 2 min), IAS, Vz, altura dos esquis, margem de potência, alerta de VRS, massa, CG, combustível e autonomia, além do diagrama H-V com a posição atual;
+  - o Ng aparece como **"não modelado"**;
+  - torque % = P / (P100 × NR) (DERIVADO, com P100 = 665 N·m × 5.898 rpm);
+  - limites por regime de `engine_limit_w`.
+
+### Cenas
+
+| Cena | Conteúdo | Capturas |
+|---|---|---|
+| (a) Categoria A, heliponto elevado, falha de motor | 1.500 m, ISA+25, 2.614 kg (massa máxima Cat A com G = 1,26). Os dois ramos, cada um uma execução do Twin: abortar (falha 3 m antes do TDP) e prosseguir (falha 0,5 s depois do TDP). Painel Cat A: massa máxima **como faixa 2.590–2.614 kg (duto G 1,15–1,26)**; critério 29.60 (padrão do modelo) com o **29.59(c) literal ao lado** (2.517 kg), cada um com o resultado do mesmo voo; profundidade da descida abaixo do deck (agora e máxima); margens OEI 30 s no pairado e OEI 2 min na VTOSS; cronômetro OEI e torque por motor. | `heli_a1_categoria_a_abortar.png`, `heli_a2_categoria_a_prosseguir_abaixo_do_deck.png`, `heli_a3_categoria_a_prosseguir_vtoss.png` |
+| (b) Alerta consultivo da previsão de ramos | Local de resgate, 1.500 m, ISA+25, 2.601 kg, falha 0,5 m acima do TDP. A cena diz que a massa está acima do limite do local (2.517 kg) e que é um caso de demonstração. O alerta tem moldura e cor próprias (âmbar), diferentes do SADPF (vermelho), com o rótulo **"CONSULTIVO · conceitual · não certificado"**, os dois ramos previstos e o **tempo de cálculo medido** naquela falha. Duas execuções: o procedimento como padrão (prosseguir, toca o solo) e o piloto seguindo o alerta (abortar, seguro). | `heli_b1_previsao_alerta.png`, `heli_b2_previsao_alerta_seguido.png` |
+| (c) Autorrotação: vertical × com velocidade à frente | Tela dividida, falha dos dois motores a 300 m (2.980 kg, nível do mar ISA). Razão de descida ao vivo e em regime (Twin e teoria): 22,6 × 9,9 m/s. Toque: 19,6 m/s na vertical (impacto) × 1,2 m/s com 29 kt no solo à frente. A **limitação do flare** fica escrita na cena. | `heli_c1_autorrotacao_descida.png`, `heli_c2_autorrotacao_toque.png` |
+| (d) Painel de missão | Seleção de perfil (Resgate, Transferência, Conservador) e de condição. Mostra combustível e o que o limita, raio de ação (com G 1,15 quando difere), tempo de voo e reserva, decolagens de volta, **massa máxima no local de resgate (TDP 12 m; 17 m)**, combustível máximo no local e a **restrição de distância mínima** (≥ 51 NM com tanque cheio a 1.500 m ISA+25; 36 NM com TDP de 17 m). | `heli_d_painel_missao.png` |
+
+![Categoria A, prosseguir: descida abaixo do deck](screenshots/heli_a2_categoria_a_prosseguir_abaixo_do_deck.png)
+![Previsão de ramos: alerta consultivo](screenshots/heli_b1_previsao_alerta.png)
+![Autorrotação: vertical × com velocidade à frente](screenshots/heli_c1_autorrotacao_descida.png)
+
+**Como rodar**:
+```bash
+python -m tools.heli_scenes_export     # telemetria das cenas (~1,5 min; rode com a máquina sem outra carga, por causa do tempo da previsão)
+python -m tools.heli_hud_capture       # capturas em docs/screenshots/ (Chromium headless)
+python simulation_server.py            # e abra http://localhost:5000/heli/ (cenas, ramos, linha do tempo, velocidade)
+# sem o servidor completo: python -m http.server -d web/heli 8000  e abra http://localhost:8000/
+```
+
+### Validação (Passo 4): `tests/test_helicopter_hud.py`, 8 testes
+
+| Teste | Critério |
+|---|---|
+| Aviso e rodapé | o texto exato do aviso e o rodapé estão na página e nenhuma cena os esconde; rótulo consultivo e nota de ambiente de desenvolvimento presentes |
+| Sem marcas | nenhum nome de fabricante na página nem nos dados das cenas |
+| three.js | biblioteca local (sem CDN) com a licença MIT |
+| Cat A | os dois ramos seguros pelo 29.60; literal 29.59(c) exportado; faixa G 1,15 ≤ 1,26; massa da cena = máxima com G 1,26; colunas com o mesmo tamanho; OEI depois da falha; torque do motor parado < 5 % e do outro > 50 % |
+| Alerta | alerta, procedimento = prosseguir, conselho = abortar, rótulo "não certificado", modo paralelo, tempo ≤ 1 s; procedimento inseguro e alerta seguido seguro; massa acima do limite do local indicada |
+| Autorrotação | razão vertical > 1,8 × a com velocidade à frente; toque vertical mais forte; velocidade no solo acima da meta (limitação do flare) |
+| Missão | três perfis; a 1.500 m ISA+25 a restrição de distância mínima > 30 NM e combustível máximo no local coerente; ao nível do mar sem restrição |
+| Paralelo = sequencial | mesma previsão (seguro, motivo e duração prevista) nos dois modos |
+
+### O que é ESTIMADO ou ilustrativo no Passo 4
+
+- **Cenário 3D**: cidade, árvores, montanhas e terreno são ilustrativos. As dimensões do deck e do local vêm do modelo.
+- **Modelo 3D**: geometria aproximada da classe, sem pretensão de forma exata. Usa o raio do rotor e o diâmetro do duto do modelo.
+- **Câmeras e cores**: escolhas de apresentação.
+- **Cena (c)**: usa a massa padrão do modelo (MTOW, 2.980 kg), não a configuração UTI. O CG não é mostrado nessa cena.
+
+### Decisões que precisam do seu aval (Passo 4)
+
+1. **Tempo da previsão em paralelo**: máximo medido de 0,94 s, contra a estimativa de 0,72 s (ver acima). Cabe em 1 s nos 130 casos, mas com só ~6 % de folga no pior caso. Se quiser mais folga, o caminho é limitar o horizonte do ramo que o procedimento não indica, ou usar passo adaptativo na descida longa do abortar.
+2. **Capturas**: 8 imagens em `docs/screenshots/`, incluindo duas a mais que o pedido (a3 e d). Diga se quer outros instantes ou enquadramentos.
+3. **Próximo passo**: Template B (classe UH-60), conforme o roteiro.
+
 ## Base de certificação: por que usar os §§ 29.59, 29.60, 29.67 e 29.87 numa aeronave classe H135
 
 - O EC135/H135 é certificado como helicóptero **pequeno**: base JAR-27 / CS-27, e não CS-29.
@@ -844,7 +914,7 @@ Código: `src/physics/helicopter/advisory.py` (`BranchPredictor`), ligado ao `Ca
   - o RBAC 27 da ANAC adota a Part 27.
   - **Isso não torna o simulador um meio de demonstração de conformidade.**
 
-## Especificação do HUD para o Passo 4 (decidida no aval do Passo 2)
+## Especificação do HUD (decidida no aval do Passo 2; implementada no Passo 4)
 
 - **Disclaimer** sempre visível.
 - **Categoria A**:
@@ -870,7 +940,8 @@ Código: `src/physics/helicopter/advisory.py` (`BranchPredictor`), ligado ao `Ca
 - **Aerodinâmica**: compressibilidade e estol de pá recuante não são modelados, então o modelo não prevê V_NE. Faltam a sustentação da fuselagem, a deriva e o estabilizador horizontal.
 - **Antitorque**: duto ideal (sem perdas de difusor), deriva sem esteira do rotor principal nem interferência com o Fenestron; a incidência efetiva da deriva é ESTIMADA.
 - **Motores**: modelo de 1ª ordem, sem modelo de Ng. Consumo em linha de Willans CALIBRADA na autonomia e no alcance publicados, sem efeito de altitude ou temperatura sobre o consumo.
-- **Pouso**: esquis mola-amortecedor simples, sem modelo de dano. Os limites de toque usados nos critérios são ESTIMADOS.
+- **Pouso**: esquis mola-amortecedor simples, sem modelo de dano. Os limites de toque usados nos critérios são ESTIMADOS. Uma autorrotação vertical que toca o solo a ~20 m/s aparece intacta na cena, porque o modelo não calcula dano.
+- **NR depois do pouso**: com o coletivo embaixo, o governador deixa o NR subir até ~107 % por alguns segundos (visível no HUD dos pousos abortados). Não há limite de sobrevelocidade modelado.
 
 ## Parâmetros (status: FONTE / DERIVADO / CALIBRADO / ESTIMADO)
 

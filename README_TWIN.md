@@ -38,7 +38,15 @@ To regenerate: `python tools/twin_validation_report.py`
 
 ## Verification (`tests/test_physics_core.py`, 18 tests; `tests/test_web_session.py` covers Phase 2)
 
-The tests run with `python -m pytest tests/ -v` or `python -m unittest discover -s tests -t . -v`, and in CI through `.github/workflows/twin-tests.yml`. They check:
+The tests run with `python -m pytest tests/ -v` or `python -m unittest discover -s tests -t . -v`, and in CI through `.github/workflows/twin-tests.yml`.
+
+> **Estado do CI (05/10/2026).** A última execução verde do GitHub Actions é a
+> [#13](https://github.com/fasn98/DroneSimulator/actions/runs/37230157317). As execuções seguintes (#14 em diante)
+> não chegaram a rodar: o GitHub recusa iniciar os jobs por pendência de cobrança da conta ("recent account payments
+> have failed or your spending limit needs to be increased"). Não é falha de código. Enquanto isso, a suíte roda
+> localmente: **92/92 na entrega do Passo 3** e **100/100** na entrega do Passo 4 (`python -m unittest discover -s tests -t .`).
+
+They check:
 
 - Free fall matches g on Earth, Mars and the Moon (to 10⁻⁶ m).
 - A torque-free asymmetric tumble conserves energy and angular momentum (relative error < 10⁻⁶), and the quaternion norm stays at 1 (to 10⁻⁹).

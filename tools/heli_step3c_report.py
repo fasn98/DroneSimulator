@@ -50,7 +50,8 @@ def _advised(args):
             "flown": r["branch"], "safe": r["safe"], "reason": r["reason"],
             "procedure_action": a.get("procedure_action"), "alert": a.get("alert"), "advise": a.get("advise"),
             "predicted": a.get("predicted"), "wall_time_s": a.get("wall_time_s"),
-            "parallel_estimate_s": a.get("parallel_estimate_s")}
+            "parallel_estimate_s": a.get("parallel_estimate_s"), "mode": a.get("mode"),
+            "sequential_estimate_s": a.get("sequential_estimate_s")}
 
 
 def main():
@@ -92,8 +93,9 @@ def main():
                 jobs.append(("local de resgate", case["condition"], case["mass_kg"], cfg, rel,
                              old.get(("local de resgate", case["condition"], round(case["mass_kg"], 1), rel))))
                 base.append(r)
-        with Pool(2) as pool:
-            out = pool.map(_advised, jobs)
+        # sequential outer loop: the predictor itself runs the two branches in two worker processes (Passo 3
+        # approval), and the wall time must be measured on an otherwise idle machine
+        out = [_advised(j) for j in jobs]
         rows = []
         for o, b in zip(out, base):
             rec = o["procedure_action"] or b.get("recommended")
@@ -119,6 +121,11 @@ def main():
             "wall_time_s": {"mean": float(np.mean(wall)), "max": float(np.max(wall)),
                             "p95": float(np.percentile(wall, 95))},
             "parallel_estimate_s": {"mean": float(np.mean(par)), "max": float(np.max(par))},
+            "sequential_estimate_s": {"mean": float(np.mean([r["sequential_estimate_s"] for r in rows])),
+                                      "max": float(np.max([r["sequential_estimate_s"] for r in rows]))},
+            "modes": sorted({r["mode"] for r in rows}),
+            "note": "tempos de relógio medidos em ambiente de desenvolvimento (contêiner Linux, 2 núcleos); "
+                    "não representam hardware embarcado",
             "cpu": os.cpu_count(), "rows": rows}
         save()
     print(json.dumps({k: v for k, v in res.get("advisory_sweep", {}).items() if k != "rows"}, ensure_ascii=False,

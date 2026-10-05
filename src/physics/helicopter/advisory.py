@@ -8,13 +8,18 @@ If the branch the procedure calls for (before / after the TDP) is predicted unsa
 highlighted advisory alert is issued. The procedure stays the default: the advisory is only displayed unless the
 caller explicitly asks the "pilot" to follow it (used to measure what it would change).
 
-The wall-clock time of the prediction is measured and compared with the 1 s pilot reaction time.
+The two branches run in two warm worker processes (decision of the Passo 3 approval); the wall-clock time,
+including the transfer of the state, is measured and compared with the 1 s pilot reaction time (development
+environment, not on-board hardware).
 """
 
 from __future__ import annotations
 
 import copy
+import multiprocessing
+import os
 import time
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 
@@ -73,26 +78,70 @@ def _predict(sim, proc, action: str, criterion: str, vtoss_kt: Optional[float]) 
     return {"safe": bool(ev["safe"]), "reason": ev["reason"], "predicted_s": s.t - t0}
 
 
+def _timed_predict(sim, proc, action, criterion, vtoss_kt):
+    t = time.perf_counter()
+    r = _predict(sim, proc, action, criterion, vtoss_kt)
+    r["compute_s"] = time.perf_counter() - t
+    return r
+
+
+_POOL = None
+
+
+def _pool():
+    """Two worker processes, started once and kept warm (the prediction must not pay the start-up at the
+    failure). None where child processes cannot be started (e.g. inside a daemonic multiprocessing worker)."""
+    global _POOL
+    if _POOL is None:
+        try:
+            if multiprocessing.current_process().daemon or (os.cpu_count() or 1) < 2:
+                _POOL = False
+            else:
+                _POOL = ProcessPoolExecutor(max_workers=2, mp_context=multiprocessing.get_context("fork"))
+                list(_POOL.map(abs, (0, 0)))  # start and warm both workers
+        except (OSError, ValueError, AssertionError, RuntimeError):
+            _POOL = False
+    return _POOL or None
+
+
 @dataclass
 class BranchPredictor:
     criterion: str = "elevado_29_60"
     vtoss_kt: Optional[float] = None
+    parallel: bool = True  # the two branches in two processes (decision of the Passo 3 approval)
     result: Optional[Dict[str, object]] = None
     history: list = field(default_factory=list)
 
+    def __post_init__(self):
+        if self.parallel:
+            _pool()  # warm up before the take-off, not at the failure
+
     def __call__(self, sim, proc, procedure_action: str) -> Dict[str, object]:
+        args = (self.criterion, self.vtoss_kt)
+        pool = _pool() if self.parallel else None
         t0 = time.perf_counter()
-        rej = _predict(sim, proc, "abortar", self.criterion, self.vtoss_kt)
-        t1 = time.perf_counter()
-        con = _predict(sim, proc, "prosseguir", self.criterion, self.vtoss_kt)
+        mode = "sequencial"
+        if pool is not None:
+            try:  # the state is pickled and sent to both workers; the wall time includes that transfer
+                fr = pool.submit(_timed_predict, sim, proc, "abortar", *args)
+                fc = pool.submit(_timed_predict, sim, proc, "prosseguir", *args)
+                rej, con = fr.result(), fc.result()
+                mode = "paralelo"
+            except Exception:  # noqa: BLE001 - a broken pool falls back to the sequential prediction
+                pool = None
+        if pool is None:
+            rej = _timed_predict(sim, proc, "abortar", *args)
+            con = _timed_predict(sim, proc, "prosseguir", *args)
         t2 = time.perf_counter()
         other = "prosseguir" if procedure_action == "abortar" else "abortar"
         pred = {"abortar": rej, "prosseguir": con}
         alert = (not pred[procedure_action]["safe"]) and pred[other]["safe"]
+        each = [rej["compute_s"], con["compute_s"]]
         res = {"label": LABEL, "t": sim.t, "procedure_action": procedure_action, "predicted": pred,
-               "advise": other if alert else None, "alert": alert,
-               "wall_time_s": t2 - t0, "wall_time_each_s": [t1 - t0, t2 - t1],
-               "parallel_estimate_s": max(t1 - t0, t2 - t1), "within_budget": (t2 - t0) <= BUDGET_S}
+               "advise": other if alert else None, "alert": alert, "mode": mode,
+               "wall_time_s": t2 - t0, "wall_time_each_s": each,
+               "parallel_estimate_s": max(each), "sequential_estimate_s": sum(each),
+               "within_budget": (t2 - t0) <= BUDGET_S}
         self.result = res
         self.history.append(res)
         msg = (f"[{LABEL}] Previsão de ramos: o procedimento indica {procedure_action.upper()}, previsto como "

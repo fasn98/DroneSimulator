@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helicóptero UTI · Gêmeo Digital</title>
+<link rel="stylesheet" href="heli.css">
+</head>
+<body>
+<div id="frame">
+<div id="stage">
+  <div id="viewport"></div>
+  <div id="shadeT"></div><div id="shadeB"></div>
+  <!-- top -->
+  <div class="hud" id="tl"><div class="k" id="tlK">GÊMEO DIGITAL · TERRA · HELICÓPTERO UTI (bimotor classe H135, genérico)</div><div class="m" id="tlM"></div><div class="c" id="tlC"></div></div>
+  <div class="hud" id="tr"><div class="clock" id="clock">T+00:00.0</div><div class="s">física 6-DoF · RK4 a 200 Hz · controle a 50 Hz</div></div>
+  <div class="hud" id="disclaimer">Simulador conceitual e educacional. Não é um simulador certificado (FSTD) nem substitui dados do fabricante.</div>
+
+  <!-- left column -->
+  <div class="hud col" id="left">
+    <div class="box" id="sadpf"><div class="t">SADPF · AUTODIAGNÓSTICO</div><div class="l" id="sadpfL">NOMINAL</div><div class="msg" id="sadpfM"></div></div>
+    <div class="box" id="advisory">
+      <div class="t">SADPF · PREVISÃO DE RAMOS</div><div class="tag">CONSULTIVO · conceitual · não certificado</div>
+      <div class="l" id="advL"></div>
+      <div class="branches">
+        <div class="br" id="advRej"><span class="bn">ABORTAR</span><span class="bv"></span></div>
+        <div class="br" id="advCon"><span class="bn">PROSSEGUIR</span><span class="bv"></span></div>
+      </div>
+      <div class="msg" id="advM"></div>
+      <div class="time" id="advT"></div>
+    </div>
+    <div class="box" id="cata">
+      <div class="t">CATEGORIA A · HELIPONTO ELEVADO</div>
+      <div class="crit2">
+        <div class="cc main"><div class="ch">14 CFR 29.60 <span>(critério padrão do modelo)</span></div><div class="cm" id="m2960"></div><div class="cr" id="r2960"></div></div>
+        <div class="cc"><div class="ch">29.59(c) literal <span>(comparação)</span></div><div class="cm" id="m2959"></div><div class="cr" id="r2959"></div></div>
+      </div>
+      <div class="row"><span>Massa nesta decolagem</span><b id="cMass"></b></div>
+      <div class="row"><span>TDP · VTOSS</span><b id="cTdp"></b></div>
+      <div class="row"><span>Ramo</span><b id="cBranch">—</b></div>
+      <div class="row"><span>Descida abaixo do deck (29.60(a)(3))</span><b id="cDrop">—</b></div>
+      <div class="row"><span>Margem OEI 30 s, pairado</span><b id="cM30"></b></div>
+      <div class="row"><span>Margem OEI 2 min, na VTOSS</span><b id="cM2"></b></div>
+    </div>
+    <div class="box" id="mission">
+      <div class="t">MISSÃO · CONFIGURAÇÃO UTI</div>
+      <div class="sel" id="profSel"></div>
+      <div class="sel small" id="condSel"></div>
+      <div id="missionBody"></div>
+    </div>
+  </div>
+
+  <!-- right column -->
+  <div class="hud col" id="right">
+    <div class="box" id="panel">
+      <div class="row"><span>NR (rotor)</span><b id="nr">—</b></div>
+      <div class="sec">TORQUE POR MOTOR (% do torque 100 %)</div>
+      <div id="tqBars"></div>
+      <div class="row dim"><span>Ng</span><b>não modelado</b></div>
+      <div class="row"><span>Regime</span><b id="rating">—</b></div>
+      <div class="row"><span>Cronômetro OEI</span><b id="oei">—</b></div>
+      <div class="sep"></div>
+      <div class="row"><span>IAS</span><b id="ias">—</b></div>
+      <div class="row"><span>Vz</span><b id="vz">—</b></div>
+      <div class="row"><span id="hLbl">Altura dos esquis</span><b id="hgt">—</b></div>
+      <div class="row"><span>Margem de potência</span><b id="marg">—</b></div>
+      <div class="row"><span>Anel de vórtice (VRS)</span><b id="vrs">—</b></div>
+      <div class="sep"></div>
+      <div class="row"><span>Massa</span><b id="mass">—</b></div>
+      <div class="row"><span>CG longitudinal</span><b id="cg">—</b></div>
+      <div class="row"><span>Combustível</span><b id="fuel">—</b></div>
+      <div class="row"><span>Autonomia na potência atual</span><b id="endu">—</b></div>
+    </div>
+    <div class="box" id="hvBox"><div class="t" id="hvT">DIAGRAMA ALTURA-VELOCIDADE</div><canvas id="hv" width="372" height="190"></canvas><div class="note" id="hvN"></div></div>
+  </div>
+
+  <!-- autorotation split view -->
+  <div class="hud" id="split">
+    <div class="half" id="hL"><div class="hh">AUTORROTAÇÃO VERTICAL</div><div class="hb" id="hLb"></div></div>
+    <div class="half" id="hR"><div class="hh">COM VELOCIDADE À FRENTE</div><div class="hb" id="hRb"></div></div>
+    <div id="divider"></div>
+  </div>
+  <div class="hud" id="flareNote"></div>
+
+  <div class="hud" id="caption"><span id="capText"></span></div>
+  <div class="hud" id="foot">Terreno ilustrativo · voo, falha e respostas calculados pelo Twin (não é animação)</div>
+</div>
+</div>
+
+<!-- playback controls (hidden in capture mode) -->
+<div id="controls">
+  <div class="tabs" id="sceneTabs"></div>
+  <div class="tabs" id="runTabs"></div>
+  <button id="play">▶</button>
+  <input type="range" id="scrub" min="0" max="1000" value="0">
+  <span id="tlabel">0,0 s</span>
+  <select id="speed"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select>
+</div>
+<script type="module" src="heli.js"></script>
+</body>
+</html>

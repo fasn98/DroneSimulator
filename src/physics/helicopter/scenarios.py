@@ -105,7 +105,7 @@ class CatAConfig:
 def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = None, seed: int = 0,
               duration: float = 45.0, fail_rel_tdp_m: Optional[float] = None,
               force_action: Optional[str] = None, advisory: bool = False,
-              follow_advisory: bool = False) -> Dict[str, object]:
+              follow_advisory: bool = False, advisory_parallel: bool = True) -> Dict[str, object]:
     """branch: "reject" (failure at TDP - margin), "continue" (failure after the TDP) or "none" (AEO).
 
     fail_rel_tdp_m: if given, the engine fails when the skids reach TDP + fail_rel_tdp_m (negative = below the
@@ -121,7 +121,7 @@ def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = N
     proc = CatATakeoff(sim, tdp_height=cfg.tdp_height_m, vtoss_kt=v_toss or 60.0, force_action=force_action)
     if advisory or follow_advisory:
         from .advisory import BranchPredictor
-        proc.advisor = BranchPredictor(cfg.criterion, v_toss)
+        proc.advisor = BranchPredictor(cfg.criterion, v_toss, parallel=advisory_parallel)
         proc.follow_advisory = follow_advisory
 
     def guidance(t, x):
