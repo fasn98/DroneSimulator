@@ -4,7 +4,7 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0, 1 e 2 aprovados e encerrados. Passo 3 aprovado com ajustes; os ajustes (cruzeiro de referência comum, perfis de missão, faixa de massa Cat A, fontes brasileiras) estão concluídos e aguardam aval antes do Passo 4.** Os passos seguintes (HUD e documentação final) ainda não foram feitos.
+Estado atual: **Passos 0, 1, 2 e 3 aprovados. Os complementos do aval do Passo 3 (decolagem do local de resgate, regulação HEMS, RBAC 135.209) estão concluídos e aguardam aval antes do Passo 4.** Os passos seguintes (HUD e documentação final) ainda não foram feitos.
 
 ## Como rodar
 
@@ -18,6 +18,7 @@ python -m tools.heli_antitorque_sensitivity A          # sensibilidade da deriva
 python -m tools.heli_antitorque_sensitivity B          # sensibilidade do duto, com massas Cat A (~40 min, retomável)
 python -m unittest tests.test_helicopter_mission -v   # validação do Passo 3
 python -m tools.heli_step3_report                      # massa, CG, combustível e raio de ação (~2 min)
+python -m tools.heli_rescue_site_report                # decolagem do local de resgate (~20 min)
 python -m tools.heli_step2b_report                     # massas Cat A (2 critérios), falha × TDP, H-V (~70 min)
 python -m tools.heli_step2_report                      # demais cenários do Passo 2 (~5 min; usa o JSON acima)
 python -m tools.heli_flare_sweep 110 2                 # varredura do flare (~15 min por rodada)
@@ -529,6 +530,11 @@ O raio de ação depende diretamente do consumo, então conferi o consumo consta
   - **Forma (ESTIMADO)**: a vazão a potência zero vale 40 % do consumo AEO na potência máxima contínua.
   - **Escala (CALIBRADO)**: mínimos quadrados sobre a autonomia (na velocidade de máxima autonomia) e o alcance (na velocidade de máximo alcance) publicados. Hipóteses: a partir do MTOW, ISA, nível do mar, sem reserva; a Airbus não informa as condições.
   - **Resultado**: 43,3 kg/h por motor a potência zero e 0,229 kg/kWh de consumo marginal. Isso dá 0,38 kg/kWh na potência máxima contínua. Os erros ficam em +2,6 % na autonomia e −2,6 % no alcance.
+- **Troca aprovada (aval do Passo 3)**: o modelo prefere **consistência física** a ajuste exato aos dados da Airbus.
+  - Com a forma fixa, o alcance por quilo de combustível cai com a massa, como deve ser.
+  - O preço é um erro de **±2,6 %** contra a autonomia (+2,6 %) e o alcance (−2,6 %) publicados.
+  - O ajuste exato reproduzia os dois números, mas dava um alcance por quilo crescente com a massa, fisicamente errado.
+  - A fração de 40 % é ESTIMADO.
 - **Por que a forma é fixa**: a primeira versão (entregue na revisão anterior) ajustava os dois coeficientes exatamente aos dois números publicados. As duas velocidades de calibração pedem potências próximas (312 e 373 kW), então essa divisão é mal determinada: deu 64,7 kg/h a potência zero e só 0,092 kg/kWh marginal.
   - Com isso o **alcance específico crescia com a massa**, o que é fisicamente errado.
   - Também ajudava a fazer o raio de ação crescer com altitude e temperatura.
@@ -586,6 +592,64 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 
 ![Interior UTI](helicoptero/interior_uti.png)
 
+### Decolagem do local de resgate (perfil Resgate, decolagem de volta com o paciente)
+
+Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_report.py`, que gera `docs/helicoptero/local_resgate.json` e `local_resgate.png`.
+
+**Hipóteses**:
+- O local de resgate é **ao nível do solo, plano e sem obstáculos**, na mesma altitude, temperatura e vento da condição de decolagem de origem.
+- **Duas massas**:
+  - **2.369 kg**: decolagem de volta na missão de raio máximo;
+  - **2.601 kg**: missão mais curta, ainda com quase todo o combustível; é o caso mais pesado possível no Resgate com tanque padrão.
+- **Procedimento**: o mesmo perfil vertical do procedimento Categoria A, com TDP a 12 m (ESTIMADO), e o mesmo SADPF.
+
+**1. Margem de potência AEO no pairado** (potência de decolagem disponível − requerida):
+- IGE com os esquis a 1 m; OGE fora do efeito solo.
+- Valores na tabela do raio de ação, de 2.369 a 2.601 kg.
+- A menor margem é **+29 kW OGE** a 1.500 m ISA+25 com 2.601 kg.
+- O vento de proa não é creditado no pairado.
+
+**2. Capacidade OEI**:
+- **Varredura**: falha do motor em 10 alturas, de 1 a 20 m. Em cada uma foram voados os dois ramos (forçados):
+  - **abortar** = pousar de volta no local;
+  - **prosseguir** = baixar o nariz, acelerar até a VTOSS e subir.
+- **Critério de prosseguir**:
+  - nunca abaixo de 15 ft acima da superfície depois da falha (14 CFR 29.59(c), aplicado de forma literal porque o local é plano);
+  - atingir a VTOSS;
+  - subida OEI ≥ 100 ft/min (29.67(a)(1)).
+- **Intervalo exposto** = alturas de falha em que nenhum dos dois ramos é seguro.
+
+| Resultado | 2.369 kg (raio máximo) | 2.601 kg (missão mais curta) |
+|---|---|---|
+| Intervalo exposto | **nenhum**, nas 5 condições | **nenhum**, nas 5 condições |
+| Até 3 m | só abortar | só abortar |
+| 5 a 17 m | os dois seguros | os dois seguros, exceto a 1.000 m ISA+20 (5 m: só abortar) e a 1.500 m ISA+25 sem vento (5 a 14 m: só abortar) |
+| 20 m | só prosseguir (abortar tomba ao voltar com velocidade) | só prosseguir |
+
+- **Achado**: a 1.500 m ISA+25 sem vento, com 2.601 kg, uma falha **entre 11 e 14 m** leva o SADPF a recomendar **prosseguir**, porque já passou o TDP de 12 m.
+  - Nesse caso prosseguir toca o solo, enquanto abortar seria seguro.
+  - Não há intervalo exposto, mas **o TDP de 12 m é baixo demais** para essa massa e condição: ele precisaria subir para ~17 m, ou a massa de decolagem do local teria de ser limitada.
+  - Este é o mesmo mecanismo da massa máxima Categoria A, agora aplicado ao local de resgate.
+- **Duração do intervalo exposto**: zero em todos os casos. A grade de altura tem passos de 1,5 a 3 m, então um intervalo menor que isso poderia passar despercebido.
+
+![Decolagem do local de resgate](helicoptero/local_resgate.png)
+
+**3. O que a regulamentação diz sobre a classe de desempenho em locais de resgate aeromédico** (só o que foi lido no texto oficial):
+- **União Europeia, Regulamento (UE) 965/2012, Anexo V, SPA.HEMS.125** (versão aplicável desde 25/05/2024, [EASA Easy Access Rules for Air Operations](https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?page=50)):
+  - (c)(3): *"Helicopters that conduct operations to or from a HEMS operating site located in a hostile environment shall be:"* … *"operated in accordance with performance class 2, or if the conditions defined in point (a) are met, in performance class 3"*.
+  - (c)(1), para o heliponto de hospital em ambiente hostil congestionado usado como base: *"shall be operated in accordance with performance class 1"*.
+  - O GM1 SPA.HEMS.125(c)(3) diz que *"operations without an assured safe forced landing capability do not need a separate approval"* nesses locais, porque o perfil de risco já é conhecido.
+- **Definições** (Reg. 965/2012, Anexo I, texto original de 2012, [legislation.gov.uk](https://www.legislation.gov.uk/eur/2012/965/annexes/adopted/data.xht?view=snippet&wrap=true)):
+  - (86) classe de desempenho 2: *"in the event of failure of the critical engine, performance is available to enable the helicopter to safely continue the flight, except when the failure occurs early during the take-off manoeuvre or late in the landing manoeuvre, in which cases a forced landing may be required"*;
+  - (85) classe 1: pousar dentro da distância de decolagem rejeitada disponível ou prosseguir com segurança, conforme o momento da falha.
+- **Leitura para o modelo**: a regra europeia não exige classe 1 no local de resgate em ambiente hostil, mas classe 2 (ou 3 sob condições), aceitando uma janela inicial de exposição. O resultado do modelo (nenhum intervalo exposto com este procedimento e estas massas) é **mais exigente** que a classe 2.
+  - Isso é uma comparação de critérios, não uma conclusão de conformidade.
+  - Não li os textos de CAT.POL.H.305 nem das demais condições do (a), então não afirmo nada sobre eles.
+- **Brasil**:
+  - O RBAC 90 (Emenda 02, operações especiais de aviação pública, inclusive aeromédicas) **não menciona "classe de desempenho"** nem requisitos de falha de motor na decolagem, segundo a leitura do texto oficial. Ele trata de pouso e decolagem em local não cadastrado na seção 90.301.
+  - Da RBAC 135 (Emenda 15) só consegui ler o texto até a seção 135.128, então **não afirmo** se ela tem regra de classe de desempenho para operação aeromédica.
+  - **Lacuna registrada.**
+
 ### Envelope de CG e verificação no início e no fim do voo
 
 - **Envelope**: [TCDS EASA R.009](https://www.easa.europa.eu/en/downloads/7943/en), seção do EC135 T3H.
@@ -629,6 +693,7 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 | Transferência | com paciente | sem paciente | 2.068,5 kg |
 | Conservador | com paciente | com paciente | 2.068,5 kg |
 
+- **Pousos e decolagens das pontas na condição de referência** (aprovado). O efeito foi medido: em pairado na condição Cat A em vez da referência, a decolagem de origem e o pouso final (3 min cada) consumiriam a mais 0 kg (nível do mar, ISA), 0,15 kg (ISA+20), 0,4 kg (1.000 m ISA+20) e 0,6 kg (1.500 m ISA+25). Com a outra ponta na mesma condição, isso dobra para até ~1,2 kg, menos de 0,3 NM de raio.
 - A restrição Categoria A vale na **decolagem de origem**, na condição configurada.
 - No perfil Resgate, o paciente embarca na outra ponta. A decolagem de volta (2.369 kg) fica abaixo de todas as massas Cat A da tabela, mas a condição Cat A do local do resgate não é modelada.
 
@@ -638,17 +703,21 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 - cruzeiro na velocidade de máximo alcance da massa atual (91,5 kt na referência), sem vento;
 - **reserva final de 20 min no consumo normal de cruzeiro**, pela [RBAC 91.151(b)](https://pergamum.anac.gov.br/pergamum/vinculos/RBAC91EMD08.pdf) da ANAC (Emenda 08): *"Somente é permitido começar um voo VFR em um helicóptero se, considerando vento e condições meteorológicas conhecidas, houver combustível e óleo suficiente para voar até o local previsto para primeiro pouso e, assumindo consumo normal de cruzeiro, voar mais, pelo menos, 20 minutos."*
 - **Comparação**: a [14 CFR 135.209(b)](https://www.law.cornell.edu/cfr/text/14/135.209) da FAA pede os mesmos 20 min.
-- **Lacuna**: a RBAC 135 (Emenda 15) tem a seção "135.209 Autonomia para voo VFR" no índice, mas não consegui ler o texto dela. Se ela exigir mais que a RBAC 91 para operadores 135, o valor deve ser revisto.
+- **Lacuna (mantida)**: a RBAC 135 (Emenda 15) tem a seção "135.209 Autonomia para voo VFR" no índice da Subparte D, mas **não consegui ler o texto**. A RBAC 91.151(b) fica como padrão **provisório**.
+  - O PDF oficial, pelo caminho `arquivos/` e pelo caminho `pergamum/vinculos/`, só me entregou o texto até a seção 135.128.
+  - A página HTML da Emenda 12 na ANAC também parou antes da Subparte D.
+  - O download do PDF pela linha de comando foi bloqueado pela rede deste ambiente.
+  - Se você puder anexar o PDF, eu extraio a seção localmente. Se a 135.209 exigir mais para helicópteros, ela passa a ser o padrão.
 
 **Raio de ação, tanque padrão (560 kg)**. A massa Cat A aparece como faixa G 1,15–1,26; o raio entre parênteses é o do limite inferior quando difere.
 
-| Condição de decolagem | Massa máx. Cat A (G 1,15–1,26) | Resgate (padrão) | Transferência | Conservador |
-|---|---|---|---|---|
-| nível do mar, ISA | 2.980 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
-| nível do mar, ISA+20 | 2.907–2.931 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
-| 1.000 m, ISA+20 | 2.736–2.761 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
-| 1.500 m, ISA+25 | 2.590–2.614 kg | 141 NM · 560 kg (tanque) | **137 NM** (129) · 546 kg (massa Cat A) | **136 NM** (129) · 546 kg (massa Cat A) |
-| 1.500 m, ISA+25, proa 8 m/s | 2.761–2.809 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) |
+| Condição de decolagem | Massa máx. Cat A (G 1,15–1,26) | Resgate (padrão) | Transferência | Conservador | Decolagem do local de resgate (Resgate, com paciente, 2.369–2.601 kg) |
+|---|---|---|---|---|---|
+| nível do mar, ISA | 2.980 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +157 a +205 kW (IGE), +116 a +169 kW (OGE); OEI: sem intervalo exposto |
+| nível do mar, ISA+20 | 2.907–2.931 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +150 a +199 / +107 a +162 kW; OEI: sem intervalo exposto |
+| 1.000 m, ISA+20 | 2.736–2.761 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +115 a +167 / +69 a +128 kW; OEI: sem intervalo exposto |
+| 1.500 m, ISA+25 | 2.590–2.614 kg | 141 NM · 560 kg (tanque) | **137 NM** (129) · 546 kg (massa Cat A) | **136 NM** (129) · 546 kg (massa Cat A) | AEO: +76 a +131 / **+29** a +90 kW; OEI: sem intervalo exposto, mas **a 2.601 kg prosseguir só é seguro a partir de ~17 m**: com falha entre 11 e 14 m o SADPF recomenda prosseguir (TDP de 12 m) e isso toca o solo; abortar seria seguro |
+| 1.500 m, ISA+25, proa 8 m/s | 2.761–2.809 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +76 a +131 / +29 a +90 kW (vento não creditado no pairado); OEI: sem intervalo exposto |
 
 - Tempo de voo de ~2 h 59 min; reserva de ~50 kg.
 - **Com o cruzeiro em condição comum, o raio só muda quando a massa Cat A limita o combustível.** Isso só acontece a 1.500 m ISA+25 sem vento, nos perfis que saem com o paciente.
@@ -667,7 +736,7 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 - **Consumo**: forma da linha de Willans (40 % em potência zero).
 - **Envelope de CG**: forma linear entre os pontos publicados do TCDS.
 
-### Validação (Passo 3): `tests/test_helicopter_mission.py`, 8 testes
+### Validação (Passo 3): `tests/test_helicopter_mission.py`, 10 testes
 
 | Teste | Critério |
 |---|---|
@@ -679,6 +748,8 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 | Cruzeiro comum | o mesmo combustível dá o mesmo raio em condições de decolagem diferentes |
 | Perfis | Conservador ≤ Resgate e Transferência; troca de carga no sentido certo |
 | Reserva | 20 min (RBAC 91.151(b) / 14 CFR 135.209(b)); raio positivo |
+| Massa de decolagem do local de resgate | a da missão mais curta é maior que a do raio máximo |
+| Decolagem do local de resgate (nível do mar, 2.369 kg) | margens AEO positivas, IGE > OGE; a 3 m só abortar; a 9 m os dois ramos seguros; sem intervalo exposto |
 
 ### Decisões que precisam do seu aval
 
@@ -704,6 +775,7 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 - **Categoria A**:
   - **padrão**: modo heliponto elevado ([14 CFR 29.60](https://www.ecfr.gov/current/title-14/section-29.60)), com a massa máxima Cat A da configuração **como faixa**: de G = 1,15 (duto conservador) a G = 1,26 (padrão);
   - **missão**: perfil (Resgate, Transferência ou Conservador), combustível embarcável e raio de ação, indicando se o limite é o tanque ou a massa Cat A;
+  - **local de resgate**: margens AEO no pairado (IGE e OGE), mapa abortar/prosseguir por altura de falha, intervalo exposto e aviso quando o ramo recomendado pelo TDP não é seguro;
   - **comparação**: massa no modo literal ([29.59(c)](https://www.ecfr.gov/current/title-14/section-29.59)), exibida ao lado;
   - **profundidade máxima da descida abaixo do nível do deck**, que o 29.60(a)(3) exige determinar (`max_drop_below_deck_m`);
   - também: ramo e ação recomendada pelo SADPF, cronômetro OEI (30 s → 2 min), margens de potência OEI e perda máxima de altura.

@@ -88,5 +88,23 @@ class TestRadius(unittest.TestCase):
         self.assertGreater(r.radius_nm, 0.0)
 
 
+class TestRescueSite(unittest.TestCase):
+    def test_return_takeoff_masses(self):
+        r = catA_fuel_and_radius(2980.0, "resgate", params())
+        self.assertGreater(r["return_takeoff_mass_max_kg"], r["return_takeoff_mass_kg"])
+        self.assertLess(r["return_takeoff_mass_max_kg"], r["zero_fuel_mass_back_kg"] + r["fuel_kg"])
+
+    def test_site_takeoff_sea_level(self):
+        from src.physics.helicopter.scenarios import rescue_site_takeoff
+        r = rescue_site_takeoff(2369.0, heights=(3.0, 9.0))
+        self.assertGreater(r["aeo_margin_ige_kw"], r["aeo_margin_oge_kw"])
+        self.assertGreater(r["aeo_margin_oge_kw"], 0.0)
+        self.assertIsNone(r["exposure"])
+        low, mid = r["sweep"]
+        self.assertTrue(low["reject"]["safe"])
+        self.assertFalse(low["continue"]["safe"])  # too low to continue (29.59(c))
+        self.assertTrue(mid["reject"]["safe"] and mid["continue"]["safe"])
+
+
 if __name__ == "__main__":
     unittest.main()

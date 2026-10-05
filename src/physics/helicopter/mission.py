@@ -172,7 +172,8 @@ class RadiusResult:
 
 
 def radius_of_action(fuel_kg: float, zfm_out: float, zfm_back: Optional[float] = None,
-                     p: Optional[HeliParams] = None, step_nm: float = 1.0) -> RadiusResult:
+                     p: Optional[HeliParams] = None, step_nm: float = 1.0,
+                     fixed_radius_nm: Optional[float] = None) -> RadiusResult:
     """Out-and-back radius with the fuel on board, always flown in the reference condition (ISA, 1 000 ft MSL),
     so that the take-off condition only sets how much fuel can be loaded.
 
@@ -226,6 +227,10 @@ def radius_of_action(fuel_kg: float, zfm_out: float, zfm_back: Optional[float] =
         reserve = np.interp(m, ms, ff_tab) * RESERVE_MIN * 60
         return used + reserve, float(reserve), float(allow), t, m, v, m_ret
 
+    if fixed_radius_nm is not None:  # the mission at a given radius (e.g. 0: return take-off as heavy as possible)
+        need, reserve, allow, t, m_end, v, m_ret = mission(fixed_radius_nm)
+        return RadiusResult(fuel_kg, fixed_radius_nm, t / 60.0, float(v) / KT, reserve, allow, m0, float(m_end),
+                            float(m_ret), "" if need <= fuel_kg else "combustível insuficiente para este raio")
     need0, res0, allow0, *_ = mission(0.0)
     if need0 > fuel_kg:
         return RadiusResult(fuel_kg, 0.0, 0.0, None, res0, allow0, m0, None, None,
@@ -259,11 +264,13 @@ def catA_fuel_and_radius(cat_a_mass: float, profile: str = "resgate", p: Optiona
     limited_by = "tanque" if room >= capacity_kg else ("massa Cat A" if room > 0 else "sem margem")
     r = radius_of_action(fuel, zfm_out, zfm_back, p)
     fuel_ret = (r.return_takeoff_mass_kg - zfm_back) if r.return_takeoff_mass_kg else fuel
+    r0 = radius_of_action(fuel, zfm_out, zfm_back, p, fixed_radius_nm=0.0)  # shortest mission: heaviest return
     fuel_min = r.reserve_kg if r.radius_nm is not None else 0.0
     return {"profile": profile, "cat_a_mass_kg": cat_a_mass, "zero_fuel_mass_out_kg": zfm_out,
             "zero_fuel_mass_back_kg": zfm_back, "capacity_kg": capacity_kg, "fuel_kg": fuel,
             "fuel_limited_by": limited_by, "takeoff_mass_kg": zfm_out + fuel,
             "return_takeoff_mass_kg": r.return_takeoff_mass_kg,
+            "return_takeoff_mass_max_kg": r0.return_takeoff_mass_kg,
             "radius_nm": r.radius_nm, "radius_km": (r.radius_nm or 0.0) * NM / 1000,
             "flight_time_min": r.flight_time_min, "cruise_kt": r.cruise_kt, "reserve_kg": r.reserve_kg,
             "allowances_kg": r.allowances_kg, "note": r.note,

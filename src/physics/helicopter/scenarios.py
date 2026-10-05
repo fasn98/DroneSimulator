@@ -314,6 +314,57 @@ def path_in_hv(path_v_kt, path_h_m, points: List[dict], mode: str = "inside") ->
 
 
 # ------------------------------------------------------------------------------------------------
+RESCUE_FAIL_HEIGHTS = (1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 12.5, 14.0, 17.0, 20.0)  # m skid height (grid of the sweep)
+
+
+def rescue_site_takeoff(mass: float, elevation_m: float = 0.0, delta_t: float = 0.0, headwind_ms: float = 0.0,
+                        tdp_height_m: float = 12.0, heights=RESCUE_FAIL_HEIGHTS, seed: int = 0) -> Dict[str, object]:
+    """Take-off from a ground-level HEMS operating site (the return leg of the Resgate profile, patient on board).
+
+    1. AEO power margin in hover in and out of ground effect (take-off rating, site atmosphere).
+    2. OEI capability along the same vertical take-off profile as the Category A procedure (TDP above the
+       surface): for each failure height, flying the reject branch and the continue branch (forced). Continue is
+       judged with 14 CFR 29.59(c) (>= 15 ft above the take-off surface after the failure) and 29.67(a)(1); the
+       site is assumed flat and free of obstacles. Failure heights where neither branch is safe form the exposed
+       interval; its duration is read on the AEO take-off profile.
+    """
+    cfg = CatAConfig(elevation_m=elevation_m, delta_t=delta_t, headwind_ms=headwind_ms, deck_height_m=0.0,
+                     deck_half_size_m=math.inf, tdp_height_m=tdp_height_m, criterion="literal_29_59c")
+    atm = _atm(elevation_m, delta_t, headwind_ms)
+    p = HelicopterSimulator(HeliParams(mass=mass), atm, wind=False).p
+    rho = atm.density(0.0)
+    avail = 2 * engine_limit_w(p, atm, 0.0, "TO", 2) / 1e3
+    oge = level_flight(p, 0.0, rho, mass).p_engines / 1e3
+    ige = level_flight(p, 0.0, rho, mass, z_hub=1.0 + p.cg_h + p.hub_h).p_engines / 1e3  # skids 1 m up
+    rows = []
+    for h in heights:
+        row = {"fail_skid_h_m": float(h)}
+        for act, key in (("abortar", "reject"), ("prosseguir", "continue")):
+            r = cat_a_run(mass, cfg=cfg, seed=seed, fail_rel_tdp_m=float(h) - tdp_height_m, force_action=act)
+            row[key] = {"safe": r["safe"], "reason": r["reason"]}
+        row["recommended"] = (r["sadpf"] or {}).get("recommendation")
+        row["exposed"] = not (row["reject"]["safe"] or row["continue"]["safe"])
+        rows.append(row)
+    aeo = cat_a_run(mass, "none", cfg, seed=seed, duration=30.0)
+    tel = aeo["telemetry"]
+    t, hs = tel.column("t"), tel.column("z") - p.cg_h
+    exp_h = [r["fail_skid_h_m"] for r in rows if r["exposed"]]
+    exposure = None
+    if exp_h:
+        lo, hi = min(exp_h), max(exp_h)
+        i_lo = int(np.argmax(hs >= lo - 1e-6))
+        i_hi = int(np.argmax(hs >= hi - 1e-6))
+        exposure = {"from_skid_h_m": lo, "to_skid_h_m": hi, "duration_s": float(t[i_hi] - t[i_lo]),
+                    "note": f"resolução da grade de altura: {np.diff(sorted(heights)).max():.1f} m"}
+    return {"mass_kg": mass, "elevation_m": elevation_m, "delta_t": delta_t, "headwind_ms": headwind_ms,
+            "aeo_available_kw": avail, "hover_oge_kw": oge, "hover_ige_kw": ige,
+            "aeo_margin_oge_kw": avail - oge, "aeo_margin_ige_kw": avail - ige,
+            "aeo_reaches_tdp": aeo["phases"] and any(e["phase"] == "tdp" for e in aeo["phases"]),
+            "sweep": rows, "exposure": exposure,
+            "always_safe": not exp_h and all(r["reject"]["safe"] or r["continue"]["safe"] for r in rows)}
+
+
+# ------------------------------------------------------------------------------------------------
 def transfer(distance_m: float = 20_000.0, cruise_alt: float = 300.0, cruise_kt: float = 110.0, seed: int = 0,
              wind_ms: float = 5.0, wind_to_deg: float = 200.0, duration: float = 900.0) -> Dict[str, object]:
     """Inter-hospital transfer: heliport to heliport (both at ground level here)."""
