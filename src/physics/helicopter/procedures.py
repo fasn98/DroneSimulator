@@ -178,17 +178,14 @@ def evaluate_cat_a(tel, sim, vtoss_kt: Optional[float], branch: str,
     if len(airborne) == 0:
         return {**res, "safe": False, "reason": "não decolou"}
     if branch == "reject":
-        # the touchdown back on the deck: the first contact after the aircraft has been airborne for 1 s (skid
-        # bounces at lift-off are not the touchdown) and after the engine failure
-        dt_rec = float(np.median(np.diff(t))) if len(t) > 1 else 0.1
-        n1 = max(int(round(1.0 / dt_rec)), 1)
-        flying = np.array([i >= n1 and not ground[i - n1:i].any() for i in idx])
-        first_fly = int(np.argmax(flying)) if flying.any() else len(t)
-        after = np.where(ground & (idx >= first_fly) & (t >= (sim.fail_time if sim.fail_time is not None else 0.0)))[0]
-        if len(after) == 0:
+        # the touchdown back on the deck: the landing that ends the flight, after the engine failure and after the
+        # aircraft has been airborne for 1 s (a skid bounce at lift-off is never the touchdown); see find_touchdown
+        td = find_touchdown(t, ground, vz, agl_skid, t_from=sim.fail_time, min_air_s=1.0)
+        if td is None:
             return {**res, "safe": False, "reason": "não pousou"}
-        k = after[0]
-        sink = float(-min(vz[max(k - 2, 0):k + 1]))
+        k = td["k"]
+        sink = td["sink_ms"]
+        res.update(touchdown_t=td["t"], n_bounces=td["n_bounces"])
         on_pad = pad.on_pad(x[k], y[k], margin=1.0) and abs(h_skid[k]) < 1.0
         tilt = float(np.max(np.hypot(tel.column("roll_deg"), tel.column("pitch_deg"))[k:]))
         res.update(touchdown_sink_ms=sink, on_pad=bool(on_pad), max_tilt_after_deg=tilt, outcome=classify_touchdown(sink),
@@ -419,27 +416,60 @@ def classify_touchdown(sink_ms: float) -> Dict[str, object]:
             "thresholds_ms": {"limit_29_725": TD_LIMIT_MS, "reserve_29_727": TD_RESERVE_MS, "seat_29_562": TD_SEAT_MS}}
 
 
-def evaluate_landing(tel, t_from: Optional[float] = None, min_air_s: float = 0.0) -> Dict[str, float]:
-    """First touchdown. `t_from`: only contacts after this time (e.g. the engine failure); `min_air_s`: the
-    aircraft must have been airborne this long before the contact (ignores skid bounces at lift-off)."""
+def find_touchdown(t, ground, vz, agl_skid, t_from: Optional[float] = None, min_air_s: float = 1.0,
+                   bounce_gap_s: float = 2.0, bounce_height_m: float = 1.5) -> Optional[Dict[str, object]]:
+    """The touchdown that ends the flight (correction of the aval do Passo 4).
+
+    Contacts are the air -> ground transitions. The landing is the LAST contact of the record (the one before the
+    aircraft stops) together with the bounces just before it: a previous contact belongs to the same landing when
+    the aircraft was back in the air for at most `bounce_gap_s` and never higher than `bounce_height_m`. The first
+    contact of that landing must come after `t_from` (e.g. the engine failure) and after the aircraft has been
+    airborne for at least `min_air_s` (so a skid bounce at lift-off is never taken as the touchdown). The sink
+    rate is the largest among the contacts of the landing. Returns None when there is no such touchdown."""
+    t, ground, vz, agl_skid = (np.asarray(a) for a in (t, ground, vz, agl_skid))
+    ground = ground.astype(bool)
+    n = len(t)
+    if n < 2:
+        return None
+    dt = float(np.median(np.diff(t)))
+    n_air = max(int(round(min_air_s / dt)), 1)
+    contacts = [k for k in range(1, n) if ground[k] and not ground[k - 1]]
+
+    def valid_first(k):
+        return (t_from is None or t[k] >= t_from) and k >= n_air and not ground[k - n_air:k].any()
+
+    if not contacts:
+        return None
+    seq = [contacts[-1]]
+    for j in reversed(contacts[:-1]):
+        nxt = seq[0]
+        lift = j + int(np.argmax(~ground[j:nxt])) if (~ground[j:nxt]).any() else nxt  # leaves the ground again
+        gap_s = t[nxt] - t[lift]
+        if gap_s <= bounce_gap_s and float(np.max(agl_skid[lift:nxt], initial=0.0)) <= bounce_height_m:
+            seq.insert(0, j)
+        else:
+            break
+    while seq and not valid_first(seq[0]):  # e.g. the lift-off bounce: not part of the landing
+        seq.pop(0)
+    if not seq:
+        return None
+    sinks = [float(-min(vz[max(k - 2, 0):k + 1])) for k in seq]
+    i = int(np.argmax(sinks))
+    return {"k": seq[0], "k_last": seq[-1], "contacts": seq, "t": float(t[seq[0]]), "t_last": float(t[seq[-1]]),
+            "sink_ms": max(sinks), "k_max": seq[i], "n_bounces": len(seq) - 1}
+
+
+def evaluate_landing(tel, t_from: Optional[float] = None, min_air_s: float = 1.0) -> Dict[str, float]:
+    """The touchdown that ends the flight (see find_touchdown)."""
     t, vz, vx, vy = (tel.column(k) for k in ("t", "vz", "vx", "vy"))
-    ground = tel.column("on_ground") > 0
-    idx = np.arange(len(t))
-    air = np.where(~ground)[0]
-    ok = ground & (idx > (air[0] if len(air) else 0))
-    if t_from is not None:
-        ok &= t >= t_from
-    if min_air_s > 0.0:
-        # airborne for at least min_air_s just before the contact
-        n_air = int(round(min_air_s / max(float(np.median(np.diff(t))) if len(t) > 1 else 0.1, 1e-6)))
-        prev_air = np.array([i >= n_air and not ground[i - n_air:i].any() for i in idx])
-        ok &= prev_air
-    after = np.where(ok)[0]
-    if len(after) == 0:
+    ground, agl = tel.column("on_ground") > 0, tel.column("agl")
+    agl_skid = agl - (float(np.median(agl[ground])) if ground.any() else 0.0)  # height of the skids above ground
+    td = find_touchdown(t, ground, vz, agl_skid, t_from=t_from, min_air_s=min_air_s)
+    if td is None:
         return {"landed": False}
-    k = after[0]
-    sink = float(-min(vz[max(k - 2, 0):k + 1]))
-    return {"landed": True, "touchdown_t": float(t[k]), "touchdown_sink_ms": sink, "outcome": classify_touchdown(sink),
+    k, sink = td["k"], td["sink_ms"]
+    return {"landed": True, "touchdown_t": td["t"], "touchdown_sink_ms": sink, "outcome": classify_touchdown(sink),
+            "n_bounces": td["n_bounces"], "final_contact_t": td["t_last"],
             "touchdown_pitch_up_deg": float(-tel.column("pitch_deg")[k]),
             "touchdown_ground_speed_ms": float(np.hypot(vx[k], vy[k])),
             "max_tilt_after_deg": float(np.max(np.hypot(tel.column("roll_deg"), tel.column("pitch_deg"))[k:]))}
