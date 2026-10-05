@@ -1,0 +1,6738 @@
+{
+ "rescue_max_mass": [
+  {
+   "condition": "nível do mar, ISA",
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 12.0,
+   "mass_kg": 2906.875,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.1 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2931.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 2.3 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.3 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.1 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 4.2 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2906.875,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "nível do mar, ISA+20",
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 12.0,
+   "mass_kg": 2833.75,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 0.7 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.7 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.7 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.5 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2833.75,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2858.125,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 4.1 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 4.1 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "1.000 m, ISA+20",
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 12.0,
+   "mass_kg": 2663.125,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2687.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 1.4 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.4 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.6 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.6 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2638.75,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2663.125,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "1.500 m, ISA+25",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 12.0,
+   "mass_kg": 2516.875,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.9 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2395.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2492.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2541.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 1.9 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.0 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 4.0 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2516.875,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "1.500 m, ISA+25, proa 8 m/s",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "tdp_height_m": 12.0,
+   "mass_kg": 2736.25,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 0.4 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.4 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.4 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.4 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2687.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2736.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2760.625,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 3.0 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.0 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "nível do mar, ISA",
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 17.0,
+   "mass_kg": 2931.25,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.3 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.5 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2931.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2955.625,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 2.9 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 4.2 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "nível do mar, ISA+20",
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 17.0,
+   "mass_kg": 2882.5,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2931.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2906.875,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.3 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.5 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "1.000 m, ISA+20",
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 17.0,
+   "mass_kg": 2687.5,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2687.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2736.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.6 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2711.875,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 2.5 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.5 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.6 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "1.500 m, ISA+25",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "tdp_height_m": 17.0,
+   "mass_kg": 2541.25,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.7 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2395.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2492.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2541.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2565.625,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 2.7 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.7 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.8 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "condition": "1.500 m, ISA+25, proa 8 m/s",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "tdp_height_m": 17.0,
+   "mass_kg": 2785.0,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2833.75,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2809.375,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 1.5 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.5 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 2.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "advisory_sweep": {
+  "n_cases": 130,
+  "n_alerts": 3,
+  "n_changed": 3,
+  "n_unsafe_to_safe": 3,
+  "n_safe_to_unsafe": 0,
+  "n_prediction_correct": 130,
+  "n_with_prediction": 130,
+  "n_wrong_advice": 0,
+  "n_missed": 0,
+  "n_over_budget": 0,
+  "wall_time_s": {
+   "mean": 0.6289544600000296,
+   "max": 0.8952368459995341,
+   "p95": 0.7621425945499141
+  },
+  "parallel_estimate_s": {
+   "mean": 0.43325815074616775,
+   "max": 0.7172185159997753
+  },
+  "cpu": 2,
+  "rows": [
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -6.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.600000000000096
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 10.200000000000125
+     }
+    },
+    "wall_time_s": 0.6747529260001102,
+    "parallel_estimate_s": 0.36936672299998463,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.900000000000242
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "cruzou a borda a 0.8 m acima do deck (< 15 ft, 29.60)",
+      "predicted_s": 11.20000000000015
+     }
+    },
+    "wall_time_s": 0.6004977849997886,
+    "parallel_estimate_s": 0.3115421519996744,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -4.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.100000000000298
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "cruzou a borda a 1.6 m acima do deck (< 15 ft, 29.60)",
+      "predicted_s": 11.200000000000157
+     }
+    },
+    "wall_time_s": 0.6192178130004322,
+    "parallel_estimate_s": 0.3264623800005211,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.300000000000301
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "cruzou a borda a 2.2 m acima do deck (< 15 ft, 29.60)",
+      "predicted_s": 11.200000000000157
+     }
+    },
+    "wall_time_s": 0.581035322000389,
+    "parallel_estimate_s": 0.31235319200004596,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000304
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "cruzou a borda a 3.2 m acima do deck (< 15 ft, 29.60)",
+      "predicted_s": 11.200000000000157
+     }
+    },
+    "wall_time_s": 0.6287472000003618,
+    "parallel_estimate_s": 0.36183804699976463,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -1.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.600000000000305
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.500000000000147
+     }
+    },
+    "wall_time_s": 0.6310855199999423,
+    "parallel_estimate_s": 0.3431173620001573,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.600000000000305
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.500000000000147
+     }
+    },
+    "wall_time_s": 0.5956076550000944,
+    "parallel_estimate_s": 0.3330501770005867,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": -0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.800000000000308
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.00000000000014
+     }
+    },
+    "wall_time_s": 0.5623914309999236,
+    "parallel_estimate_s": 0.319591739000316,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": 0.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.900000000000309
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.00000000000014
+     }
+    },
+    "wall_time_s": 0.590746790000594,
+    "parallel_estimate_s": 0.3406763240000146,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": 1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.00000000000031
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.500000000000133
+     }
+    },
+    "wall_time_s": 0.5665057780006464,
+    "parallel_estimate_s": 0.33039009500043903,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.100000000000298
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000126
+     }
+    },
+    "wall_time_s": 0.5520952569995643,
+    "parallel_estimate_s": 0.3332862239994938,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": 3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.2000000000003
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.500000000000119
+     }
+    },
+    "wall_time_s": 0.5545762470001137,
+    "parallel_estimate_s": 0.34367914700033,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": 4.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.300000000000301
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.5457123400001365,
+    "parallel_estimate_s": 0.33912766100002045,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 8.300000000000315
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.5793921579997914,
+    "parallel_estimate_s": 0.39144994399975985,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "nivel_do_mar_2980kg",
+    "mass_kg": 2980.0,
+    "fail_rel_tdp_m": 6.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 8.500000000000218
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000098
+     }
+    },
+    "wall_time_s": 0.45156098600000405,
+    "parallel_estimate_s": 0.2814590269999826,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -6.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.400000000000038
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 5.200000000000063
+     }
+    },
+    "wall_time_s": 0.45595278200016764,
+    "parallel_estimate_s": 0.3047736080006871,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.6000000000000565
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 5.5000000000000675
+     }
+    },
+    "wall_time_s": 0.47300850699957664,
+    "parallel_estimate_s": 0.32253296299950307,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -4.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.7000000000001645
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 11.200000000000147
+     }
+    },
+    "wall_time_s": 0.6110562170006233,
+    "parallel_estimate_s": 0.3132782210004734,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000297
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "cruzou a borda a 1.3 m acima do deck (< 15 ft, 29.60)",
+      "predicted_s": 12.200000000000172
+     }
+    },
+    "wall_time_s": 0.696515583999826,
+    "parallel_estimate_s": 0.3748724810002386,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.2000000000002995
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "cruzou a borda a 3.0 m acima do deck (< 15 ft, 29.60)",
+      "predicted_s": 12.000000000000169
+     }
+    },
+    "wall_time_s": 0.641837015999954,
+    "parallel_estimate_s": 0.3306601270005558,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -1.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.2000000000002995
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.000000000000169
+     }
+    },
+    "wall_time_s": 0.6052504059998682,
+    "parallel_estimate_s": 0.3188129050004136,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.300000000000301
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.500000000000162
+     }
+    },
+    "wall_time_s": 0.614467753000099,
+    "parallel_estimate_s": 0.3220007429999896,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": -0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.400000000000302
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.500000000000162
+     }
+    },
+    "wall_time_s": 0.6182073189993389,
+    "parallel_estimate_s": 0.3338577009999426,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": 0.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.400000000000288
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.000000000000155
+     }
+    },
+    "wall_time_s": 0.5820436920002976,
+    "parallel_estimate_s": 0.3014651559997219,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": 1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.600000000000305
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.000000000000155
+     }
+    },
+    "wall_time_s": 0.6149411970000074,
+    "parallel_estimate_s": 0.3301187490005759,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.700000000000292
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.500000000000147
+     }
+    },
+    "wall_time_s": 0.5855427879996569,
+    "parallel_estimate_s": 0.3182001579998541,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": 3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.800000000000294
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.00000000000014
+     }
+    },
+    "wall_time_s": 0.5636987500001851,
+    "parallel_estimate_s": 0.31780214399987017,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": 4.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.900000000000295
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.500000000000133
+     }
+    },
+    "wall_time_s": 0.5709171099997548,
+    "parallel_estimate_s": 0.3360246950005603,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.00000000000031
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000126
+     }
+    },
+    "wall_time_s": 0.595382772999983,
+    "parallel_estimate_s": 0.3544624999994994,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "heliponto elevado",
+    "condition": "1500m_isa25_2614kg",
+    "mass_kg": 2614.0,
+    "fail_rel_tdp_m": 6.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 7.900000000000295
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.500000000000119
+     }
+    },
+    "wall_time_s": 0.5295056559998557,
+    "parallel_estimate_s": 0.323961459000202,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.700000000000005
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.000000000000066
+     }
+    },
+    "wall_time_s": 0.679264874999717,
+    "parallel_estimate_s": 0.47489702199982275,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.100000000000035
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.000000000000083
+     }
+    },
+    "wall_time_s": 0.6338761059996614,
+    "parallel_estimate_s": 0.42709241999909864,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.300000000000308
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000096
+     }
+    },
+    "wall_time_s": 0.6780959099996835,
+    "parallel_estimate_s": 0.46259126199947787,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.300000000000397
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000108
+     }
+    },
+    "wall_time_s": 0.6220615470001576,
+    "parallel_estimate_s": 0.43621590200018545,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.000000000000396
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.6325105239993718,
+    "parallel_estimate_s": 0.446431936999943,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.800000000000407
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.706235167000159,
+    "parallel_estimate_s": 0.5298961329999656,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.40000000000043
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000098
+     }
+    },
+    "wall_time_s": 0.6860452900000382,
+    "parallel_estimate_s": 0.5127558049998697,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 14.000000000000425
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.500000000000091
+     }
+    },
+    "wall_time_s": 0.6453735370005234,
+    "parallel_estimate_s": 0.4916943320004066,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 15.300000000000457
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.0000000000000835
+     }
+    },
+    "wall_time_s": 0.7182977090005807,
+    "parallel_estimate_s": 0.5701834720002807,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 16.900000000000496
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.000000000000069
+     }
+    },
+    "wall_time_s": 0.8952368459995341,
+    "parallel_estimate_s": 0.6802380669996637,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.80000000000003
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.100000000000076
+     }
+    },
+    "wall_time_s": 0.6492535790002876,
+    "parallel_estimate_s": 0.45524601800025266,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000044
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.000000000000094
+     }
+    },
+    "wall_time_s": 0.6006670599999779,
+    "parallel_estimate_s": 0.4122746900002312,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.300000000000383
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000108
+     }
+    },
+    "wall_time_s": 0.62906405800004,
+    "parallel_estimate_s": 0.430752074999873,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.200000000000385
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.652414924000368,
+    "parallel_estimate_s": 0.4538541580004676,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.00000000000041
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.6943792060001215,
+    "parallel_estimate_s": 0.4902857329998369,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.800000000000407
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.6519767630006754,
+    "parallel_estimate_s": 0.47433711900066555,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.400000000000416
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000098
+     }
+    },
+    "wall_time_s": 0.6878651990000435,
+    "parallel_estimate_s": 0.5208781219998855,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 14.000000000000425
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.500000000000091
+     }
+    },
+    "wall_time_s": 0.7609619859995291,
+    "parallel_estimate_s": 0.5983150120000573,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 15.400000000000459
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.0000000000000835
+     }
+    },
+    "wall_time_s": 0.788133173999995,
+    "parallel_estimate_s": 0.6368375359998026,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 16.90000000000048
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.000000000000069
+     }
+    },
+    "wall_time_s": 0.763108547000229,
+    "parallel_estimate_s": 0.6329406660006498,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.700000000000005
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.000000000000066
+     }
+    },
+    "wall_time_s": 0.5993181309995634,
+    "parallel_estimate_s": 0.4108320300001651,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.10000000000004
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.0 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.000000000000085
+     }
+    },
+    "wall_time_s": 0.6371729840002445,
+    "parallel_estimate_s": 0.40251288799936447,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.400000000000345
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000098
+     }
+    },
+    "wall_time_s": 0.6524706489999517,
+    "parallel_estimate_s": 0.45487514900014503,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.300000000000397
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.00000000000011
+     }
+    },
+    "wall_time_s": 0.7060936220004805,
+    "parallel_estimate_s": 0.490867986000012,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.000000000000396
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.666997813999842,
+    "parallel_estimate_s": 0.47828320900043764,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.800000000000407
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.6772829269993963,
+    "parallel_estimate_s": 0.491798884999298,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.40000000000043
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000098
+     }
+    },
+    "wall_time_s": 0.702718494999317,
+    "parallel_estimate_s": 0.5202769809993697,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 14.000000000000425
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.500000000000091
+     }
+    },
+    "wall_time_s": 0.6698092269998597,
+    "parallel_estimate_s": 0.49625498199930007,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 15.300000000000457
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.0000000000000835
+     }
+    },
+    "wall_time_s": 0.7234324989995002,
+    "parallel_estimate_s": 0.5606700639991686,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 17.000000000000497
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.000000000000069
+     }
+    },
+    "wall_time_s": 0.8092571830002271,
+    "parallel_estimate_s": 0.6827427090001947,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.000000000000034
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.100000000000078
+     }
+    },
+    "wall_time_s": 0.6308984890001739,
+    "parallel_estimate_s": 0.4414915650004332,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000048
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.000000000000096
+     }
+    },
+    "wall_time_s": 0.6600655729998834,
+    "parallel_estimate_s": 0.4586179429998083,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.300000000000383
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.00000000000011
+     }
+    },
+    "wall_time_s": 0.6788678910006638,
+    "parallel_estimate_s": 0.4735116360006941,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.200000000000385
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.6364127979995828,
+    "parallel_estimate_s": 0.4460956819993953,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.000000000000396
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.7186949639999511,
+    "parallel_estimate_s": 0.5230398280000372,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.800000000000407
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.6658314129999781,
+    "parallel_estimate_s": 0.4699149540001599,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.400000000000416
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000098
+     }
+    },
+    "wall_time_s": 0.649111959000038,
+    "parallel_estimate_s": 0.48138491499958036,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 14.000000000000439
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.500000000000091
+     }
+    },
+    "wall_time_s": 0.7133933370005252,
+    "parallel_estimate_s": 0.5571789810001064,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 15.400000000000459
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.0000000000000835
+     }
+    },
+    "wall_time_s": 0.7187737920003201,
+    "parallel_estimate_s": 0.5705371750000268,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "nível do mar, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 16.900000000000496
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.000000000000069
+     }
+    },
+    "wall_time_s": 0.8079803080008787,
+    "parallel_estimate_s": 0.6170760950008116,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.80000000000001
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.10000000000007
+     }
+    },
+    "wall_time_s": 0.5861131419997037,
+    "parallel_estimate_s": 0.3973380959996575,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.00000000000004
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.1 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 8.000000000000087
+     }
+    },
+    "wall_time_s": 0.6179961520001598,
+    "parallel_estimate_s": 0.41604293399996095,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.300000000000358
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000101
+     }
+    },
+    "wall_time_s": 0.6698503809993781,
+    "parallel_estimate_s": 0.44603396200000134,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.200000000000385
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000114
+     }
+    },
+    "wall_time_s": 0.7109450080006354,
+    "parallel_estimate_s": 0.5113512530006119,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.000000000000396
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.6878956219998145,
+    "parallel_estimate_s": 0.4889529490001223,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.800000000000407
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.7542376049996165,
+    "parallel_estimate_s": 0.5411361199994644,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.300000000000415
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000098
+     }
+    },
+    "wall_time_s": 0.665041492000455,
+    "parallel_estimate_s": 0.49748571000054653,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.900000000000423
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.500000000000091
+     }
+    },
+    "wall_time_s": 0.6552482050001345,
+    "parallel_estimate_s": 0.4982968969998183,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 15.300000000000457
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.0000000000000835
+     }
+    },
+    "wall_time_s": 0.8568728430000192,
+    "parallel_estimate_s": 0.6331860379996215,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 16.900000000000496
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.000000000000069
+     }
+    },
+    "wall_time_s": 0.8515530109998508,
+    "parallel_estimate_s": 0.7172185159997753,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.600000000000028
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 6.700000000000051
+     }
+    },
+    "wall_time_s": 0.6183356999999887,
+    "parallel_estimate_s": 0.42833876999975473,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.5000000000000355
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 9.400000000000118
+     }
+    },
+    "wall_time_s": 0.5768590170000607,
+    "parallel_estimate_s": 0.32466990200009604,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.300000000000116
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.8 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 10.00000000000014
+     }
+    },
+    "wall_time_s": 0.6067514100004701,
+    "parallel_estimate_s": 0.3541477179996946,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.900000000000324
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.00000000000014
+     }
+    },
+    "wall_time_s": 0.6832269340002313,
+    "parallel_estimate_s": 0.40260328899967135,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.30000000000033
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.500000000000133
+     }
+    },
+    "wall_time_s": 0.6041644810002254,
+    "parallel_estimate_s": 0.3743733119999888,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.600000000000334
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000126
+     }
+    },
+    "wall_time_s": 0.6576742980005292,
+    "parallel_estimate_s": 0.40891773700059275,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.900000000000338
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.500000000000119
+     }
+    },
+    "wall_time_s": 0.6602886930004388,
+    "parallel_estimate_s": 0.45084877200042683,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.100000000000326
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.500000000000119
+     }
+    },
+    "wall_time_s": 0.6377671379996173,
+    "parallel_estimate_s": 0.403672247999566,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.600000000000334
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.5965317129994219,
+    "parallel_estimate_s": 0.413419423999585,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.000 m, ISA+20",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 11.00000000000034
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.500000000000091
+     }
+    },
+    "wall_time_s": 0.5810024839993275,
+    "parallel_estimate_s": 0.4076538959998288,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.300000000000015
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 9.000000000000085
+     }
+    },
+    "wall_time_s": 0.6827059569995981,
+    "parallel_estimate_s": 0.46407068999997136,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.400000000000036
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.1 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 9.000000000000105
+     }
+    },
+    "wall_time_s": 0.5792512859998169,
+    "parallel_estimate_s": 0.36653485399983765,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.400000000000217
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000115
+     }
+    },
+    "wall_time_s": 0.6779869669999243,
+    "parallel_estimate_s": 0.41085353899961774,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.000000000000353
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000126
+     }
+    },
+    "wall_time_s": 0.5892106410001361,
+    "parallel_estimate_s": 0.3787399640004878,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.400000000000345
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.500000000000119
+     }
+    },
+    "wall_time_s": 0.6487737229999766,
+    "parallel_estimate_s": 0.4379847239997616,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.900000000000352
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000112
+     }
+    },
+    "wall_time_s": 0.6834460390000459,
+    "parallel_estimate_s": 0.4499230900000839,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.400000000000373
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.7288300139998682,
+    "parallel_estimate_s": 0.5459056969993981,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.800000000000365
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.6775964409998778,
+    "parallel_estimate_s": 0.48379811399991013,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.800000000000393
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.500000000000091
+     }
+    },
+    "wall_time_s": 0.7311911019996842,
+    "parallel_estimate_s": 0.5477319820001867,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 13.400000000000388
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.000000000000069
+     }
+    },
+    "wall_time_s": 0.6006181299999298,
+    "parallel_estimate_s": 0.4785823359998176,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 4.6999999999999815
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 3.500000000000007
+     }
+    },
+    "wall_time_s": 0.37792338199960795,
+    "parallel_estimate_s": 0.2613597999998092,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.700000000000017
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 4.600000000000044
+     }
+    },
+    "wall_time_s": 0.450338186999943,
+    "parallel_estimate_s": 0.2962380099997972,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.400000000000038
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 5.300000000000065
+     }
+    },
+    "wall_time_s": 0.542163119000179,
+    "parallel_estimate_s": 0.32170241000039823,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.800000000000077
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 5.700000000000074
+     }
+    },
+    "wall_time_s": 0.4651405700005853,
+    "parallel_estimate_s": 0.30800896100026876,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.2000000000002995
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 6.200000000000129
+     }
+    },
+    "wall_time_s": 0.516675703999681,
+    "parallel_estimate_s": 0.33939286099939636,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": true,
+    "advise": "abortar",
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.5000000000002895
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 6.600000000000135
+     }
+    },
+    "wall_time_s": 0.5174596829992879,
+    "parallel_estimate_s": 0.30203444299968396,
+    "procedure_safe": false,
+    "prediction_correct": true,
+    "changed": true
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": true,
+    "advise": "abortar",
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.800000000000308
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 7.100000000000142
+     }
+    },
+    "wall_time_s": 0.525707161000355,
+    "parallel_estimate_s": 0.3283448420006607,
+    "procedure_safe": false,
+    "prediction_correct": true,
+    "changed": true
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": true,
+    "advise": "abortar",
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.000000000000297
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "tocou o heliponto ou o solo",
+      "predicted_s": 8.400000000000189
+     }
+    },
+    "wall_time_s": 0.7038206779998291,
+    "parallel_estimate_s": 0.4527994709997074,
+    "procedure_safe": false,
+    "prediction_correct": true,
+    "changed": true
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.300000000000315
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.000000000000126
+     }
+    },
+    "wall_time_s": 0.5815291620001517,
+    "parallel_estimate_s": 0.3503496160001305,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 8.70000000000032
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.6131362460000673,
+    "parallel_estimate_s": 0.40896944900032395,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.400000000000002
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 5.000000000000025
+     }
+    },
+    "wall_time_s": 0.5959077099996648,
+    "parallel_estimate_s": 0.47474652099936065,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.500000000000043
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 5.000000000000043
+     }
+    },
+    "wall_time_s": 0.561984166000002,
+    "parallel_estimate_s": 0.4357524059996649,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.600000000000362
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.000000000000057
+     }
+    },
+    "wall_time_s": 0.580884607000371,
+    "parallel_estimate_s": 0.45463849299994763,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.500000000000385
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.0000000000000675
+     }
+    },
+    "wall_time_s": 0.6199277350006014,
+    "parallel_estimate_s": 0.49822407700048643,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 12.200000000000399
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 4.500000000000064
+     }
+    },
+    "wall_time_s": 0.5414021880005748,
+    "parallel_estimate_s": 0.43696706800074026,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.00000000000041
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 4.000000000000057
+     }
+    },
+    "wall_time_s": 0.6002811990001646,
+    "parallel_estimate_s": 0.49842966699998215,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 13.600000000000419
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 3.5000000000000497
+     }
+    },
+    "wall_time_s": 0.6187187349996748,
+    "parallel_estimate_s": 0.5372547420001865,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 14.200000000000442
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 3.0000000000000426
+     }
+    },
+    "wall_time_s": 0.6266031870000006,
+    "parallel_estimate_s": 0.5507286649999514,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 15.500000000000474
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 2.5000000000000355
+     }
+    },
+    "wall_time_s": 0.6473490710004626,
+    "parallel_estimate_s": 0.5849475290006012,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2369.0,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 14.200000000000484
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 1.0000000000000142
+     }
+    },
+    "wall_time_s": 0.5936139380000895,
+    "parallel_estimate_s": 0.5656874460000836,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -11.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.7000000000000135
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 6.9000000000000625
+     }
+    },
+    "wall_time_s": 0.539839082999606,
+    "parallel_estimate_s": 0.3732156079995548,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -9.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": false
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.900000000000036
+     },
+     "prosseguir": {
+      "safe": false,
+      "reason": "desceu a 3.0 m do nível do deck (< 15 ft, 29.59(c))",
+      "predicted_s": 7.500000000000091
+     }
+    },
+    "wall_time_s": 0.5517276770005992,
+    "parallel_estimate_s": 0.36917078200076503,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -7.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 8.900000000000214
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.6159311179999349,
+    "parallel_estimate_s": 0.4165765420002572,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 9.80000000000035
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.500000000000105
+     }
+    },
+    "wall_time_s": 0.6009363420007503,
+    "parallel_estimate_s": 0.4121622060001755,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -3.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "reject",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "abortar",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.300000000000344
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 7.000000000000098
+     }
+    },
+    "wall_time_s": 0.5743938450004862,
+    "parallel_estimate_s": 0.3944763850004165,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": -1.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.70000000000035
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 6.000000000000085
+     }
+    },
+    "wall_time_s": 0.5927867870004775,
+    "parallel_estimate_s": 0.4419906470002388,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 0.5,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.900000000000352
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.500000000000078
+     }
+    },
+    "wall_time_s": 0.579201426000509,
+    "parallel_estimate_s": 0.43818436000037764,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 2.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 11.000000000000353
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 5.500000000000076
+     }
+    },
+    "wall_time_s": 0.5628752889997486,
+    "parallel_estimate_s": 0.42392068399931304,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 5.0,
+    "truth": {
+     "abortar": true,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 10.900000000000352
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 4.000000000000057
+     }
+    },
+    "wall_time_s": 0.5548715280001488,
+    "parallel_estimate_s": 0.44994120499995915,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   },
+   {
+    "kind": "local de resgate",
+    "condition": "1.500 m, ISA+25, proa 8 m/s",
+    "mass_kg": 2600.7,
+    "fail_rel_tdp_m": 8.0,
+    "truth": {
+     "abortar": false,
+     "prosseguir": true
+    },
+    "flown": "continue",
+    "safe": true,
+    "reason": "ok",
+    "procedure_action": "prosseguir",
+    "alert": false,
+    "advise": null,
+    "predicted": {
+     "abortar": {
+      "safe": false,
+      "reason": "tombamento",
+      "predicted_s": 10.500000000000332
+     },
+     "prosseguir": {
+      "safe": true,
+      "reason": "ok",
+      "predicted_s": 1.0000000000000142
+     }
+    },
+    "wall_time_s": 0.44132582799920783,
+    "parallel_estimate_s": 0.4116372259995842,
+    "procedure_safe": true,
+    "prediction_correct": true,
+    "changed": false
+   }
+  ]
+ }
+}

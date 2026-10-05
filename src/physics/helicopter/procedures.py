@@ -90,6 +90,8 @@ class CatATakeoff:
     climb_rate: float = 1.5
     accel: float = 1.5  # m/s^2 AEO acceleration after the TDP
     force_action: Optional[str] = None  # "abortar"/"prosseguir": fly this branch whatever the SADPF recommends
+    advisor: Optional[object] = None  # advisory.BranchPredictor, called once at the SADPF detection
+    follow_advisory: bool = False  # only for studies: fly the branch the advisory recommends (default: display)
     phase: str = "vertical"
     tdp_t: Optional[float] = None
     _v: float = 0.0
@@ -103,6 +105,13 @@ class CatATakeoff:
         sim = self.sim
         dt = max(t - self._last_t, 0.0)
         self._last_t = t
+        if self.advisor is not None and sim.sadpf is not None and sim.sadpf.detect_t is not None \
+                and getattr(self, "_advised", None) is None:
+            rec = sim.sadpf.recommendation_code
+            proc_action = self.force_action or (rec if rec in ("abortar", "prosseguir") else None)
+            self._advised = self.advisor(sim, self, proc_action) if proc_action else {}
+            if self.follow_advisory and self._advised and self._advised.get("advise"):
+                self.force_action = self._advised["advise"]
         action = _sadpf_action(sim, t)
         if action in ("abortar", "prosseguir") and self.force_action:
             action = self.force_action

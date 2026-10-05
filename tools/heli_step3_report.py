@@ -53,6 +53,13 @@ def main():
         sens = json.load(f)
     masses_lo = {(r["elevation_m"], r["delta_t"], r["headwind_ms"]): r["mass_kg"] for r in sens["duct_gain_cat_a"]
                  if abs(r["duct_gain"] - 1.15) < 1e-9}
+    site = {}
+    c_path = os.path.join(OUT, "passo3c_resultados.json")
+    if os.path.exists(c_path):
+        with open(c_path, encoding="utf-8") as f:
+            c3 = json.load(f)
+        site = {(r["elevation_m"], r["delta_t"], r["headwind_ms"], r["tdp_height_m"]): r["mass_kg"]
+                for r in c3.get("rescue_max_mass", [])}
     p = HeliParams()
     p.f_drag = calibrate_drag_area(p)
     p.ff_idle_kgh, p.sfc_marginal = fuel_flow_params(p)
@@ -60,15 +67,25 @@ def main():
     rows = []  # one row per condition, every profile and tank, G = 1.26 (default) and the 1.15 lower bound
     for c in CONDS:
         row = {"condition": label(c), "elevation_m": c[0], "delta_t": c[1], "headwind_ms": c[2],
-               "cat_a_mass_kg": masses[c], "cat_a_mass_g115_kg": masses_lo[c], "profiles": {}}
+               "cat_a_mass_kg": masses[c], "cat_a_mass_g115_kg": masses_lo[c], "profiles": {},
+               "site_limit_tdp12_kg": site.get((*c, 12.0)), "site_limit_tdp17_kg": site.get((*c, 17.0))}
         for prof in PROFILES:
-            r = catA_fuel_and_radius(masses[c], prof, replace(p))
-            lo = catA_fuel_and_radius(masses_lo[c], prof, replace(p))
-            aux = catA_fuel_and_radius(masses[c], prof, replace(p), FUEL_CAPACITY_AUX_KG)
+            lim = row["site_limit_tdp12_kg"] if prof == "resgate" else None
+            r = catA_fuel_and_radius(masses[c], prof, replace(p), site_limit_kg=lim)
+            lo = catA_fuel_and_radius(masses_lo[c], prof, replace(p), site_limit_kg=lim)
+            aux = catA_fuel_and_radius(masses[c], prof, replace(p), FUEL_CAPACITY_AUX_KG, site_limit_kg=lim)
             row["profiles"][prof] = {**r, "radius_nm_g115": lo["radius_nm"], "fuel_kg_g115": lo["fuel_kg"],
                                      "aux_tank": {k: aux[k] for k in ("fuel_kg", "fuel_limited_by", "radius_nm",
                                                                       "takeoff_mass_kg")},
                                      "aux_cg_takeoff": aux["cg_takeoff"]}
+            if lim is not None and row["site_limit_tdp17_kg"] is not None:  # sensitivity: TDP at 17 m
+                s17 = catA_fuel_and_radius(masses[c], prof, replace(p), site_limit_kg=row["site_limit_tdp17_kg"])
+                a17 = catA_fuel_and_radius(masses[c], prof, replace(p), FUEL_CAPACITY_AUX_KG,
+                                           site_limit_kg=row["site_limit_tdp17_kg"])
+                row["profiles"][prof]["tdp17"] = {
+                    "radius_nm": s17["radius_nm"], "site_fuel_max_kg": s17["site_fuel_max_kg"],
+                    "site_min_radius_full_fuel_nm": s17["site_min_radius_full_fuel_nm"],
+                    "aux_radius_nm": a17["radius_nm"], "aux_fuel_limited_by": a17["fuel_limited_by"]}
         rows.append(row)
     res = {"fuel_model": {"ff_idle_kgh_per_engine": p.ff_idle_kgh, "sfc_marginal_kg_kwh": p.sfc_marginal},
            "cruise_reference": {"atmosphere": "ISA", "altitude_ft": 1000},

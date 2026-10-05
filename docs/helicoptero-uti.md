@@ -630,9 +630,35 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
   - Nesse caso prosseguir toca o solo, enquanto abortar seria seguro.
   - Não há intervalo exposto, mas **o TDP de 12 m é baixo demais** para essa massa e condição: ele precisaria subir para ~17 m, ou a massa de decolagem do local teria de ser limitada.
   - Este é o mesmo mecanismo da massa máxima Categoria A, agora aplicado ao local de resgate.
+  - **Decisão do aval**: limitar a massa (abaixo), com o TDP de 12 m como padrão.
 - **Duração do intervalo exposto**: zero em todos os casos. A grade de altura tem passos de 1,5 a 3 m, então um intervalo menor que isso poderia passar despercebido.
 
 ![Decolagem do local de resgate](helicoptero/local_resgate.png)
+
+#### Massa máxima de decolagem do local de resgate (padrão: TDP 12 m)
+
+Código: `scenarios.rescue_site_max_mass`. Relatório: `tools/heli_step3c_report.py A`, que gera `docs/helicoptero/passo3c_resultados.json`.
+
+- **Critério**: a mesma bisseção da massa máxima Categoria A (tolerância de 25 kg), no local plano com o critério literal do 29.59(c). Com o procedimento como voado:
+  - uma falha reconhecida antes do TDP tem de ser segura no abortar;
+  - falhas em torno do TDP e logo depois dele (−1; −0,5; 0; +2 m em relação ao TDP) têm de ser seguras no ramo que o SADPF recomenda.
+- Em todos os casos o limite veio do ramo **prosseguir** logo depois do TDP.
+- **Combustível máximo a bordo ao decolar do local** = massa máxima − 2.068,5 kg (massa sem combustível com o paciente).
+
+| Condição | Massa máx. no local, TDP 12 m (padrão) | Combustível máx. no local | TDP 17 m (sensibilidade) | Combustível máx., TDP 17 m |
+|---|---|---|---|---|
+| nível do mar, ISA | **2.907 kg** | 838 kg | 2.931 kg | 863 kg |
+| nível do mar, ISA+20 | **2.834 kg** | 765 kg | 2.883 kg | 814 kg |
+| 1.000 m, ISA+20 | **2.663 kg** | 595 kg | 2.688 kg | 619 kg |
+| 1.500 m, ISA+25 | **2.517 kg** | 448 kg | 2.541 kg | 473 kg |
+| 1.500 m, ISA+25, proa 8 m/s | **2.736 kg** | 668 kg | 2.785 kg | 717 kg |
+
+- Subir o TDP de 12 para 17 m ganha **24 a 49 kg**.
+- **Efeito no Resgate com o tanque padrão (560 kg)**:
+  - A decolagem de volta no raio máximo (2.369 kg) fica abaixo do limite nas 5 condições: **o raio máximo não muda**.
+  - **A 1.500 m ISA+25 sem vento**, a decolagem de volta mais pesada (2.601 kg, missão curta) passa do limite de 2.517 kg. Saindo com o tanque cheio, o local de resgate tem de estar a **pelo menos 51 NM** (36 NM com TDP de 17 m). Para resgates mais perto, a origem tem de abastecer menos, de modo a chegar ao local com no máximo 448 kg.
+  - Nas outras 4 condições, o combustível máximo no local (595 a 838 kg) é maior que o tanque padrão: sem restrição.
+- **Com o tanque auxiliar (730 kg)**: o limite do local também restringe missões curtas a 1.000 m ISA+20 (595 kg), a 1.500 m ISA+25 (448 kg) e a 1.500 m ISA+25 com vento de proa (668 kg). O raio máximo não muda.
 
 **3. O que a regulamentação diz sobre a classe de desempenho em locais de resgate aeromédico** (só o que foi lido no texto oficial):
 - **União Europeia, Regulamento (UE) 965/2012, Anexo V, SPA.HEMS.125** (versão aplicável desde 25/05/2024, [EASA Easy Access Rules for Air Operations](https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?page=50)):
@@ -649,6 +675,46 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
   - O RBAC 90 (Emenda 02, operações especiais de aviação pública, inclusive aeromédicas) **não menciona "classe de desempenho"** nem requisitos de falha de motor na decolagem, segundo a leitura do texto oficial. Ele trata de pouso e decolagem em local não cadastrado na seção 90.301.
   - Da RBAC 135 (Emenda 15) só consegui ler o texto até a seção 135.128, então **não afirmo** se ela tem regra de classe de desempenho para operação aeromédica.
   - **Lacuna registrada.**
+
+### Previsão de ramos: função consultiva do SADPF (CONSULTIVO · conceitual · não certificado)
+
+Código: `src/physics/helicopter/advisory.py` (`BranchPredictor`), ligado ao `CatATakeoff` (`cat_a_run(..., advisory=True)`). Relatório: `tools/heli_step3c_report.py B`.
+
+- **O que faz**: no instante em que o SADPF detecta a falha do motor, copia o estado atual da simulação e voa, mais rápido que o tempo real, os dois ramos: **abortar** e **prosseguir**. Cada ramo previsto é julgado com o mesmo critério do cenário (`evaluate_cat_a`: 29.60 no heliponto elevado, 29.59(c) literal no local de resgate).
+- **Alerta**: se o ramo que o procedimento indica (antes ou depois do TDP) é previsto **inseguro** e o outro **seguro**, emite um alerta consultivo destacado (evento `branch_prediction`, nível 2), com o rótulo **"CONSULTIVO · conceitual · não certificado"**.
+- **O procedimento continua sendo o padrão**: o alerta só é exibido. O "piloto" só segue o alerta quando isso é pedido explicitamente (`follow_advisory=True`), o que serve para medir o que a função mudaria.
+- **Método da previsão** (parâmetros de projeto, ESTIMADOS):
+  - passo de integração de 0,05 s no ar (o cenário usa 0,005 s) e controle a 20 Hz;
+  - passo de 0,01 s perto do contato com o solo (abaixo de 0,3 m de altura dos esquis mais 0,3 s da razão de descida atual), porque os esquis são uma mola-amortecedor rígida;
+  - a previsão para assim que o ramo está decidido: abortar, 1 s depois de assentar nos esquis; prosseguir, ao tocar o solo ou ao atingir 95 % da VTOSS subindo; no máximo 25 s.
+- **Tempo de cálculo** (medido no relógio, 2 núcleos, um caso por núcleo, os dois ramos em sequência), comparado com o tempo de reação de 1 s:
+
+| Métrica | Valor |
+|---|---|
+| Média | 0,63 s |
+| p95 | 0,76 s |
+| Máximo | **0,90 s** (dentro de 1 s em 130 de 130 casos) |
+| Estimativa com os dois ramos em paralelo (o mais lento dos dois) | média 0,43 s, máximo 0,72 s |
+
+  - A margem do pior caso é de ~10 %. Ela depende do computador: o HUD do Passo 4 vai mostrar o tempo medido em cada falha.
+  - Uma primeira versão (passo de 0,05 s abaixo de 2 m e verificação a cada 0,5 s) levava até 1,67 s e passava de 1 s em 17 casos. O passo fino só perto do contato resolveu isso sem perder acerto.
+- **Varredura de falhas em torno do TDP com a função**: 130 casos.
+  - Heliponto elevado: 2 × 15 alturas de falha (2.980 kg ao nível do mar; 2.614 kg a 1.500 m ISA+25).
+  - Local de resgate: 5 condições × 2 massas (2.369 e 2.601 kg) × 10 alturas.
+  - A referência ("verdade") são os dois ramos forçados, voados com a simulação completa.
+
+| Resultado | Casos |
+|---|---|
+| Previsões corretas (os dois ramos) | **130 de 130** |
+| Procedimento inseguro e o outro ramo seguro | 3 |
+| Alertas emitidos | 3 (todos corretos; nenhum alerta errado) |
+| **Resultado mudado seguindo o alerta** | **3, todos de inseguro para seguro**; nenhum de seguro para inseguro |
+| Casos perdidos (procedimento inseguro sem alerta) | 0 |
+| Casos sem nenhum ramo seguro | 0 |
+
+- **Os 3 casos**: local de resgate a 1.500 m ISA+25 sem vento, com 2.601 kg, falha a −1,0; +0,5 e +2,0 m do TDP. O SADPF indica prosseguir (falha reconhecida já no TDP ou depois dele); prosseguir toca o solo; a função prevê isso e aconselha abortar, que é seguro.
+- **Com a limitação de massa padrão** (2.517 kg nessa condição), esses 3 casos não acontecem: a função é uma segunda camada, não substitui a limitação.
+- **Limites**: a previsão usa o mesmo modelo que a "verdade". O acerto de 130/130 mede só a fidelidade da integração rápida, não o acerto em relação a um helicóptero real. Não há incerteza de estado, de vento nem de massa na previsão.
 
 ### Envelope de CG e verificação no início e no fim do voo
 
@@ -695,7 +761,7 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
 
 - **Pousos e decolagens das pontas na condição de referência** (aprovado). O efeito foi medido: em pairado na condição Cat A em vez da referência, a decolagem de origem e o pouso final (3 min cada) consumiriam a mais 0 kg (nível do mar, ISA), 0,15 kg (ISA+20), 0,4 kg (1.000 m ISA+20) e 0,6 kg (1.500 m ISA+25). Com a outra ponta na mesma condição, isso dobra para até ~1,2 kg, menos de 0,3 NM de raio.
 - A restrição Categoria A vale na **decolagem de origem**, na condição configurada.
-- No perfil Resgate, o paciente embarca na outra ponta. A decolagem de volta (2.369 kg) fica abaixo de todas as massas Cat A da tabela, mas a condição Cat A do local do resgate não é modelada.
+- No perfil Resgate, o paciente embarca na outra ponta. A decolagem de volta também respeita a **massa máxima do local de resgate (TDP 12 m)**, aplicada como padrão em `catA_fuel_and_radius(..., site_limit_kg=...)`: se a decolagem de volta passar do limite, o combustível da origem é reduzido por bisseção (o raio cai junto).
 
 **Missão**:
 - partida e táxi: 8 kg (ESTIMADO);
@@ -708,16 +774,17 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
   - A página HTML da Emenda 12 na ANAC também parou antes da Subparte D.
   - O download do PDF pela linha de comando foi bloqueado pela rede deste ambiente.
   - Se você puder anexar o PDF, eu extraio a seção localmente. Se a 135.209 exigir mais para helicópteros, ela passa a ser o padrão.
+  - **Indício, não fonte confirmada**: segundo o autor do projeto, uma cópia secundária da RBAC 135 Emenda 13 (Scribd) indica que a 135.209(b) exige, para helicóptero VFR, combustível até o destino mais 20 minutos em consumo normal de cruzeiro, igual à RBAC 91.151(b). Fica registrado só como indício até a leitura do PDF oficial da Emenda 15.
 
 **Raio de ação, tanque padrão (560 kg)**. A massa Cat A aparece como faixa G 1,15–1,26; o raio entre parênteses é o do limite inferior quando difere.
 
-| Condição de decolagem | Massa máx. Cat A (G 1,15–1,26) | Resgate (padrão) | Transferência | Conservador | Decolagem do local de resgate (Resgate, com paciente, 2.369–2.601 kg) |
+| Condição de decolagem | Massa máx. Cat A (G 1,15–1,26) | Resgate (padrão) | Transferência | Conservador | Decolagem do local de resgate (Resgate, com paciente): massa máx. TDP 12 m (17 m) e efeito |
 |---|---|---|---|---|---|
-| nível do mar, ISA | 2.980 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +157 a +205 kW (IGE), +116 a +169 kW (OGE); OEI: sem intervalo exposto |
-| nível do mar, ISA+20 | 2.907–2.931 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +150 a +199 / +107 a +162 kW; OEI: sem intervalo exposto |
-| 1.000 m, ISA+20 | 2.736–2.761 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +115 a +167 / +69 a +128 kW; OEI: sem intervalo exposto |
-| 1.500 m, ISA+25 | 2.590–2.614 kg | 141 NM · 560 kg (tanque) | **137 NM** (129) · 546 kg (massa Cat A) | **136 NM** (129) · 546 kg (massa Cat A) | AEO: +76 a +131 / **+29** a +90 kW; OEI: sem intervalo exposto, mas **a 2.601 kg prosseguir só é seguro a partir de ~17 m**: com falha entre 11 e 14 m o SADPF recomenda prosseguir (TDP de 12 m) e isso toca o solo; abortar seria seguro |
-| 1.500 m, ISA+25, proa 8 m/s | 2.761–2.809 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | AEO: +76 a +131 / +29 a +90 kW (vento não creditado no pairado); OEI: sem intervalo exposto |
+| nível do mar, ISA | 2.980 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | **2.907 kg** (2.931); sem restrição. AEO: +157 a +205 kW (IGE), +116 a +169 kW (OGE) |
+| nível do mar, ISA+20 | 2.907–2.931 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | **2.834 kg** (2.883); sem restrição. AEO: +150 a +199 / +107 a +162 kW |
+| 1.000 m, ISA+20 | 2.736–2.761 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | **2.663 kg** (2.688); sem restrição com o tanque padrão. AEO: +115 a +167 / +69 a +128 kW |
+| 1.500 m, ISA+25 | 2.590–2.614 kg | 141 NM · 560 kg (tanque) | **137 NM** (129) · 546 kg (massa Cat A) | **136 NM** (129) · 546 kg (massa Cat A) | **2.517 kg** (2.541): raio máximo inalterado, mas com tanque cheio o local tem de estar a **≥ 51 NM** (36 NM); mais perto, abastecer menos (≤ 448 kg no local). AEO: +76 a +131 / **+29** a +90 kW |
+| 1.500 m, ISA+25, proa 8 m/s | 2.761–2.809 kg | 141 NM · 560 kg (tanque) | 141 NM · 560 kg (tanque) | 140 NM · 560 kg (tanque) | **2.736 kg** (2.785); sem restrição com o tanque padrão. AEO: +76 a +131 / +29 a +90 kW (vento não creditado no pairado) |
 
 - Tempo de voo de ~2 h 59 min; reserva de ~50 kg.
 - **Com o cruzeiro em condição comum, o raio só muda quando a massa Cat A limita o combustível.** Isso só acontece a 1.500 m ISA+25 sem vento, nos perfis que saem com o paciente.
@@ -735,8 +802,10 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
 - **Missão**: táxi e tempo de decolagem/pouso. A condição de referência do cruzeiro (ISA, 1.000 ft) é uma decisão de projeto do aval, não um dado.
 - **Consumo**: forma da linha de Willans (40 % em potência zero).
 - **Envelope de CG**: forma linear entre os pontos publicados do TCDS.
+- **Local de resgate**: TDP de 12 m (17 m na sensibilidade), local plano, sem obstáculos, na mesma condição da origem.
+- **Previsão de ramos**: passos de integração, critérios de parada e horizonte da previsão (parâmetros de projeto).
 
-### Validação (Passo 3): `tests/test_helicopter_mission.py`, 10 testes
+### Validação (Passo 3): `tests/test_helicopter_mission.py`, 10 testes, e `tests/test_helicopter_advisory.py`, 7 testes
 
 | Teste | Critério |
 |---|---|
@@ -750,13 +819,19 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
 | Reserva | 20 min (RBAC 91.151(b) / 14 CFR 135.209(b)); raio positivo |
 | Massa de decolagem do local de resgate | a da missão mais curta é maior que a do raio máximo |
 | Decolagem do local de resgate (nível do mar, 2.369 kg) | margens AEO positivas, IGE > OGE; a 3 m só abortar; a 9 m os dois ramos seguros; sem intervalo exposto |
+| Previsão de ramos: alerta | 1.500 m ISA+25, 2.600,7 kg, falha a +0,5 m do TDP: procedimento = prosseguir, previsto inseguro; alerta aconselha abortar; rótulo "não certificado" |
+| Previsão de ramos: procedimento padrão | só exibindo o alerta, o ramo voado continua sendo prosseguir (e toca o solo) |
+| Previsão de ramos: seguir o alerta | abortar voado e seguro |
+| Previsão de ramos: sem alerta | falha 5 m abaixo do TDP: procedimento abortar, sem alerta |
+| Previsão de ramos: tempo | medido e registrado; limite frouxo de 5 s no teste (máquinas de CI compartilhadas); o limite de 1 s é verificado no relatório |
+| Limite de massa do local no raio | raio máximo inalterado com 2.517 kg; combustível máx. no local = limite − massa sem combustível; raio mínimo com tanque cheio entre 30 NM e o raio máximo |
+| Limite de massa do local ativo | com um limite abaixo da decolagem de volta, o combustível da origem cai e o raio também |
 
-### Decisões que precisam do seu aval
+### Decisões do aval do Passo 3 (22:41) e o que falta
 
-1. **Forma da linha de Willans**: fração de 40 % em potência zero (ESTIMADO), no lugar do ajuste exato de dois coeficientes, que dava alcance específico crescendo com a massa. Erros de ±2,6 % contra a autonomia e o alcance publicados.
-2. **Cruzeiro de referência**: os pousos e decolagens das pontas também foram para a condição de referência, junto com o cruzeiro. Alternativa: fazer a decolagem de origem na condição Cat A (efeito de ~1 kg de combustível).
-3. **Reserva**: RBAC 91.151(b) (20 min) como padrão. O texto da RBAC 135.209 não pôde ser lido; ver a lacuna acima.
-4. **Perfil Resgate**: a decolagem de volta, com o paciente, não é verificada contra uma condição Cat A do local do resgate.
+1. **Massa do local de resgate**: limitação de massa adotada como padrão (TDP 12 m), com TDP 17 m como sensibilidade.
+2. **Previsão de ramos**: implementada como consultiva; o procedimento segue sendo o padrão.
+3. **Reserva**: RBAC 91.151(b) (20 min) segue como padrão provisório. A indicação da Emenda 13 (Scribd) está registrada só como indício. **Aguardando o PDF oficial da Emenda 15** para extrair a 135.209 e confirmar.
 
 ## Base de certificação: por que usar os §§ 29.59, 29.60, 29.67 e 29.87 numa aeronave classe H135
 
@@ -775,7 +850,8 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
 - **Categoria A**:
   - **padrão**: modo heliponto elevado ([14 CFR 29.60](https://www.ecfr.gov/current/title-14/section-29.60)), com a massa máxima Cat A da configuração **como faixa**: de G = 1,15 (duto conservador) a G = 1,26 (padrão);
   - **missão**: perfil (Resgate, Transferência ou Conservador), combustível embarcável e raio de ação, indicando se o limite é o tanque ou a massa Cat A;
-  - **local de resgate**: margens AEO no pairado (IGE e OGE), mapa abortar/prosseguir por altura de falha, intervalo exposto e aviso quando o ramo recomendado pelo TDP não é seguro;
+  - **local de resgate**: massa máxima de decolagem do local (TDP 12 m; 17 m como sensibilidade), combustível máximo a bordo no local, margens AEO no pairado (IGE e OGE), mapa abortar/prosseguir por altura de falha, intervalo exposto e aviso quando o ramo recomendado pelo TDP não é seguro;
+  - **previsão de ramos (consultiva)**: no instante da detecção, os dois ramos previstos (seguro/inseguro, com o motivo) e o tempo de cálculo. Quando o ramo do procedimento é previsto inseguro e o outro seguro, um **alerta destacado** com cor e moldura diferentes das do SADPF, sempre com o rótulo **"CONSULTIVO · conceitual · não certificado"**. A ação do procedimento continua sendo a exibida como recomendação principal;
   - **comparação**: massa no modo literal ([29.59(c)](https://www.ecfr.gov/current/title-14/section-29.59)), exibida ao lado;
   - **profundidade máxima da descida abaixo do nível do deck**, que o 29.60(a)(3) exige determinar (`max_drop_below_deck_m`);
   - também: ramo e ação recomendada pelo SADPF, cronômetro OEI (30 s → 2 min), margens de potência OEI e perda máxima de altura.
@@ -784,6 +860,7 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
 
 ## Backlog (depois do Passo 4)
 
+- **Local de resgate confinado, com obstáculos**: hoje o local é plano e sem obstáculos. Falta modelar a área disponível, obstáculos ao redor (árvores, fios, prédios), o perfil de decolagem para livrá-los e o critério de separação correspondente.
 - **Efeito de altitude e temperatura no consumo**: hoje a linha de Willans não depende da densidade nem da temperatura. Por isso o cruzeiro do raio de ação é feito numa condição de referência comum (ISA, 1.000 ft).
 - **Flare com coordenação cíclico/coletivo**: a varredura do Passo 2 não atingiu toque ≤ 1,5 m/s e ≤ 15 kt (melhor: 1,44 m/s e 27,5 kt). Caminho provável: comandar cíclico e coletivo de forma coordenada no flare, por exemplo com otimização de trajetória.
 
