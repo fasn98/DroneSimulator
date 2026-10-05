@@ -31,6 +31,13 @@ jobs:
           s = r if r.tag == "testsuite" else r.find("testsuite")
           n, f, e, sk = (int(s.get(k, 0)) for k in ("tests", "failures", "errors", "skipped"))
           print(f"::notice title=Resultado dos testes::{n - f - e - sk} passaram, {f} falharam, {e} erros, {sk} pulados (total {n})")
+          for tc in r.iter("testcase"):
+              for kind in ("failure", "error"):
+                  el = tc.find(kind)
+                  if el is not None:
+                      msg = (el.get("message") or el.text or "").strip().splitlines()
+                      first = msg[0][:300] if msg else ""
+                      print(f"::error title={kind} {tc.get('classname')}.{tc.get('name')}::{first}")
           EOF
       - name: HUD smoke test against the full Flask server (/heli/)
         env:
