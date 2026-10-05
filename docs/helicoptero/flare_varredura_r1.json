@@ -1,0 +1,2973 @@
+{
+ "meta": {
+  "goal": "toque <= 1,5 m/s e velocidade no solo <= 15 kt",
+  "scenario": "falha dupla a 150 m, MTOW, ISA nível do mar",
+  "grid": {
+   "flare_agl": [
+    30.0,
+    40.0,
+    50.0,
+    60.0
+   ],
+   "flare_tilt": [
+    20.0,
+    25.0,
+    30.0,
+    35.0
+   ],
+   "flare_decel": [
+    4.0,
+    6.0
+   ],
+   "flare_sink_k": [
+    0.2,
+    0.3,
+    0.45
+   ],
+   "level_tilt": [
+    8.0,
+    15.0
+   ],
+   "cushion_agl": [
+    4.0,
+    8.0
+   ],
+   "cushion_tilt": [
+    8.0,
+    15.0
+   ],
+   "cushion_sink": [
+    0.3,
+    0.8
+   ],
+   "nr_flare": [
+    1.0,
+    1.04
+   ]
+  },
+  "n_runs": 146,
+  "n_ok": 0
+ },
+ "runs": [
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5422281204953125,
+   "touchdown_ground_speed_kt": 26.195195438332483,
+   "touchdown_pitch_up_deg": 7.159412492172922,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.746346362555499,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5422281204953125,
+   "touchdown_ground_speed_kt": 26.195195438332483,
+   "touchdown_pitch_up_deg": 7.159412492172922,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.746346362555499,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5422281204953125,
+   "touchdown_ground_speed_kt": 26.195195438332483,
+   "touchdown_pitch_up_deg": 7.159412492172922,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.746346362555499,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5422281204953125,
+   "touchdown_ground_speed_kt": 26.195195438332483,
+   "touchdown_pitch_up_deg": 7.159412492172922,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.746346362555499,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5422281204953125,
+   "touchdown_ground_speed_kt": 26.195195438332483,
+   "touchdown_pitch_up_deg": 7.159412492172922,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.746346362555499,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5552369377317357,
+   "touchdown_ground_speed_kt": 26.24518620537628,
+   "touchdown_pitch_up_deg": 6.8178608699588015,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.7496790803584188,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5552369377317357,
+   "touchdown_ground_speed_kt": 26.24518620537628,
+   "touchdown_pitch_up_deg": 6.8178608699588015,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.7496790803584188,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5552369377317357,
+   "touchdown_ground_speed_kt": 26.24518620537628,
+   "touchdown_pitch_up_deg": 6.8178608699588015,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.7496790803584188,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5552369377317357,
+   "touchdown_ground_speed_kt": 26.24518620537628,
+   "touchdown_pitch_up_deg": 6.8178608699588015,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.7496790803584188,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.5552369377317357,
+   "touchdown_ground_speed_kt": 26.24518620537628,
+   "touchdown_pitch_up_deg": 6.8178608699588015,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.7496790803584188,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.488298523648231,
+   "touchdown_ground_speed_kt": 26.9345606868953,
+   "touchdown_pitch_up_deg": 8.573981379294706,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.7956373791263531,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.50112787597141,
+   "touchdown_ground_speed_kt": 26.98481740350433,
+   "touchdown_pitch_up_deg": 8.231128939021767,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.7989878269002886,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.2931161487338216,
+   "touchdown_ground_speed_kt": 27.86773142369342,
+   "touchdown_pitch_up_deg": 9.184382788528106,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.8578487615795614,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.2931161487338216,
+   "touchdown_ground_speed_kt": 27.86773142369342,
+   "touchdown_pitch_up_deg": 9.184382788528106,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.8578487615795614,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.2931161487338216,
+   "touchdown_ground_speed_kt": 27.86773142369342,
+   "touchdown_pitch_up_deg": 9.184382788528106,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.8578487615795614,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.3085172629848967,
+   "touchdown_ground_speed_kt": 27.932426002116042,
+   "touchdown_pitch_up_deg": 8.723186645322796,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.862161733474403,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.3085172629848967,
+   "touchdown_ground_speed_kt": 27.932426002116042,
+   "touchdown_pitch_up_deg": 8.723186645322796,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.862161733474403,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.3085172629848967,
+   "touchdown_ground_speed_kt": 27.932426002116042,
+   "touchdown_pitch_up_deg": 8.723186645322796,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.862161733474403,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.3085172629848967,
+   "touchdown_ground_speed_kt": 27.932426002116042,
+   "touchdown_pitch_up_deg": 8.723186645322796,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.862161733474403,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 2.3875682456020804,
+   "touchdown_ground_speed_kt": 28.538393344404593,
+   "touchdown_pitch_up_deg": 9.928059267845523,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 94.95153502505475,
+   "score": 1.9025595562936397,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.4007075049035984,
+   "touchdown_ground_speed_kt": 28.658099775427292,
+   "touchdown_pitch_up_deg": 9.34241922028171,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.910539985028486,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.4007075049035984,
+   "touchdown_ground_speed_kt": 28.658099775427292,
+   "touchdown_pitch_up_deg": 9.34241922028171,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.910539985028486,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.4264712168731877,
+   "touchdown_ground_speed_kt": 28.86637508580671,
+   "touchdown_pitch_up_deg": 8.225954112343905,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.9244250057204473,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 2.9442721756352506,
+   "touchdown_ground_speed_kt": 21.652506262901145,
+   "touchdown_pitch_up_deg": 9.07098471279435,
+   "max_nr_pct": 104.59916655168574,
+   "min_nr_before_cushion_pct": 94.45754079795071,
+   "score": 1.962848117090167,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.36810987973167,
+   "touchdown_ground_speed_kt": 29.854420698242162,
+   "touchdown_pitch_up_deg": 9.931642002572138,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 1.9902947132161442,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 0.7737452050443197,
+   "touchdown_ground_speed_kt": 30.080282294605443,
+   "touchdown_pitch_up_deg": 10.388388432735317,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.005352152973696,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.7214261335004657,
+   "touchdown_ground_speed_kt": 30.133881605099447,
+   "touchdown_pitch_up_deg": 9.172715638360632,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.0089254403399632,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 0.8108695744837204,
+   "touchdown_ground_speed_kt": 30.440149273837697,
+   "touchdown_pitch_up_deg": 8.269251658478247,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.029343284922513,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 1.410167400973356,
+   "touchdown_ground_speed_kt": 30.60991365510725,
+   "touchdown_pitch_up_deg": 8.753183134399642,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 95.48451237015881,
+   "score": 2.0406609103404834,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 1.4468929911416815,
+   "touchdown_ground_speed_kt": 30.730219418993997,
+   "touchdown_pitch_up_deg": 11.336432156045593,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 94.92141287141781,
+   "score": 2.0486812945995996,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 1.4711094196054755,
+   "touchdown_ground_speed_kt": 30.83888795243111,
+   "touchdown_pitch_up_deg": 10.49455631902195,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 94.92141287141781,
+   "score": 2.0559258634954074,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.085512430939266,
+   "touchdown_ground_speed_kt": 27.06075279131882,
+   "touchdown_pitch_up_deg": 14.056161684346339,
+   "max_nr_pct": 104.56513530105494,
+   "min_nr_before_cushion_pct": 94.46314948350718,
+   "score": 2.057008287292844,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 1.4397475925718173,
+   "touchdown_ground_speed_kt": 31.27471798671019,
+   "touchdown_pitch_up_deg": 6.035367533833907,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 95.48451237015881,
+   "score": 2.084981199114013,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 1.4397475925718173,
+   "touchdown_ground_speed_kt": 31.27471798671019,
+   "touchdown_pitch_up_deg": 6.035367533833907,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 95.48451237015881,
+   "score": 2.084981199114013,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.1485512247485734,
+   "touchdown_ground_speed_kt": 29.578047042223123,
+   "touchdown_pitch_up_deg": 12.316693023253078,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.099034149832382,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.1726147673558214,
+   "touchdown_ground_speed_kt": 27.403301138148578,
+   "touchdown_pitch_up_deg": 4.3673830180963105,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.1150765115705474,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 0.9098794707702537,
+   "touchdown_ground_speed_kt": 31.734622911402703,
+   "touchdown_pitch_up_deg": 7.279250318300661,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.1156415274268467,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.3217140935528127,
+   "touchdown_ground_speed_kt": 31.044249761927816,
+   "touchdown_pitch_up_deg": 12.198457194087158,
+   "max_nr_pct": 104.64476326349848,
+   "min_nr_before_cushion_pct": 95.29868173988365,
+   "score": 2.2144760623685418,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.3262913872246846,
+   "touchdown_ground_speed_kt": 26.23303323439558,
+   "touchdown_pitch_up_deg": 15.138340746286454,
+   "max_nr_pct": 104.9506685560172,
+   "min_nr_before_cushion_pct": 94.44940379883134,
+   "score": 2.217527591483123,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.341161763272142,
+   "touchdown_ground_speed_kt": 32.98367901829205,
+   "touchdown_pitch_up_deg": 10.605667846501236,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.227441175514761,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 0.8938577825701769,
+   "touchdown_ground_speed_kt": 33.4538350510818,
+   "touchdown_pitch_up_deg": 10.193666238420576,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.2302556700721206,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.0415758965987676,
+   "touchdown_ground_speed_kt": 33.550910615465,
+   "touchdown_pitch_up_deg": 10.748483201839173,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.2367273743643334,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.388357575244217,
+   "touchdown_ground_speed_kt": 28.284133962493033,
+   "touchdown_pitch_up_deg": 13.366427058654862,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.2589050501628116,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.4031608163717473,
+   "touchdown_ground_speed_kt": 28.342019885805005,
+   "touchdown_pitch_up_deg": 13.018623285606058,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.268773877581165,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.414495068202304,
+   "touchdown_ground_speed_kt": 27.73651094862238,
+   "touchdown_pitch_up_deg": 15.97207493879141,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.2763300454682027,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.4184616011377544,
+   "touchdown_ground_speed_kt": 29.008758757767794,
+   "touchdown_pitch_up_deg": 13.577231992055502,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.278974400758503,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.460578541263166,
+   "touchdown_ground_speed_kt": 33.7639003828522,
+   "touchdown_pitch_up_deg": 14.62799762607668,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.307052360842111,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 2.78457270829634,
+   "touchdown_ground_speed_kt": 35.331744781925366,
+   "touchdown_pitch_up_deg": 12.051610783133249,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 94.89314936400676,
+   "score": 2.3554496521283577,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 2.802675057236068,
+   "touchdown_ground_speed_kt": 35.38301335763365,
+   "touchdown_pitch_up_deg": 11.547285462250041,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 94.89314936400676,
+   "score": 2.358867557175577,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.7029843878415891,
+   "touchdown_ground_speed_kt": 35.96442200213164,
+   "touchdown_pitch_up_deg": 9.729561106339006,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.397628133475443,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.722241726184328,
+   "touchdown_ground_speed_kt": 36.06127705465424,
+   "touchdown_pitch_up_deg": 9.13204915040139,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.4040851369769496,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.722241726184328,
+   "touchdown_ground_speed_kt": 36.06127705465424,
+   "touchdown_pitch_up_deg": 9.13204915040139,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.4040851369769496,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.7267114188259076,
+   "touchdown_ground_speed_kt": 36.669155389253035,
+   "touchdown_pitch_up_deg": 7.684584008994641,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.4446103592835358,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.7333868717276877,
+   "touchdown_ground_speed_kt": 36.69874065951043,
+   "touchdown_pitch_up_deg": 7.5011445454897485,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.4465827106340288,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 0.970098175373702,
+   "touchdown_ground_speed_kt": 37.26205098897924,
+   "touchdown_pitch_up_deg": 10.127282698685228,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.4841367325986163,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.738464609224984,
+   "touchdown_ground_speed_kt": 30.27958722971195,
+   "touchdown_pitch_up_deg": 3.8663625399969668,
+   "max_nr_pct": 104.64476326349848,
+   "min_nr_before_cushion_pct": 95.29868173988365,
+   "score": 2.4923097394833227,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.7728042780984286,
+   "touchdown_ground_speed_kt": 29.45280971782652,
+   "touchdown_pitch_up_deg": 5.899930981083571,
+   "max_nr_pct": 104.64476326349848,
+   "min_nr_before_cushion_pct": 95.29868173988365,
+   "score": 2.515202852065619,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.80767599977472,
+   "touchdown_ground_speed_kt": 38.89404751230925,
+   "touchdown_pitch_up_deg": 4.147941479105547,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.5929365008206164,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.80767599977472,
+   "touchdown_ground_speed_kt": 38.89404751230925,
+   "touchdown_pitch_up_deg": 4.147941479105547,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.5929365008206164,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.80767599977472,
+   "touchdown_ground_speed_kt": 38.89404751230925,
+   "touchdown_pitch_up_deg": 4.147941479105547,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.5929365008206164,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.969723247920333,
+   "touchdown_ground_speed_kt": 39.21533256152792,
+   "touchdown_pitch_up_deg": 8.635083693127727,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.614355504101862,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.969723247920333,
+   "touchdown_ground_speed_kt": 39.21533256152792,
+   "touchdown_pitch_up_deg": 8.635083693127727,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.614355504101862,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.97267892491197,
+   "touchdown_ground_speed_kt": 39.23161852008059,
+   "touchdown_pitch_up_deg": 8.543112586176195,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.6154412346720393,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.967661435603537,
+   "touchdown_ground_speed_kt": 39.339051917506104,
+   "touchdown_pitch_up_deg": 9.668811999602108,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.6226034611670737,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.942394088186176,
+   "touchdown_ground_speed_kt": 39.406863943693544,
+   "touchdown_pitch_up_deg": 9.848199313870557,
+   "max_nr_pct": 104.92996694176598,
+   "min_nr_before_cushion_pct": 94.23686290591262,
+   "score": 2.6282627254574504,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.647226689913034,
+   "touchdown_ground_speed_kt": 39.694950569989075,
+   "touchdown_pitch_up_deg": 8.749089440394899,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.646330037999272,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.9746607253903985,
+   "touchdown_ground_speed_kt": 29.253062955254553,
+   "touchdown_pitch_up_deg": 16.83971066134844,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.6497738169269325,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.9778829659262547,
+   "touchdown_ground_speed_kt": 26.692221196656472,
+   "touchdown_pitch_up_deg": 13.515274854814061,
+   "max_nr_pct": 104.72116972631495,
+   "min_nr_before_cushion_pct": 95.29868173988365,
+   "score": 2.65192197728417,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.6376899099911086,
+   "touchdown_ground_speed_kt": 39.78316121890693,
+   "touchdown_pitch_up_deg": 9.945776977803105,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.652210747927129,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 3.982750667509191,
+   "touchdown_ground_speed_kt": 31.22226615552675,
+   "touchdown_pitch_up_deg": 11.548568889347724,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.6551671116727937,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 1.5971764479594963,
+   "touchdown_ground_speed_kt": 40.31996435946437,
+   "touchdown_pitch_up_deg": 8.89511979746874,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.687997623964291,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.169772740488369,
+   "touchdown_ground_speed_kt": 24.712120550867464,
+   "touchdown_pitch_up_deg": 12.935955764362227,
+   "max_nr_pct": 104.72822002872671,
+   "min_nr_before_cushion_pct": 95.29868173988365,
+   "score": 2.7798484936589127,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 2.361976803651569,
+   "touchdown_ground_speed_kt": 41.965701623332286,
+   "touchdown_pitch_up_deg": 6.025427524879572,
+   "max_nr_pct": 104.6361083642334,
+   "min_nr_before_cushion_pct": 95.26066938943545,
+   "score": 2.797713441555486,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.244556438909065,
+   "touchdown_ground_speed_kt": 41.793184319197394,
+   "touchdown_pitch_up_deg": 12.525608713519189,
+   "max_nr_pct": 104.92905538823561,
+   "min_nr_before_cushion_pct": 94.26177164930033,
+   "score": 2.8297042926060434,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 4.2648918788338355,
+   "touchdown_ground_speed_kt": 29.28500729448303,
+   "touchdown_pitch_up_deg": 12.318366230073448,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 2.8432612525558905,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.253802829434727,
+   "touchdown_ground_speed_kt": 43.37042334389108,
+   "touchdown_pitch_up_deg": 10.793241993506465,
+   "max_nr_pct": 104.6361083642334,
+   "min_nr_before_cushion_pct": 95.26066938943545,
+   "score": 2.891361556259406,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.421529222057034,
+   "touchdown_ground_speed_kt": 43.94628377128105,
+   "touchdown_pitch_up_deg": 12.711907995615608,
+   "max_nr_pct": 104.92996694176598,
+   "min_nr_before_cushion_pct": 94.3675348741078,
+   "score": 2.9476861480380223,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.421529222057034,
+   "touchdown_ground_speed_kt": 43.94628377128105,
+   "touchdown_pitch_up_deg": 12.711907995615608,
+   "max_nr_pct": 104.92996694176598,
+   "min_nr_before_cushion_pct": 94.3675348741078,
+   "score": 2.9476861480380223,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.451824448045333,
+   "touchdown_ground_speed_kt": 42.94569537803695,
+   "touchdown_pitch_up_deg": 8.409127607393419,
+   "max_nr_pct": 104.92905538823561,
+   "min_nr_before_cushion_pct": 94.36539682987475,
+   "score": 2.9678829653635552,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.456048547031608,
+   "touchdown_ground_speed_kt": 43.14345675027066,
+   "touchdown_pitch_up_deg": 2.871924990969899,
+   "max_nr_pct": 105.50151703224812,
+   "min_nr_before_cushion_pct": 94.64090632579077,
+   "score": 2.970699031354405,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 4.503100015435638,
+   "touchdown_ground_speed_kt": 23.226503273729257,
+   "touchdown_pitch_up_deg": 12.325920895688899,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.0020666769570923,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.5313541355807505,
+   "touchdown_ground_speed_kt": 38.35085719365468,
+   "touchdown_pitch_up_deg": 11.115275933669704,
+   "max_nr_pct": 105.86976487557936,
+   "min_nr_before_cushion_pct": 94.18138159959754,
+   "score": 3.020902757053834,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.573741368184285,
+   "touchdown_ground_speed_kt": 45.6531423072559,
+   "touchdown_pitch_up_deg": 6.75553047525567,
+   "max_nr_pct": 104.82267444408934,
+   "min_nr_before_cushion_pct": 95.0991500135385,
+   "score": 3.0435428204837267,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.5762278325486188,
+   "touchdown_ground_speed_kt": 45.655579933387074,
+   "touchdown_pitch_up_deg": 6.770009458318722,
+   "max_nr_pct": 104.82267444408934,
+   "min_nr_before_cushion_pct": 95.0991500135385,
+   "score": 3.0437053288924716,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 2.0236585467712365,
+   "touchdown_ground_speed_kt": 46.52479727982155,
+   "touchdown_pitch_up_deg": 5.485604959283109,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.1016531519881037,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 3.190558846969287,
+   "touchdown_ground_speed_kt": 46.6778728361806,
+   "touchdown_pitch_up_deg": 10.344921285388196,
+   "max_nr_pct": 104.82267444408934,
+   "min_nr_before_cushion_pct": 95.07907303335192,
+   "score": 3.1118581890787067,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.747318912886362,
+   "touchdown_ground_speed_kt": 26.838607141428636,
+   "touchdown_pitch_up_deg": 12.924554664120903,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 94.89501908022947,
+   "score": 3.1648792752575745,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.809446209074632,
+   "touchdown_ground_speed_kt": 37.295934425049346,
+   "touchdown_pitch_up_deg": 1.8923281167984207,
+   "max_nr_pct": 105.66281918599142,
+   "min_nr_before_cushion_pct": 93.88962979257724,
+   "score": 3.2062974727164213,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.809446209074632,
+   "touchdown_ground_speed_kt": 37.29976217548153,
+   "touchdown_pitch_up_deg": 1.8816307504509033,
+   "max_nr_pct": 105.66281918599142,
+   "min_nr_before_cushion_pct": 93.88962979257724,
+   "score": 3.2062974727164213,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 4.863103848883373,
+   "touchdown_ground_speed_kt": 40.84343435055439,
+   "touchdown_pitch_up_deg": 12.52939602281527,
+   "max_nr_pct": 105.86426737025272,
+   "min_nr_before_cushion_pct": 94.1896124667343,
+   "score": 3.2420692325889156,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 4.875529511494397,
+   "touchdown_ground_speed_kt": 26.19083108604027,
+   "touchdown_pitch_up_deg": 16.15942098697304,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.2503530076629317,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 4.875529511494397,
+   "touchdown_ground_speed_kt": 26.190983162347322,
+   "touchdown_pitch_up_deg": 16.15927807312625,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.2503530076629317,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 4.875529511494397,
+   "touchdown_ground_speed_kt": 26.19083108604027,
+   "touchdown_pitch_up_deg": 16.15942098697304,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.2503530076629317,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 4.967576512818444,
+   "touchdown_ground_speed_kt": 47.146238547865394,
+   "touchdown_pitch_up_deg": 1.2479933609057112,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.311717675212296,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 40.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 4.970285741081143,
+   "touchdown_ground_speed_kt": 47.12556581646172,
+   "touchdown_pitch_up_deg": 1.179574094668284,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.3135238273874283,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.069230967808904,
+   "touchdown_ground_speed_kt": 23.35190200870436,
+   "touchdown_pitch_up_deg": 14.48553162848394,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.379487311872603,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.173441737430224,
+   "touchdown_ground_speed_kt": 25.448255178470415,
+   "touchdown_pitch_up_deg": 11.896959699533031,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.448961158286816,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.173441737430224,
+   "touchdown_ground_speed_kt": 25.448255178470415,
+   "touchdown_pitch_up_deg": 11.896959699533031,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.448961158286816,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.173441737430224,
+   "touchdown_ground_speed_kt": 25.448255178470415,
+   "touchdown_pitch_up_deg": 11.896959699533031,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.448961158286816,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.173588196728532,
+   "touchdown_ground_speed_kt": 25.452128402530914,
+   "touchdown_pitch_up_deg": 11.882379206734056,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.449058797819021,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 5.303518496357904,
+   "touchdown_ground_speed_kt": 33.730297063836126,
+   "touchdown_pitch_up_deg": 12.11742414931742,
+   "max_nr_pct": 106.28625321434237,
+   "min_nr_before_cushion_pct": 93.33441234278682,
+   "score": 3.5356789975719356,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 5.492131154069744,
+   "touchdown_ground_speed_kt": 38.412467009651444,
+   "touchdown_pitch_up_deg": 11.721521093945093,
+   "max_nr_pct": 105.66281918599142,
+   "min_nr_before_cushion_pct": 93.88962979257724,
+   "score": 3.6614207693798293,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.514461944068938,
+   "touchdown_ground_speed_kt": 21.8110637009195,
+   "touchdown_pitch_up_deg": 15.705042248058833,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.6763079627126256,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.514461944068938,
+   "touchdown_ground_speed_kt": 21.811435491108956,
+   "touchdown_pitch_up_deg": 15.70434244288789,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.6763079627126256,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.514461944068938,
+   "touchdown_ground_speed_kt": 21.8110637009195,
+   "touchdown_pitch_up_deg": 15.705042248058833,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.6763079627126256,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 5.5709813993426005,
+   "touchdown_ground_speed_kt": 22.383220199398046,
+   "touchdown_pitch_up_deg": 10.046832721020678,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 95.41659773483626,
+   "score": 3.7139875995617335,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 5.631851839230285,
+   "touchdown_ground_speed_kt": 23.744611315760835,
+   "touchdown_pitch_up_deg": 6.379869524416012,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 95.41659773483626,
+   "score": 3.7545678928201904,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.6489971346940875,
+   "touchdown_ground_speed_kt": 25.209204183081745,
+   "touchdown_pitch_up_deg": 14.061378060592135,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.7659980897960583,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 5.6489971346940875,
+   "touchdown_ground_speed_kt": 25.209204183081745,
+   "touchdown_pitch_up_deg": 14.061378060592135,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 3.7659980897960583,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 5.843410275798221,
+   "touchdown_ground_speed_kt": 22.28688408940065,
+   "touchdown_pitch_up_deg": 6.021519360660128,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 95.41659773483626,
+   "score": 3.8956068505321473,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 5.843410275798221,
+   "touchdown_ground_speed_kt": 22.288984597240322,
+   "touchdown_pitch_up_deg": 6.0160455681410525,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 95.41659773483626,
+   "score": 3.8956068505321473,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 5.8462273236610445,
+   "touchdown_ground_speed_kt": 24.635361987637697,
+   "touchdown_pitch_up_deg": 14.919945222329439,
+   "max_nr_pct": 104.54285743821578,
+   "min_nr_before_cushion_pct": 94.90999274201323,
+   "score": 3.8974848824406965,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.010206255412364,
+   "touchdown_ground_speed_kt": 26.119550937726554,
+   "touchdown_pitch_up_deg": 0.3688815097572082,
+   "max_nr_pct": 105.06309036316082,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 4.0068041702749095,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.137955824344505,
+   "touchdown_ground_speed_kt": 31.08096793336197,
+   "touchdown_pitch_up_deg": 9.685136245944454,
+   "max_nr_pct": 105.06111792781685,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 4.091970549563004,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.190104523295977,
+   "touchdown_ground_speed_kt": 30.905378421275557,
+   "touchdown_pitch_up_deg": 9.411221154992917,
+   "max_nr_pct": 105.06111792781685,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 4.126736348863985,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.190104523295977,
+   "touchdown_ground_speed_kt": 30.905378421275557,
+   "touchdown_pitch_up_deg": 9.411221154992917,
+   "max_nr_pct": 105.06111792781685,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 4.126736348863985,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.242445753800817,
+   "touchdown_ground_speed_kt": 31.040780980748313,
+   "touchdown_pitch_up_deg": 13.058055444290531,
+   "max_nr_pct": 106.35044203605793,
+   "min_nr_before_cushion_pct": 93.04753694464378,
+   "score": 4.161630502533878,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 30.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.257846104786588,
+   "touchdown_ground_speed_kt": 31.085008342352193,
+   "touchdown_pitch_up_deg": 14.369834038183955,
+   "max_nr_pct": 106.35199405433423,
+   "min_nr_before_cushion_pct": 93.048477138723,
+   "score": 4.171897403191059,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.41807745524465,
+   "touchdown_ground_speed_kt": 21.73133390012634,
+   "touchdown_pitch_up_deg": 14.871526578406337,
+   "max_nr_pct": 105.11832362158349,
+   "min_nr_before_cushion_pct": 94.48279102077323,
+   "score": 4.278718303496434,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.4406228303343545,
+   "touchdown_ground_speed_kt": 30.662511911570814,
+   "touchdown_pitch_up_deg": 5.99984627848098,
+   "max_nr_pct": 105.06111792781685,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 4.293748553556236,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 6.64192378410876,
+   "touchdown_ground_speed_kt": 21.462438081260444,
+   "touchdown_pitch_up_deg": 12.033654135157736,
+   "max_nr_pct": 105.11832362158349,
+   "min_nr_before_cushion_pct": 94.48279102077323,
+   "score": 4.42794918940584,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 7.374693626535809,
+   "touchdown_ground_speed_kt": 19.17800606877811,
+   "touchdown_pitch_up_deg": 5.066787037690722,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 4.916462417690539,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 7.374693626535809,
+   "touchdown_ground_speed_kt": 19.17800606877811,
+   "touchdown_pitch_up_deg": 5.066787037690722,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 4.916462417690539,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 7.374693626535809,
+   "touchdown_ground_speed_kt": 19.175862293827375,
+   "touchdown_pitch_up_deg": 5.072266930155974,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 4.916462417690539,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 7.580388490140302,
+   "touchdown_ground_speed_kt": 19.34811686031637,
+   "touchdown_pitch_up_deg": 2.031020165661171,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 5.053592326760201,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 7.580388490140302,
+   "touchdown_ground_speed_kt": 19.34811686031637,
+   "touchdown_pitch_up_deg": 2.031020165661171,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 5.053592326760201,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 7.580388490140302,
+   "touchdown_ground_speed_kt": 19.345325724190786,
+   "touchdown_pitch_up_deg": 2.039884023582652,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 5.053592326760201,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.04
+   },
+   "touchdown_sink_ms": 7.580388490140302,
+   "touchdown_ground_speed_kt": 19.345325724190786,
+   "touchdown_pitch_up_deg": 2.039884023582652,
+   "max_nr_pct": 115.47500891066582,
+   "min_nr_before_cushion_pct": 95.87193411567854,
+   "score": 5.053592326760201,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 7.683503254645299,
+   "touchdown_ground_speed_kt": 18.701987129303774,
+   "touchdown_pitch_up_deg": 17.703387716232424,
+   "max_nr_pct": 105.09667985706999,
+   "min_nr_before_cushion_pct": 94.48557350506395,
+   "score": 5.122335503096866,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 7.711899814514823,
+   "touchdown_ground_speed_kt": 23.71183280630212,
+   "touchdown_pitch_up_deg": 3.237921362816853,
+   "max_nr_pct": 105.63384394162854,
+   "min_nr_before_cushion_pct": 94.21461936200222,
+   "score": 5.141266543009882,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 7.78516520600917,
+   "touchdown_ground_speed_kt": 24.736902156302676,
+   "touchdown_pitch_up_deg": 15.370119204655486,
+   "max_nr_pct": 105.12179438215648,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 5.190110137339446,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 7.78516520600917,
+   "touchdown_ground_speed_kt": 24.736902156302676,
+   "touchdown_pitch_up_deg": 15.370119204655486,
+   "max_nr_pct": 105.12179438215648,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 5.190110137339446,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 7.965543520585026,
+   "touchdown_ground_speed_kt": 23.783129841805362,
+   "touchdown_pitch_up_deg": 15.017085964460433,
+   "max_nr_pct": 105.12179438215648,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 5.310362347056684,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 4.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 15.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 7.965543520585026,
+   "touchdown_ground_speed_kt": 23.783129841805362,
+   "touchdown_pitch_up_deg": 15.017085964460433,
+   "max_nr_pct": 105.12179438215648,
+   "min_nr_before_cushion_pct": 94.63773232888674,
+   "score": 5.310362347056684,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 8.109492619779388,
+   "touchdown_ground_speed_kt": 19.514356606501476,
+   "touchdown_pitch_up_deg": 19.18006407802483,
+   "max_nr_pct": 104.90156135132206,
+   "min_nr_before_cushion_pct": 94.49690261071792,
+   "score": 5.406328413186259,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 8.62127517890697,
+   "touchdown_ground_speed_kt": 15.422228430362882,
+   "touchdown_pitch_up_deg": 14.744533861948604,
+   "max_nr_pct": 105.17916531370801,
+   "min_nr_before_cushion_pct": 94.48279102077323,
+   "score": 5.74751678593798,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.001336493827438,
+   "touchdown_ground_speed_kt": 18.1698402460865,
+   "touchdown_pitch_up_deg": 5.499112522142696,
+   "max_nr_pct": 105.63384394162854,
+   "min_nr_before_cushion_pct": 94.21461936200222,
+   "score": 6.000890995884959,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 20.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.065607567223708,
+   "touchdown_ground_speed_kt": 18.194620294088413,
+   "touchdown_pitch_up_deg": 4.356822110046141,
+   "max_nr_pct": 105.63384394162854,
+   "min_nr_before_cushion_pct": 94.21461936200222,
+   "score": 6.043738378149139,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.315260373242616,
+   "touchdown_ground_speed_kt": 18.92065698601043,
+   "touchdown_pitch_up_deg": 7.518483680398236,
+   "max_nr_pct": 105.91284766934405,
+   "min_nr_before_cushion_pct": 93.86562001646008,
+   "score": 6.210173582161744,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.3,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.315260373242616,
+   "touchdown_ground_speed_kt": 18.92065698601043,
+   "touchdown_pitch_up_deg": 7.518483680398236,
+   "max_nr_pct": 105.91284766934405,
+   "min_nr_before_cushion_pct": 93.86562001646008,
+   "score": 6.210173582161744,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.326113699920088,
+   "touchdown_ground_speed_kt": 14.902738920514864,
+   "touchdown_pitch_up_deg": 3.6359791291243044,
+   "max_nr_pct": 104.98268351544947,
+   "min_nr_before_cushion_pct": 94.49426945099864,
+   "score": 6.217409133280058,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 30.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.602845964920647,
+   "touchdown_ground_speed_kt": 17.104277344300478,
+   "touchdown_pitch_up_deg": 0.358140765319717,
+   "max_nr_pct": 105.91524430992202,
+   "min_nr_before_cushion_pct": 93.86120546415599,
+   "score": 6.401897309947098,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.45,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.602845964920647,
+   "touchdown_ground_speed_kt": 17.104277346792017,
+   "touchdown_pitch_up_deg": 0.3581410980459745,
+   "max_nr_pct": 105.91524430992202,
+   "min_nr_before_cushion_pct": 93.86120546415599,
+   "score": 6.401897309947098,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 50.0,
+    "flare_tilt": 35.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.2,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.693724834667394,
+   "touchdown_ground_speed_kt": 18.632212866007862,
+   "touchdown_pitch_up_deg": 22.41928826080475,
+   "max_nr_pct": 104.98268389654642,
+   "min_nr_before_cushion_pct": 94.49426945099864,
+   "score": 6.4624832231115965,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 8.0,
+    "cushion_agl": 4.0,
+    "cushion_tilt": 15.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.970367349782522,
+   "touchdown_ground_speed_kt": 16.777412764178386,
+   "touchdown_pitch_up_deg": 3.865138997717555,
+   "max_nr_pct": 105.91284766934405,
+   "min_nr_before_cushion_pct": 93.86562001646008,
+   "score": 6.646911566521681,
+   "ok": false
+  },
+  {
+   "params": {
+    "flare_agl": 60.0,
+    "flare_tilt": 25.0,
+    "flare_decel": 6.0,
+    "flare_sink_k": 0.3,
+    "level_tilt": 15.0,
+    "cushion_agl": 8.0,
+    "cushion_tilt": 8.0,
+    "cushion_sink": 0.8,
+    "nr_flare": 1.0
+   },
+   "touchdown_sink_ms": 9.970367349782522,
+   "touchdown_ground_speed_kt": 16.777413295852146,
+   "touchdown_pitch_up_deg": 3.8651392426288713,
+   "max_nr_pct": 105.91284766934405,
+   "min_nr_before_cushion_pct": 93.86562001646008,
+   "score": 6.646911566521681,
+   "ok": false
+  }
+ ]
+}

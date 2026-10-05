@@ -1,0 +1,1862 @@
+{
+ "sea_level": {
+  "grid_heights_m": [
+   2.0,
+   5.0,
+   8.0,
+   10.0,
+   12.0,
+   15.0,
+   20.0,
+   25.0,
+   30.0,
+   45.0,
+   60.0,
+   90.0
+  ],
+  "grid_speeds_kt": [
+   0.0,
+   10.0,
+   20.0,
+   30.0,
+   40.0,
+   60.0
+  ],
+  "height_steps_m": [
+   3.0,
+   3.0,
+   2.0,
+   2.0,
+   3.0,
+   5.0,
+   5.0,
+   5.0,
+   15.0,
+   15.0,
+   30.0
+  ],
+  "speed_step_kt": 10.0,
+  "n_points": 72,
+  "n_unsafe": 0,
+  "worst_point": {
+   "height_m": 10.0,
+   "speed_kt": 10.0,
+   "technique": "vertical",
+   "touchdown_sink_ms": 1.557034132480166,
+   "touchdown_ground_speed_ms": 0.9236860725418726,
+   "max_tilt_after_deg": 9.589914015573619,
+   "margin_used": 0.778517066240083
+  },
+  "points": [
+   {
+    "height_m": 2.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.44526554745711094
+   },
+   {
+    "height_m": 2.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.644318512189255
+   },
+   {
+    "height_m": 2.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.27428975370236464
+   },
+   {
+    "height_m": 2.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.297579869402642
+   },
+   {
+    "height_m": 2.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.1741288949753759
+   },
+   {
+    "height_m": 2.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.3543599701321398
+   },
+   {
+    "height_m": 5.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2645707535389948
+   },
+   {
+    "height_m": 5.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.19130204295949513
+   },
+   {
+    "height_m": 5.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.27516491339203736
+   },
+   {
+    "height_m": 5.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2339667229581769
+   },
+   {
+    "height_m": 5.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.17052354683459425
+   },
+   {
+    "height_m": 5.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.35811915334471117
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.26454606861546787
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6702624847137372
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.204758261830856
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2213871911008125
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2665409618702211
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.25105970173035735
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.24155934035776103
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.778517066240083
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.1762036934195868
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21158539810273236
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2692937802361038
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.22130691082018433
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.2901456215137934
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.33940601090219136
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.19027457009301532
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.25189872612097214
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2705695514499164
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20512861807618024
+   },
+   {
+    "height_m": 15.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3214481630516153
+   },
+   {
+    "height_m": 15.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.19611638452749908
+   },
+   {
+    "height_m": 15.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21449217459243214
+   },
+   {
+    "height_m": 15.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.24355656298877829
+   },
+   {
+    "height_m": 15.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2657086755413992
+   },
+   {
+    "height_m": 15.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.19649450242272865
+   },
+   {
+    "height_m": 20.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.21057694165927154
+   },
+   {
+    "height_m": 20.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2935013217983017
+   },
+   {
+    "height_m": 20.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21209783137590157
+   },
+   {
+    "height_m": 20.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2741746478235279
+   },
+   {
+    "height_m": 20.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.24024266977749484
+   },
+   {
+    "height_m": 20.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.23924203390538573
+   },
+   {
+    "height_m": 25.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.4102240524139268
+   },
+   {
+    "height_m": 25.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.30546463313737815
+   },
+   {
+    "height_m": 25.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21971171830666053
+   },
+   {
+    "height_m": 25.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2661657387894879
+   },
+   {
+    "height_m": 25.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21638154367570495
+   },
+   {
+    "height_m": 25.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.22847949858819247
+   },
+   {
+    "height_m": 30.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20894305838840743
+   },
+   {
+    "height_m": 30.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.3096540717324029
+   },
+   {
+    "height_m": 30.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.29642878132990863
+   },
+   {
+    "height_m": 30.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.25075476162774935
+   },
+   {
+    "height_m": 30.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21840575219425717
+   },
+   {
+    "height_m": 30.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2720669470059184
+   },
+   {
+    "height_m": 45.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20872341706058928
+   },
+   {
+    "height_m": 45.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.17743040650152736
+   },
+   {
+    "height_m": 45.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.19788174128340927
+   },
+   {
+    "height_m": 45.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2248188591119738
+   },
+   {
+    "height_m": 45.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2495245705553787
+   },
+   {
+    "height_m": 45.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2361068606111825
+   },
+   {
+    "height_m": 60.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.19016774621975296
+   },
+   {
+    "height_m": 60.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2460473164969526
+   },
+   {
+    "height_m": 60.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.27812358787038066
+   },
+   {
+    "height_m": 60.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.27568811029687085
+   },
+   {
+    "height_m": 60.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2384595058348337
+   },
+   {
+    "height_m": 60.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20858814633233844
+   },
+   {
+    "height_m": 90.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20474515789173478
+   },
+   {
+    "height_m": 90.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20312793865286916
+   },
+   {
+    "height_m": 90.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2169911522788903
+   },
+   {
+    "height_m": 90.0,
+    "speed_kt": 30.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.22352819530135268
+   },
+   {
+    "height_m": 90.0,
+    "speed_kt": 40.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.23036523108664603
+   },
+   {
+    "height_m": 90.0,
+    "speed_kt": 60.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20236383587083484
+   }
+  ]
+ },
+ "hot_high_refined": {
+  "mass_kg": 2614.375,
+  "heights_m": [
+   6.0,
+   6.5,
+   7.0,
+   7.5,
+   8.0,
+   8.5,
+   9.0,
+   9.5,
+   10.0,
+   10.5,
+   11.0,
+   11.5,
+   12.0,
+   12.5,
+   13.0,
+   13.5,
+   14.0
+  ],
+  "speeds_kt": [
+   0.0,
+   2.5,
+   5.0,
+   7.5,
+   10.0,
+   12.5,
+   15.0,
+   17.5,
+   20.0
+  ],
+  "height_step_m": 0.5,
+  "speed_step_kt": 2.5,
+  "refinement_vs_coarse": "4x em altura (2 m -> 0,5 m) e 4x em velocidade (10 -> 2,5 kt)",
+  "n_points": 153,
+  "unsafe_points_kt_m": [
+   [
+    10.0,
+    10.0
+   ],
+   [
+    10.0,
+    10.5
+   ],
+   [
+    10.0,
+    11.0
+   ],
+   [
+    12.5,
+    11.0
+   ],
+   [
+    10.0,
+    11.5
+   ],
+   [
+    12.5,
+    11.5
+   ],
+   [
+    12.5,
+    12.0
+   ],
+   [
+    12.5,
+    12.5
+   ]
+  ],
+  "path_in_box": [
+   [
+    0.38,
+    6.15
+   ],
+   [
+    0.27,
+    6.37
+   ],
+   [
+    0.17,
+    6.58
+   ],
+   [
+    0.06,
+    6.79
+   ],
+   [
+    0.05,
+    7.01
+   ],
+   [
+    0.16,
+    7.22
+   ],
+   [
+    0.27,
+    7.43
+   ],
+   [
+    0.37,
+    7.65
+   ],
+   [
+    0.48,
+    7.87
+   ],
+   [
+    0.59,
+    8.08
+   ],
+   [
+    0.69,
+    8.3
+   ],
+   [
+    0.8,
+    8.51
+   ],
+   [
+    0.9,
+    8.73
+   ],
+   [
+    1.0,
+    8.95
+   ],
+   [
+    1.1,
+    9.17
+   ],
+   [
+    1.2,
+    9.38
+   ],
+   [
+    1.29,
+    9.6
+   ],
+   [
+    1.38,
+    9.82
+   ],
+   [
+    1.47,
+    10.04
+   ],
+   [
+    1.56,
+    10.25
+   ],
+   [
+    1.64,
+    10.47
+   ],
+   [
+    1.72,
+    10.69
+   ],
+   [
+    1.8,
+    10.91
+   ],
+   [
+    1.87,
+    11.12
+   ],
+   [
+    1.94,
+    11.34
+   ],
+   [
+    2.0,
+    11.56
+   ],
+   [
+    2.06,
+    11.77
+   ],
+   [
+    2.12,
+    11.99
+   ],
+   [
+    2.17,
+    12.2
+   ],
+   [
+    2.22,
+    12.42
+   ],
+   [
+    2.27,
+    12.63
+   ],
+   [
+    2.31,
+    12.85
+   ],
+   [
+    2.35,
+    13.07
+   ],
+   [
+    2.38,
+    13.28
+   ],
+   [
+    2.4,
+    13.5
+   ],
+   [
+    2.43,
+    13.71
+   ],
+   [
+    2.45,
+    13.93
+   ]
+  ],
+  "clearance": {
+   "min_distance_grid_steps": 3.2015289638119167,
+   "path_point_kt_m": [
+    2.0013712331173474,
+    11.55765796142375
+   ],
+   "unsafe_point_kt_m": [
+    10.0,
+    11.5
+   ]
+  },
+  "points": [
+   {
+    "height_m": 6.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2775030012418259
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.28220082656199724
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5356216015307249
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5742591056577521
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6407509779288938
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.8118075274568826
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.9499021213008388
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.7724463392051695
+   },
+   {
+    "height_m": 6.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6836161855329433
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.36978487704967056
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.3689430700873207
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.4742135221697652
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.575069579484014
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5840233241123828
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6258777778087391
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.856069735650395
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.875879475105889
+   },
+   {
+    "height_m": 6.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6355785623192309
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.38333117283249424
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.38457344575570707
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.28223480936177875
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5482927290166447
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6404351033640591
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6593384623994466
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.9957864224769662
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.961435376164426
+   },
+   {
+    "height_m": 7.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.22410984319693314
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.37946013900003767
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.38274821645763946
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.35329805460376373
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6721157457686213
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6481350548936806
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6258475142476734
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.7632278915171988
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6459009613725928
+   },
+   {
+    "height_m": 7.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.19635013643502044
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.359507759924252
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.38355059382326834
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2499099326814426
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.810551114416642
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.7249561035516046
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6546513702894277
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6679869767958123
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20398458671440217
+   },
+   {
+    "height_m": 8.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.4572528884176876
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2963999580161112
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.36248424475605234
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.26680181348696097
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.8849257243282211
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.7922649499699967
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6436693085813961
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.6730697956432276
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2051693058936286
+   },
+   {
+    "height_m": 8.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5324666916361508
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.2050642017363189
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3106627574692689
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3606164862870412
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.9223893057722188
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.8631823090131916
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.7566724692773806
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21361097840047058
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5387863927558906
+   },
+   {
+    "height_m": 9.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5808537569449755
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.16666165453201737
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.2574284998135596
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.29703461223084293
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.673834737385453
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.9376257793102489
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.8242772893203829
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.25678927086678577
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.20199974582628427
+   },
+   {
+    "height_m": 9.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6320366560300779
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.17294061856394619
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.18374879263911978
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.22894038959452834
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.4951972891749129
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 10.0,
+    "safe": false,
+    "technique": "vertical",
+    "margin_used": 1.0157627352004492
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.894701583148037
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21497005117653953
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.567506137193466
+   },
+   {
+    "height_m": 10.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6392361583029385
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.17575534435113163
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.17765094111832605
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.18064254355755868
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3780200213450754
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 10.0,
+    "safe": false,
+    "technique": "vertical",
+    "margin_used": 1.0976058331395997
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.9680672849657909
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.46424138125843173
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5854734068257156
+   },
+   {
+    "height_m": 10.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6257733333572948
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3332720520574103
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3377446746109179
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3291231343278866
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3002963253949507
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 10.0,
+    "safe": false,
+    "technique": "vertical",
+    "margin_used": 1.1592686040897038
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 12.5,
+    "safe": false,
+    "technique": "frente",
+    "margin_used": 1.0450806887047772
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.36901384116000224
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6595127267360528
+   },
+   {
+    "height_m": 11.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.641837434659878
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3497334548468499
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.34611015334593886
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.34337543900761697
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.35054685359780413
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 10.0,
+    "safe": false,
+    "technique": "vertical",
+    "margin_used": 1.1240398275866939
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 12.5,
+    "safe": false,
+    "technique": "frente",
+    "margin_used": 1.1037549411726697
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.1990867188140421
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6566689592863291
+   },
+   {
+    "height_m": 11.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6550476079728514
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.349363508900045
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3400346996786213
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3495606209957257
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3393388546064021
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.9619299757906374
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 12.5,
+    "safe": false,
+    "technique": "frente",
+    "margin_used": 1.1639277482846442
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5508382985423723
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6906163932402661
+   },
+   {
+    "height_m": 12.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6535715694603345
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3585441787337713
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.35891504002985386
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.351754583550783
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.34893882271117926
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.7862658495424149
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 12.5,
+    "safe": false,
+    "technique": "frente",
+    "margin_used": 1.2254682246656825
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6273087272460026
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6949554022623025
+   },
+   {
+    "height_m": 12.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6514529081273633
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.35855730775451305
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3530268134985226
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.35615246091217717
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.35246092681178737
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.5592690877033201
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.5042673414904706
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6521288310434283
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6708565680437933
+   },
+   {
+    "height_m": 13.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6532534169322678
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.32869701568102994
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.35883532192069817
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.33892552388045905
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3445472929224453
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3762478027804867
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21050966173884228
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6697675486030469
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6549527281281994
+   },
+   {
+    "height_m": 13.5,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6205329412185192
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 0.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.34105143610280997
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 2.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.331347901417821
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 5.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.3424484853245887
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 7.5,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.33499246097327606
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 10.0,
+    "safe": true,
+    "technique": "vertical",
+    "margin_used": 0.30563332850947383
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 12.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.21040450214996304
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 15.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6510622373955154
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 17.5,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.6486808731969032
+   },
+   {
+    "height_m": 14.0,
+    "speed_kt": 20.0,
+    "safe": true,
+    "technique": "frente",
+    "margin_used": 0.651050810108169
+   }
+  ]
+ }
+}

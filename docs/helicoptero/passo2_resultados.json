@@ -1,0 +1,304 @@
+{
+ "cat_a_max_mass": "ver passo2b_resultados.json",
+ "cat_a_demo_1500m_isa25": {
+  "no_limite": {
+   "reject": {
+    "branch": "reject",
+    "touchdown_sink_ms": 0.198,
+    "on_pad": true,
+    "max_tilt_after_deg": 7.594,
+    "min_nr_pct": 97.06,
+    "safe": true,
+    "reason": "ok",
+    "max_height_loss_m": 11.274,
+    "oei30_used_s": 30.0,
+    "mass_kg": 2614.375,
+    "sadpf": {
+     "level": 3,
+     "recommendation": "abortar",
+     "message": "ABORTAR: falha antes do TDP — pousar no heliponto com potência OEI",
+     "detection_delay_s": 0.69
+    },
+    "action_skid_h_m": 11.208,
+    "detect_skid_h_m": 10.37,
+    "fail_skid_h_m": 9.006,
+    "phases": [
+     {
+      "t": 11.42,
+      "phase": "reject",
+      "skid_h": 11.208
+     },
+     {
+      "t": 16.295,
+      "phase": "landed"
+     }
+    ],
+    "max_oei_rating": 2,
+    "oei30_margin_hover_kw": -79.759,
+    "oei2_margin_vtoss_kw": 16.718
+   },
+   "continue": {
+    "branch": "continue",
+    "criterion": "elevado_29_60",
+    "min_height_over_deck_m": 10.355,
+    "min_agl_beyond_m": 24.036,
+    "min_height_rel_deck_m": -5.964,
+    "reached_vtoss": true,
+    "touched_down": false,
+    "oei_roc_at_vtoss_fpm": 128.1324164402929,
+    "vtoss_kt": 25.0,
+    "max_drop_below_deck_m": 5.964,
+    "safe": true,
+    "reason": "ok",
+    "max_height_loss_m": 21.212,
+    "oei30_used_s": 30.0,
+    "mass_kg": 2614.375,
+    "sadpf": {
+     "level": 3,
+     "recommendation": "prosseguir",
+     "message": "PROSSEGUIR: falha após o TDP — baixar o nariz, acelerar até VTOSS com OEI 30 s",
+     "detection_delay_s": 0.69
+    },
+    "action_skid_h_m": 15.241,
+    "detect_skid_h_m": 14.432,
+    "fail_skid_h_m": 13.081,
+    "phases": [
+     {
+      "t": 11.11,
+      "phase": "tdp",
+      "skid_h": 12.002
+     },
+     {
+      "t": 13.3,
+      "phase": "continue",
+      "skid_h": 15.241
+     }
+    ],
+    "max_oei_rating": 2,
+    "oei30_margin_hover_kw": -79.759,
+    "oei2_margin_vtoss_kw": 16.718
+   }
+  },
+  "acima_do_limite": {
+   "reject": {
+    "branch": "reject",
+    "touchdown_sink_ms": 0.126,
+    "on_pad": true,
+    "max_tilt_after_deg": 7.365,
+    "min_nr_pct": 96.971,
+    "safe": true,
+    "reason": "ok",
+    "max_height_loss_m": 9.631,
+    "oei30_used_s": 30.0,
+    "mass_kg": 2714.375,
+    "sadpf": {
+     "level": 3,
+     "recommendation": "abortar",
+     "message": "ABORTAR: falha antes do TDP — pousar no heliponto com potência OEI",
+     "detection_delay_s": 0.685
+    },
+    "action_skid_h_m": 9.098,
+    "detect_skid_h_m": 9.525,
+    "fail_skid_h_m": 9.001,
+    "phases": [
+     {
+      "t": 13.96,
+      "phase": "reject",
+      "skid_h": 9.098
+     },
+     {
+      "t": 16.915,
+      "phase": "landed"
+     }
+    ],
+    "max_oei_rating": 2,
+    "oei30_margin_hover_kw": -107.204,
+    "oei2_margin_vtoss_kw": 19.801
+   },
+   "continue": {
+    "branch": "continue",
+    "criterion": "elevado_29_60",
+    "min_height_over_deck_m": 0.34,
+    "min_agl_beyond_m": 10.253,
+    "min_height_rel_deck_m": -19.747,
+    "reached_vtoss": true,
+    "touched_down": true,
+    "oei_roc_at_vtoss_fpm": 145.63214878222658,
+    "vtoss_kt": 29.0,
+    "max_drop_below_deck_m": 19.747,
+    "safe": false,
+    "reason": "tocou o heliponto ou o solo",
+    "max_height_loss_m": 32.39,
+    "oei30_used_s": 28.0,
+    "mass_kg": 2714.375,
+    "sadpf": {
+     "level": 3,
+     "recommendation": "prosseguir",
+     "message": "PROSSEGUIR: falha após o TDP — baixar o nariz, acelerar até VTOSS com OEI 30 s",
+     "detection_delay_s": 0.695
+    },
+    "action_skid_h_m": 11.847,
+    "detect_skid_h_m": 12.641,
+    "fail_skid_h_m": 12.338,
+    "phases": [
+     {
+      "t": 15.88,
+      "phase": "tdp",
+      "skid_h": 12.001
+     },
+     {
+      "t": 18.085,
+      "phase": "continue",
+      "skid_h": 11.847
+     }
+    ],
+    "max_oei_rating": 1,
+    "oei30_margin_hover_kw": -107.204,
+    "oei2_margin_vtoss_kw": 19.801
+   }
+  }
+ },
+ "autorotation_300m": {
+  "forward": {
+   "mode": "forward",
+   "height_m": 300.0,
+   "v_glide_kt": 70.0,
+   "rod_steady_ms": 9.927,
+   "rod_predicted_ms": 10.36,
+   "min_nr_pct": 71.854,
+   "min_nr_before_cushion_pct": 94.635,
+   "max_nr_pct": 104.844,
+   "sadpf": {
+    "level": 3,
+    "recommendation": "autorrotacao",
+    "message": "AUTORROTAÇÃO: baixar o coletivo, manter a velocidade de mínima razão de descida, flare perto do solo",
+    "detection_delay_s": 1.675
+   },
+   "phases": [
+    {
+     "t": 4.685,
+     "phase": "glide"
+    },
+    {
+     "t": 29.38,
+     "phase": "flare",
+     "agl": 39.96655654770394
+    },
+    {
+     "t": 35.92,
+     "phase": "level",
+     "agl": 5.988833916025406
+    },
+    {
+     "t": 35.925,
+     "phase": "cushion",
+     "agl": 5.967631674286394
+    },
+    {
+     "t": 37.76,
+     "phase": "landed"
+    }
+   ],
+   "landing": {
+    "landed": true,
+    "touchdown_t": 37.805,
+    "touchdown_sink_ms": 1.239,
+    "touchdown_pitch_up_deg": 10.472,
+    "touchdown_ground_speed_ms": 14.774,
+    "max_tilt_after_deg": 10.472
+   }
+  },
+  "vertical": {
+   "mode": "vertical",
+   "height_m": 300.0,
+   "v_glide_kt": 0.0,
+   "rod_steady_ms": 22.558,
+   "rod_predicted_ms": 19.881,
+   "min_nr_pct": 72.069,
+   "min_nr_before_cushion_pct": 94.087,
+   "max_nr_pct": 102.021,
+   "sadpf": {
+    "level": 3,
+    "recommendation": "autorrotacao",
+    "message": "AUTORROTAÇÃO: baixar o coletivo, manter a velocidade de mínima razão de descida, flare perto do solo",
+    "detection_delay_s": 1.955
+   },
+   "phases": [
+    {
+     "t": 4.965,
+     "phase": "glide"
+    },
+    {
+     "t": 17.09,
+     "phase": "cushion",
+     "agl": 14.922448351711195
+    },
+    {
+     "t": 17.755,
+     "phase": "landed"
+    }
+   ],
+   "landing": {
+    "landed": true,
+    "touchdown_t": 17.805,
+    "touchdown_sink_ms": 19.564,
+    "touchdown_pitch_up_deg": -0.0,
+    "touchdown_ground_speed_ms": 0.337,
+    "max_tilt_after_deg": 1.101
+   }
+  }
+ },
+ "rescue": {
+  "landing": {
+   "landed": true,
+   "touchdown_t": 61.805,
+   "touchdown_sink_ms": 0.935,
+   "touchdown_pitch_up_deg": -2.828,
+   "touchdown_ground_speed_ms": 0.382,
+   "max_tilt_after_deg": 3.139
+  },
+  "phases": [
+   {
+    "t": 54.69,
+    "phase": "final"
+   },
+   {
+    "t": 61.725,
+    "phase": "landed"
+   }
+  ],
+  "power_oge_same_wind_kw": 537.042,
+  "k_ge_hover": 0.969,
+  "power_hover_kw": 442.2,
+  "max_pedal": 0.461,
+  "max_bank_deg": 3.751,
+  "final_position_error_m": 3.031
+ },
+ "transfer_20km": {
+  "landing": {
+   "landed": true,
+   "touchdown_t": 421.505,
+   "touchdown_sink_ms": 0.988,
+   "touchdown_pitch_up_deg": 0.015,
+   "touchdown_ground_speed_ms": 0.026,
+   "max_tilt_after_deg": 0.052
+  },
+  "phases": [
+   {
+    "t": 9.82,
+    "phase": "enroute"
+   },
+   {
+    "t": 414.745,
+    "phase": "final"
+   },
+   {
+    "t": 421.025,
+    "phase": "landed"
+   }
+  ],
+  "flight_time_s": 421.025,
+  "fuel_used_kg": 21.796,
+  "final_position_error_m": 2.863
+ }
+}

@@ -1,0 +1,6603 @@
+{
+ "cat_a_max_mass": [
+  {
+   "criterion": "elevado_29_60",
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2980.0,
+   "limited_by": "MTOW",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "elevado_29_60",
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2931.25,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "cruzou a borda a 2.7 m acima do deck (< 15 ft, 29.60)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 2.7 m acima do deck (< 15 ft, 29.60)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 4.1 m acima do deck (< 15 ft, 29.60)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2931.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2955.625,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "cruzou a borda a 3.5 m acima do deck (< 15 ft, 29.60)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 3.5 m acima do deck (< 15 ft, 29.60)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "elevado_29_60",
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2760.625,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "cruzou a borda a 3.4 m acima do deck (< 15 ft, 29.60)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 3.4 m acima do deck (< 15 ft, 29.60)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2687.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2736.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2760.625,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "elevado_29_60",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2614.375,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2687.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 1.4 m acima do deck (< 15 ft, 29.60)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2638.75,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "cruzou a borda a 3.4 m acima do deck (< 15 ft, 29.60)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 3.4 m acima do deck (< 15 ft, 29.60)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2614.375,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "elevado_29_60",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "mass_kg": 2809.375,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "tocou o heliponto ou o solo",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "tocou o heliponto ou o solo"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2833.75,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "cruzou a borda a 2.6 m acima do deck (< 15 ft, 29.60)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 2.6 m acima do deck (< 15 ft, 29.60)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "cruzou a borda a 4.4 m acima do deck (< 15 ft, 29.60)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2809.375,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "literal_29_59c",
+   "elevation_m": 0.0,
+   "delta_t": 0.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2906.875,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a -5.9 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -5.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -4.6 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -3.2 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2931.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 1.8 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.8 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.7 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 4.0 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2906.875,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "literal_29_59c",
+   "elevation_m": 0.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2833.75,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a -14.8 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "reject",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -14.8 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -13.2 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2882.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 0.1 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.1 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.3 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.1 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2833.75,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2858.125,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 3.8 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.8 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "literal_29_59c",
+   "elevation_m": 1000.0,
+   "delta_t": 20.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2663.125,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a -16.1 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -16.1 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -14.5 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -12.9 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2687.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 0.9 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 0.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.2 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.3 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2638.75,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2663.125,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "literal_29_59c",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 0.0,
+   "mass_kg": 2516.875,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a -7.3 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -7.3 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -5.8 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -4.4 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2395.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2492.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2541.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 1.4 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.4 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.7 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.7 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2516.875,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "criterion": "literal_29_59c",
+   "elevation_m": 1500.0,
+   "delta_t": 25.0,
+   "headwind_ms": 8.0,
+   "mass_kg": 2736.25,
+   "limited_by": "prosseguir",
+   "log": [
+    {
+     "mass_kg": 2980.0,
+     "reject": false,
+     "reject_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "continue": false,
+     "continue_reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "não atingiu o TDP com os dois motores (sem potência para pairar fora do efeito solo)"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2200.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2590.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2785.0,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a -0.0 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a -0.0 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.2 m do nível do deck (< 15 ft, 29.59(c))"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2687.5,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2736.25,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": true,
+     "continue_reason": "ok",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    },
+    {
+     "mass_kg": 2760.625,
+     "reject": true,
+     "reject_reason": "ok",
+     "continue": false,
+     "continue_reason": "desceu a 2.9 m do nível do deck (< 15 ft, 29.59(c))",
+     "gap": [
+      {
+       "fail_rel_tdp_m": -1.0,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 2.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": -0.5,
+       "branch": "continue",
+       "safe": false,
+       "reason": "desceu a 3.9 m do nível do deck (< 15 ft, 29.59(c))"
+      },
+      {
+       "fail_rel_tdp_m": 0.0,
+       "branch": "continue",
+       "safe": true,
+       "reason": "ok"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "failure_height_sweep": {
+  "nivel_do_mar_2980kg": [
+   {
+    "fail_rel_tdp_m": -6.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -4.765,
+     "action_rel_tdp_m": -4.132,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 7.907
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -4.765,
+     "action_rel_tdp_m": -4.132,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 15.042
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -3.765,
+     "action_rel_tdp_m": -3.125,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 8.931
+    },
+    "continue": {
+     "safe": false,
+     "reason": "cruzou a borda a 0.8 m acima do deck (< 15 ft, 29.60)",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -3.765,
+     "action_rel_tdp_m": -3.125,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 19.965
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -4.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -2.77,
+     "action_rel_tdp_m": -2.138,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 9.92
+    },
+    "continue": {
+     "safe": false,
+     "reason": "cruzou a borda a 1.6 m acima do deck (< 15 ft, 29.60)",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -2.77,
+     "action_rel_tdp_m": -2.138,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 20.639
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -1.776,
+     "action_rel_tdp_m": -1.142,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 10.91
+    },
+    "continue": {
+     "safe": false,
+     "reason": "cruzou a borda a 2.4 m acima do deck (< 15 ft, 29.60)",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -1.776,
+     "action_rel_tdp_m": -1.142,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 21.071
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -2.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.791,
+     "action_rel_tdp_m": -0.185,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 11.863
+    },
+    "continue": {
+     "safe": false,
+     "reason": "cruzou a borda a 3.3 m acima do deck (< 15 ft, 29.60)",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.791,
+     "action_rel_tdp_m": -0.185,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 21.387
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -1.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.288,
+     "action_rel_tdp_m": 0.293,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 12.34
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.288,
+     "action_rel_tdp_m": 0.293,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 19.757
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.213,
+     "action_rel_tdp_m": 0.78,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 12.838
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.213,
+     "action_rel_tdp_m": 0.78,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 18.701
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": -0.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.714,
+     "action_rel_tdp_m": 1.277,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 13.341
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.714,
+     "action_rel_tdp_m": 1.277,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 17.873
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 0.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 1.189,
+     "action_rel_tdp_m": 1.778,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 13.85
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 1.189,
+     "action_rel_tdp_m": 1.778,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 16.931
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 2.188,
+     "action_rel_tdp_m": 2.752,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 14.812
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 2.188,
+     "action_rel_tdp_m": 2.752,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 15.475
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 2.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 3.184,
+     "action_rel_tdp_m": 3.725,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 15.794
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 3.184,
+     "action_rel_tdp_m": 3.725,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 13.884
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 4.17,
+     "action_rel_tdp_m": 4.67,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 16.735
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 4.17,
+     "action_rel_tdp_m": 4.67,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 12.275
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 4.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 5.165,
+     "action_rel_tdp_m": 5.57,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 17.667
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 5.165,
+     "action_rel_tdp_m": 5.57,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 10.834
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 5.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 6.109,
+     "action_rel_tdp_m": 6.481,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 18.579
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 6.109,
+     "action_rel_tdp_m": 6.481,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 7.778
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 6.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 7.045,
+     "action_rel_tdp_m": 7.368,
+     "touchdown_sink_ms": 0.105,
+     "max_height_loss_m": 19.545
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 7.045,
+     "action_rel_tdp_m": 7.368,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 6.465
+    },
+    "recommended": "prosseguir"
+   }
+  ],
+  "1500m_isa25_2614kg": [
+   {
+    "fail_rel_tdp_m": -6.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -4.668,
+     "action_rel_tdp_m": -3.83,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 8.239
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -4.668,
+     "action_rel_tdp_m": -3.83,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 15.925
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -3.668,
+     "action_rel_tdp_m": -2.798,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 9.261
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -3.668,
+     "action_rel_tdp_m": -2.798,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 17.478
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -4.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -2.635,
+     "action_rel_tdp_m": -1.795,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 10.28
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -2.635,
+     "action_rel_tdp_m": -1.795,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 23.087
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -1.633,
+     "action_rel_tdp_m": -0.796,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 11.269
+    },
+    "continue": {
+     "safe": false,
+     "reason": "cruzou a borda a 1.0 m acima do deck (< 15 ft, 29.60)",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -1.633,
+     "action_rel_tdp_m": -0.796,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 28.53
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -2.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.633,
+     "action_rel_tdp_m": 0.182,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 12.266
+    },
+    "continue": {
+     "safe": false,
+     "reason": "cruzou a borda a 2.9 m acima do deck (< 15 ft, 29.60)",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.633,
+     "action_rel_tdp_m": 0.182,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 27.687
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -1.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.123,
+     "action_rel_tdp_m": 0.666,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 12.744
+    },
+    "continue": {
+     "safe": false,
+     "reason": "cruzou a borda a 4.5 m acima do deck (< 15 ft, 29.60)",
+     "recommended": "abortar",
+     "detect_rel_tdp_m": -0.123,
+     "action_rel_tdp_m": 0.666,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 26.246
+    },
+    "recommended": "abortar"
+   },
+   {
+    "fail_rel_tdp_m": -1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.356,
+     "action_rel_tdp_m": 1.167,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 13.252
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.356,
+     "action_rel_tdp_m": 1.167,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 25.065
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": -0.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.837,
+     "action_rel_tdp_m": 1.681,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 13.76
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 0.837,
+     "action_rel_tdp_m": 1.681,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 23.909
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 0.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 1.353,
+     "action_rel_tdp_m": 2.179,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 14.258
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 1.353,
+     "action_rel_tdp_m": 2.179,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 23.119
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 2.342,
+     "action_rel_tdp_m": 3.164,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 15.248
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 2.342,
+     "action_rel_tdp_m": 3.164,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 21.312
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 2.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 3.335,
+     "action_rel_tdp_m": 4.152,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 16.244
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 3.335,
+     "action_rel_tdp_m": 4.152,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 19.369
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 4.354,
+     "action_rel_tdp_m": 5.106,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 17.186
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 4.354,
+     "action_rel_tdp_m": 5.106,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 17.676
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 4.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 5.327,
+     "action_rel_tdp_m": 6.05,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 18.14
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 5.327,
+     "action_rel_tdp_m": 6.05,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 15.697
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 6.288,
+     "action_rel_tdp_m": 6.976,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 19.075
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 6.288,
+     "action_rel_tdp_m": 6.976,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 13.568
+    },
+    "recommended": "prosseguir"
+   },
+   {
+    "fail_rel_tdp_m": 6.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 7.284,
+     "action_rel_tdp_m": 7.859,
+     "touchdown_sink_ms": 0.198,
+     "max_height_loss_m": 19.958
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok",
+     "recommended": "prosseguir",
+     "detect_rel_tdp_m": 7.284,
+     "action_rel_tdp_m": 7.859,
+     "touchdown_sink_ms": null,
+     "max_height_loss_m": 10.649
+    },
+    "recommended": "prosseguir"
+   }
+  ]
+ },
+ "hv": {
+  "nível do mar, ISA, 2.980 kg": {
+   "points": [
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 2.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.891,
+     "touchdown_ground_speed_ms": 0.654,
+     "max_tilt_after_deg": 3.571,
+     "min_nr_pct": 96.38,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.891,
+       "touchdown_ground_speed_ms": 0.654,
+       "max_tilt_after_deg": 3.571,
+       "min_nr_pct": 96.38
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.891,
+       "touchdown_ground_speed_ms": 0.654,
+       "max_tilt_after_deg": 3.571,
+       "min_nr_pct": 96.38
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 2.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.289,
+     "touchdown_ground_speed_ms": 4.965,
+     "max_tilt_after_deg": 4.954,
+     "min_nr_pct": 98.129,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.289,
+       "touchdown_ground_speed_ms": 4.965,
+       "max_tilt_after_deg": 4.954,
+       "min_nr_pct": 98.129
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.289,
+       "touchdown_ground_speed_ms": 4.965,
+       "max_tilt_after_deg": 4.954,
+       "min_nr_pct": 98.129
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 2.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.392,
+     "touchdown_ground_speed_ms": 0.327,
+     "max_tilt_after_deg": 4.114,
+     "min_nr_pct": 90.437,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.392,
+       "touchdown_ground_speed_ms": 0.327,
+       "max_tilt_after_deg": 4.114,
+       "min_nr_pct": 90.437
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.392,
+       "touchdown_ground_speed_ms": 0.327,
+       "max_tilt_after_deg": 4.114,
+       "min_nr_pct": 90.437
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 2.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.368,
+     "touchdown_ground_speed_ms": 0.27,
+     "max_tilt_after_deg": 4.464,
+     "min_nr_pct": 88.442,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.368,
+       "touchdown_ground_speed_ms": 0.27,
+       "max_tilt_after_deg": 4.464,
+       "min_nr_pct": 88.442
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 2.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.15,
+     "touchdown_ground_speed_ms": 0.34,
+     "max_tilt_after_deg": 2.612,
+     "min_nr_pct": 91.986,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.15,
+       "touchdown_ground_speed_ms": 0.34,
+       "max_tilt_after_deg": 2.612,
+       "min_nr_pct": 91.986
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 2.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.524,
+     "touchdown_ground_speed_ms": 0.977,
+     "max_tilt_after_deg": 5.315,
+     "min_nr_pct": 92.72,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.524,
+       "touchdown_ground_speed_ms": 0.977,
+       "max_tilt_after_deg": 5.315,
+       "min_nr_pct": 92.72
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 5.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.529,
+     "touchdown_ground_speed_ms": 0.35,
+     "max_tilt_after_deg": 1.721,
+     "min_nr_pct": 88.136,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.529,
+       "touchdown_ground_speed_ms": 0.35,
+       "max_tilt_after_deg": 1.721,
+       "min_nr_pct": 88.136
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.529,
+       "touchdown_ground_speed_ms": 0.35,
+       "max_tilt_after_deg": 1.721,
+       "min_nr_pct": 88.136
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 5.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.354,
+     "touchdown_ground_speed_ms": 0.527,
+     "max_tilt_after_deg": 2.87,
+     "min_nr_pct": 91.877,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.354,
+       "touchdown_ground_speed_ms": 0.527,
+       "max_tilt_after_deg": 2.87,
+       "min_nr_pct": 91.877
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.354,
+       "touchdown_ground_speed_ms": 0.527,
+       "max_tilt_after_deg": 2.87,
+       "min_nr_pct": 91.877
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 5.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.439,
+     "touchdown_ground_speed_ms": 0.277,
+     "max_tilt_after_deg": 4.127,
+     "min_nr_pct": 91.997,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.439,
+       "touchdown_ground_speed_ms": 0.277,
+       "max_tilt_after_deg": 4.127,
+       "min_nr_pct": 91.997
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.439,
+       "touchdown_ground_speed_ms": 0.277,
+       "max_tilt_after_deg": 4.127,
+       "min_nr_pct": 91.997
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 5.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.165,
+     "touchdown_ground_speed_ms": 1.267,
+     "max_tilt_after_deg": 3.51,
+     "min_nr_pct": 91.775,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.165,
+       "touchdown_ground_speed_ms": 1.267,
+       "max_tilt_after_deg": 3.51,
+       "min_nr_pct": 91.775
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 5.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.338,
+     "touchdown_ground_speed_ms": 0.266,
+     "max_tilt_after_deg": 2.558,
+     "min_nr_pct": 92.1,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.338,
+       "touchdown_ground_speed_ms": 0.266,
+       "max_tilt_after_deg": 2.558,
+       "min_nr_pct": 92.1
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 5.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.428,
+     "touchdown_ground_speed_ms": 0.966,
+     "max_tilt_after_deg": 5.372,
+     "min_nr_pct": 92.64,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.428,
+       "touchdown_ground_speed_ms": 0.966,
+       "max_tilt_after_deg": 5.372,
+       "min_nr_pct": 92.64
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 8.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.466,
+     "touchdown_ground_speed_ms": 0.382,
+     "max_tilt_after_deg": 4.234,
+     "min_nr_pct": 80.56,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.466,
+       "touchdown_ground_speed_ms": 0.382,
+       "max_tilt_after_deg": 4.234,
+       "min_nr_pct": 80.56
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.327,
+       "touchdown_ground_speed_ms": 0.491,
+       "max_tilt_after_deg": 3.968,
+       "min_nr_pct": 80.289
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 8.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.919,
+     "touchdown_ground_speed_ms": 6.468,
+     "max_tilt_after_deg": 11.493,
+     "min_nr_pct": 95.07,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.919,
+       "touchdown_ground_speed_ms": 6.468,
+       "max_tilt_after_deg": 11.493,
+       "min_nr_pct": 95.07
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.999,
+       "touchdown_ground_speed_ms": 1.605,
+       "max_tilt_after_deg": 10.054,
+       "min_nr_pct": 92.029
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 8.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.33,
+     "touchdown_ground_speed_ms": 0.525,
+     "max_tilt_after_deg": 3.071,
+     "min_nr_pct": 88.8,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.33,
+       "touchdown_ground_speed_ms": 0.525,
+       "max_tilt_after_deg": 3.071,
+       "min_nr_pct": 88.8
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.41,
+       "touchdown_ground_speed_ms": 0.257,
+       "max_tilt_after_deg": 4.301,
+       "min_nr_pct": 91.81
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 8.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.235,
+     "touchdown_ground_speed_ms": 0.349,
+     "max_tilt_after_deg": 3.321,
+     "min_nr_pct": 90.874,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.235,
+       "touchdown_ground_speed_ms": 0.349,
+       "max_tilt_after_deg": 3.321,
+       "min_nr_pct": 90.874
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 8.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.416,
+     "touchdown_ground_speed_ms": 0.338,
+     "max_tilt_after_deg": 3.998,
+     "min_nr_pct": 90.414,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.416,
+       "touchdown_ground_speed_ms": 0.338,
+       "max_tilt_after_deg": 3.998,
+       "min_nr_pct": 90.414
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 8.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.444,
+     "touchdown_ground_speed_ms": 0.25,
+     "max_tilt_after_deg": 3.766,
+     "min_nr_pct": 90.326,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.444,
+       "touchdown_ground_speed_ms": 0.25,
+       "max_tilt_after_deg": 3.766,
+       "min_nr_pct": 90.326
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 10.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.439,
+     "touchdown_ground_speed_ms": 0.083,
+     "max_tilt_after_deg": 5.482,
+     "min_nr_pct": 82.502,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.439,
+       "touchdown_ground_speed_ms": 0.083,
+       "max_tilt_after_deg": 5.482,
+       "min_nr_pct": 82.502
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.426,
+       "touchdown_ground_speed_ms": 0.339,
+       "max_tilt_after_deg": 3.623,
+       "min_nr_pct": 80.456
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 10.0,
+     "speed_kt": 10.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.557,
+     "touchdown_ground_speed_ms": 0.924,
+     "max_tilt_after_deg": 9.59,
+     "min_nr_pct": 92.118,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 1.657,
+       "touchdown_ground_speed_ms": 9.273,
+       "max_tilt_after_deg": 11.11,
+       "min_nr_pct": 86.792
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.557,
+       "touchdown_ground_speed_ms": 0.924,
+       "max_tilt_after_deg": 9.59,
+       "min_nr_pct": 92.118
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 10.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.352,
+     "touchdown_ground_speed_ms": 0.304,
+     "max_tilt_after_deg": 2.433,
+     "min_nr_pct": 88.775,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.352,
+       "touchdown_ground_speed_ms": 0.304,
+       "max_tilt_after_deg": 2.433,
+       "min_nr_pct": 88.775
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.263,
+       "touchdown_ground_speed_ms": 0.267,
+       "max_tilt_after_deg": 4.34,
+       "min_nr_pct": 89.745
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 10.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.321,
+     "touchdown_ground_speed_ms": 0.351,
+     "max_tilt_after_deg": 3.174,
+     "min_nr_pct": 91.767,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.321,
+       "touchdown_ground_speed_ms": 0.351,
+       "max_tilt_after_deg": 3.174,
+       "min_nr_pct": 91.767
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 10.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.454,
+     "touchdown_ground_speed_ms": 0.245,
+     "max_tilt_after_deg": 4.039,
+     "min_nr_pct": 90.852,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.454,
+       "touchdown_ground_speed_ms": 0.245,
+       "max_tilt_after_deg": 4.039,
+       "min_nr_pct": 90.852
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 10.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.278,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.32,
+     "min_nr_pct": 91.121,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.278,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.32,
+       "min_nr_pct": 91.121
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 12.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.305,
+     "touchdown_ground_speed_ms": 0.415,
+     "max_tilt_after_deg": 4.352,
+     "min_nr_pct": 81.409,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.538,
+       "touchdown_ground_speed_ms": 5.502,
+       "max_tilt_after_deg": 5.677,
+       "min_nr_pct": 93.065
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.305,
+       "touchdown_ground_speed_ms": 0.415,
+       "max_tilt_after_deg": 4.352,
+       "min_nr_pct": 81.409
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 12.0,
+     "speed_kt": 10.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.474,
+     "touchdown_ground_speed_ms": 1.218,
+     "max_tilt_after_deg": 5.091,
+     "min_nr_pct": 86.653,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 0.792,
+       "touchdown_ground_speed_ms": 10.976,
+       "max_tilt_after_deg": 11.744,
+       "min_nr_pct": 84.068
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.474,
+       "touchdown_ground_speed_ms": 1.218,
+       "max_tilt_after_deg": 5.091,
+       "min_nr_pct": 86.653
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 12.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.381,
+     "touchdown_ground_speed_ms": 0.249,
+     "max_tilt_after_deg": 2.599,
+     "min_nr_pct": 88.431,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.381,
+       "touchdown_ground_speed_ms": 0.249,
+       "max_tilt_after_deg": 2.599,
+       "min_nr_pct": 88.431
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.273,
+       "touchdown_ground_speed_ms": 0.173,
+       "max_tilt_after_deg": 3.19,
+       "min_nr_pct": 83.173
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 12.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.347,
+     "touchdown_ground_speed_ms": 0.323,
+     "max_tilt_after_deg": 3.778,
+     "min_nr_pct": 89.626,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.347,
+       "touchdown_ground_speed_ms": 0.323,
+       "max_tilt_after_deg": 3.778,
+       "min_nr_pct": 89.626
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 12.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.416,
+     "touchdown_ground_speed_ms": 0.249,
+     "max_tilt_after_deg": 4.059,
+     "min_nr_pct": 91.747,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.416,
+       "touchdown_ground_speed_ms": 0.249,
+       "max_tilt_after_deg": 4.059,
+       "min_nr_pct": 91.747
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 12.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.268,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.077,
+     "min_nr_pct": 91.713,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.268,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.077,
+       "min_nr_pct": 91.713
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 15.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.278,
+     "touchdown_ground_speed_ms": 0.13,
+     "max_tilt_after_deg": 4.822,
+     "min_nr_pct": 81.319,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 3.997,
+       "touchdown_ground_speed_ms": 7.335,
+       "max_tilt_after_deg": 11.367,
+       "min_nr_pct": 92.037
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.278,
+       "touchdown_ground_speed_ms": 0.13,
+       "max_tilt_after_deg": 4.822,
+       "min_nr_pct": 81.319
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 15.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.255,
+     "touchdown_ground_speed_ms": 0.328,
+     "max_tilt_after_deg": 2.942,
+     "min_nr_pct": 86.768,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.255,
+       "touchdown_ground_speed_ms": 0.328,
+       "max_tilt_after_deg": 2.942,
+       "min_nr_pct": 86.768
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.272,
+       "touchdown_ground_speed_ms": 0.349,
+       "max_tilt_after_deg": 4.513,
+       "min_nr_pct": 81.288
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 15.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.453,
+     "touchdown_ground_speed_ms": 0.349,
+     "max_tilt_after_deg": 2.908,
+     "min_nr_pct": 88.177,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.453,
+       "touchdown_ground_speed_ms": 0.349,
+       "max_tilt_after_deg": 2.908,
+       "min_nr_pct": 88.177
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.297,
+       "touchdown_ground_speed_ms": 0.158,
+       "max_tilt_after_deg": 3.217,
+       "min_nr_pct": 81.545
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 15.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.453,
+     "touchdown_ground_speed_ms": 0.288,
+     "max_tilt_after_deg": 3.653,
+     "min_nr_pct": 87.959,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.453,
+       "touchdown_ground_speed_ms": 0.288,
+       "max_tilt_after_deg": 3.653,
+       "min_nr_pct": 87.959
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 15.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.266,
+     "touchdown_ground_speed_ms": 0.268,
+     "max_tilt_after_deg": 3.986,
+     "min_nr_pct": 91.174,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.266,
+       "touchdown_ground_speed_ms": 0.268,
+       "max_tilt_after_deg": 3.986,
+       "min_nr_pct": 91.174
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 15.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.344,
+     "touchdown_ground_speed_ms": 0.244,
+     "max_tilt_after_deg": 2.947,
+     "min_nr_pct": 90.451,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.344,
+       "touchdown_ground_speed_ms": 0.244,
+       "max_tilt_after_deg": 2.947,
+       "min_nr_pct": 90.451
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 20.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.349,
+     "touchdown_ground_speed_ms": 0.764,
+     "max_tilt_after_deg": 3.159,
+     "min_nr_pct": 81.179,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 3.695,
+       "touchdown_ground_speed_ms": 10.315,
+       "max_tilt_after_deg": 10.601,
+       "min_nr_pct": 84.536
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.349,
+       "touchdown_ground_speed_ms": 0.764,
+       "max_tilt_after_deg": 3.159,
+       "min_nr_pct": 81.179
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 20.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.215,
+     "touchdown_ground_speed_ms": 0.393,
+     "max_tilt_after_deg": 4.403,
+     "min_nr_pct": 88.273,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.215,
+       "touchdown_ground_speed_ms": 0.393,
+       "max_tilt_after_deg": 4.403,
+       "min_nr_pct": 88.273
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.211,
+       "touchdown_ground_speed_ms": 0.307,
+       "max_tilt_after_deg": 4.648,
+       "min_nr_pct": 81.241
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 20.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.305,
+     "touchdown_ground_speed_ms": 0.383,
+     "max_tilt_after_deg": 4.066,
+     "min_nr_pct": 87.969,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.305,
+       "touchdown_ground_speed_ms": 0.383,
+       "max_tilt_after_deg": 4.066,
+       "min_nr_pct": 87.969
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.346,
+       "touchdown_ground_speed_ms": 0.261,
+       "max_tilt_after_deg": 3.181,
+       "min_nr_pct": 81.209
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 20.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.309,
+     "touchdown_ground_speed_ms": 0.252,
+     "max_tilt_after_deg": 4.113,
+     "min_nr_pct": 85.909,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.309,
+       "touchdown_ground_speed_ms": 0.252,
+       "max_tilt_after_deg": 4.113,
+       "min_nr_pct": 85.909
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 20.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.269,
+     "touchdown_ground_speed_ms": 0.258,
+     "max_tilt_after_deg": 3.604,
+     "min_nr_pct": 89.737,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.269,
+       "touchdown_ground_speed_ms": 0.258,
+       "max_tilt_after_deg": 3.604,
+       "min_nr_pct": 89.737
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 20.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.349,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.589,
+     "min_nr_pct": 86.841,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.349,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.589,
+       "min_nr_pct": 86.841
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 25.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.82,
+     "touchdown_ground_speed_ms": 0.67,
+     "max_tilt_after_deg": 3.201,
+     "min_nr_pct": 80.804,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 1.525,
+       "touchdown_ground_speed_ms": 12.584,
+       "max_tilt_after_deg": 11.581,
+       "min_nr_pct": 85.962
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.82,
+       "touchdown_ground_speed_ms": 0.67,
+       "max_tilt_after_deg": 3.201,
+       "min_nr_pct": 80.804
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 25.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.369,
+     "touchdown_ground_speed_ms": 0.327,
+     "max_tilt_after_deg": 4.582,
+     "min_nr_pct": 88.859,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.369,
+       "touchdown_ground_speed_ms": 0.327,
+       "max_tilt_after_deg": 4.582,
+       "min_nr_pct": 88.859
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.771,
+       "touchdown_ground_speed_ms": 1.257,
+       "max_tilt_after_deg": 3.563,
+       "min_nr_pct": 81.094
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 25.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.226,
+     "touchdown_ground_speed_ms": 0.297,
+     "max_tilt_after_deg": 4.717,
+     "min_nr_pct": 88.087,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.226,
+       "touchdown_ground_speed_ms": 0.297,
+       "max_tilt_after_deg": 4.717,
+       "min_nr_pct": 88.087
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.344,
+       "touchdown_ground_speed_ms": 0.715,
+       "max_tilt_after_deg": 3.296,
+       "min_nr_pct": 80.877
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 25.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.271,
+     "touchdown_ground_speed_ms": 0.293,
+     "max_tilt_after_deg": 3.992,
+     "min_nr_pct": 86.504,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.271,
+       "touchdown_ground_speed_ms": 0.293,
+       "max_tilt_after_deg": 3.992,
+       "min_nr_pct": 86.504
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 25.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.374,
+     "touchdown_ground_speed_ms": 0.291,
+     "max_tilt_after_deg": 3.246,
+     "min_nr_pct": 86.86,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.374,
+       "touchdown_ground_speed_ms": 0.291,
+       "max_tilt_after_deg": 3.246,
+       "min_nr_pct": 86.86
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 25.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.427,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 3.427,
+     "min_nr_pct": 86.099,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.427,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 3.427,
+       "min_nr_pct": 86.099
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 30.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.314,
+     "touchdown_ground_speed_ms": 0.562,
+     "max_tilt_after_deg": 3.134,
+     "min_nr_pct": 88.995,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.314,
+       "touchdown_ground_speed_ms": 0.562,
+       "max_tilt_after_deg": 3.134,
+       "min_nr_pct": 88.995
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.347,
+       "touchdown_ground_speed_ms": 0.48,
+       "max_tilt_after_deg": 2.508,
+       "min_nr_pct": 80.965
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 30.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.215,
+     "touchdown_ground_speed_ms": 0.292,
+     "max_tilt_after_deg": 4.645,
+     "min_nr_pct": 89.117,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.215,
+       "touchdown_ground_speed_ms": 0.292,
+       "max_tilt_after_deg": 4.645,
+       "min_nr_pct": 89.117
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.217,
+       "touchdown_ground_speed_ms": 1.0,
+       "max_tilt_after_deg": 2.918,
+       "min_nr_pct": 80.941
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 30.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.24,
+     "touchdown_ground_speed_ms": 0.344,
+     "max_tilt_after_deg": 4.446,
+     "min_nr_pct": 88.214,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.24,
+       "touchdown_ground_speed_ms": 0.344,
+       "max_tilt_after_deg": 4.446,
+       "min_nr_pct": 88.214
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.965,
+       "touchdown_ground_speed_ms": 0.647,
+       "max_tilt_after_deg": 2.56,
+       "min_nr_pct": 80.778
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 30.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.321,
+     "touchdown_ground_speed_ms": 0.31,
+     "max_tilt_after_deg": 3.761,
+     "min_nr_pct": 87.569,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.321,
+       "touchdown_ground_speed_ms": 0.31,
+       "max_tilt_after_deg": 3.761,
+       "min_nr_pct": 87.569
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 30.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.24,
+     "touchdown_ground_speed_ms": 0.293,
+     "max_tilt_after_deg": 3.276,
+     "min_nr_pct": 87.83,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.24,
+       "touchdown_ground_speed_ms": 0.293,
+       "max_tilt_after_deg": 3.276,
+       "min_nr_pct": 87.83
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 30.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.229,
+     "touchdown_ground_speed_ms": 0.314,
+     "max_tilt_after_deg": 4.081,
+     "min_nr_pct": 86.301,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.229,
+       "touchdown_ground_speed_ms": 0.314,
+       "max_tilt_after_deg": 4.081,
+       "min_nr_pct": 86.301
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 45.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.235,
+     "touchdown_ground_speed_ms": 0.438,
+     "max_tilt_after_deg": 3.131,
+     "min_nr_pct": 88.74,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.235,
+       "touchdown_ground_speed_ms": 0.438,
+       "max_tilt_after_deg": 3.131,
+       "min_nr_pct": 88.74
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.32,
+       "touchdown_ground_speed_ms": 0.091,
+       "max_tilt_after_deg": 1.668,
+       "min_nr_pct": 80.925
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 45.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.29,
+     "touchdown_ground_speed_ms": 0.286,
+     "max_tilt_after_deg": 2.661,
+     "min_nr_pct": 88.385,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.29,
+       "touchdown_ground_speed_ms": 0.286,
+       "max_tilt_after_deg": 2.661,
+       "min_nr_pct": 88.385
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.337,
+       "touchdown_ground_speed_ms": 0.574,
+       "max_tilt_after_deg": 2.387,
+       "min_nr_pct": 81.37
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 45.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.233,
+     "touchdown_ground_speed_ms": 0.3,
+     "max_tilt_after_deg": 2.968,
+     "min_nr_pct": 87.883,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.233,
+       "touchdown_ground_speed_ms": 0.3,
+       "max_tilt_after_deg": 2.968,
+       "min_nr_pct": 87.883
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.193,
+       "touchdown_ground_speed_ms": 0.51,
+       "max_tilt_after_deg": 3.193,
+       "min_nr_pct": 80.969
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 45.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.327,
+     "touchdown_ground_speed_ms": 0.264,
+     "max_tilt_after_deg": 3.372,
+     "min_nr_pct": 86.493,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.327,
+       "touchdown_ground_speed_ms": 0.264,
+       "max_tilt_after_deg": 3.372,
+       "min_nr_pct": 86.493
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 45.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.428,
+     "touchdown_ground_speed_ms": 0.243,
+     "max_tilt_after_deg": 3.743,
+     "min_nr_pct": 85.33,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.428,
+       "touchdown_ground_speed_ms": 0.243,
+       "max_tilt_after_deg": 3.743,
+       "min_nr_pct": 85.33
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 45.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.401,
+     "touchdown_ground_speed_ms": 0.268,
+     "max_tilt_after_deg": 3.542,
+     "min_nr_pct": 85.482,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.401,
+       "touchdown_ground_speed_ms": 0.268,
+       "max_tilt_after_deg": 3.542,
+       "min_nr_pct": 85.482
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 60.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.368,
+     "touchdown_ground_speed_ms": 0.3,
+     "max_tilt_after_deg": 2.853,
+     "min_nr_pct": 85.793,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.368,
+       "touchdown_ground_speed_ms": 0.3,
+       "max_tilt_after_deg": 2.853,
+       "min_nr_pct": 85.793
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 3.211,
+       "touchdown_ground_speed_ms": 0.465,
+       "max_tilt_after_deg": 0.806,
+       "min_nr_pct": 81.765
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 60.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.434,
+     "touchdown_ground_speed_ms": 0.31,
+     "max_tilt_after_deg": 3.691,
+     "min_nr_pct": 85.741,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.434,
+       "touchdown_ground_speed_ms": 0.31,
+       "max_tilt_after_deg": 3.691,
+       "min_nr_pct": 85.741
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 3.111,
+       "touchdown_ground_speed_ms": 0.624,
+       "max_tilt_after_deg": 0.869,
+       "min_nr_pct": 81.751
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 60.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.227,
+     "touchdown_ground_speed_ms": 0.277,
+     "max_tilt_after_deg": 4.172,
+     "min_nr_pct": 85.449,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.227,
+       "touchdown_ground_speed_ms": 0.277,
+       "max_tilt_after_deg": 4.172,
+       "min_nr_pct": 85.449
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 3.137,
+       "touchdown_ground_speed_ms": 0.539,
+       "max_tilt_after_deg": 3.296,
+       "min_nr_pct": 81.626
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 60.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.233,
+     "touchdown_ground_speed_ms": 0.289,
+     "max_tilt_after_deg": 4.135,
+     "min_nr_pct": 84.858,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.233,
+       "touchdown_ground_speed_ms": 0.289,
+       "max_tilt_after_deg": 4.135,
+       "min_nr_pct": 84.858
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 60.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.248,
+     "touchdown_ground_speed_ms": 0.313,
+     "max_tilt_after_deg": 3.577,
+     "min_nr_pct": 86.372,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.248,
+       "touchdown_ground_speed_ms": 0.313,
+       "max_tilt_after_deg": 3.577,
+       "min_nr_pct": 86.372
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 60.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.169,
+     "touchdown_ground_speed_ms": 0.294,
+     "max_tilt_after_deg": 3.129,
+     "min_nr_pct": 89.345,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.169,
+       "touchdown_ground_speed_ms": 0.294,
+       "max_tilt_after_deg": 3.129,
+       "min_nr_pct": 89.345
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 90.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.227,
+     "touchdown_ground_speed_ms": 0.326,
+     "max_tilt_after_deg": 3.071,
+     "min_nr_pct": 88.643,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.227,
+       "touchdown_ground_speed_ms": 0.326,
+       "max_tilt_after_deg": 3.071,
+       "min_nr_pct": 88.643
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.613,
+       "touchdown_ground_speed_ms": 0.971,
+       "max_tilt_after_deg": 0.902,
+       "min_nr_pct": 83.308
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 90.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.276,
+     "touchdown_ground_speed_ms": 0.272,
+     "max_tilt_after_deg": 3.047,
+     "min_nr_pct": 88.643,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.276,
+       "touchdown_ground_speed_ms": 0.272,
+       "max_tilt_after_deg": 3.047,
+       "min_nr_pct": 88.643
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.453,
+       "touchdown_ground_speed_ms": 0.958,
+       "max_tilt_after_deg": 1.146,
+       "min_nr_pct": 83.167
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 90.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.363,
+     "touchdown_ground_speed_ms": 0.272,
+     "max_tilt_after_deg": 3.255,
+     "min_nr_pct": 88.78,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.363,
+       "touchdown_ground_speed_ms": 0.272,
+       "max_tilt_after_deg": 3.255,
+       "min_nr_pct": 88.78
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.451,
+       "touchdown_ground_speed_ms": 0.757,
+       "max_tilt_after_deg": 1.194,
+       "min_nr_pct": 83.292
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 90.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.356,
+     "touchdown_ground_speed_ms": 0.263,
+     "max_tilt_after_deg": 3.353,
+     "min_nr_pct": 88.805,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.356,
+       "touchdown_ground_speed_ms": 0.263,
+       "max_tilt_after_deg": 3.353,
+       "min_nr_pct": 88.805
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 90.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.276,
+     "touchdown_ground_speed_ms": 0.265,
+     "max_tilt_after_deg": 3.455,
+     "min_nr_pct": 88.894,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.276,
+       "touchdown_ground_speed_ms": 0.265,
+       "max_tilt_after_deg": 3.455,
+       "min_nr_pct": 88.894
+      }
+     ]
+    },
+    {
+     "condition": "nível do mar, ISA, 2.980 kg",
+     "height_m": 90.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.403,
+     "touchdown_ground_speed_ms": 0.243,
+     "max_tilt_after_deg": 3.035,
+     "min_nr_pct": 88.895,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.403,
+       "touchdown_ground_speed_ms": 0.243,
+       "max_tilt_after_deg": 3.035,
+       "min_nr_pct": 88.895
+      }
+     ]
+    }
+   ],
+   "unsafe_band_by_speed": {
+    "0.0": null,
+    "10.0": null,
+    "20.0": null,
+    "30.0": null,
+    "40.0": null,
+    "60.0": null
+   }
+  },
+  "1.500 m, ISA+25, 2614 kg": {
+   "points": [
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 2.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.815,
+     "touchdown_ground_speed_ms": 0.5,
+     "max_tilt_after_deg": 5.041,
+     "min_nr_pct": 95.838,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.815,
+       "touchdown_ground_speed_ms": 0.5,
+       "max_tilt_after_deg": 5.041,
+       "min_nr_pct": 95.838
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.815,
+       "touchdown_ground_speed_ms": 0.5,
+       "max_tilt_after_deg": 5.041,
+       "min_nr_pct": 95.838
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 2.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.325,
+     "touchdown_ground_speed_ms": 4.992,
+     "max_tilt_after_deg": 5.487,
+     "min_nr_pct": 98.068,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.325,
+       "touchdown_ground_speed_ms": 4.992,
+       "max_tilt_after_deg": 5.487,
+       "min_nr_pct": 98.068
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.325,
+       "touchdown_ground_speed_ms": 4.992,
+       "max_tilt_after_deg": 5.487,
+       "min_nr_pct": 98.068
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 2.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": false,
+     "landed": true,
+     "touchdown_sink_ms": 0.402,
+     "touchdown_ground_speed_ms": 9.348,
+     "max_tilt_after_deg": 11.817,
+     "min_nr_pct": 91.191,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 0.402,
+       "touchdown_ground_speed_ms": 9.348,
+       "max_tilt_after_deg": 11.817,
+       "min_nr_pct": 91.191
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 0.402,
+       "touchdown_ground_speed_ms": 9.348,
+       "max_tilt_after_deg": 11.817,
+       "min_nr_pct": 91.191
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 2.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.405,
+     "touchdown_ground_speed_ms": 1.29,
+     "max_tilt_after_deg": 3.207,
+     "min_nr_pct": 88.543,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.405,
+       "touchdown_ground_speed_ms": 1.29,
+       "max_tilt_after_deg": 3.207,
+       "min_nr_pct": 88.543
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 2.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.537,
+     "touchdown_ground_speed_ms": 0.785,
+     "max_tilt_after_deg": 9.682,
+     "min_nr_pct": 90.137,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.537,
+       "touchdown_ground_speed_ms": 0.785,
+       "max_tilt_after_deg": 9.682,
+       "min_nr_pct": 90.137
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 2.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.244,
+     "touchdown_ground_speed_ms": 0.54,
+     "max_tilt_after_deg": 8.286,
+     "min_nr_pct": 90.071,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.244,
+       "touchdown_ground_speed_ms": 0.54,
+       "max_tilt_after_deg": 8.286,
+       "min_nr_pct": 90.071
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 5.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.387,
+     "touchdown_ground_speed_ms": 0.279,
+     "max_tilt_after_deg": 2.427,
+     "min_nr_pct": 82.546,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.387,
+       "touchdown_ground_speed_ms": 0.279,
+       "max_tilt_after_deg": 2.427,
+       "min_nr_pct": 82.546
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.387,
+       "touchdown_ground_speed_ms": 0.279,
+       "max_tilt_after_deg": 2.427,
+       "min_nr_pct": 82.546
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 5.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.305,
+     "touchdown_ground_speed_ms": 2.586,
+     "max_tilt_after_deg": 9.889,
+     "min_nr_pct": 90.893,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.305,
+       "touchdown_ground_speed_ms": 2.586,
+       "max_tilt_after_deg": 9.889,
+       "min_nr_pct": 90.893
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.305,
+       "touchdown_ground_speed_ms": 2.586,
+       "max_tilt_after_deg": 9.889,
+       "min_nr_pct": 90.893
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 5.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.01,
+     "touchdown_ground_speed_ms": 5.731,
+     "max_tilt_after_deg": 9.412,
+     "min_nr_pct": 98.066,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.01,
+       "touchdown_ground_speed_ms": 5.731,
+       "max_tilt_after_deg": 9.412,
+       "min_nr_pct": 98.066
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.01,
+       "touchdown_ground_speed_ms": 5.731,
+       "max_tilt_after_deg": 9.412,
+       "min_nr_pct": 98.066
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 5.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.581,
+     "touchdown_ground_speed_ms": 0.428,
+     "max_tilt_after_deg": 8.772,
+     "min_nr_pct": 90.692,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.581,
+       "touchdown_ground_speed_ms": 0.428,
+       "max_tilt_after_deg": 8.772,
+       "min_nr_pct": 90.692
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 5.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.205,
+     "touchdown_ground_speed_ms": 0.302,
+     "max_tilt_after_deg": 2.863,
+     "min_nr_pct": 89.562,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.205,
+       "touchdown_ground_speed_ms": 0.302,
+       "max_tilt_after_deg": 2.863,
+       "min_nr_pct": 89.562
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 5.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.353,
+     "touchdown_ground_speed_ms": 0.513,
+     "max_tilt_after_deg": 8.662,
+     "min_nr_pct": 90.127,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.353,
+       "touchdown_ground_speed_ms": 0.513,
+       "max_tilt_after_deg": 8.662,
+       "min_nr_pct": 90.127
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 8.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.719,
+     "touchdown_ground_speed_ms": 0.501,
+     "max_tilt_after_deg": 2.526,
+     "min_nr_pct": 78.197,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.719,
+       "touchdown_ground_speed_ms": 0.501,
+       "max_tilt_after_deg": 2.526,
+       "min_nr_pct": 78.197
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.786,
+       "touchdown_ground_speed_ms": 0.173,
+       "max_tilt_after_deg": 2.714,
+       "min_nr_pct": 78.176
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 8.0,
+     "speed_kt": 10.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.45,
+     "touchdown_ground_speed_ms": 1.913,
+     "max_tilt_after_deg": 9.505,
+     "min_nr_pct": 91.933,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.546,
+       "touchdown_ground_speed_ms": 7.118,
+       "max_tilt_after_deg": 11.29,
+       "min_nr_pct": 89.323
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.45,
+       "touchdown_ground_speed_ms": 1.913,
+       "max_tilt_after_deg": 9.505,
+       "min_nr_pct": 91.933
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 8.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.819,
+     "touchdown_ground_speed_ms": 0.573,
+     "max_tilt_after_deg": 6.859,
+     "min_nr_pct": 90.332,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.819,
+       "touchdown_ground_speed_ms": 0.573,
+       "max_tilt_after_deg": 6.859,
+       "min_nr_pct": 90.332
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.431,
+       "touchdown_ground_speed_ms": 2.335,
+       "max_tilt_after_deg": 10.677,
+       "min_nr_pct": 91.107
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 8.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.668,
+     "touchdown_ground_speed_ms": 0.401,
+     "max_tilt_after_deg": 7.976,
+     "min_nr_pct": 91.074,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.668,
+       "touchdown_ground_speed_ms": 0.401,
+       "max_tilt_after_deg": 7.976,
+       "min_nr_pct": 91.074
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 8.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.242,
+     "touchdown_ground_speed_ms": 0.364,
+     "max_tilt_after_deg": 4.115,
+     "min_nr_pct": 84.593,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.242,
+       "touchdown_ground_speed_ms": 0.364,
+       "max_tilt_after_deg": 4.115,
+       "min_nr_pct": 84.593
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 8.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.397,
+     "touchdown_ground_speed_ms": 0.247,
+     "max_tilt_after_deg": 4.014,
+     "min_nr_pct": 85.689,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.397,
+       "touchdown_ground_speed_ms": 0.247,
+       "max_tilt_after_deg": 4.014,
+       "min_nr_pct": 85.689
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 10.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.058,
+     "touchdown_ground_speed_ms": 0.727,
+     "max_tilt_after_deg": 4.02,
+     "min_nr_pct": 78.431,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.058,
+       "touchdown_ground_speed_ms": 0.727,
+       "max_tilt_after_deg": 4.02,
+       "min_nr_pct": 78.431
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.341,
+       "touchdown_ground_speed_ms": 0.123,
+       "max_tilt_after_deg": 2.594,
+       "min_nr_pct": 78.353
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 10.0,
+     "speed_kt": 10.0,
+     "technique": "vertical",
+     "safe": false,
+     "landed": true,
+     "touchdown_sink_ms": 2.032,
+     "touchdown_ground_speed_ms": 1.203,
+     "max_tilt_after_deg": 9.397,
+     "min_nr_pct": 92.003,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.653,
+       "touchdown_ground_speed_ms": 9.07,
+       "max_tilt_after_deg": 10.638,
+       "min_nr_pct": 84.191
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.032,
+       "touchdown_ground_speed_ms": 1.203,
+       "max_tilt_after_deg": 9.397,
+       "min_nr_pct": 92.003
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 10.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.716,
+     "touchdown_ground_speed_ms": 0.73,
+     "max_tilt_after_deg": 9.589,
+     "min_nr_pct": 90.779,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.716,
+       "touchdown_ground_speed_ms": 0.73,
+       "max_tilt_after_deg": 9.589,
+       "min_nr_pct": 90.779
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.221,
+       "touchdown_ground_speed_ms": 1.855,
+       "max_tilt_after_deg": 10.296,
+       "min_nr_pct": 91.586
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 10.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.799,
+     "touchdown_ground_speed_ms": 0.343,
+     "max_tilt_after_deg": 8.242,
+     "min_nr_pct": 91.357,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.799,
+       "touchdown_ground_speed_ms": 0.343,
+       "max_tilt_after_deg": 8.242,
+       "min_nr_pct": 91.357
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 10.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.285,
+     "touchdown_ground_speed_ms": 0.365,
+     "max_tilt_after_deg": 7.544,
+     "min_nr_pct": 90.081,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.285,
+       "touchdown_ground_speed_ms": 0.365,
+       "max_tilt_after_deg": 7.544,
+       "min_nr_pct": 90.081
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 10.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.454,
+     "touchdown_ground_speed_ms": 0.118,
+     "max_tilt_after_deg": 7.545,
+     "min_nr_pct": 90.491,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.454,
+       "touchdown_ground_speed_ms": 0.118,
+       "max_tilt_after_deg": 7.545,
+       "min_nr_pct": 90.491
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 12.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.248,
+     "touchdown_ground_speed_ms": 0.043,
+     "max_tilt_after_deg": 5.24,
+     "min_nr_pct": 78.635,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 3.038,
+       "touchdown_ground_speed_ms": 4.891,
+       "max_tilt_after_deg": 4.068,
+       "min_nr_pct": 92.952
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.248,
+       "touchdown_ground_speed_ms": 0.043,
+       "max_tilt_after_deg": 5.24,
+       "min_nr_pct": 78.635
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 12.0,
+     "speed_kt": 10.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.924,
+     "touchdown_ground_speed_ms": 0.502,
+     "max_tilt_after_deg": 8.603,
+     "min_nr_pct": 89.748,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.614,
+       "touchdown_ground_speed_ms": 11.038,
+       "max_tilt_after_deg": 10.16,
+       "min_nr_pct": 82.619
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.924,
+       "touchdown_ground_speed_ms": 0.502,
+       "max_tilt_after_deg": 8.603,
+       "min_nr_pct": 89.748
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 12.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.748,
+     "touchdown_ground_speed_ms": 0.437,
+     "max_tilt_after_deg": 9.804,
+     "min_nr_pct": 90.984,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.748,
+       "touchdown_ground_speed_ms": 0.437,
+       "max_tilt_after_deg": 9.804,
+       "min_nr_pct": 90.984
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.975,
+       "touchdown_ground_speed_ms": 1.3,
+       "max_tilt_after_deg": 9.899,
+       "min_nr_pct": 92.197
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 12.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.842,
+     "touchdown_ground_speed_ms": 0.258,
+     "max_tilt_after_deg": 8.266,
+     "min_nr_pct": 91.353,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.842,
+       "touchdown_ground_speed_ms": 0.258,
+       "max_tilt_after_deg": 8.266,
+       "min_nr_pct": 91.353
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 12.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.849,
+     "touchdown_ground_speed_ms": 0.178,
+     "max_tilt_after_deg": 8.087,
+     "min_nr_pct": 91.407,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.849,
+       "touchdown_ground_speed_ms": 0.178,
+       "max_tilt_after_deg": 8.087,
+       "min_nr_pct": 91.407
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 12.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.799,
+     "touchdown_ground_speed_ms": 0.209,
+     "max_tilt_after_deg": 7.356,
+     "min_nr_pct": 91.15,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.799,
+       "touchdown_ground_speed_ms": 0.209,
+       "max_tilt_after_deg": 7.356,
+       "min_nr_pct": 91.15
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 15.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.085,
+     "touchdown_ground_speed_ms": 0.895,
+     "max_tilt_after_deg": 3.935,
+     "min_nr_pct": 79.422,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.74,
+       "touchdown_ground_speed_ms": 6.24,
+       "max_tilt_after_deg": 4.71,
+       "min_nr_pct": 97.575
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.085,
+       "touchdown_ground_speed_ms": 0.895,
+       "max_tilt_after_deg": 3.935,
+       "min_nr_pct": 79.422
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 15.0,
+     "speed_kt": 10.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.284,
+     "touchdown_ground_speed_ms": 0.408,
+     "max_tilt_after_deg": 4.733,
+     "min_nr_pct": 79.197,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 1.822,
+       "touchdown_ground_speed_ms": 13.17,
+       "max_tilt_after_deg": 11.211,
+       "min_nr_pct": 84.629
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.284,
+       "touchdown_ground_speed_ms": 0.408,
+       "max_tilt_after_deg": 4.733,
+       "min_nr_pct": 79.197
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 15.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.852,
+     "touchdown_ground_speed_ms": 0.357,
+     "max_tilt_after_deg": 9.633,
+     "min_nr_pct": 91.221,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.852,
+       "touchdown_ground_speed_ms": 0.357,
+       "max_tilt_after_deg": 9.633,
+       "min_nr_pct": 91.221
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.25,
+       "touchdown_ground_speed_ms": 0.702,
+       "max_tilt_after_deg": 6.5,
+       "min_nr_pct": 86.256
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 15.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.866,
+     "touchdown_ground_speed_ms": 0.14,
+     "max_tilt_after_deg": 8.207,
+     "min_nr_pct": 91.255,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.866,
+       "touchdown_ground_speed_ms": 0.14,
+       "max_tilt_after_deg": 8.207,
+       "min_nr_pct": 91.255
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 15.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.908,
+     "touchdown_ground_speed_ms": 0.142,
+     "max_tilt_after_deg": 7.709,
+     "min_nr_pct": 91.422,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.908,
+       "touchdown_ground_speed_ms": 0.142,
+       "max_tilt_after_deg": 7.709,
+       "min_nr_pct": 91.422
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 15.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.804,
+     "touchdown_ground_speed_ms": 0.301,
+     "max_tilt_after_deg": 7.352,
+     "min_nr_pct": 91.096,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.804,
+       "touchdown_ground_speed_ms": 0.301,
+       "max_tilt_after_deg": 7.352,
+       "min_nr_pct": 91.096
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 20.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.511,
+     "touchdown_ground_speed_ms": 0.81,
+     "max_tilt_after_deg": 4.717,
+     "min_nr_pct": 81.513,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 5.068,
+       "touchdown_ground_speed_ms": 9.705,
+       "max_tilt_after_deg": 10.651,
+       "min_nr_pct": 84.426
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.511,
+       "touchdown_ground_speed_ms": 0.81,
+       "max_tilt_after_deg": 4.717,
+       "min_nr_pct": 81.513
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 20.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.042,
+     "touchdown_ground_speed_ms": 0.823,
+     "max_tilt_after_deg": 9.321,
+     "min_nr_pct": 91.297,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.042,
+       "touchdown_ground_speed_ms": 0.823,
+       "max_tilt_after_deg": 9.321,
+       "min_nr_pct": 91.297
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.435,
+       "touchdown_ground_speed_ms": 1.281,
+       "max_tilt_after_deg": 4.777,
+       "min_nr_pct": 81.547
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 20.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.89,
+     "touchdown_ground_speed_ms": 0.46,
+     "max_tilt_after_deg": 8.828,
+     "min_nr_pct": 91.418,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.89,
+       "touchdown_ground_speed_ms": 0.46,
+       "max_tilt_after_deg": 8.828,
+       "min_nr_pct": 91.418
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.839,
+       "touchdown_ground_speed_ms": 1.138,
+       "max_tilt_after_deg": 2.375,
+       "min_nr_pct": 80.242
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 20.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.898,
+     "touchdown_ground_speed_ms": 0.196,
+     "max_tilt_after_deg": 8.502,
+     "min_nr_pct": 91.382,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.898,
+       "touchdown_ground_speed_ms": 0.196,
+       "max_tilt_after_deg": 8.502,
+       "min_nr_pct": 91.382
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 20.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.948,
+     "touchdown_ground_speed_ms": 0.081,
+     "max_tilt_after_deg": 7.691,
+     "min_nr_pct": 91.378,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.948,
+       "touchdown_ground_speed_ms": 0.081,
+       "max_tilt_after_deg": 7.691,
+       "min_nr_pct": 91.378
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 20.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.927,
+     "touchdown_ground_speed_ms": 0.343,
+     "max_tilt_after_deg": 7.79,
+     "min_nr_pct": 91.283,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.927,
+       "touchdown_ground_speed_ms": 0.343,
+       "max_tilt_after_deg": 7.79,
+       "min_nr_pct": 91.283
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 25.0,
+     "speed_kt": 0.0,
+     "technique": "vertical",
+     "safe": false,
+     "landed": true,
+     "touchdown_sink_ms": 2.372,
+     "touchdown_ground_speed_ms": 0.326,
+     "max_tilt_after_deg": 3.677,
+     "min_nr_pct": 83.064,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.593,
+       "touchdown_ground_speed_ms": 12.317,
+       "max_tilt_after_deg": 9.962,
+       "min_nr_pct": 85.457
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.372,
+       "touchdown_ground_speed_ms": 0.326,
+       "max_tilt_after_deg": 3.677,
+       "min_nr_pct": 83.064
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 25.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.833,
+     "touchdown_ground_speed_ms": 0.675,
+     "max_tilt_after_deg": 10.023,
+     "min_nr_pct": 91.052,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.833,
+       "touchdown_ground_speed_ms": 0.675,
+       "max_tilt_after_deg": 10.023,
+       "min_nr_pct": 91.052
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.281,
+       "touchdown_ground_speed_ms": 1.019,
+       "max_tilt_after_deg": 3.892,
+       "min_nr_pct": 82.887
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 25.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.853,
+     "touchdown_ground_speed_ms": 0.545,
+     "max_tilt_after_deg": 8.725,
+     "min_nr_pct": 91.318,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.853,
+       "touchdown_ground_speed_ms": 0.545,
+       "max_tilt_after_deg": 8.725,
+       "min_nr_pct": 91.318
+      },
+      {
+       "technique": "vertical",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.855,
+       "touchdown_ground_speed_ms": 0.95,
+       "max_tilt_after_deg": 2.242,
+       "min_nr_pct": 82.265
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 25.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.892,
+     "touchdown_ground_speed_ms": 0.294,
+     "max_tilt_after_deg": 8.453,
+     "min_nr_pct": 91.22,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.892,
+       "touchdown_ground_speed_ms": 0.294,
+       "max_tilt_after_deg": 8.453,
+       "min_nr_pct": 91.22
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 25.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.878,
+     "touchdown_ground_speed_ms": 0.08,
+     "max_tilt_after_deg": 7.97,
+     "min_nr_pct": 91.251,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.878,
+       "touchdown_ground_speed_ms": 0.08,
+       "max_tilt_after_deg": 7.97,
+       "min_nr_pct": 91.251
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 25.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.005,
+     "touchdown_ground_speed_ms": 0.344,
+     "max_tilt_after_deg": 7.787,
+     "min_nr_pct": 91.342,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.005,
+       "touchdown_ground_speed_ms": 0.344,
+       "max_tilt_after_deg": 7.787,
+       "min_nr_pct": 91.342
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 30.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": false,
+     "landed": true,
+     "touchdown_sink_ms": 2.776,
+     "touchdown_ground_speed_ms": 14.226,
+     "max_tilt_after_deg": 10.769,
+     "min_nr_pct": 87.391,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.776,
+       "touchdown_ground_speed_ms": 14.226,
+       "max_tilt_after_deg": 10.769,
+       "min_nr_pct": 87.391
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 3.069,
+       "touchdown_ground_speed_ms": 0.011,
+       "max_tilt_after_deg": 1.921,
+       "min_nr_pct": 84.13
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 30.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.739,
+     "touchdown_ground_speed_ms": 0.637,
+     "max_tilt_after_deg": 9.029,
+     "min_nr_pct": 90.979,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.739,
+       "touchdown_ground_speed_ms": 0.637,
+       "max_tilt_after_deg": 9.029,
+       "min_nr_pct": 90.979
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.961,
+       "touchdown_ground_speed_ms": 0.751,
+       "max_tilt_after_deg": 2.721,
+       "min_nr_pct": 83.893
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 30.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.896,
+     "touchdown_ground_speed_ms": 0.372,
+     "max_tilt_after_deg": 8.074,
+     "min_nr_pct": 91.07,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.896,
+       "touchdown_ground_speed_ms": 0.372,
+       "max_tilt_after_deg": 8.074,
+       "min_nr_pct": 91.07
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 2.625,
+       "touchdown_ground_speed_ms": 0.798,
+       "max_tilt_after_deg": 1.865,
+       "min_nr_pct": 83.395
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 30.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.885,
+     "touchdown_ground_speed_ms": 0.241,
+     "max_tilt_after_deg": 8.405,
+     "min_nr_pct": 91.373,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.885,
+       "touchdown_ground_speed_ms": 0.241,
+       "max_tilt_after_deg": 8.405,
+       "min_nr_pct": 91.373
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 30.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.861,
+     "touchdown_ground_speed_ms": 0.212,
+     "max_tilt_after_deg": 7.998,
+     "min_nr_pct": 91.258,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.861,
+       "touchdown_ground_speed_ms": 0.212,
+       "max_tilt_after_deg": 7.998,
+       "min_nr_pct": 91.258
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 30.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.977,
+     "touchdown_ground_speed_ms": 0.148,
+     "max_tilt_after_deg": 8.233,
+     "min_nr_pct": 91.455,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.977,
+       "touchdown_ground_speed_ms": 0.148,
+       "max_tilt_after_deg": 8.233,
+       "min_nr_pct": 91.455
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 45.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.664,
+     "touchdown_ground_speed_ms": 0.471,
+     "max_tilt_after_deg": 8.705,
+     "min_nr_pct": 90.853,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.664,
+       "touchdown_ground_speed_ms": 0.471,
+       "max_tilt_after_deg": 8.705,
+       "min_nr_pct": 90.853
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.636,
+       "touchdown_ground_speed_ms": 0.27,
+       "max_tilt_after_deg": 1.305,
+       "min_nr_pct": 86.052
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 45.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.758,
+     "touchdown_ground_speed_ms": 0.558,
+     "max_tilt_after_deg": 8.622,
+     "min_nr_pct": 90.819,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.758,
+       "touchdown_ground_speed_ms": 0.558,
+       "max_tilt_after_deg": 8.622,
+       "min_nr_pct": 90.819
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.528,
+       "touchdown_ground_speed_ms": 0.645,
+       "max_tilt_after_deg": 1.617,
+       "min_nr_pct": 85.892
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 45.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.958,
+     "touchdown_ground_speed_ms": 0.514,
+     "max_tilt_after_deg": 8.429,
+     "min_nr_pct": 91.024,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.958,
+       "touchdown_ground_speed_ms": 0.514,
+       "max_tilt_after_deg": 8.429,
+       "min_nr_pct": 91.024
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 4.416,
+       "touchdown_ground_speed_ms": 0.798,
+       "max_tilt_after_deg": 2.875,
+       "min_nr_pct": 85.658
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 45.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.79,
+     "touchdown_ground_speed_ms": 0.312,
+     "max_tilt_after_deg": 8.404,
+     "min_nr_pct": 91.029,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.79,
+       "touchdown_ground_speed_ms": 0.312,
+       "max_tilt_after_deg": 8.404,
+       "min_nr_pct": 91.029
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 45.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.897,
+     "touchdown_ground_speed_ms": 0.145,
+     "max_tilt_after_deg": 8.603,
+     "min_nr_pct": 91.229,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.897,
+       "touchdown_ground_speed_ms": 0.145,
+       "max_tilt_after_deg": 8.603,
+       "min_nr_pct": 91.229
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 45.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.05,
+     "touchdown_ground_speed_ms": 0.526,
+     "max_tilt_after_deg": 9.027,
+     "min_nr_pct": 90.943,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.05,
+       "touchdown_ground_speed_ms": 0.526,
+       "max_tilt_after_deg": 9.027,
+       "min_nr_pct": 90.943
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 60.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.703,
+     "touchdown_ground_speed_ms": 0.551,
+     "max_tilt_after_deg": 9.111,
+     "min_nr_pct": 90.53,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.703,
+       "touchdown_ground_speed_ms": 0.551,
+       "max_tilt_after_deg": 9.111,
+       "min_nr_pct": 90.53
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 5.855,
+       "touchdown_ground_speed_ms": 0.126,
+       "max_tilt_after_deg": 2.294,
+       "min_nr_pct": 86.873
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 60.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.918,
+     "touchdown_ground_speed_ms": 0.43,
+     "max_tilt_after_deg": 9.343,
+     "min_nr_pct": 90.788,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.918,
+       "touchdown_ground_speed_ms": 0.43,
+       "max_tilt_after_deg": 9.343,
+       "min_nr_pct": 90.788
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 5.623,
+       "touchdown_ground_speed_ms": 0.608,
+       "max_tilt_after_deg": 0.854,
+       "min_nr_pct": 86.871
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 60.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.97,
+     "touchdown_ground_speed_ms": 0.408,
+     "max_tilt_after_deg": 8.49,
+     "min_nr_pct": 90.816,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.97,
+       "touchdown_ground_speed_ms": 0.408,
+       "max_tilt_after_deg": 8.49,
+       "min_nr_pct": 90.816
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 5.61,
+       "touchdown_ground_speed_ms": 1.029,
+       "max_tilt_after_deg": 1.141,
+       "min_nr_pct": 87.031
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 60.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.855,
+     "touchdown_ground_speed_ms": 0.25,
+     "max_tilt_after_deg": 8.513,
+     "min_nr_pct": 90.702,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.855,
+       "touchdown_ground_speed_ms": 0.25,
+       "max_tilt_after_deg": 8.513,
+       "min_nr_pct": 90.702
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 60.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 1.097,
+     "touchdown_ground_speed_ms": 0.713,
+     "max_tilt_after_deg": 8.767,
+     "min_nr_pct": 90.794,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 1.097,
+       "touchdown_ground_speed_ms": 0.713,
+       "max_tilt_after_deg": 8.767,
+       "min_nr_pct": 90.794
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 60.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.93,
+     "touchdown_ground_speed_ms": 0.881,
+     "max_tilt_after_deg": 9.792,
+     "min_nr_pct": 90.531,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.93,
+       "touchdown_ground_speed_ms": 0.881,
+       "max_tilt_after_deg": 9.792,
+       "min_nr_pct": 90.531
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 90.0,
+     "speed_kt": 0.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.845,
+     "touchdown_ground_speed_ms": 1.022,
+     "max_tilt_after_deg": 9.662,
+     "min_nr_pct": 90.39,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.845,
+       "touchdown_ground_speed_ms": 1.022,
+       "max_tilt_after_deg": 9.662,
+       "min_nr_pct": 90.39
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 7.589,
+       "touchdown_ground_speed_ms": 0.677,
+       "max_tilt_after_deg": 1.126,
+       "min_nr_pct": 88.402
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 90.0,
+     "speed_kt": 10.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.888,
+     "touchdown_ground_speed_ms": 1.082,
+     "max_tilt_after_deg": 10.089,
+     "min_nr_pct": 90.355,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.888,
+       "touchdown_ground_speed_ms": 1.082,
+       "max_tilt_after_deg": 10.089,
+       "min_nr_pct": 90.355
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 7.488,
+       "touchdown_ground_speed_ms": 0.872,
+       "max_tilt_after_deg": 1.033,
+       "min_nr_pct": 88.413
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 90.0,
+     "speed_kt": 20.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.939,
+     "touchdown_ground_speed_ms": 1.012,
+     "max_tilt_after_deg": 10.007,
+     "min_nr_pct": 90.652,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.939,
+       "touchdown_ground_speed_ms": 1.012,
+       "max_tilt_after_deg": 10.007,
+       "min_nr_pct": 90.652
+      },
+      {
+       "technique": "vertical",
+       "safe": false,
+       "landed": true,
+       "touchdown_sink_ms": 7.549,
+       "touchdown_ground_speed_ms": 0.464,
+       "max_tilt_after_deg": 4.106,
+       "min_nr_pct": 88.109
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 90.0,
+     "speed_kt": 30.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.94,
+     "touchdown_ground_speed_ms": 0.95,
+     "max_tilt_after_deg": 9.717,
+     "min_nr_pct": 90.615,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.94,
+       "touchdown_ground_speed_ms": 0.95,
+       "max_tilt_after_deg": 9.717,
+       "min_nr_pct": 90.615
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 90.0,
+     "speed_kt": 40.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.903,
+     "touchdown_ground_speed_ms": 0.867,
+     "max_tilt_after_deg": 9.589,
+     "min_nr_pct": 90.488,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.903,
+       "touchdown_ground_speed_ms": 0.867,
+       "max_tilt_after_deg": 9.589,
+       "min_nr_pct": 90.488
+      }
+     ]
+    },
+    {
+     "condition": "1.500 m, ISA+25, 2614 kg",
+     "height_m": 90.0,
+     "speed_kt": 60.0,
+     "technique": "frente",
+     "safe": true,
+     "landed": true,
+     "touchdown_sink_ms": 0.889,
+     "touchdown_ground_speed_ms": 0.873,
+     "max_tilt_after_deg": 9.363,
+     "min_nr_pct": 90.464,
+     "tries": [
+      {
+       "technique": "frente",
+       "safe": true,
+       "landed": true,
+       "touchdown_sink_ms": 0.889,
+       "touchdown_ground_speed_ms": 0.873,
+       "max_tilt_after_deg": 9.363,
+       "min_nr_pct": 90.464
+      }
+     ]
+    }
+   ],
+   "unsafe_band_by_speed": {
+    "0.0": [
+     25.0,
+     30.0
+    ],
+    "10.0": [
+     10.0,
+     10.0
+    ],
+    "20.0": [
+     2.0,
+     2.0
+    ],
+    "30.0": null,
+    "40.0": null,
+    "60.0": null
+   }
+  }
+ },
+ "catA_paths_vs_hv": [
+  {
+   "path": "heliponto no solo, nível do mar, 2.980 kg",
+   "hv_condition": "nível do mar, ISA, 2.980 kg",
+   "samples": 401,
+   "samples_inside_unsafe": 0,
+   "outside_hv": true,
+   "samples_in_boundary_cells": 0,
+   "boundary_cell_points": []
+  },
+  {
+   "path": "heliponto elevado 30 m, nível do mar, 2.980 kg",
+   "hv_condition": "nível do mar, ISA, 2.980 kg",
+   "samples": 401,
+   "samples_inside_unsafe": 0,
+   "outside_hv": true,
+   "samples_in_boundary_cells": 0,
+   "boundary_cell_points": []
+  },
+  {
+   "path": "heliponto elevado 30 m, 1.500 m ISA+25, 2614 kg",
+   "hv_condition": "1.500 m, ISA+25, 2614 kg",
+   "samples": 401,
+   "samples_inside_unsafe": 0,
+   "outside_hv": true,
+   "samples_in_boundary_cells": 30,
+   "boundary_cell_points": [
+    [
+     0.6,
+     8.1
+    ],
+    [
+     0.7,
+     8.3
+    ],
+    [
+     0.8,
+     8.5
+    ],
+    [
+     0.9,
+     8.7
+    ],
+    [
+     1.0,
+     8.9
+    ],
+    [
+     1.1,
+     9.2
+    ],
+    [
+     1.2,
+     9.4
+    ],
+    [
+     1.3,
+     9.6
+    ],
+    [
+     1.4,
+     9.8
+    ],
+    [
+     1.5,
+     10.0
+    ],
+    [
+     1.6,
+     10.3
+    ],
+    [
+     1.6,
+     10.5
+    ],
+    [
+     1.7,
+     10.7
+    ],
+    [
+     1.8,
+     10.9
+    ],
+    [
+     1.9,
+     11.1
+    ],
+    [
+     1.9,
+     11.3
+    ],
+    [
+     2.0,
+     11.6
+    ],
+    [
+     2.1,
+     11.8
+    ],
+    [
+     2.1,
+     12.0
+    ],
+    [
+     6.5,
+     20.2
+    ]
+   ]
+  }
+ ]
+}

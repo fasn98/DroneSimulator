@@ -13,8 +13,7 @@ Phase 3 options (all off by default, so phase 1/2 behaviour is unchanged):
 from __future__ import annotations
 
 import copy
-from dataclasses import dataclass, field
-from typing import Callable, Dict, List, Optional, Sequence, Tuple
+from typing import Callable, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -24,38 +23,13 @@ from .dynamics import RigidBodyDynamics, euler_from_quat
 from .ekf import NavigationEKF
 from .sadpf import RotorFault, Sadpf, SadpfConfig
 from .sensors import SensorConfig, SensorFault, SensorSuite
+from .simloop import SimulationLoop, Telemetry, WindModel  # noqa: F401 (re-exported)
 from .vehicle import Vehicle
 
 Setpoint = Tuple[np.ndarray, np.ndarray, float]  # position, velocity, yaw
 
 
-class WindModel:
-    """Mean wind plus first-order Gauss-Markov gusts (a simplified Dryden model)."""
-
-    def __init__(self, body: Body, rng: np.random.Generator, correlation_time: float = 3.0):
-        self.mean = body.wind_mean * np.array([np.cos(np.radians(body.wind_direction_deg)),
-                                               np.sin(np.radians(body.wind_direction_deg)), 0.0])
-        self.sigma = body.wind_gust_std
-        self.tau = correlation_time
-        self.rng = rng
-        self.gust = np.zeros(3)
-
-    def step(self, dt: float) -> np.ndarray:
-        if self.sigma > 0:
-            noise = self.rng.standard_normal(3) * np.array([1.0, 1.0, 0.3])
-            self.gust += -self.gust * dt / self.tau + self.sigma * np.sqrt(2 * dt / self.tau) * noise
-        return self.mean + self.gust
-
-
-@dataclass
-class Telemetry:
-    rows: List[Dict[str, float]] = field(default_factory=list)
-
-    def column(self, key: str) -> np.ndarray:
-        return np.array([r[key] for r in self.rows])
-
-
-class TwinSimulator:
+class TwinSimulator(SimulationLoop):
     def __init__(self, vehicle: Vehicle, body: Body, dt: float = 0.005, control_rate_hz: float = 50.0,
                  seed: int = 0, gains: Optional[Gains] = None, wind: bool = True,
                  sensors: Optional[SensorConfig] = None, sadpf: bool | SadpfConfig = False,
@@ -88,6 +62,9 @@ class TwinSimulator:
     def nav_state(self) -> np.ndarray:
         """The state the vehicle believes it is in (EKF estimate when sensors are simulated)."""
         return self.ekf.state_vector(self.x) if self.ekf is not None else self.x
+
+    def observe(self) -> np.ndarray:
+        return self.nav_state()
 
     def _landing_setpoint(self, setpoint: Setpoint) -> Setpoint:
         if self.sadpf is None or self.sadpf.land_requested is None:
@@ -148,18 +125,6 @@ class TwinSimulator:
                         "residual_norm": float(np.linalg.norm(self.sadpf.fdi.residual)),
                         "rotor_eff_min_est": float(np.min(self.ctrl.alloc.effectiveness))
                         if len(self.ctrl.alloc.effectiveness) else 1.0})
-
-    def run(self, duration: float, setpoint_fn: Callable[[float, np.ndarray], Setpoint],
-            record_every: float = 0.1) -> Telemetry:
-        rec_k = max(int(round(record_every / self.dt)), 1)
-        steps = int(round(duration / self.dt))
-        for i in range(steps):
-            self.step(setpoint_fn(self.t, self.nav_state()))
-            if i % rec_k == 0:
-                self.record()
-        self.record()
-        return self.telemetry
-
 
 # ---------------------------------------------------------------------- #
 # Reference generators

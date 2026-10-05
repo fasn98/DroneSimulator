@@ -1,0 +1,1482 @@
+[
+ {
+  "condition": "nível do mar, ISA",
+  "which": "raio máximo",
+  "mass_kg": 2369.0,
+  "elevation_m": 0.0,
+  "delta_t": 0.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 616.093022906514,
+  "hover_oge_kw": 447.1281608968712,
+  "hover_ige_kw": 411.3053285825178,
+  "aeo_margin_oge_kw": 168.9648620096428,
+  "aeo_margin_ige_kw": 204.78769432399616,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "nível do mar, ISA",
+  "which": "missão mais curta (mais pesada)",
+  "mass_kg": 2600.7,
+  "elevation_m": 0.0,
+  "delta_t": 0.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 616.093022906514,
+  "hover_oge_kw": 500.41731571613366,
+  "hover_ige_kw": 458.93300482100045,
+  "aeo_margin_oge_kw": 115.67570719038031,
+  "aeo_margin_ige_kw": 157.1600180855135,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "nível do mar, ISA+20",
+  "which": "raio máximo",
+  "mass_kg": 2369.0,
+  "elevation_m": 0.0,
+  "delta_t": 20.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 616.093022906514,
+  "hover_oge_kw": 453.865270707094,
+  "hover_ige_kw": 416.641538882954,
+  "aeo_margin_oge_kw": 162.22775219941997,
+  "aeo_margin_ige_kw": 199.45148402355994,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.0 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "nível do mar, ISA+20",
+  "which": "missão mais curta (mais pesada)",
+  "mass_kg": 2600.7,
+  "elevation_m": 0.0,
+  "delta_t": 20.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 616.093022906514,
+  "hover_oge_kw": 509.2574047185454,
+  "hover_ige_kw": 466.13407260438805,
+  "aeo_margin_oge_kw": 106.83561818796858,
+  "aeo_margin_ige_kw": 149.9589503021259,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "1.000 m, ISA+20",
+  "which": "raio máximo",
+  "mass_kg": 2369.0,
+  "elevation_m": 1000.0,
+  "delta_t": 20.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 593.466071855076,
+  "hover_oge_kw": 465.48009852576007,
+  "hover_ige_kw": 426.0781162773918,
+  "aeo_margin_oge_kw": 127.98597332931598,
+  "aeo_margin_ige_kw": 167.38795557768424,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.1 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "1.000 m, ISA+20",
+  "which": "missão mais curta (mais pesada)",
+  "mass_kg": 2600.7,
+  "elevation_m": 1000.0,
+  "delta_t": 20.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 593.466071855076,
+  "hover_oge_kw": 524.1446008836939,
+  "hover_ige_kw": 478.4706046340847,
+  "aeo_margin_oge_kw": 69.32147097138215,
+  "aeo_margin_ige_kw": 114.99546722099137,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.8 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "1.500 m, ISA+25",
+  "which": "raio máximo",
+  "mass_kg": 2369.0,
+  "elevation_m": 1500.0,
+  "delta_t": 25.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 564.472028151394,
+  "hover_oge_kw": 474.51425894441616,
+  "hover_ige_kw": 433.5503087122515,
+  "aeo_margin_oge_kw": 89.9577692069779,
+  "aeo_margin_ige_kw": 130.92171943914258,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.1 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "1.500 m, ISA+25",
+  "which": "missão mais curta (mais pesada)",
+  "mass_kg": 2600.7,
+  "elevation_m": 1500.0,
+  "delta_t": 25.0,
+  "headwind_ms": 0.0,
+  "aeo_available_kw": 564.472028151394,
+  "hover_oge_kw": 535.5270772586975,
+  "hover_ige_kw": 488.0224975726134,
+  "aeo_margin_oge_kw": 28.94495089269651,
+  "aeo_margin_ige_kw": 76.44953057878064,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "tocou o heliponto ou o solo"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "1.500 m, ISA+25, proa 8 m/s",
+  "which": "raio máximo",
+  "mass_kg": 2369.0,
+  "elevation_m": 1500.0,
+  "delta_t": 25.0,
+  "headwind_ms": 8.0,
+  "aeo_available_kw": 564.472028151394,
+  "hover_oge_kw": 474.51425894441616,
+  "hover_ige_kw": 433.5503087122515,
+  "aeo_margin_oge_kw": 89.9577692069779,
+  "aeo_margin_ige_kw": 130.92171943914258,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.1 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.2 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ },
+ {
+  "condition": "1.500 m, ISA+25, proa 8 m/s",
+  "which": "missão mais curta (mais pesada)",
+  "mass_kg": 2600.7,
+  "elevation_m": 1500.0,
+  "delta_t": 25.0,
+  "headwind_ms": 8.0,
+  "aeo_available_kw": 564.472028151394,
+  "hover_oge_kw": 535.5270772586975,
+  "hover_ige_kw": 488.0224975726134,
+  "aeo_margin_oge_kw": 28.94495089269651,
+  "aeo_margin_ige_kw": 76.44953057878064,
+  "aeo_reaches_tdp": true,
+  "sweep": [
+   {
+    "fail_skid_h_m": 1.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 1.0 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 3.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": false,
+     "reason": "desceu a 3.0 m do nível do deck (< 15 ft, 29.59(c))"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 5.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 7.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 9.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "abortar",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 11.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 12.5,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 14.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 17.0,
+    "reject": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   },
+   {
+    "fail_skid_h_m": 20.0,
+    "reject": {
+     "safe": false,
+     "reason": "tombamento"
+    },
+    "continue": {
+     "safe": true,
+     "reason": "ok"
+    },
+    "recommended": "prosseguir",
+    "exposed": false
+   }
+  ],
+  "exposure": null,
+  "always_safe": true
+ }
+]
