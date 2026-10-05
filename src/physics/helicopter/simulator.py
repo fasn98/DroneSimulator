@@ -105,6 +105,7 @@ class HelicopterSimulator(SimulationLoop):
         self.p_need_w = 0.0  # governor power demand (W), read by the SADPF
         self.nr_ref = 1.0  # NR reference of the autorotation collective loop (fraction of 100 %)
         self.collective_hold: Optional[float] = None  # set to freeze the collective (no pilot action)
+        self.droop_ref = 0.985  # NR below which the collective is given back (droop protection)
         theta0 = math.radians(2.0)
         if airborne:  # start trimmed: collective for the level-flight thrust at that speed
             from .rotor import collective_for_thrust
@@ -250,7 +251,7 @@ class HelicopterSimulator(SimulationLoop):
             collective = 3.0 * (2.0 * ct / (p.sigma * p.a) + rs.lam / 2.0) / (1.0 + 1.5 * mu * mu)
             if not self.cushion:
                 # NR droop protection (power limit): give back collective when the rotor slows below 98.5 %
-                droop = max(0.0, 0.985 - x[13] / p.omega100)
+                droop = max(0.0, self.droop_ref - x[13] / p.omega100)
                 collective -= 6.0 * droop
         collective = float(np.clip(collective, p.theta_min, p.theta_max))
 

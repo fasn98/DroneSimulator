@@ -23,6 +23,7 @@ from .model import engine_limit_w
 
 KT = 0.514444
 FT = 0.3048
+DEFAULT_REJECT_PROCEDURE = "v1"  # reject branch of CatATakeoff (see docs/helicoptero/procedimento_abortar_v2.md)
 PILOT_DELAY = 1.0  # s, recognition + reaction after the SADPF alert (ESTIMADO, order used in Cat A analyses)
 ROC_CAT_A = 100 * FT / 60  # 14 CFR 29.67(a)(1): >= 100 ft/min at VTOSS, OEI 2-min power, OGE
 
@@ -92,6 +93,7 @@ class CatATakeoff:
     force_action: Optional[str] = None  # "abortar"/"prosseguir": fly this branch whatever the SADPF recommends
     advisor: Optional[object] = None  # advisory.BranchPredictor, called once at the SADPF detection
     follow_advisory: bool = False  # only for studies: fly the branch the advisory recommends (default: display)
+    reject_procedure: str = "v1"  # "v1" (no cushion, aval do Passo 4 baseline) or "v2" (cushion, see docs)
     phase: str = "vertical"
     tdp_t: Optional[float] = None
     _v: float = 0.0
