@@ -4,7 +4,7 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0 a 3 aprovados. O Passo 4 (HUD e cenas do Template A) está concluído e aguarda aval.** Depois dele vem o Template B (classe UH-60), conforme o roteiro.
+Estado atual: **Passos 0 a 3 aprovados. Passo 4 aprovado com correções; as correções (toque, recálculo v1/v2, HUD) estão concluídas e aguardam aval.** Depois dele vem o Template B (classe UH-60), conforme o roteiro.
 
 > **CI.** A suíte completa e o teste de fumaça do HUD rodam no GitHub Actions a cada PR (ver o README_TWIN.md). [#20 (PR #6)](https://github.com/fasn98/DroneSimulator/actions/runs/37259802968) e [#21 (PR #7)](https://github.com/fasn98/DroneSimulator/actions/runs/37307459563) passaram depois que o repositório ficou público.
 
