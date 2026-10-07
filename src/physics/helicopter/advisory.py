@@ -8,13 +8,18 @@ If the branch the procedure calls for (before / after the TDP) is predicted unsa
 highlighted advisory alert is issued. The procedure stays the default: the advisory is only displayed unless the
 caller explicitly asks the "pilot" to follow it (used to measure what it would change).
 
-The wall-clock time of the prediction is measured and compared with the 1 s pilot reaction time.
+The two branches run in two warm worker processes (decision of the Passo 3 approval); the wall-clock time,
+including the transfer of the state, is measured and compared with the 1 s pilot reaction time (development
+environment, not on-board hardware).
 """
 
 from __future__ import annotations
 
 import copy
+import multiprocessing
+import os
 import time
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 
@@ -28,6 +33,10 @@ PRED_DT_GROUND = 0.01  # s, step at and near ground contact (the skids are a sti
 CONTACT_MARGIN_M = 0.3  # m: finer step below this skid height ...
 CONTACT_LEAD_S = 0.3  # ... plus this many seconds of the current sink rate
 BUDGET_S = 1.0  # pilot reaction time (procedures.PILOT_DELAY)
+SETTLE_S = 0.5  # s on the skids after the first ground contact (abortar): enough to see a roll-over start
+CLIMB_VZ = 0.5  # m/s: "stabilised climb" = vertical speed above this ...
+CLIMB_HOLD_S = 1.0  # ... for this long, after the lowest point, above SAFE_AGL_M and at >= CLIMB_VTOSS_FRAC VTOSS
+CLIMB_VTOSS_FRAC = 0.8
 
 
 def _predict(sim, proc, action: str, criterion: str, vtoss_kt: Optional[float]) -> Dict[str, object]:
@@ -44,6 +53,8 @@ def _predict(sim, proc, action: str, criterion: str, vtoss_kt: Optional[float]) 
     t_end = s.t + PRED_HORIZON
     t0 = s.t
     landed_t = None
+    climb_s, stop = 0.0, "horizonte"
+    from .procedures import CLEAR_OBST
     while s.t < t_end:
         agl_skid = float(s.x[2]) - s.dyn.terrain.height(s.x[0], s.x[1]) - s.p.cg_h
         v_down = max(-float(s.x[5]), 0.0)
@@ -55,44 +66,104 @@ def _predict(sim, proc, action: str, criterion: str, vtoss_kt: Optional[float]) 
         elif not near and agl_skid > CONTACT_MARGIN_M + 0.5 and s.dt != PRED_DT:  # clear again: coarse step
             s.dt, s.ctrl_every, s._k = PRED_DT, 1, 0
         chunk = CHUNK if agl_skid > NEAR_GROUND_M + CHUNK * v_down else SHORT_CHUNK
+        if action != "abortar":
+            chunk = min(chunk, 0.25)  # finer check of the climb condition
         tel = s.run(chunk, pr, 0.1)
         x = s.x
         on_ground = s.dyn.aero(x, s.u)[3].on_ground
         if action == "abortar":
             if on_ground and s.t - t0 > 1.0:
                 landed_t = landed_t or s.t
-                if s.t - landed_t >= 1.0:  # settled on the skids: decided
+                if s.t - landed_t >= SETTLE_S:  # on the skids: decided
+                    stop = "toque"
                     break
         else:
             if on_ground and s.t - t0 > 1.0:
+                stop = "toque"
                 break  # contact: decided (unsafe)
             v_air = float(x[3]) - float(s.dyn.wind[0])
+            agl_now = float(x[2]) - s.dyn.terrain.height(x[0], x[1]) - s.p.cg_h
+            climbing = (x[5] > CLIMB_VZ and agl_now >= CLEAR_OBST and vtoss_kt
+                        and v_air >= CLIMB_VTOSS_FRAC * vtoss_kt * 0.514444)
+            climb_s = climb_s + chunk if climbing else 0.0
+            if climb_s >= CLIMB_HOLD_S:
+                stop = "subida"
+                break  # stabilised climb above a safe height: the lowest point is behind
             if vtoss_kt and v_air >= 0.95 * vtoss_kt * 0.514444 and x[5] > 0.3:
+                stop = "vtoss"
                 break  # at VTOSS and climbing: the lowest point is behind
     ev = evaluate_cat_a(tel, s, vtoss_kt, "reject" if action == "abortar" else "continue", criterion)
-    return {"safe": bool(ev["safe"]), "reason": ev["reason"], "predicted_s": s.t - t0}
+    if stop == "subida" and not ev["safe"] and ev["reason"] == "não atingiu VTOSS":
+        # stopped in a stabilised climb above a safe height before 0.95 VTOSS: every clearance has already been
+        # judged on the predicted path; VTOSS is taken as reached (verified against the full simulation in the sweep)
+        ev = {**ev, "safe": True, "reason": "ok"}
+    return {"safe": bool(ev["safe"]), "reason": ev["reason"], "predicted_s": s.t - t0, "stop": stop}
+
+
+def _timed_predict(sim, proc, action, criterion, vtoss_kt):
+    t = time.perf_counter()
+    r = _predict(sim, proc, action, criterion, vtoss_kt)
+    r["compute_s"] = time.perf_counter() - t
+    return r
+
+
+_POOL = None
+
+
+def _pool():
+    """Two worker processes, started once and kept warm (the prediction must not pay the start-up at the
+    failure). None where child processes cannot be started (e.g. inside a daemonic multiprocessing worker)."""
+    global _POOL
+    if _POOL is None:
+        try:
+            if multiprocessing.current_process().daemon or (os.cpu_count() or 1) < 2:
+                _POOL = False
+            else:
+                _POOL = ProcessPoolExecutor(max_workers=2, mp_context=multiprocessing.get_context("fork"))
+                list(_POOL.map(abs, (0, 0)))  # start and warm both workers
+        except (OSError, ValueError, AssertionError, RuntimeError):
+            _POOL = False
+    return _POOL or None
 
 
 @dataclass
 class BranchPredictor:
     criterion: str = "elevado_29_60"
     vtoss_kt: Optional[float] = None
+    parallel: bool = True  # the two branches in two processes (decision of the Passo 3 approval)
     result: Optional[Dict[str, object]] = None
     history: list = field(default_factory=list)
 
+    def __post_init__(self):
+        if self.parallel:
+            _pool()  # warm up before the take-off, not at the failure
+
     def __call__(self, sim, proc, procedure_action: str) -> Dict[str, object]:
+        args = (self.criterion, self.vtoss_kt)
+        pool = _pool() if self.parallel else None
         t0 = time.perf_counter()
-        rej = _predict(sim, proc, "abortar", self.criterion, self.vtoss_kt)
-        t1 = time.perf_counter()
-        con = _predict(sim, proc, "prosseguir", self.criterion, self.vtoss_kt)
+        mode = "sequencial"
+        if pool is not None:
+            try:  # the state is pickled and sent to both workers; the wall time includes that transfer
+                fr = pool.submit(_timed_predict, sim, proc, "abortar", *args)
+                fc = pool.submit(_timed_predict, sim, proc, "prosseguir", *args)
+                rej, con = fr.result(), fc.result()
+                mode = "paralelo"
+            except Exception:  # noqa: BLE001 - a broken pool falls back to the sequential prediction
+                pool = None
+        if pool is None:
+            rej = _timed_predict(sim, proc, "abortar", *args)
+            con = _timed_predict(sim, proc, "prosseguir", *args)
         t2 = time.perf_counter()
         other = "prosseguir" if procedure_action == "abortar" else "abortar"
         pred = {"abortar": rej, "prosseguir": con}
         alert = (not pred[procedure_action]["safe"]) and pred[other]["safe"]
+        each = [rej["compute_s"], con["compute_s"]]
         res = {"label": LABEL, "t": sim.t, "procedure_action": procedure_action, "predicted": pred,
-               "advise": other if alert else None, "alert": alert,
-               "wall_time_s": t2 - t0, "wall_time_each_s": [t1 - t0, t2 - t1],
-               "parallel_estimate_s": max(t1 - t0, t2 - t1), "within_budget": (t2 - t0) <= BUDGET_S}
+               "advise": other if alert else None, "alert": alert, "mode": mode,
+               "wall_time_s": t2 - t0, "wall_time_each_s": each,
+               "parallel_estimate_s": max(each), "sequential_estimate_s": sum(each),
+               "within_budget": (t2 - t0) <= BUDGET_S}
         self.result = res
         self.history.append(res)
         msg = (f"[{LABEL}] Previsão de ramos: o procedimento indica {procedure_action.upper()}, previsto como "

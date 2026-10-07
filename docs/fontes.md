@@ -36,6 +36,12 @@ Todas as URLs foram abertas e conferidas em 04/10/2026. Valores sem fonte públi
 | Ministério da Saúde — SAMU 192, legislação | Portaria nº 2.048/2002 listada como ato próprio, ao lado das Portarias de Consolidação nº 3 e nº 6/2017 (conferido em 04/10/2026) | https://www.gov.br/saude/pt-br/composicao/saes/samu-192/legislacao |
 | Ministério da Saúde — matriz da Portaria de Consolidação nº 3/2017 | não inclui a Portaria 2.048/2002 entre as normas consolidadas | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2017/MatrizesConsolidacao/Matriz-3-Redes.html |
 
+## Ferramentas (Passo 4)
+
+| Fonte | Uso | URL |
+|---|---|---|
+| three.js r179 (licença MIT, cópia local em `web/heli/vendor/`) | renderização 3D das cenas do HUD; não fornece nenhum dado do modelo | https://github.com/mrdoob/three.js |
+
 ## Teoria e critérios
 
 | Fonte | Uso | URL |
