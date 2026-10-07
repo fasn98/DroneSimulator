@@ -100,11 +100,13 @@ class CatAConfig:
     fail_after_tdp_s: float = 0.5  # post-TDP failure this long after the TDP
     criterion: str = "elevado_29_60"  # or "literal_29_59c" (see procedures.evaluate_cat_a)
     params: Optional[dict] = None  # HeliParams overrides (sensitivity studies), e.g. {"tr_duct_gain": 1.15}
+    reject_procedure: Optional[str] = None  # "v1" / "v2" (None: procedures.DEFAULT_REJECT_PROCEDURE)
 
 
 def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = None, seed: int = 0,
               duration: float = 45.0, fail_rel_tdp_m: Optional[float] = None,
-              force_action: Optional[str] = None) -> Dict[str, object]:
+              force_action: Optional[str] = None, advisory: bool = False,
+              follow_advisory: bool = False, advisory_parallel: bool = True) -> Dict[str, object]:
     """branch: "reject" (failure at TDP - margin), "continue" (failure after the TDP) or "none" (AEO).
 
     fail_rel_tdp_m: if given, the engine fails when the skids reach TDP + fail_rel_tdp_m (negative = below the
@@ -117,7 +119,13 @@ def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = N
     terrain = Terrain(pad_half_size=cfg.deck_half_size_m, pad_height=cfg.deck_height_m)
     sim = HelicopterSimulator(p, atm, seed=seed, wind=cfg.headwind_ms > 0, terrain=terrain, sadpf=True)
     v_toss = vtoss(sim.p, atm, 0.0, mass)
-    proc = CatATakeoff(sim, tdp_height=cfg.tdp_height_m, vtoss_kt=v_toss or 60.0, force_action=force_action)
+    from .procedures import DEFAULT_REJECT_PROCEDURE
+    proc = CatATakeoff(sim, tdp_height=cfg.tdp_height_m, vtoss_kt=v_toss or 60.0, force_action=force_action,
+                       reject_procedure=cfg.reject_procedure or DEFAULT_REJECT_PROCEDURE)
+    if advisory or follow_advisory:
+        from .advisory import BranchPredictor
+        proc.advisor = BranchPredictor(cfg.criterion, v_toss, parallel=advisory_parallel)
+        proc.follow_advisory = follow_advisory
 
     def guidance(t, x):
         if not any(sim.dyn.engine_failed):
@@ -161,6 +169,7 @@ def cat_a_run(mass: float, branch: str = "reject", cfg: Optional[CatAConfig] = N
     if v_toss is not None:
         ev["oei2_margin_vtoss_kw"] = (engine_limit_w(sim.p, atm, 0.0, "OEI2", 1)
                                       - level_flight(sim.p, v_toss * KT, rho, mass).p_engines) / 1e3
+    ev["advisory"] = proc.advisor.result if proc.advisor is not None else None
     ev["telemetry"], ev["sim"] = tel, sim
     return ev
 
@@ -169,7 +178,7 @@ GAP_FAILURES = (-1.0, -0.5, 0.0)  # m relative to the TDP
 
 
 def cat_a_max_mass(cfg: Optional[CatAConfig] = None, lo: float = 2200.0, hi: Optional[float] = None,
-                   tol: float = 25.0, seed: int = 0) -> Dict[str, object]:
+                   tol: float = 25.0, seed: int = 0, gap=GAP_FAILURES) -> Dict[str, object]:
     """Bisection on mass: the largest mass at which BOTH the reject and the continue branches are safe.
 
     Capped at MTOW. Monotonic behaviour in mass is assumed (heavier = less OEI margin), which the bisection
@@ -184,14 +193,14 @@ def cat_a_max_mass(cfg: Optional[CatAConfig] = None, lo: float = 2200.0, hi: Opt
         # recommends: they are recognised around the TDP (detection ~0.7 s), so this covers the gap where the
         # failure happens before the TDP but is recognised after it (continue from a lower height and speed).
         r = cat_a_run(m, "reject", cfg, seed)
-        gap = [cat_a_run(m, cfg=cfg, seed=seed, fail_rel_tdp_m=dh) for dh in GAP_FAILURES]
-        bad_c = [g for g in gap if not g["safe"] and g["branch"] == "continue"]
-        bad_r = [g for g in gap if not g["safe"] and g["branch"] == "reject"]
+        gaps = [cat_a_run(m, cfg=cfg, seed=seed, fail_rel_tdp_m=dh) for dh in gap]
+        bad_c = [g for g in gaps if not g["safe"] and g["branch"] == "continue"]
+        bad_r = [g for g in gaps if not g["safe"] and g["branch"] == "reject"]
         log.append({"mass_kg": m, "reject": r["safe"] and not bad_r,
                     "reject_reason": r["reason"] if not r["safe"] else (bad_r[0]["reason"] if bad_r else "ok"),
                     "continue": not bad_c, "continue_reason": bad_c[0]["reason"] if bad_c else "ok",
                     "gap": [{"fail_rel_tdp_m": dh, "branch": g["branch"], "safe": g["safe"], "reason": g["reason"]}
-                            for dh, g in zip(GAP_FAILURES, gap)]})
+                            for dh, g in zip(gap, gaps)]})
         return log[-1]["reject"] and log[-1]["continue"]
 
     if safe(hi):
@@ -314,11 +323,33 @@ def path_in_hv(path_v_kt, path_h_m, points: List[dict], mode: str = "inside") ->
 
 
 # ------------------------------------------------------------------------------------------------
+RESCUE_GAP = (-1.0, -0.5, 0.0, 2.0)  # m relative to the TDP: the recognition gap and failures just after the TDP
+
+
+def rescue_site_config(elevation_m=0.0, delta_t=0.0, headwind_ms=0.0, tdp_height_m=12.0,
+                       reject_procedure: Optional[str] = None) -> CatAConfig:
+    """Ground-level HEMS operating site: flat, no obstacles; continue judged with 14 CFR 29.59(c) literally."""
+    return CatAConfig(elevation_m=elevation_m, delta_t=delta_t, headwind_ms=headwind_ms, deck_height_m=0.0,
+                      deck_half_size_m=math.inf, tdp_height_m=tdp_height_m, criterion="literal_29_59c",
+                      reject_procedure=reject_procedure)
+
+
+def rescue_site_max_mass(elevation_m=0.0, delta_t=0.0, headwind_ms=0.0, tdp_height_m=12.0,
+                         tol: float = 25.0, lo: float = 2200.0, reject_procedure: Optional[str] = None) -> Dict[str, object]:
+    """Largest take-off mass at the HEMS operating site with the procedure (TDP) as flown: a failure recognised
+    before the TDP must be safe to reject, and failures around and just after it (RESCUE_GAP) safe in the branch
+    the SADPF recommends. Same bisection as the Category A mass."""
+    cfg = rescue_site_config(elevation_m, delta_t, headwind_ms, tdp_height_m, reject_procedure)
+    return cat_a_max_mass(cfg, lo=lo, tol=tol, gap=RESCUE_GAP)
+
+
+# ------------------------------------------------------------------------------------------------
 RESCUE_FAIL_HEIGHTS = (1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 12.5, 14.0, 17.0, 20.0)  # m skid height (grid of the sweep)
 
 
 def rescue_site_takeoff(mass: float, elevation_m: float = 0.0, delta_t: float = 0.0, headwind_ms: float = 0.0,
-                        tdp_height_m: float = 12.0, heights=RESCUE_FAIL_HEIGHTS, seed: int = 0) -> Dict[str, object]:
+                        tdp_height_m: float = 12.0, heights=RESCUE_FAIL_HEIGHTS, seed: int = 0,
+                        reject_procedure: Optional[str] = None) -> Dict[str, object]:
     """Take-off from a ground-level HEMS operating site (the return leg of the Resgate profile, patient on board).
 
     1. AEO power margin in hover in and out of ground effect (take-off rating, site atmosphere).
@@ -328,8 +359,7 @@ def rescue_site_takeoff(mass: float, elevation_m: float = 0.0, delta_t: float = 
        site is assumed flat and free of obstacles. Failure heights where neither branch is safe form the exposed
        interval; its duration is read on the AEO take-off profile.
     """
-    cfg = CatAConfig(elevation_m=elevation_m, delta_t=delta_t, headwind_ms=headwind_ms, deck_height_m=0.0,
-                     deck_half_size_m=math.inf, tdp_height_m=tdp_height_m, criterion="literal_29_59c")
+    cfg = rescue_site_config(elevation_m, delta_t, headwind_ms, tdp_height_m, reject_procedure)
     atm = _atm(elevation_m, delta_t, headwind_ms)
     p = HelicopterSimulator(HeliParams(mass=mass), atm, wind=False).p
     rho = atm.density(0.0)

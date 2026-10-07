@@ -89,7 +89,7 @@ class DroneSimulationServer:
         self.app.template_folder = 'web'
         self.app.static_folder = 'web'
         self.app.static_url_path = ''
-        self.app.config['SECRET_KEY'] = 'drone-sim-secret-key'
+        self.app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or os.urandom(24).hex()
         
         # Initialize database service (lazy initialization)
         self.db_service = None
@@ -198,6 +198,12 @@ class DroneSimulationServer:
             """Serve CSS file."""
             return send_from_directory('web', 'style.css')
         
+        @self.app.route('/heli/')
+        @self.app.route('/heli/<path:filename>')
+        def heli_hud(filename='index.html'):
+            """Helicóptero UTI (Template A): HUD scenes replaying Twin telemetry (web/heli/)."""
+            return send_from_directory(os.path.join('web', 'heli'), filename)
+
         @self.app.route('/api/configurations/drones')
         def get_drone_configurations():
             """Get available drone configurations."""

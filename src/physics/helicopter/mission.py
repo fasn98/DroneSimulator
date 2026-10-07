@@ -252,7 +252,8 @@ def loading_for(with_patient: bool, base: Optional[Loading] = None) -> Loading:
 
 
 def catA_fuel_and_radius(cat_a_mass: float, profile: str = "resgate", p: Optional[HeliParams] = None,
-                         capacity_kg: float = FUEL_CAPACITY_KG, base: Optional[Loading] = None) -> Dict[str, object]:
+                         capacity_kg: float = FUEL_CAPACITY_KG, base: Optional[Loading] = None,
+                         site_limit_kg: Optional[float] = None) -> Dict[str, object]:
     """Fuel that can be loaded so that the take-off mass at the origin does not exceed the Category A mass of the
     take-off condition (and the tank), the radius it gives in the reference cruise condition, and the CG at the
     origin take-off, at the return take-off and at the end (reserve only)."""
@@ -263,14 +264,44 @@ def catA_fuel_and_radius(cat_a_mass: float, profile: str = "resgate", p: Optiona
     fuel = float(np.clip(room, 0.0, capacity_kg))
     limited_by = "tanque" if room >= capacity_kg else ("massa Cat A" if room > 0 else "sem margem")
     r = radius_of_action(fuel, zfm_out, zfm_back, p)
+    site_note = ""
+    if site_limit_kg is not None and r.return_takeoff_mass_kg and r.return_takeoff_mass_kg > site_limit_kg + 0.5:
+        # the take-off from the HEMS operating site (end of the outbound leg) must respect the site mass limit:
+        # less fuel at the origin, found by bisection (the radius falls with it)
+        lo_f, hi_f = 0.0, fuel
+        for _ in range(30):
+            mid = 0.5 * (lo_f + hi_f)
+            rm = radius_of_action(mid, zfm_out, zfm_back, p)
+            if rm.return_takeoff_mass_kg is not None and rm.return_takeoff_mass_kg <= site_limit_kg:
+                lo_f = mid
+            else:
+                hi_f = mid
+        fuel, limited_by = lo_f, "massa no local de resgate"
+        r = radius_of_action(fuel, zfm_out, zfm_back, p)
+    if site_limit_kg is not None:
+        site_note = (f"combustível máximo a bordo ao decolar do local: {max(site_limit_kg - zfm_back, 0.0):.0f} kg "
+                     f"(missões curtas exigem abastecer menos na origem)")
     fuel_ret = (r.return_takeoff_mass_kg - zfm_back) if r.return_takeoff_mass_kg else fuel
     r0 = radius_of_action(fuel, zfm_out, zfm_back, p, fixed_radius_nm=0.0)  # shortest mission: heaviest return
+    site_min_radius = 0.0  # shortest rescue radius flown with this fuel without exceeding the site mass limit
+    if site_limit_kg is not None and r0.return_takeoff_mass_kg > site_limit_kg and r.radius_nm:
+        lo_r, hi_r = 0.0, float(r.radius_nm)
+        for _ in range(16):
+            mid = 0.5 * (lo_r + hi_r)
+            if radius_of_action(fuel, zfm_out, zfm_back, p, fixed_radius_nm=mid).return_takeoff_mass_kg > site_limit_kg:
+                lo_r = mid
+            else:
+                hi_r = mid
+        site_min_radius = hi_r
     fuel_min = r.reserve_kg if r.radius_nm is not None else 0.0
     return {"profile": profile, "cat_a_mass_kg": cat_a_mass, "zero_fuel_mass_out_kg": zfm_out,
             "zero_fuel_mass_back_kg": zfm_back, "capacity_kg": capacity_kg, "fuel_kg": fuel,
             "fuel_limited_by": limited_by, "takeoff_mass_kg": zfm_out + fuel,
             "return_takeoff_mass_kg": r.return_takeoff_mass_kg,
             "return_takeoff_mass_max_kg": r0.return_takeoff_mass_kg,
+            "site_limit_kg": site_limit_kg, "site_note": site_note,
+            "site_fuel_max_kg": (site_limit_kg - zfm_back) if site_limit_kg is not None else None,
+            "site_min_radius_full_fuel_nm": site_min_radius,
             "radius_nm": r.radius_nm, "radius_km": (r.radius_nm or 0.0) * NM / 1000,
             "flight_time_min": r.flight_time_min, "cruise_kt": r.cruise_kt, "reserve_kg": r.reserve_kg,
             "allowances_kg": r.allowances_kg, "note": r.note,

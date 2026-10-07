@@ -23,6 +23,9 @@ from .model import engine_limit_w
 
 KT = 0.514444
 FT = 0.3048
+DEFAULT_REJECT_PROCEDURE = "v2"  # reject branch of CatATakeoff (see docs/helicoptero/procedimento_abortar_v2.md)
+REJECT_V2_NR_MIN = 0.97  # fraction of 100 % NR: lower end of the band of the source and TCDS power-on minimum
+REJECT_V2_CUSHION_H = 5.0  # m of skid height where the cushion starts (ESTIMADO, ~ one rotor radius)
 PILOT_DELAY = 1.0  # s, recognition + reaction after the SADPF alert (ESTIMADO, order used in Cat A analyses)
 ROC_CAT_A = 100 * FT / 60  # 14 CFR 29.67(a)(1): >= 100 ft/min at VTOSS, OEI 2-min power, OGE
 
@@ -90,6 +93,9 @@ class CatATakeoff:
     climb_rate: float = 1.5
     accel: float = 1.5  # m/s^2 AEO acceleration after the TDP
     force_action: Optional[str] = None  # "abortar"/"prosseguir": fly this branch whatever the SADPF recommends
+    advisor: Optional[object] = None  # advisory.BranchPredictor, called once at the SADPF detection
+    follow_advisory: bool = False  # only for studies: fly the branch the advisory recommends (default: display)
+    reject_procedure: str = "v1"  # "v1" (no cushion, aval do Passo 4 baseline) or "v2" (cushion, see docs)
     phase: str = "vertical"
     tdp_t: Optional[float] = None
     _v: float = 0.0
@@ -103,6 +109,13 @@ class CatATakeoff:
         sim = self.sim
         dt = max(t - self._last_t, 0.0)
         self._last_t = t
+        if self.advisor is not None and sim.sadpf is not None and sim.sadpf.detect_t is not None \
+                and getattr(self, "_advised", None) is None:
+            rec = sim.sadpf.recommendation_code
+            proc_action = self.force_action or (rec if rec in ("abortar", "prosseguir") else None)
+            self._advised = self.advisor(sim, self, proc_action) if proc_action else {}
+            if self.follow_advisory and self._advised and self._advised.get("advise"):
+                self.force_action = self._advised["advise"]
         action = _sadpf_action(sim, t)
         if action in ("abortar", "prosseguir") and self.force_action:
             action = self.force_action
@@ -125,7 +138,13 @@ class CatATakeoff:
             self._v = min(max(self._v, v_air) + self.accel * dt, 65 * KT)
             return np.array([x[0], pad.pad_y, x[2] + 1.0]), np.array([self._v + wind_x, 0.0, 1.5]), 0.0
         if self.phase == "reject":
-            vz = -1.0 if h > 3.0 else -0.3
+            if self.reject_procedure == "v2":
+                # v2 (docs/helicoptero/procedimento_abortar_v2.md): NR allowed down to 97 % before the collective
+                # is given back, cushion (slower descent command) from 5 m of skid height
+                sim.droop_ref = REJECT_V2_NR_MIN
+                vz = -1.0 if h > REJECT_V2_CUSHION_H else -0.3
+            else:
+                vz = -1.0 if h > 3.0 else -0.3
             if sim.dyn.aero(x, sim.u)[3].on_ground:
                 sim.collective_hold = sim.p.theta_min
                 if self.log[-1]["phase"] != "landed":
@@ -169,14 +188,17 @@ def evaluate_cat_a(tel, sim, vtoss_kt: Optional[float], branch: str,
     if len(airborne) == 0:
         return {**res, "safe": False, "reason": "não decolou"}
     if branch == "reject":
-        after = np.where(ground & (idx > airborne[0]))[0]
-        if len(after) == 0:
+        # the touchdown back on the deck: the landing that ends the flight, after the engine failure and after the
+        # aircraft has been airborne for 1 s (a skid bounce at lift-off is never the touchdown); see find_touchdown
+        td = find_touchdown(t, ground, vz, agl_skid, t_from=sim.fail_time, min_air_s=1.0)
+        if td is None:
             return {**res, "safe": False, "reason": "não pousou"}
-        k = after[0]
-        sink = float(-min(vz[max(k - 2, 0):k + 1]))
+        k = td["k"]
+        sink = td["sink_ms"]
+        res.update(touchdown_t=td["t"], n_bounces=td["n_bounces"])
         on_pad = pad.on_pad(x[k], y[k], margin=1.0) and abs(h_skid[k]) < 1.0
         tilt = float(np.max(np.hypot(tel.column("roll_deg"), tel.column("pitch_deg"))[k:]))
-        res.update(touchdown_sink_ms=sink, on_pad=bool(on_pad), max_tilt_after_deg=tilt,
+        res.update(touchdown_sink_ms=sink, on_pad=bool(on_pad), max_tilt_after_deg=tilt, outcome=classify_touchdown(sink),
                    min_nr_pct=float(tel.column("nr_pct")[airborne[0]:].min()))
         res["safe"] = bool(on_pad and sink <= 1.5 and tilt < 15.0)
         res["reason"] = "ok" if res["safe"] else ("fora do heliponto" if not on_pad else
@@ -379,15 +401,85 @@ class AutorotationLanding:
         return np.array([x[0], x[1], x[2]]), np.zeros(3), 0.0
 
 
-def evaluate_landing(tel) -> Dict[str, float]:
+# Touchdown outcome by vertical speed (Passo 4 approval). Thresholds:
+#  * 14 CFR 29.725(a): limit drop test from "at least 8 inches" -> sqrt(2 g 0.2032 m) = 2.0 m/s (DERIVADO; a
+#    regulatory minimum, the real gear may be designed for more)
+#  * 14 CFR 29.727: reserve energy drop "1.5 times that specified in 29.725(a)" -> 2.45 m/s (DERIVADO)
+#  * 14 CFR 29.562(b)(1): seat dynamic test, "change in downward velocity of not less than 30 feet per second"
+#    -> 9.14 m/s (DERIVADO). Treating a touchdown above it as non-survivable is ESTIMADO: 29.562 is a minimum
+#    design condition for seats, not a measured survivability limit.
+TD_LIMIT_MS = math.sqrt(2 * G0 * 8 * 0.0254)
+TD_RESERVE_MS = math.sqrt(1.5) * TD_LIMIT_MS
+TD_SEAT_MS = 30 * FT
+TOUCHDOWN_CLASSES = (
+    ("pouso", "POUSO", "dentro da queda-limite do trem (29.725(a), 8 in)"),
+    ("pouso_duro", "POUSO DURO", "acima da queda-limite, dentro da reserva de energia do trem (29.727): inspeção obrigatória"),
+    ("dano_provavel", "POUSO DURO — DANO ESTRUTURAL PROVÁVEL", "acima da reserva de energia do trem (29.727)"),
+    ("impacto", "IMPACTO — NÃO SOBREVIVÍVEL", "acima de 30 ft/s, o pulso vertical dos ensaios de assento (29.562(b)(1)); classificação ESTIMADA"),
+)
+
+
+def classify_touchdown(sink_ms: float) -> Dict[str, object]:
+    i = 0 if sink_ms <= TD_LIMIT_MS else 1 if sink_ms <= TD_RESERVE_MS else 2 if sink_ms <= TD_SEAT_MS else 3
+    code, label, why = TOUCHDOWN_CLASSES[i]
+    return {"class": code, "label": label, "why": why, "level": i, "sink_ms": float(sink_ms),
+            "thresholds_ms": {"limit_29_725": TD_LIMIT_MS, "reserve_29_727": TD_RESERVE_MS, "seat_29_562": TD_SEAT_MS}}
+
+
+def find_touchdown(t, ground, vz, agl_skid, t_from: Optional[float] = None, min_air_s: float = 1.0,
+                   bounce_gap_s: float = 2.0, bounce_height_m: float = 1.5) -> Optional[Dict[str, object]]:
+    """The touchdown that ends the flight (correction of the aval do Passo 4).
+
+    Contacts are the air -> ground transitions. The landing is the LAST contact of the record (the one before the
+    aircraft stops) together with the bounces just before it: a previous contact belongs to the same landing when
+    the aircraft was back in the air for at most `bounce_gap_s` and never higher than `bounce_height_m`. The first
+    contact of that landing must come after `t_from` (e.g. the engine failure) and after the aircraft has been
+    airborne for at least `min_air_s` (so a skid bounce at lift-off is never taken as the touchdown). The sink
+    rate is the largest among the contacts of the landing. Returns None when there is no such touchdown."""
+    t, ground, vz, agl_skid = (np.asarray(a) for a in (t, ground, vz, agl_skid))
+    ground = ground.astype(bool)
+    n = len(t)
+    if n < 2:
+        return None
+    dt = float(np.median(np.diff(t)))
+    n_air = max(int(round(min_air_s / dt)), 1)
+    contacts = [k for k in range(1, n) if ground[k] and not ground[k - 1]]
+
+    def valid_first(k):
+        return (t_from is None or t[k] >= t_from) and k >= n_air and not ground[k - n_air:k].any()
+
+    if not contacts:
+        return None
+    seq = [contacts[-1]]
+    for j in reversed(contacts[:-1]):
+        nxt = seq[0]
+        lift = j + int(np.argmax(~ground[j:nxt])) if (~ground[j:nxt]).any() else nxt  # leaves the ground again
+        gap_s = t[nxt] - t[lift]
+        if gap_s <= bounce_gap_s and float(np.max(agl_skid[lift:nxt], initial=0.0)) <= bounce_height_m:
+            seq.insert(0, j)
+        else:
+            break
+    while seq and not valid_first(seq[0]):  # e.g. the lift-off bounce: not part of the landing
+        seq.pop(0)
+    if not seq:
+        return None
+    sinks = [float(-min(vz[max(k - 2, 0):k + 1])) for k in seq]
+    i = int(np.argmax(sinks))
+    return {"k": seq[0], "k_last": seq[-1], "contacts": seq, "t": float(t[seq[0]]), "t_last": float(t[seq[-1]]),
+            "sink_ms": max(sinks), "k_max": seq[i], "n_bounces": len(seq) - 1}
+
+
+def evaluate_landing(tel, t_from: Optional[float] = None, min_air_s: float = 1.0) -> Dict[str, float]:
+    """The touchdown that ends the flight (see find_touchdown)."""
     t, vz, vx, vy = (tel.column(k) for k in ("t", "vz", "vx", "vy"))
-    ground = tel.column("on_ground") > 0
-    air = np.where(~ground)[0]
-    after = np.where(ground & (np.arange(len(t)) > (air[0] if len(air) else 0)))[0]
-    if len(after) == 0:
+    ground, agl = tel.column("on_ground") > 0, tel.column("agl")
+    agl_skid = agl - (float(np.median(agl[ground])) if ground.any() else 0.0)  # height of the skids above ground
+    td = find_touchdown(t, ground, vz, agl_skid, t_from=t_from, min_air_s=min_air_s)
+    if td is None:
         return {"landed": False}
-    k = after[0]
-    return {"landed": True, "touchdown_t": float(t[k]), "touchdown_sink_ms": float(-min(vz[max(k - 2, 0):k + 1])),
+    k, sink = td["k"], td["sink_ms"]
+    return {"landed": True, "touchdown_t": td["t"], "touchdown_sink_ms": sink, "outcome": classify_touchdown(sink),
+            "n_bounces": td["n_bounces"], "final_contact_t": td["t_last"],
             "touchdown_pitch_up_deg": float(-tel.column("pitch_deg")[k]),
             "touchdown_ground_speed_ms": float(np.hypot(vx[k], vy[k])),
             "max_tilt_after_deg": float(np.max(np.hypot(tel.column("roll_deg"), tel.column("pitch_deg"))[k:]))}

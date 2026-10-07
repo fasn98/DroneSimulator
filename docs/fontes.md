@@ -27,6 +27,7 @@ Todas as URLs foram abertas e conferidas em 04/10/2026. Valores sem fonte públi
 | Portaria GM/MS nº 2.048/2002 (vigente como ato próprio; ver abaixo) | lista de equipamentos da aeronave de transporte médico de asa rotativa | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2002/prt2048_05_11_2002.html |
 | ANAC — RBAC nº 91, Emenda 08 (02/10/2026), 91.151(b) | **reserva padrão**: helicóptero VFR, combustível até o primeiro pouso previsto + 20 min no consumo normal de cruzeiro (texto citado em docs/helicoptero-uti.md) | https://pergamum.anac.gov.br/pergamum/vinculos/RBAC91EMD08.pdf |
 | ANAC — RBAC nº 135, Emenda 15 (vigência 09/01/2026) | a seção "135.209 Autonomia para voo VFR" consta do índice da Subparte D, mas o texto não pôde ser lido (o conteúdo recebido termina na 135.128; o download pela linha de comando foi bloqueado pela rede do ambiente): **lacuna** | https://pergamum.anac.gov.br/arquivos/RBAC135EMD15.pdf |
+| RBAC nº 135, Emenda 13, cópia secundária no Scribd (informada pelo autor do projeto; não lida por mim; URL não registrada) | **indício, não fonte confirmada**: 135.209(b) exigiria, para helicóptero VFR, combustível até o destino + 20 min no consumo normal de cruzeiro. Não usado como fonte de parâmetro; aguarda o PDF oficial da Emenda 15 | — |
 | 14 CFR 135.209(b) (texto via LII/Cornell; o eCFR recusou a conexão) | comparação: reserva VFR de helicóptero de 20 min no consumo normal de cruzeiro | https://www.law.cornell.edu/cfr/text/14/135.209 |
 | Reg. (UE) 965/2012, Anexo V, SPA.HEMS.125(c) e GM1 SPA.HEMS.125(c)(3) (EASA Easy Access Rules, versão desde 25/05/2024) | classe de desempenho em hospital e em local de operação HEMS; citações curtas em docs/helicoptero-uti.md | https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations?page=50 |
 | Reg. (UE) 965/2012, Anexo I, definições (85) e (86), texto original de 2012 | definições das classes de desempenho 1 e 2 | https://www.legislation.gov.uk/eur/2012/965/annexes/adopted/data.xht?view=snippet&wrap=true |
@@ -34,6 +35,12 @@ Todas as URLs foram abertas e conferidas em 04/10/2026. Valores sem fonte públi
 | ANAC — RBAC nº 90, Emenda 02 | não menciona classe de desempenho; 90.301 trata de pouso e decolagem em local não cadastrado | https://pergamum.anac.gov.br/pergamum/vinculos/RBAC90EMD02.pdf |
 | Ministério da Saúde — SAMU 192, legislação | Portaria nº 2.048/2002 listada como ato próprio, ao lado das Portarias de Consolidação nº 3 e nº 6/2017 (conferido em 04/10/2026) | https://www.gov.br/saude/pt-br/composicao/saes/samu-192/legislacao |
 | Ministério da Saúde — matriz da Portaria de Consolidação nº 3/2017 | não inclui a Portaria 2.048/2002 entre as normas consolidadas | https://bvsms.saude.gov.br/bvs/saudelegis/gm/2017/MatrizesConsolidacao/Matriz-3-Redes.html |
+
+## Ferramentas (Passo 4)
+
+| Fonte | Uso | URL |
+|---|---|---|
+| three.js r179 (licença MIT, cópia local em `web/heli/vendor/`) | renderização 3D das cenas do HUD; não fornece nenhum dado do modelo | https://github.com/mrdoob/three.js |
 
 ## Teoria e critérios
 

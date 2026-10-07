@@ -186,6 +186,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2548.5,
      "return_takeoff_mass_kg": 2368.957471417846,
+     "return_takeoff_mass_max_kg": 2600.702006391135,
+     "site_limit_kg": 2906.875,
+     "site_note": "combustível máximo a bordo ao decolar do local: 838 kg (missões curtas exigem abastecer menos na origem)",
+     "site_fuel_max_kg": 838.375,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.14654719633947,
@@ -244,6 +249,13 @@
       "margin_aft_mm": 154.549856071857,
       "margin_lat_mm": 62.34136472319294,
       "inside": true
+     },
+     "tdp17": {
+      "radius_nm": 140.771484375,
+      "site_fuel_max_kg": 862.75,
+      "site_min_radius_full_fuel_nm": 0.0,
+      "aux_radius_nm": 191.748046875,
+      "aux_fuel_limited_by": "tanque"
      }
     },
     "transferencia": {
@@ -256,6 +268,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2288.219745493827,
+     "return_takeoff_mass_max_kg": 2520.2714448713955,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.23696244342835,
@@ -326,6 +343,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2368.702211258482,
+     "return_takeoff_mass_max_kg": 2600.2715300821096,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.478515625,
      "radius_km": 260.1662109375,
      "flight_time_min": 177.809391670784,
@@ -386,7 +408,9 @@
       "inside": true
      }
     }
-   }
+   },
+   "site_limit_tdp12_kg": 2906.875,
+   "site_limit_tdp17_kg": 2931.25
   },
   {
    "condition": "nível do mar, ISA+20",
@@ -406,6 +430,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2548.5,
      "return_takeoff_mass_kg": 2368.957471417846,
+     "return_takeoff_mass_max_kg": 2600.702006391135,
+     "site_limit_kg": 2833.75,
+     "site_note": "combustível máximo a bordo ao decolar do local: 765 kg (missões curtas exigem abastecer menos na origem)",
+     "site_fuel_max_kg": 765.25,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.14654719633947,
@@ -464,6 +493,13 @@
       "margin_aft_mm": 154.549856071857,
       "margin_lat_mm": 62.34136472319294,
       "inside": true
+     },
+     "tdp17": {
+      "radius_nm": 140.771484375,
+      "site_fuel_max_kg": 814.0,
+      "site_min_radius_full_fuel_nm": 0.0,
+      "aux_radius_nm": 191.748046875,
+      "aux_fuel_limited_by": "tanque"
      }
     },
     "transferencia": {
@@ -476,6 +512,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2288.219745493827,
+     "return_takeoff_mass_max_kg": 2520.2714448713955,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.23696244342835,
@@ -546,6 +587,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2368.702211258482,
+     "return_takeoff_mass_max_kg": 2600.2715300821096,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.478515625,
      "radius_km": 260.1662109375,
      "flight_time_min": 177.809391670784,
@@ -606,7 +652,9 @@
       "inside": true
      }
     }
-   }
+   },
+   "site_limit_tdp12_kg": 2833.75,
+   "site_limit_tdp17_kg": 2882.5
   },
   {
    "condition": "1.000 m, ISA+20",
@@ -626,6 +674,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2548.5,
      "return_takeoff_mass_kg": 2368.957471417846,
+     "return_takeoff_mass_max_kg": 2600.702006391135,
+     "site_limit_kg": 2663.125,
+     "site_note": "combustível máximo a bordo ao decolar do local: 595 kg (missões curtas exigem abastecer menos na origem)",
+     "site_fuel_max_kg": 594.625,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.14654719633947,
@@ -684,6 +737,13 @@
       "margin_aft_mm": 154.549856071857,
       "margin_lat_mm": 62.34136472319294,
       "inside": true
+     },
+     "tdp17": {
+      "radius_nm": 140.771484375,
+      "site_fuel_max_kg": 619.0,
+      "site_min_radius_full_fuel_nm": 0.0,
+      "aux_radius_nm": 191.748046875,
+      "aux_fuel_limited_by": "tanque"
      }
     },
     "transferencia": {
@@ -696,6 +756,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2288.219745493827,
+     "return_takeoff_mass_max_kg": 2520.2714448713955,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.23696244342835,
@@ -766,6 +831,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2368.702211258482,
+     "return_takeoff_mass_max_kg": 2600.2715300821096,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.478515625,
      "radius_km": 260.1662109375,
      "flight_time_min": 177.809391670784,
@@ -826,7 +896,9 @@
       "inside": true
      }
     }
-   }
+   },
+   "site_limit_tdp12_kg": 2663.125,
+   "site_limit_tdp17_kg": 2687.5
   },
   {
    "condition": "1.500 m, ISA+25",
@@ -846,6 +918,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2548.5,
      "return_takeoff_mass_kg": 2368.957471417846,
+     "return_takeoff_mass_max_kg": 2600.702006391135,
+     "site_limit_kg": 2516.875,
+     "site_note": "combustível máximo a bordo ao decolar do local: 448 kg (missões curtas exigem abastecer menos na origem)",
+     "site_fuel_max_kg": 448.375,
+     "site_min_radius_full_fuel_nm": 50.862548500299454,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.14654719633947,
@@ -904,6 +981,13 @@
       "margin_aft_mm": 170.09310348211147,
       "margin_lat_mm": 60.84150131484581,
       "inside": true
+     },
+     "tdp17": {
+      "radius_nm": 140.771484375,
+      "site_fuel_max_kg": 472.75,
+      "site_min_radius_full_fuel_nm": 36.064960062503815,
+      "aux_radius_nm": 160.546875,
+      "aux_fuel_limited_by": "massa Cat A"
      }
     },
     "transferencia": {
@@ -916,6 +1000,11 @@
      "fuel_limited_by": "massa Cat A",
      "takeoff_mass_kg": 2614.375,
      "return_takeoff_mass_kg": 2280.9767307827874,
+     "return_takeoff_mass_max_kg": 2506.222997876337,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 136.669921875,
      "radius_km": 253.1126953125,
      "flight_time_min": 174.1871636622759,
@@ -986,6 +1075,11 @@
      "fuel_limited_by": "massa Cat A",
      "takeoff_mass_kg": 2614.375,
      "return_takeoff_mass_kg": 2361.7000837358596,
+     "return_takeoff_mass_max_kg": 2586.2230831536003,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 136.23046875,
      "radius_km": 252.298828125,
      "flight_time_min": 172.59716252122405,
@@ -1046,7 +1140,9 @@
       "inside": true
      }
     }
-   }
+   },
+   "site_limit_tdp12_kg": 2516.875,
+   "site_limit_tdp17_kg": 2541.25
   },
   {
    "condition": "1.500 m, ISA+25, proa 8 m/s",
@@ -1066,6 +1162,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2548.5,
      "return_takeoff_mass_kg": 2368.957471417846,
+     "return_takeoff_mass_max_kg": 2600.702006391135,
+     "site_limit_kg": 2736.25,
+     "site_note": "combustível máximo a bordo ao decolar do local: 668 kg (missões curtas exigem abastecer menos na origem)",
+     "site_fuel_max_kg": 667.75,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.14654719633947,
@@ -1124,6 +1225,13 @@
       "margin_aft_mm": 154.549856071857,
       "margin_lat_mm": 62.34136472319294,
       "inside": true
+     },
+     "tdp17": {
+      "radius_nm": 140.771484375,
+      "site_fuel_max_kg": 716.5,
+      "site_min_radius_full_fuel_nm": 0.0,
+      "aux_radius_nm": 191.748046875,
+      "aux_fuel_limited_by": "tanque"
      }
     },
     "transferencia": {
@@ -1136,6 +1244,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2288.219745493827,
+     "return_takeoff_mass_max_kg": 2520.2714448713955,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.771484375,
      "radius_km": 260.7087890625,
      "flight_time_min": 179.23696244342835,
@@ -1206,6 +1319,11 @@
      "fuel_limited_by": "tanque",
      "takeoff_mass_kg": 2628.5,
      "return_takeoff_mass_kg": 2368.702211258482,
+     "return_takeoff_mass_max_kg": 2600.2715300821096,
+     "site_limit_kg": null,
+     "site_note": "",
+     "site_fuel_max_kg": null,
+     "site_min_radius_full_fuel_nm": 0.0,
      "radius_nm": 140.478515625,
      "radius_km": 260.1662109375,
      "flight_time_min": 177.809391670784,
@@ -1266,7 +1384,9 @@
       "inside": true
      }
     }
-   }
+   },
+   "site_limit_tdp12_kg": 2736.25,
+   "site_limit_tdp17_kg": 2785.0
   }
  ]
 }

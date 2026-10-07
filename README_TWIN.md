@@ -38,7 +38,27 @@ To regenerate: `python tools/twin_validation_report.py`
 
 ## Verification (`tests/test_physics_core.py`, 18 tests; `tests/test_web_session.py` covers Phase 2)
 
-The tests run with `python -m pytest tests/ -v` or `python -m unittest discover -s tests -t . -v`, and in CI through `.github/workflows/twin-tests.yml`. They check:
+The tests run with `python -m pytest tests/ -v` or `python -m unittest discover -s tests -t . -v`, and in CI through `.github/workflows/twin-tests.yml`.
+
+> **CI.** O workflow `.github/workflows/twin-tests.yml` roda a suíte completa (física, drone, helicóptero, rota `/heli/`)
+> e um teste de fumaça do HUD do helicóptero num Chromium sem tela, contra o servidor Flask completo. O número de
+> testes aprovados aparece como anotação ("Resultado dos testes") em cada execução. [#20 (PR #6)](https://github.com/fasn98/DroneSimulator/actions/runs/37259802968) e [#21 (PR #7)](https://github.com/fasn98/DroneSimulator/actions/runs/37307459563) passaram depois que o repositório ficou público.
+
+### Rodar localmente o servidor completo e o HUD do helicóptero
+
+```bash
+pip install "numpy>=2.0" "scipy>=1.11" flask flask-socketio flask-sqlalchemy opencv-python-headless pillow
+DATABASE_URL=sqlite:///twin.db python simulation_server.py     # sem PostgreSQL: SQLite local
+# abra http://localhost:5000/ (drone) e http://localhost:5000/heli/ (helicóptero UTI)
+
+# só o HUD do helicóptero, sem o servidor: qualquer servidor estático na pasta
+python -m http.server -d web/heli 8000                          # http://localhost:8000/
+
+# teste de fumaça do HUD num navegador sem tela (precisa de: pip install playwright; python -m playwright install chromium)
+python -m tools.heli_hud_smoke                                   # ou --url http://127.0.0.1:5000/heli/
+```
+
+They check:
 
 - Free fall matches g on Earth, Mars and the Moon (to 10⁻⁶ m).
 - A torque-free asymmetric tumble conserves energy and angular momentum (relative error < 10⁻⁶), and the quaternion norm stays at 1 (to 10⁻⁹).
