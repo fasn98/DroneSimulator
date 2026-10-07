@@ -4,9 +4,9 @@
 >
 > O modelo é genérico, sem marca, logotipo ou pintura de fabricante. "Classe H135" indica apenas a ordem de grandeza da aeronave de referência, cujos dados públicos foram usados.
 
-Estado atual: **Passos 0 a 3 aprovados. O Passo 4 (HUD e cenas do Template A) está concluído e aguarda aval.** Depois dele vem o Template B (classe UH-60), conforme o roteiro.
+Estado atual: **Passos 0 a 3 aprovados. Passo 4 aprovado com correções; as correções (toque, recálculo v1/v2, HUD) estão concluídas e aguardam aval.** Depois dele vem o Template B (classe UH-60), conforme o roteiro.
 
-> **Estado do CI.** A última execução verde do GitHub Actions é a [#13](https://github.com/fasn98/DroneSimulator/actions/runs/37230157317). Da #14 em diante o GitHub não inicia os jobs por pendência de cobrança da conta (não é falha de código). Suíte local: **92/92 na entrega do Passo 3**; **100/100** na entrega do Passo 4.
+> **CI.** A suíte completa e o teste de fumaça do HUD rodam no GitHub Actions a cada PR (ver o README_TWIN.md). [#20 (PR #6)](https://github.com/fasn98/DroneSimulator/actions/runs/37259802968) e [#21 (PR #7)](https://github.com/fasn98/DroneSimulator/actions/runs/37307459563) passaram depois que o repositório ficou público.
 
 ## Como rodar
 
@@ -225,6 +225,8 @@ Tempos de detecção medidos: **~0,7 s** para falha de um motor e **~1,7–2,0 s
 
 ### Cenário 3: Categoria A em heliponto elevado (DEMO)
 
+> **Errata (05/10/2026, aval do Passo 4).** Os números desta seção foram calculados com um erro de código: o toque do ramo abortar era o quique dos esquis na decolagem, e não o pouso de volta depois da falha. Ficam aqui como registro histórico, **inválidos**. Os valores corrigidos, com o procedimento de abortar v1 (sem amortecimento) e v2 (com amortecimento), estão em [Recálculo após a correção do toque](#recálculo-após-a-correção-do-toque-aval-do-passo-4).
+
 **Configuração** (`CatAConfig`):
 - deck de 20 m × 20 m a 30 m acima da rua (ESTIMADO);
 - TDP a 12 m de altura dos esquis acima do deck (ESTIMADO, configurável);
@@ -346,6 +348,8 @@ Os dois motores param em t = 2 s, a 300 m, MTOW, ISA. O piloto só reage depois 
 ![Autorrotação](helicoptero/autorrotacao.png)
 
 ### Falha em torno do TDP (ajuste 3)
+
+> **Errata (05/10/2026, aval do Passo 4).** Os números desta seção foram calculados com um erro de código: o toque do ramo abortar era o quique dos esquis na decolagem, e não o pouso de volta depois da falha. Ficam aqui como registro histórico, **inválidos**. Os valores corrigidos, com o procedimento de abortar v1 (sem amortecimento) e v2 (com amortecimento), estão em [Recálculo após a correção do toque](#recálculo-após-a-correção-do-toque-aval-do-passo-4).
 
 **Convenção padrão (mantida)**:
 - a decisão vale no instante em que o SADPF **reconhece** a falha;
@@ -473,6 +477,8 @@ A deriva mudou a física em voo à frente, então a validação e os cenários f
 
 ## Sensibilidade do antitorque (decisões 1 e 3 do aval do Passo 2)
 
+> **Errata (05/10/2026, aval do Passo 4).** As massas Categoria A desta seção (parte B; as potências e o arrasto da parte A não mudam) foram calculadas com um erro de código: o toque do ramo abortar era o quique dos esquis na decolagem, e não o pouso de volta depois da falha. Ficam aqui como registro histórico, **inválidas**. Os valores corrigidos, com o procedimento de abortar v1 (sem amortecimento) e v2 (com amortecimento), estão em [Recálculo após a correção do toque](#recálculo-após-a-correção-do-toque-aval-do-passo-4).
+
 **Deriva (decisão 1)**:
 - A incidência de 6° foi aprovada como ESTIMADO. A área é a da "small fin" do EC135 original (Kampa et al., ERF 1997).
 - Variei a parcela do antitorque que a deriva assume a 136 kt de 20 % a 60 %. Em cada caso a incidência foi resolvida para essa parcela e a área de arrasto foi **recalibrada pelo mesmo critério** (136 kt na potência máxima contínua AEO).
@@ -596,6 +602,8 @@ Código: `src/physics/helicopter/mission.py`. Relatório: `tools/heli_step3_repo
 
 ### Decolagem do local de resgate (perfil Resgate, decolagem de volta com o paciente)
 
+> **Errata (05/10/2026, aval do Passo 4).** Os números desta seção foram calculados com um erro de código: o toque do ramo abortar era o quique dos esquis na decolagem, e não o pouso de volta depois da falha. Ficam aqui como registro histórico, **inválidos**. Os valores corrigidos, com o procedimento de abortar v1 (sem amortecimento) e v2 (com amortecimento), estão em [Recálculo após a correção do toque](#recálculo-após-a-correção-do-toque-aval-do-passo-4).
+
 Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_report.py`, que gera `docs/helicoptero/local_resgate.json` e `local_resgate.png`.
 
 **Hipóteses**:
@@ -639,6 +647,8 @@ Código: `scenarios.rescue_site_takeoff`. Relatório: `tools/heli_rescue_site_re
 
 #### Massa máxima de decolagem do local de resgate (padrão: TDP 12 m)
 
+> **Errata (05/10/2026, aval do Passo 4).** Os números desta seção foram calculados com um erro de código: o toque do ramo abortar era o quique dos esquis na decolagem, e não o pouso de volta depois da falha. Ficam aqui como registro histórico, **inválidos**. Os valores corrigidos, com o procedimento de abortar v1 (sem amortecimento) e v2 (com amortecimento), estão em [Recálculo após a correção do toque](#recálculo-após-a-correção-do-toque-aval-do-passo-4).
+
 Código: `scenarios.rescue_site_max_mass`. Relatório: `tools/heli_step3c_report.py A`, que gera `docs/helicoptero/passo3c_resultados.json`.
 
 - **Critério**: a mesma bisseção da massa máxima Categoria A (tolerância de 25 kg), no local plano com o critério literal do 29.59(c). Com o procedimento como voado:
@@ -679,6 +689,8 @@ Código: `scenarios.rescue_site_max_mass`. Relatório: `tools/heli_step3c_report
   - **Lacuna registrada.**
 
 ### Previsão de ramos: função consultiva do SADPF (CONSULTIVO · conceitual · não certificado)
+
+> **Errata (05/10/2026, aval do Passo 4).** Os números desta seção foram calculados com um erro de código: o toque do ramo abortar era o quique dos esquis na decolagem, e não o pouso de volta depois da falha. Ficam aqui como registro histórico, **inválidos**. Os valores corrigidos, com o procedimento de abortar v1 (sem amortecimento) e v2 (com amortecimento), estão em [Recálculo após a correção do toque](#recálculo-após-a-correção-do-toque-aval-do-passo-4).
 
 Código: `src/physics/helicopter/advisory.py` (`BranchPredictor`), ligado ao `CatATakeoff` (`cat_a_run(..., advisory=True)`). Relatório: `tools/heli_step3c_report.py B`.
 
@@ -748,6 +760,8 @@ Código: `src/physics/helicopter/advisory.py` (`BranchPredictor`), ligado ao `Ca
 ![Envelope de CG](helicoptero/cg_envelope.png)
 
 ### Combustível máximo e raio de ação em cada condição Categoria A
+
+> **Errata (05/10/2026, aval do Passo 4).** Os números desta seção foram calculados com um erro de código: o toque do ramo abortar era o quique dos esquis na decolagem, e não o pouso de volta depois da falha. Ficam aqui como registro histórico, **inválidos**. Os valores corrigidos, com o procedimento de abortar v1 (sem amortecimento) e v2 (com amortecimento), estão em [Recálculo após a correção do toque](#recálculo-após-a-correção-do-toque-aval-do-passo-4).
 
 **Separação dos efeitos** (decisão do aval do Passo 3):
 - A **condição de decolagem Categoria A** define **só o combustível embarcável**: o menor entre (massa máxima Cat A − massa sem combustível na decolagem) e a capacidade do tanque.
@@ -860,12 +874,12 @@ Página: `web/heli/` (rota `/heli/` do `simulation_server.py`, ou qualquer servi
 
 | Cena | Conteúdo | Capturas |
 |---|---|---|
-| (a) Categoria A, heliponto elevado, falha de motor | 1.500 m, ISA+25, 2.614 kg (massa máxima Cat A com G = 1,26). Os dois ramos, cada um uma execução do Twin: abortar (falha 3 m antes do TDP) e prosseguir (falha 0,5 s depois do TDP). Painel Cat A: massa máxima **como faixa 2.590–2.614 kg (duto G 1,15–1,26)**; critério 29.60 (padrão do modelo) com o **29.59(c) literal ao lado** (2.517 kg), cada um com o resultado do mesmo voo; profundidade da descida abaixo do deck (agora e máxima); margens OEI 30 s no pairado e OEI 2 min na VTOSS; cronômetro OEI e torque por motor. | `heli_a1_categoria_a_abortar.png`, `heli_a2_categoria_a_prosseguir_abaixo_do_deck.png`, `heli_a3_categoria_a_prosseguir_vtoss.png` |
-| (b) Alerta consultivo da previsão de ramos | Local de resgate, 1.500 m, ISA+25, 2.601 kg, falha 0,5 m acima do TDP. A cena diz que a massa está acima do limite do local (2.517 kg) e que é um caso de demonstração. O alerta tem moldura e cor próprias (âmbar), diferentes do SADPF (vermelho), com o rótulo **"CONSULTIVO · conceitual · não certificado"**, os dois ramos previstos e o **tempo de cálculo medido** naquela falha. Duas execuções: o procedimento como padrão (prosseguir, toca o solo) e o piloto seguindo o alerta (abortar, seguro). | `heli_b1_previsao_alerta.png`, `heli_b2_previsao_alerta_seguido.png` |
+| (a) Categoria A, heliponto elevado, falha de motor | 1.500 m, ISA+25, **2.373 kg** (massa máxima Cat A com G = 1,26 e o abortar v2, padrão; atualizado em 05/10/2026 após a correção do toque). Três execuções do Twin: abortar v2 (falha 3 m antes do TDP; toque a 1,3 m/s), prosseguir (falha 0,5 s depois do TDP) e abortar v1 na mesma massa como referência conservadora (toque a 1,9 m/s: reprovado pelo critério de 1,5 m/s, embora abaixo do limite estrutural de 2,0 m/s). Painel Cat A: massa máxima **como faixa 2.356–2.373 kg (duto G 1,15–1,26)**, com o v1 ao lado (2.322–2.339 kg); critério 29.60 com o **29.59(c) literal ao lado**; profundidade da descida abaixo do deck; margens OEI; cronômetro OEI e torque por motor. | `heli_a1_categoria_a_abortar.png`, `heli_a1b_categoria_a_abortar_v1_referencia.png`, `heli_a2_categoria_a_prosseguir.png`, `heli_a3_categoria_a_prosseguir_vtoss.png` |
+| (b) Alerta consultivo da previsão de ramos | Atualizado em 05/10/2026: o caso é o primeiro alerta do local de resgate na conferência dos 130 casos com o abortar v2. Local de resgate, 1.000 m, ISA+20, 2.601 kg, falha 5 m abaixo do TDP: o procedimento indica abortar, que toca a 2,4 m/s; prosseguir é seguro. A cena diz que a massa está acima do limite do local (2.508 kg) e que é um caso de demonstração. O alerta tem moldura e cor próprias (âmbar), diferentes do SADPF (vermelho), com o rótulo **"CONSULTIVO · conceitual · não certificado"**, os dois ramos previstos e o **tempo de cálculo medido** naquela falha. Duas execuções: o procedimento como padrão (abortar, reprovado) e o piloto seguindo o alerta (prosseguir, seguro). | `heli_b1_previsao_alerta.png`, `heli_b2_previsao_alerta_seguido.png` |
 | (c) Autorrotação: vertical × com velocidade à frente | Tela dividida, falha dos dois motores a 300 m (2.980 kg, nível do mar ISA). Razão de descida ao vivo e em regime (Twin e teoria): 22,6 × 9,9 m/s. Toque: 19,6 m/s na vertical (impacto) × 1,2 m/s com 29 kt no solo à frente. A **limitação do flare** fica escrita na cena. | `heli_c1_autorrotacao_descida.png`, `heli_c2_autorrotacao_toque.png` |
 | (d) Painel de missão | Seleção de perfil (Resgate, Transferência, Conservador) e de condição. Mostra combustível e o que o limita, raio de ação (com G 1,15 quando difere), tempo de voo e reserva, decolagens de volta, **massa máxima no local de resgate (TDP 12 m; 17 m)**, combustível máximo no local e a **restrição de distância mínima** (≥ 51 NM com tanque cheio a 1.500 m ISA+25; 36 NM com TDP de 17 m). | `heli_d_painel_missao.png` |
 
-![Categoria A, prosseguir: descida abaixo do deck](screenshots/heli_a2_categoria_a_prosseguir_abaixo_do_deck.png)
+![Categoria A, abortar v2 (padrão)](screenshots/heli_a1_categoria_a_abortar.png)
 ![Previsão de ramos: alerta consultivo](screenshots/heli_b1_previsao_alerta.png)
 ![Autorrotação: vertical × com velocidade à frente](screenshots/heli_c1_autorrotacao_descida.png)
 
@@ -902,6 +916,162 @@ python simulation_server.py            # e abra http://localhost:5000/heli/ (cen
 1. **Tempo da previsão em paralelo**: máximo medido de 0,94 s, contra a estimativa de 0,72 s (ver acima). Cabe em 1 s nos 130 casos, mas com só ~6 % de folga no pior caso. Se quiser mais folga, o caminho é limitar o horizonte do ramo que o procedimento não indica, ou usar passo adaptativo na descida longa do abortar.
 2. **Capturas**: 8 imagens em `docs/screenshots/`, incluindo duas a mais que o pedido (a3 e d). Diga se quer outros instantes ou enquadramentos.
 3. **Próximo passo**: Template B (classe UH-60), conforme o roteiro.
+
+## Correções do aval do Passo 4
+
+### Achado: o toque do ramo abortar era medido no contato errado (erro de código, corrigido)
+
+- **O erro.** Em `procedures.evaluate_cat_a`, o toque do ramo abortar era o *primeiro contato com o solo depois de a aeronave sair do chão*. Na decolagem, os esquis quicam uma vez (≈ 0,3 s). Esse quique era tomado como o "toque", com ~0,2 m/s. O toque real, de volta ao deck depois da falha, nunca era avaliado.
+- **Correção.** O toque passa a ser o primeiro contato depois de a aeronave ficar 1 s no ar e depois da falha do motor.
+- **Efeito.** Com a correção, o ramo abortar **na massa máxima Cat A** toca o deck a **3,3 a 4,0 m/s** nas 5 condições, acima do critério do modelo (≤ 1,5 m/s).
+  - Avaliação rápida (`tools/heli_reject_touchdown_check.py`, 4 massas por condição): o abortar volta a ser seguro só **150 a 300 kg abaixo** das massas aprovadas.
+  - Nível do mar ISA: seguro a 2.680 kg, inseguro a 2.830 kg.
+  - 1.500 m ISA+25: seguro a 2.314 kg, inseguro a 2.464 kg.
+- **O que fica invalidado até o recálculo**: as massas máximas Cat A (Passo 2b), a faixa G 1,15–1,26, a massa máxima no local de resgate, o combustível e o raio limitados por massa, as varreduras em torno do TDP e a "verdade" da varredura da previsão de ramos. Todos usaram o mesmo avaliador.
+- **4 testes** (`test_mass_limit_hot_and_high`, `test_decision_is_taken_at_recognition` e dois da previsão de ramos) falham com o avaliador corrigido, porque conferem números antigos.
+- **Decisão pendente**: ver o resumo da entrega.
+
+### Recálculo após a correção do toque (aval do Passo 4)
+
+- **Data:** 05/10/2026.
+- **Regra do toque**, a mesma em todos os ramos, em `procedures.find_touchdown`:
+  - (i) depois da falha;
+  - (ii) depois de a aeronave ter estado no ar por pelo menos 1 s;
+  - (iii) é o pouso que encerra o voo: o último contato antes da parada, junto com os quiques logo antes dele (no ar por ≤ 2 s, a ≤ 1,5 m), e vale a maior razão de descida entre eles.
+- **Testes de lógica:** `tests/test_helicopter_touchdown.py` tem 6 testes, incluindo um caso construído em que a regra antiga dá o resultado errado (0,2 m/s no lugar de 4,0 m/s).
+- **Duas versões do procedimento de abortar**, calculadas com `tools/heli_reject_recalc.py`:
+  - **v1 (sem amortecimento):** o procedimento original;
+  - **v2 (com amortecimento):** definido e versionado antes de rodar, em [procedimento_abortar_v2.md](helicoptero/procedimento_abortar_v2.md).
+- **Critérios de sucesso iguais nas duas**: toque ≤ 1,5 m/s (margem operacional, ESTIMADO) e sem tombamento. O limite estrutural de certificação, 2,0 m/s ([14 CFR 29.725(a)](https://www.ecfr.gov/current/title-14/section-29.725)), é o que separa "pouso" de "pouso duro" na classificação do toque; os dois coexistem.
+- Tabelas geradas por `tools/heli_reject_report.py`, a partir de `recalculo_abortar_v1.json`, `recalculo_abortar_v2.json` e dos resultados antigos (inválidos). A comparação completa fica em `recalculo_abortar_comparacao.json`.
+
+<!-- RECALC:BEGIN (gerado por tools/heli_reject_report.py) -->
+**1. Massa máxima Categoria A** (heliponto elevado, kg). Faixa = G 1,15–1,26 (duto do Fenestron). Entre parênteses, a diferença do limite superior para o número antigo.
+
+| Condição | Antigo, 29.60 (inválido) | Antigo, literal 29.59(c) (inválido) | v1: 29.60 | v1: literal 29.59(c) | v1: limitado por | v2: 29.60 | v2: literal 29.59(c) | v2: limitado por |
+|---|---|---|---|---|---|---|---|---|
+| nível do mar, ISA | 2.980–2.980 | 2.907 | **2.727–2.761** (-219) | 2.761 (-146) | abortar | **2.761–2.794** (-186) | 2.794 (-112) | abortar |
+| nível do mar, ISA+20 | 2.907–2.931 | 2.834 | **2.659–2.693** (-238) | 2.693 (-141) | abortar | **2.693–2.727** (-204) | 2.727 (-107) | abortar |
+| 1.000 m, ISA+20 | 2.736–2.761 | 2.663 | **2.457–2.474** (-287) | 2.474 (-189) | abortar | **2.474–2.508** (-253) | 2.508 (-156) | abortar |
+| 1.500 m, ISA+25 | 2.590–2.614 | 2.517 | **2.322–2.339** (-276) | 2.339 (-178) | abortar | **2.356–2.372** (-242) | 2.372 (-144) | abortar |
+| 1.500 m, ISA+25, proa 8 m/s | 2.761–2.809 | 2.736 | **2.508–2.524** (-285) | 2.524 (-212) | abortar | **2.541–2.558** (-251) | 2.558 (-178) | abortar |
+
+**2. Massa máxima de decolagem do local de resgate** (kg; TDP 12 m, padrão, e 17 m, sensibilidade)
+
+| Condição | Antigo TDP 12 (17) (inválido) | v1: TDP 12 (17) | v2: TDP 12 (17) |
+|---|---|---|---|
+| nível do mar, ISA | 2.907 (2.931) | **2.761** (2.744) [-146] | **2.794** (2.778) [-112] |
+| nível do mar, ISA+20 | 2.834 (2.882) | **2.693** (2.676) [-141] | **2.727** (2.710) [-107] |
+| 1.000 m, ISA+20 | 2.663 (2.688) | **2.474** (2.474) [-189] | **2.508** (2.491) [-156] |
+| 1.500 m, ISA+25 | 2.517 (2.541) | **2.339** (2.339) [-178] | **2.372** (2.356) [-144] |
+| 1.500 m, ISA+25, proa 8 m/s | 2.736 (2.785) | **2.524** (2.524) [-212] | **2.558** (2.541) [-178] |
+
+**3. Raio de ação, tanque padrão (NM)**: combustível embarcável e o que o limita; entre parênteses, o raio com G = 1,15 quando difere. Resgate inclui o limite de massa no local (TDP 12 m).
+
+| Condição | Perfil | Antigo (inválido) | v1 | v2 |
+|---|---|---|---|---|
+| nível do mar, ISA | Resgate | 141 · 560 kg (tanque) | **141 · 560 kg (tanque)** | **141 · 560 kg (tanque)** |
+| nível do mar, ISA | Transferência | 141 · 560 kg (tanque) | **141 · 560 kg (tanque)** | **141 · 560 kg (tanque)** |
+| nível do mar, ISA | Conservador | 140 · 560 kg (tanque) | **140 · 560 kg (tanque)** | **140 · 560 kg (tanque)** |
+| nível do mar, ISA+20 | Resgate | 141 · 560 kg (tanque) | **141 · 560 kg (tanque)** | **141 · 560 kg (tanque)** |
+| nível do mar, ISA+20 | Transferência | 141 · 560 kg (tanque) | **141 · 560 kg (tanque)** | **141 · 560 kg (tanque)** |
+| nível do mar, ISA+20 | Conservador | 140 · 560 kg (tanque) | **140 · 560 kg (tanque)** | **140 · 560 kg (tanque)** |
+| 1.000 m, ISA+20 | Resgate | 141 · 560 kg (tanque) | **118 (113) · 485 kg (massa Cat A) · local ≥ 32 NM com tanque cheio** | **128 (118) · 519 kg (massa Cat A) · local ≥ 32 NM com tanque cheio** |
+| 1.000 m, ISA+20 | Transferência | 141 · 560 kg (tanque) | **94 (89) · 405 kg (massa Cat A)** | **104 (94) · 439 kg (massa Cat A)** |
+| 1.000 m, ISA+20 | Conservador | 140 · 560 kg (tanque) | **94 (89) · 405 kg (massa Cat A)** | **104 (94) · 439 kg (massa Cat A)** |
+| 1.500 m, ISA+25 | Resgate | 141 · 560 kg (tanque) · local ≥ 51 NM com tanque cheio | **77 (73) · 350 kg (massa Cat A) · local ≥ 32 NM com tanque cheio** | **88 (83) · 384 kg (massa Cat A) · local ≥ 32 NM com tanque cheio** |
+| 1.500 m, ISA+25 | Transferência | 137 (129) · 546 kg (massa Cat A) | **54 (48) · 270 kg (massa Cat A)** | **64 (59) · 304 kg (massa Cat A)** |
+| 1.500 m, ISA+25 | Conservador | 136 (129) · 546 kg (massa Cat A) | **53 (48) · 270 kg (massa Cat A)** | **63 (58) · 304 kg (massa Cat A)** |
+| 1.500 m, ISA+25, proa 8 m/s | Resgate | 141 · 560 kg (tanque) | **133 (128) · 536 kg (massa Cat A) · local ≥ 32 NM com tanque cheio** | **141 (139) · 560 kg (tanque) · local ≥ 26 NM com tanque cheio** |
+| 1.500 m, ISA+25, proa 8 m/s | Transferência | 141 · 560 kg (tanque) | **110 (104) · 456 kg (massa Cat A)** | **120 (115) · 490 kg (massa Cat A)** |
+| 1.500 m, ISA+25, proa 8 m/s | Conservador | 140 · 560 kg (tanque) | **109 (104) · 456 kg (massa Cat A)** | **119 (114) · 490 kg (massa Cat A)** |
+
+**4. Varreduras de falha em torno do TDP.** Heliponto elevado: altura da falha em relação ao TDP (m) em que cada ramo é seguro, na massa antiga e na nova. Local de resgate: alturas de falha (m) sem nenhum ramo seguro (intervalo exposto).
+
+| Caso | Antigo (inválido) | v1 | v2 |
+|---|---|---|---|
+| Heliponto elevado, nível do mar, ISA, massa antiga | abortar seguro em -6, -5, -4, -3, -2, -1,5, -1, -0,5, 0, 1, 2, 3, 4; nenhum em nenhuma | 2.980 kg: abortar seguro em nenhuma; nenhum em -6, -5, -4, -3, -2 | 2.980 kg: abortar seguro em nenhuma; nenhum em -6, -5, -4, -3, -2 |
+| Heliponto elevado, nível do mar, ISA, massa nova | — | 2.761 kg: abortar seguro em -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6; nenhum em nenhuma | 2.794 kg: abortar seguro em -6, -5, -4, -3; nenhum em nenhuma |
+| Heliponto elevado, 1.500 m, ISA+25, massa antiga | abortar seguro em -6, -5, -4, -3, -2, -1,5, -1, -0,5, 0, 1, 2, 3, 4, 5; nenhum em nenhuma | 2.614 kg: abortar seguro em nenhuma; nenhum em -6, -5, -4, -3, -2 | 2.614 kg: abortar seguro em nenhuma; nenhum em -6, -5, -4, -3, -2 |
+| Heliponto elevado, 1.500 m, ISA+25, massa nova | — | 2.339 kg: abortar seguro em -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6; nenhum em nenhuma | 2.372 kg: abortar seguro em -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5; nenhum em nenhuma |
+| Local de resgate, nível do mar, ISA, raio máximo | 2.369 kg: exposto em nenhuma | 2.369 kg: exposto em nenhuma | 2.369 kg: exposto em nenhuma |
+| Local de resgate, nível do mar, ISA, missão mais curta (mais pesada) | 2.601 kg: exposto em nenhuma | 2.601 kg: exposto em nenhuma | 2.601 kg: exposto em nenhuma |
+| Local de resgate, nível do mar, ISA+20, raio máximo | 2.369 kg: exposto em nenhuma | 2.369 kg: exposto em nenhuma | 2.369 kg: exposto em nenhuma |
+| Local de resgate, nível do mar, ISA+20, missão mais curta (mais pesada) | 2.601 kg: exposto em nenhuma | 2.601 kg: exposto em nenhuma | 2.601 kg: exposto em nenhuma |
+| Local de resgate, 1.000 m, ISA+20, raio máximo | 2.369 kg: exposto em nenhuma | 2.332 kg: exposto em nenhuma | 2.349 kg: exposto em nenhuma |
+| Local de resgate, 1.000 m, ISA+20, missão mais curta (mais pesada) | 2.601 kg: exposto em nenhuma | 2.526 kg: exposto em nenhuma | 2.560 kg: exposto em nenhuma |
+| Local de resgate, 1.500 m, ISA+25, raio máximo | 2.369 kg: exposto em nenhuma | 2.265 kg: exposto em nenhuma | 2.281 kg: exposto em nenhuma |
+| Local de resgate, 1.500 m, ISA+25, missão mais curta (mais pesada) | 2.601 kg: exposto em nenhuma | 2.392 kg: exposto em nenhuma | 2.426 kg: exposto em nenhuma |
+| Local de resgate, 1.500 m, ISA+25, proa 8 m/s, raio máximo | 2.369 kg: exposto em nenhuma | 2.357 kg: exposto em nenhuma | 2.369 kg: exposto em nenhuma |
+| Local de resgate, 1.500 m, ISA+25, proa 8 m/s, missão mais curta (mais pesada) | 2.601 kg: exposto em nenhuma | 2.577 kg: exposto em nenhuma | 2.601 kg: exposto em nenhuma |
+
+**5. Previsão de ramos: os mesmos 130 casos do Passo 3** (mesmas massas e alturas de falha), conferidos contra a simulação completa com o avaliador corrigido.
+
+| Grandeza | Antigo (avaliador com erro) | v1 | v2 |
+|---|---|---|---|
+| Previsões corretas (os dois ramos) | 130 | 130 | 130 |
+| Alertas | 3 | 9 | 6 |
+| Resultado mudado seguindo o alerta | 3 | 9 | 6 |
+| … de inseguro para seguro | 3 | 9 | 6 |
+| … de seguro para inseguro | 0 | 0 | 0 |
+| Alertas errados | 0 | 0 | 0 |
+| Casos perdidos (procedimento inseguro, outro seguro, sem alerta) | 0 | 0 | 0 |
+| Casos sem nenhum ramo seguro | — | 19 | 18 |
+| Tempo de cálculo: média · p95 · máx, (s) | 0,45 · 0,60 · 0,72 | 0,39 · 0,54 · 0,64 | 0,50 · 0,69 · 0,78 |
+<!-- RECALC:END -->
+
+### Toque: pouso, pouso duro, dano provável ou impacto
+
+`procedures.classify_touchdown`, pela velocidade vertical no toque:
+
+| Faixa | Classe | Base |
+|---|---|---|
+| ≤ 2,0 m/s | POUSO | queda livre de 8 in do ensaio de queda-limite, [14 CFR 29.725(a)](https://www.ecfr.gov/current/title-14/section-29.725) ("at least 8 inches"): √(2·g·0,203 m) = 2,0 m/s (DERIVADO; é um mínimo regulatório) |
+| 2,0–2,45 m/s | POUSO DURO (inspeção) | reserva de energia: queda de 1,5 × a do 29.725(a), [14 CFR 29.727](https://www.ecfr.gov/current/title-14/section-29.727) (DERIVADO) |
+| 2,45–9,14 m/s | POUSO DURO — DANO ESTRUTURAL PROVÁVEL | acima da reserva de energia do trem (ESTIMADO) |
+| > 9,14 m/s | IMPACTO — NÃO SOBREVIVÍVEL | acima de 30 ft/s, o pulso vertical mínimo dos ensaios dinâmicos de assento, [14 CFR 29.562(b)(1)](https://www.ecfr.gov/current/title-14/section-29.562). A classificação é ESTIMADA: o 29.562 é uma condição mínima de projeto dos assentos, não um limite medido de sobrevivência |
+
+- Na cena, o desfecho aparece num quadro com a cor da classe. O impacto tem quadro e tela vermelhos.
+- A autorrotação vertical (19,6 m/s) aparece como **IMPACTO — NÃO SOBREVIVÍVEL**; a com velocidade à frente (1,2 m/s), como POUSO.
+
+### NR: limites no HUD e pouso sem sobrevelocidade
+
+- **Limites (TCDS R.009)**: com motor, 97–104 %; sem motor, 85–106 %.
+  - O HUD mostra o limite do regime atual e pinta o NR de vermelho fora dele.
+  - Cada ultrapassagem aparece listada com o tipo (acima/abaixo), o limite, o valor extremo e a duração (`nr_exceedances` nos dados das cenas).
+  - O limite inferior só é verificado em voo.
+- **Causa dos 107 %**: depois do toque, o coletivo ia ao mínimo num degrau. O rotor descarregava mais rápido do que os motores (constante de tempo 0,8 s) reduziam a potência.
+- **Correção**: o coletivo agora desce a 1,5°/s (ESTIMADO, ~8 s até o mínimo), como um piloto faz.
+- **Resultado**: NR máximo depois do pouso de 102,8–103,3 %, dentro de 104 %, nos pousos testados. A "verdade" dos 130 casos da varredura não mudou com essa alteração (`n_truth_changed_vs_previous` = 0).
+- **Autorrotação**: no amortecimento antes do toque, o NR cai abaixo de 85 %, e o HUD sinaliza: mínimo de 71,9 % por 0,7 s à frente; 72,1 % e 46,3 % na vertical.
+- **Abortar v2 (após o recálculo)**: na cena (a), com 2.372,5 kg a 1.500 m ISA+25, o v2 toca a 1,28 m/s, mas o NR fica em **96,8 % por 2,6 s**, abaixo do limite com motor de 97 %. O HUD sinaliza a ultrapassagem.
+  - É consequência direta da proteção de queda de NR em 97 %: o modelo controla o NR em torno desse valor, com um pequeno erro de regulação.
+  - Os critérios de sucesso do abortar (toque, tombamento, deck) não incluem o NR, e não foram mudados.
+  - Fica registrado como limitação do modelo de controle do v2. Não foi ajustado depois dos resultados.
+
+### HUD: abortar v2 como padrão, v1 como referência (aval do Passo 4, item 5)
+
+- O v2 está documentado (`docs/helicoptero/procedimento_abortar_v2.md`, versionado antes do recálculo) e os testes passam, por isso é o padrão (`DEFAULT_REJECT_PROCEDURE = "v2"`).
+- Na cena (a), as abas são "Abortar v2 (padrão)", "Prosseguir" e "Abortar v1 (referência)". O v1 na mesma massa toca a 1,9 m/s: reprovado pelo critério ≤ 1,5 m/s, embora a classificação o chame de "pouso" (< 2,0 m/s).
+- Os painéis de Categoria A e de missão mostram as massas e o raio do v1 ao lado, como referência conservadora.
+
+### Previsão de ramos: parada assim que o desfecho está definido
+
+- **Abortar**: para 0,5 s depois do primeiro contato com o solo. Antes era 1 s depois de assentar.
+- **Prosseguir**: para no toque, na VTOSS subindo, ou em subida estabilizada. Subida estabilizada é Vz > 0,5 m/s por 1 s, acima de 10,7 m (35 ft) e com pelo menos 80 % da VTOSS; nesse caso a VTOSS é dada como atingida.
+- O horizonte completo (25 s) continua valendo para os dois ramos.
+- **Tempos**, nos 130 casos, em paralelo, medidos em ambiente de desenvolvimento (não representam hardware embarcado): média **0,45 s**, p95 **0,60 s**, máximo **0,72 s**. Antes eram 0,49 / 0,70 / 0,94 s.
+- **Previsões corretas**: 130 de 130, **mas contra a "verdade" do avaliador antigo**. A varredura precisa ser refeita depois da correção acima.
+  - Refeita (ver "Recálculo após a correção do toque"): 130 de 130 com o v1 e com o v2.
+
+### Repositório público
+
+- **Segredos**: o histórico completo (23 commits) não tem chaves de API, tokens, senhas, chaves privadas nem `.env`. A chave de sessão do Flask fixa no código (`'drone-sim-secret-key'`, desde o commit 3d1165e, em `simulation_server.py` e `web_server.py`) foi trocada por `SECRET_KEY` do ambiente ou aleatória.
+- **Arquivos de terceiros removidos** (continuam no histórico, que não foi reescrito):
+  - `empire_state_satellite.jpg`, `empire_state_background_test.png` e `central_park_final_frame.png`: imagens de satélite com a marca "Google" e "Imagery ©2025 Airbus, Maxar Technologies, Vexcel Imaging US, Inc.";
+  - três vídeos em `video_exports/` (`..._214450.mp4`, `..._214639.mp4`, `..._215148.mp4`) com a mesma imagem.
+  - Não havia PDFs da Airbus, EASA, ERF ou NASA no repositório nem no histórico. Os três PDFs em `attached_assets/` são exportações do Google Docs com textos do próprio projeto.
+- **LICENSE**: não existe. Nenhuma foi criada.
 
 ## Base de certificação: por que usar os §§ 29.59, 29.60, 29.67 e 29.87 numa aeronave classe H135
 

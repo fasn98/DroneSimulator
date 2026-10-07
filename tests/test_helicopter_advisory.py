@@ -9,35 +9,39 @@ from src.physics.helicopter.advisory import BUDGET_S, LABEL
 from src.physics.helicopter.mission import catA_fuel_and_radius
 from src.physics.helicopter.scenarios import cat_a_run, rescue_site_config
 
-# rescue site at 1.500 m ISA+25, heaviest return take-off of the Resgate profile (above the TDP-12 m site limit)
-CFG = rescue_site_config(1500.0, 25.0, 0.0)
+# rescue site at 1.000 m ISA+20, 2 600,7 kg (above the TDP-12 m site limit): an alert case of the 130-case check
+# with the corrected touchdown and the default reject procedure v2 (docs/helicoptero/recalculo_abortar_v2.json):
+# failure 7 m above the site (5 m below the TDP) -> the procedure says abortar, which touches down too hard;
+# prosseguir is safe. Failure 3 m above the site (9 m below the TDP): abortar safe, no alert.
+CFG = rescue_site_config(1000.0, 20.0, 0.0)
 MASS = 2600.7
+ALERT_REL, QUIET_REL = -5.0, -9.0
 
 
 class TestBranchPrediction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.shown = cat_a_run(MASS, cfg=CFG, fail_rel_tdp_m=0.5, advisory=True)  # procedure flown, alert shown
-        cls.followed = cat_a_run(MASS, cfg=CFG, fail_rel_tdp_m=0.5, follow_advisory=True)
-        cls.quiet = cat_a_run(MASS, cfg=CFG, fail_rel_tdp_m=-5.0, advisory=True)
+        cls.shown = cat_a_run(MASS, cfg=CFG, fail_rel_tdp_m=ALERT_REL, advisory=True)  # procedure flown, alert shown
+        cls.followed = cat_a_run(MASS, cfg=CFG, fail_rel_tdp_m=ALERT_REL, follow_advisory=True)
+        cls.quiet = cat_a_run(MASS, cfg=CFG, fail_rel_tdp_m=QUIET_REL, advisory=True)
 
     def test_alert_when_procedure_branch_predicted_unsafe(self):
         a = self.shown["advisory"]
         self.assertEqual(a["label"], LABEL)
         self.assertIn("não certificado", a["label"])
-        self.assertEqual(a["procedure_action"], "prosseguir")  # failure 0.5 m above the TDP
+        self.assertEqual(a["procedure_action"], "abortar")  # failure recognised before the TDP
         self.assertTrue(a["alert"])
-        self.assertEqual(a["advise"], "abortar")
-        self.assertFalse(a["predicted"]["prosseguir"]["safe"])
-        self.assertTrue(a["predicted"]["abortar"]["safe"])
+        self.assertEqual(a["advise"], "prosseguir")
+        self.assertFalse(a["predicted"]["abortar"]["safe"])
+        self.assertTrue(a["predicted"]["prosseguir"]["safe"])
 
     def test_procedure_stays_default(self):
-        # only displayed: the procedure branch is still flown, and it touches the ground (the prediction was right)
-        self.assertEqual(self.shown["branch"], "continue")
+        # only displayed: the procedure branch is still flown, and it fails (the prediction was right)
+        self.assertEqual(self.shown["branch"], "reject")
         self.assertFalse(self.shown["safe"])
 
     def test_following_the_advisory_changes_the_outcome(self):
-        self.assertEqual(self.followed["branch"], "reject")
+        self.assertEqual(self.followed["branch"], "continue")
         self.assertTrue(self.followed["safe"])
 
     def test_no_alert_when_procedure_branch_safe(self):

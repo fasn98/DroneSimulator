@@ -89,7 +89,7 @@ class DroneSimulationServer:
         self.app.template_folder = 'web'
         self.app.static_folder = 'web'
         self.app.static_url_path = ''
-        self.app.config['SECRET_KEY'] = 'drone-sim-secret-key'
+        self.app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or os.urandom(24).hex()
         
         # Initialize database service (lazy initialization)
         self.db_service = None

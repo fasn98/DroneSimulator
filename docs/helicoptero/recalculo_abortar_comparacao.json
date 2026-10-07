@@ -1,0 +1,838 @@
+{
+ "catA": [
+  {
+   "condition": "nível do mar, ISA",
+   "old": {
+    "g115": 2980.0,
+    "g126": 2980.0,
+    "literal": 2906.875
+   },
+   "v1": {
+    "g115": 2726.875,
+    "g126": 2760.625,
+    "literal": 2760.625,
+    "limited_by": "abortar"
+   },
+   "v2": {
+    "g115": 2760.625,
+    "g126": 2794.375,
+    "literal": 2794.375,
+    "limited_by": "abortar"
+   }
+  },
+  {
+   "condition": "nível do mar, ISA+20",
+   "old": {
+    "g115": 2906.875,
+    "g126": 2931.25,
+    "literal": 2833.75
+   },
+   "v1": {
+    "g115": 2659.375,
+    "g126": 2693.125,
+    "literal": 2693.125,
+    "limited_by": "abortar"
+   },
+   "v2": {
+    "g115": 2693.125,
+    "g126": 2726.875,
+    "literal": 2726.875,
+    "limited_by": "abortar"
+   }
+  },
+  {
+   "condition": "1.000 m, ISA+20",
+   "old": {
+    "g115": 2736.25,
+    "g126": 2760.625,
+    "literal": 2663.125
+   },
+   "v1": {
+    "g115": 2456.875,
+    "g126": 2473.75,
+    "literal": 2473.75,
+    "limited_by": "abortar"
+   },
+   "v2": {
+    "g115": 2473.75,
+    "g126": 2507.5,
+    "literal": 2507.5,
+    "limited_by": "abortar"
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25",
+   "old": {
+    "g115": 2590.0,
+    "g126": 2614.375,
+    "literal": 2516.875
+   },
+   "v1": {
+    "g115": 2321.875,
+    "g126": 2338.75,
+    "literal": 2338.75,
+    "limited_by": "abortar"
+   },
+   "v2": {
+    "g115": 2355.625,
+    "g126": 2372.5,
+    "literal": 2372.5,
+    "limited_by": "abortar"
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25, proa 8 m/s",
+   "old": {
+    "g115": 2760.625,
+    "g126": 2809.375,
+    "literal": 2736.25
+   },
+   "v1": {
+    "g115": 2507.5,
+    "g126": 2524.375,
+    "literal": 2524.375,
+    "limited_by": "abortar"
+   },
+   "v2": {
+    "g115": 2541.25,
+    "g126": 2558.125,
+    "literal": 2558.125,
+    "limited_by": "abortar"
+   }
+  }
+ ],
+ "site": [
+  {
+   "condition": "nível do mar, ISA",
+   "old": [
+    2906.875,
+    2931.25
+   ],
+   "v1": [
+    2760.625,
+    2743.75
+   ],
+   "v2": [
+    2794.375,
+    2777.5
+   ]
+  },
+  {
+   "condition": "nível do mar, ISA+20",
+   "old": [
+    2833.75,
+    2882.5
+   ],
+   "v1": [
+    2693.125,
+    2676.25
+   ],
+   "v2": [
+    2726.875,
+    2710.0
+   ]
+  },
+  {
+   "condition": "1.000 m, ISA+20",
+   "old": [
+    2663.125,
+    2687.5
+   ],
+   "v1": [
+    2473.75,
+    2473.75
+   ],
+   "v2": [
+    2507.5,
+    2490.625
+   ]
+  },
+  {
+   "condition": "1.500 m, ISA+25",
+   "old": [
+    2516.875,
+    2541.25
+   ],
+   "v1": [
+    2338.75,
+    2338.75
+   ],
+   "v2": [
+    2372.5,
+    2355.625
+   ]
+  },
+  {
+   "condition": "1.500 m, ISA+25, proa 8 m/s",
+   "old": [
+    2736.25,
+    2785.0
+   ],
+   "v1": [
+    2524.375,
+    2524.375
+   ],
+   "v2": [
+    2558.125,
+    2541.25
+   ]
+  }
+ ],
+ "mission": [
+  {
+   "condition": "nível do mar, ISA",
+   "profile": "resgate",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "nível do mar, ISA",
+   "profile": "transferencia",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "nível do mar, ISA",
+   "profile": "conservador",
+   "old": {
+    "radius_nm": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 140.478515625,
+    "radius_nm_g115": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 140.478515625,
+    "radius_nm_g115": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "nível do mar, ISA+20",
+   "profile": "resgate",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "nível do mar, ISA+20",
+   "profile": "transferencia",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "nível do mar, ISA+20",
+   "profile": "conservador",
+   "old": {
+    "radius_nm": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 140.478515625,
+    "radius_nm_g115": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 140.478515625,
+    "radius_nm_g115": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "1.000 m, ISA+20",
+   "profile": "resgate",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 118.212890625,
+    "radius_nm_g115": 113.0859375,
+    "fuel_kg": 485.25,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 31.945042312145233
+   },
+   "v2": {
+    "radius_nm": 128.3203125,
+    "radius_nm_g115": 118.212890625,
+    "fuel_kg": 519.0,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 31.81966245174408
+   }
+  },
+  {
+   "condition": "1.000 m, ISA+20",
+   "profile": "transferencia",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 94.3359375,
+    "radius_nm_g115": 89.208984375,
+    "fuel_kg": 405.25,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 104.443359375,
+    "radius_nm_g115": 94.3359375,
+    "fuel_kg": 439.0,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "1.000 m, ISA+20",
+   "profile": "conservador",
+   "old": {
+    "radius_nm": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 93.896484375,
+    "radius_nm_g115": 88.916015625,
+    "fuel_kg": 405.25,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 104.150390625,
+    "radius_nm_g115": 93.896484375,
+    "fuel_kg": 439.0,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25",
+   "profile": "resgate",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 77.490234375,
+    "radius_nm_g115": 72.509765625,
+    "fuel_kg": 350.25,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 32.4263334274292
+   },
+   "v2": {
+    "radius_nm": 87.744140625,
+    "radius_nm_g115": 82.6171875,
+    "fuel_kg": 384.0,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 32.30959475040436
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25",
+   "profile": "transferencia",
+   "old": {
+    "radius_nm": 136.669921875,
+    "fuel_kg": 545.875,
+    "fuel_limited_by": "massa Cat A"
+   },
+   "v1": {
+    "radius_nm": 53.61328125,
+    "radius_nm_g115": 48.486328125,
+    "fuel_kg": 270.25,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 63.720703125,
+    "radius_nm_g115": 58.59375,
+    "fuel_kg": 304.0,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25",
+   "profile": "conservador",
+   "old": {
+    "radius_nm": 136.23046875,
+    "fuel_kg": 545.875,
+    "fuel_limited_by": "massa Cat A"
+   },
+   "v1": {
+    "radius_nm": 53.3203125,
+    "radius_nm_g115": 48.193359375,
+    "fuel_kg": 270.25,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 63.427734375,
+    "radius_nm_g115": 58.30078125,
+    "fuel_kg": 304.0,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25, proa 8 m/s",
+   "profile": "resgate",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 133.447265625,
+    "radius_nm_g115": 128.3203125,
+    "fuel_kg": 535.875,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 31.757256388664246
+   },
+   "v2": {
+    "radius_nm": 140.771484375,
+    "radius_nm_g115": 138.57421875,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque",
+    "site_min_radius_full_fuel_nm": 25.825432687997818
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25, proa 8 m/s",
+   "profile": "transferencia",
+   "old": {
+    "radius_nm": 140.771484375,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 109.5703125,
+    "radius_nm_g115": 104.443359375,
+    "fuel_kg": 455.875,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 119.677734375,
+    "radius_nm_g115": 114.55078125,
+    "fuel_kg": 489.625,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  },
+  {
+   "condition": "1.500 m, ISA+25, proa 8 m/s",
+   "profile": "conservador",
+   "old": {
+    "radius_nm": 140.478515625,
+    "fuel_kg": 560.0,
+    "fuel_limited_by": "tanque"
+   },
+   "v1": {
+    "radius_nm": 109.130859375,
+    "radius_nm_g115": 104.150390625,
+    "fuel_kg": 455.875,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   },
+   "v2": {
+    "radius_nm": 119.384765625,
+    "radius_nm_g115": 114.2578125,
+    "fuel_kg": 489.625,
+    "fuel_limited_by": "massa Cat A",
+    "site_min_radius_full_fuel_nm": 0.0
+   }
+  }
+ ],
+ "sweeps": {
+  "elevado nível do mar, ISA massa antiga": {
+   "v1": {
+    "abortar_seguro": [],
+    "prosseguir_seguro": [
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0
+    ]
+   },
+   "v2": {
+    "abortar_seguro": [],
+    "prosseguir_seguro": [
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0
+    ]
+   },
+   "old": {
+    "abortar_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.5,
+     -1.0,
+     -0.5,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0
+    ],
+    "prosseguir_seguro": [
+     -1.5,
+     -1.0,
+     -0.5,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": []
+   }
+  },
+  "elevado nível do mar, ISA massa nova": {
+   "v1": {
+    "abortar_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "prosseguir_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": []
+   },
+   "v2": {
+    "abortar_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0
+    ],
+    "prosseguir_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": []
+   },
+   "old": null
+  },
+  "elevado 1.500 m, ISA+25 massa antiga": {
+   "v1": {
+    "abortar_seguro": [],
+    "prosseguir_seguro": [
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0
+    ]
+   },
+   "v2": {
+    "abortar_seguro": [],
+    "prosseguir_seguro": [
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0
+    ]
+   },
+   "old": {
+    "abortar_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.5,
+     -1.0,
+     -0.5,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0
+    ],
+    "prosseguir_seguro": [
+     -1.0,
+     -0.5,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": []
+   }
+  },
+  "elevado 1.500 m, ISA+25 massa nova": {
+   "v1": {
+    "abortar_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "prosseguir_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": []
+   },
+   "v2": {
+    "abortar_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0
+    ],
+    "prosseguir_seguro": [
+     -6.0,
+     -5.0,
+     -4.0,
+     -3.0,
+     -2.0,
+     -1.0,
+     0.0,
+     1.0,
+     2.0,
+     3.0,
+     4.0,
+     5.0,
+     6.0
+    ],
+    "nenhum": []
+   },
+   "old": null
+  }
+ },
+ "advisory": {
+  "v1": {
+   "n_cases": 130,
+   "n_prediction_correct": 130,
+   "n_alerts": 9,
+   "n_changed": 9,
+   "n_unsafe_to_safe": 9,
+   "n_safe_to_unsafe": 0,
+   "n_wrong_advice": 0,
+   "n_missed": 0,
+   "n_no_branch_safe": 19,
+   "wall_time_s": {
+    "mean": 0.38804599946158236,
+    "p95": 0.5422126850000495,
+    "max": 0.6430774720001864
+   },
+   "note": "tempos medidos em ambiente de desenvolvimento (contêiner Linux, 2 núcleos); não representam hardware embarcado"
+  },
+  "v2": {
+   "n_cases": 130,
+   "n_prediction_correct": 130,
+   "n_alerts": 6,
+   "n_changed": 6,
+   "n_unsafe_to_safe": 6,
+   "n_safe_to_unsafe": 0,
+   "n_wrong_advice": 0,
+   "n_missed": 0,
+   "n_no_branch_safe": 18,
+   "wall_time_s": {
+    "mean": 0.5019516697153869,
+    "p95": 0.6859335091506182,
+    "max": 0.7798941929995635
+   },
+   "note": "tempos medidos em ambiente de desenvolvimento (contêiner Linux, 2 núcleos); não representam hardware embarcado"
+  }
+ }
+}

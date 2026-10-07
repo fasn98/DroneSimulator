@@ -38,6 +38,13 @@ def _max_mass(args):
             "tdp_height_m": tdp, "mass_kg": r["mass_kg"], "limited_by": r["limited_by"], "log": r["log"]}
 
 
+def _truth(args):
+    """Ground truth with the current code: both branches forced, full-resolution simulation."""
+    kind, cond_name, mass, cfg, rel, _ = args
+    return {act: bool(cat_a_run(mass, cfg=cfg, fail_rel_tdp_m=rel, force_action=act)["safe"])
+            for act in ("abortar", "prosseguir")}
+
+
 def _advised(args):
     """One failure flown with the pilot following the advisory; returns outcome and the advisory itself."""
     kind, cond_name, mass, cfg, rel, truth = args
@@ -95,6 +102,13 @@ def main():
                 base.append(r)
         # sequential outer loop: the predictor itself runs the two branches in two worker processes (Passo 3
         # approval), and the wall time must be measured on an otherwise idle machine
+        missing = [i for i, j in enumerate(jobs) if j[5] is None]
+        if missing:  # truth first, two cases at a time (its timing does not matter)
+            with Pool(2) as pool:
+                for i, tr in zip(missing, pool.map(_truth, [jobs[i] for i in missing])):
+                    jobs[i] = (*jobs[i][:5], tr)
+        prev_truth = {(r["kind"], r["condition"], round(r["mass_kg"], 1), r["fail_rel_tdp_m"]): r["truth"]
+                      for r in res.get("advisory_sweep_previous_truth", [])}
         out = [_advised(j) for j in jobs]
         rows = []
         for o, b in zip(out, base):
@@ -118,6 +132,13 @@ def main():
             "n_missed": sum((r["procedure_safe"] is False) and any(r["truth"].values()) and not r["alert"]
                             for r in rows),
             "n_over_budget": sum((r["wall_time_s"] or 0) > 1.0 for r in rows),
+            # ground truth recomputed after a model change, compared with the previous one (same cases)
+            "n_truth_changed_vs_previous": sum(
+                1 for r in rows if (k := (r["kind"], r["condition"], round(r["mass_kg"], 1), r["fail_rel_tdp_m"]))
+                in prev_truth and prev_truth[k] != r["truth"]),
+            "truth_changed_cases": [[r["kind"], r["condition"], r["mass_kg"], r["fail_rel_tdp_m"], prev_truth[k], r["truth"]]
+                                    for r in rows if (k := (r["kind"], r["condition"], round(r["mass_kg"], 1),
+                                                            r["fail_rel_tdp_m"])) in prev_truth and prev_truth[k] != r["truth"]],
             "wall_time_s": {"mean": float(np.mean(wall)), "max": float(np.max(wall)),
                             "p95": float(np.percentile(wall, 95))},
             "parallel_estimate_s": {"mean": float(np.mean(par)), "max": float(np.max(par))},

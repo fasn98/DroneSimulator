@@ -47,8 +47,10 @@ class TestHudPage(unittest.TestCase):
 class TestSceneData(unittest.TestCase):
     def test_cat_a_both_branches(self):
         d = data("cat_a")
-        self.assertEqual(set(d["runs"]), {"reject", "continue"})
+        self.assertEqual(set(d["runs"]), {"reject", "continue", "reject_v1"})
         r, c = d["runs"]["reject"], d["runs"]["continue"]
+        self.assertEqual(r["reject_procedure"], "v2")  # default reject procedure (with cushion)
+        self.assertEqual(d["runs"]["reject_v1"]["reject_procedure"], "v1")  # conservative reference
         self.assertTrue(r["evaluation"]["safe"], r["evaluation"].get("reason"))
         self.assertTrue(c["evaluation"]["safe"], c["evaluation"].get("reason"))
         self.assertEqual(c["evaluation"]["criterion"], "elevado_29_60")
@@ -56,8 +58,10 @@ class TestSceneData(unittest.TestCase):
         self.assertGreaterEqual(c["evaluation"]["max_drop_below_deck_m"], 0.0)
         m = d["cat_a_mass"]
         self.assertLessEqual(m["g115_kg"], m["g126_kg"])  # range by the duct gain
-        self.assertLess(m["literal_29_59c_kg"], m["g115_kg"])
+        self.assertLessEqual(m["literal_29_59c_kg"], m["g126_kg"])
         self.assertAlmostEqual(d["mass_kg"], m["g126_kg"])
+        self.assertLessEqual(m["v1"]["g126_kg"], m["g126_kg"])  # v1 is the conservative reference
+        self.assertLess(m["g126_kg"], m["old_invalid_g126_kg"])  # the old number was optimistic (bug)
         # frames: same length in every column, OEI rating after the failure, failed engine torque near zero
         f = c["frames"]
         n = len(f["t"])
@@ -72,15 +76,16 @@ class TestSceneData(unittest.TestCase):
         d = data("advisory")
         p, s = d["runs"]["procedimento"], d["runs"]["consultivo_seguido"]
         a = p["advisory"]
-        self.assertTrue(a["alert"])
-        self.assertEqual(a["procedure_action"], "prosseguir")
-        self.assertEqual(a["advise"], "abortar")
         self.assertIn("não certificado", a["label"])
         self.assertEqual(a["mode"], "paralelo")
         self.assertLessEqual(a["wall_time_s"], 1.0)
-        self.assertFalse(p["evaluation"]["safe"])  # the procedure (default) as flown
-        self.assertTrue(s["evaluation"]["safe"])  # following the advisory
-        self.assertGreater(d["mass_kg"], d["site_limit_kg"])  # demonstration case, stated in the scene
+        self.assertEqual(bool(a["alert"]), d["has_alert"])
+        if d["has_alert"]:  # an alert case of the v2 check: the procedure fails, following the alert does not
+            self.assertNotEqual(a["advise"], a["procedure_action"])
+            self.assertFalse(p["evaluation"]["safe"])
+            self.assertTrue(s["evaluation"]["safe"])
+        if d["site_limit_kg"] and d["mass_kg"] > d["site_limit_kg"]:
+            self.assertIn("demonstração", d["note"])  # stated in the scene
 
     def test_autorotation_comparison(self):
         d = data("autorotation")
@@ -101,6 +106,44 @@ class TestSceneData(unittest.TestCase):
         self.assertAlmostEqual(r["site_fuel_max_kg"], hot["site_limit_tdp12_kg"] - 2068.5, delta=1.0)
         sl = next(c for c in d["conditions"] if c["condition"] == "nível do mar, ISA")
         self.assertEqual(sl["profiles"]["resgate"]["site_min_radius_full_fuel_nm"], 0.0)
+
+
+class TestTouchdownAndNR(unittest.TestCase):
+    def test_touchdown_classes(self):
+        from src.physics.helicopter.procedures import (TD_LIMIT_MS, TD_RESERVE_MS, TD_SEAT_MS,
+                                                       classify_touchdown)
+        self.assertAlmostEqual(TD_LIMIT_MS, 2.0, delta=0.01)      # 8 in free drop, 14 CFR 29.725(a)
+        self.assertAlmostEqual(TD_RESERVE_MS, 2.45, delta=0.01)   # 1.5 x the drop height, 29.727
+        self.assertAlmostEqual(TD_SEAT_MS, 9.144, delta=0.001)    # 30 ft/s, 29.562(b)(1)
+        self.assertEqual([classify_touchdown(v)["class"] for v in (0.2, 2.2, 5.0, 19.6)],
+                         ["pouso", "pouso_duro", "dano_provavel", "impacto"])
+
+    def test_scene_outcomes(self):
+        c = data("autorotation")["runs"]
+        self.assertEqual(c["vertical"]["landing"]["outcome"]["class"], "impacto")
+        self.assertIn("NÃO SOBREVIVÍVEL", c["vertical"]["landing"]["outcome"]["label"])
+        self.assertEqual(c["forward"]["landing"]["outcome"]["class"], "pouso")
+        a = data("cat_a")["runs"]["reject"]  # v2 at its own maximum mass: within the 1,5 m/s criterion
+        self.assertEqual(a["landing"]["outcome"]["class"], "pouso")
+        self.assertLessEqual(a["landing"]["touchdown_sink_ms"], 1.5)
+        js = open(os.path.join(WEB, "heli.js"), encoding="utf-8").read()
+        self.assertIn("tdbox lv${o.level}", js)  # outcome box with level colour (lv3 = red impact)
+
+    def test_nr_limits_and_exceedances(self):
+        for name in ("cat_a", "advisory"):
+            d = data(name)
+            self.assertEqual(d["nr_limits"]["power_on"], [97.0, 104.0])
+            self.assertEqual(d["nr_limits"]["power_off"], [85.0, 106.0])
+            for rn, r in d["runs"].items():
+                # with the collective lowered at a finite rate after touchdown, no NR overspeed on the deck
+                self.assertLessEqual(max(r["frames"]["nr_pct"]), 104.0, f"{name}/{rn}")
+                self.assertFalse([e for e in r["nr_exceedances"] if e["kind"] == "acima"], f"{name}/{rn}")
+        # every flagged episode carries value and duration
+        for r in data("autorotation")["runs"].values():
+            for e in r["nr_exceedances"]:
+                self.assertIn(e["kind"], ("acima", "abaixo"))
+                self.assertGreater(e["duration_s"], 0.0)
+                self.assertTrue(e["peak"] < e["limit"] if e["kind"] == "abaixo" else e["peak"] > e["limit"])
 
 
 class TestParallelPrediction(unittest.TestCase):
